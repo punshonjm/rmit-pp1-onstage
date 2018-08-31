@@ -1,0 +1,27 @@
+{
+  "name": "on_stage",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/punshonjm/RMIT_CPT331_PP1.git"
+  },
+  "author": "S3609434, S3571432, S3560684, S3609432, S3671009",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/punshonjm/RMIT_CPT331_PP1/issues"
+  },
+  "homepage": "https://github.com/punshonjm/RMIT_CPT331_PP1#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.3",
+    "helmet": "^3.13.0",
+    "moment": "^2.22.2",
+    "mysql": "^2.16.0",
+    "squel": "^5.12.2"
+  }
+}
