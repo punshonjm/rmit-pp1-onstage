@@ -38,10 +38,3 @@ server.listen(port, () => {
 	console.log("Performing 'On Stage'...");
 	console.log("The action is on Stage #" + port);
 });
-
-
-dbc.execute({ text: "SELECT 1;" }).then((log) => {
-	console.log(log);
-}).catch((err) => {
-	console.log(err);
-})
