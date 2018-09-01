@@ -11,7 +11,7 @@ const helmet = require('helmet');
 const moment = require("moment");
 
 // Assign globally-used modules to variables
-global.config = require(`${__dirname}/config.json`);
+global.config = (fs.existsSync(`${__dirname}/config.json`)) ? require(`${__dirname}/config.json`) : "aws" ;
 global.dbc = require(`${__dirname}/modules/dbc`);
 
 // Create express.js Server

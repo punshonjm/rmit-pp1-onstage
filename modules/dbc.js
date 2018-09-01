@@ -7,14 +7,25 @@ var dbc = {};
 dbc.mysql = MySQL;
 dbc.sql = Squel;
 
-dbc.pool = MySQL.createPool({
-    connectionLimit: 10,
-    host: global.config.database.hostname,
-    user: global.config.database.username,
-    password: global.config.database.password,
-    database: "BBALL_STATS",
-    dateString: true,
-});
+let config = {
+	connectionLimit: 10,
+	database: "ON_STAGE",
+	dateString: true,
+};
+
+if (global.config == 'aws') {
+	config.host = process.env.RDS_HOSTNAME;
+	config.user = process.env.RDS_USERNAME;
+	config.password = process.env.RDS_PASSWORD;
+	config.port = process.env.RDS_PORT;
+} else {
+	config.host = global.config.database.hostname;
+	config.user = global.config.database.username;
+	config.password = global.config.database.password;
+}
+
+dbc.pool = MySQL.createPool(config);
+
 dbc.execute = function(query) {
     return new Promise(function(resolve, reject) {
         dbc.pool.getConnection((error, connection) => {
