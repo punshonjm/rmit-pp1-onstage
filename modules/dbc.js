@@ -9,7 +9,6 @@ dbc.sql = Squel;
 
 let config = {
 	connectionLimit: 10,
-	database: "ON_STAGE",
 	dateString: true,
 };
 
