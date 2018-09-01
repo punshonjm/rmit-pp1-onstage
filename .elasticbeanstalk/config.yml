@@ -1,0 +1,7 @@
+branch-defaults:
+  master:
+    environment: CodeyMccodeface-env
+global:
+  application_name: Codey Mccodeface
+  default_region: ap-southeast-2
+  sc: git
