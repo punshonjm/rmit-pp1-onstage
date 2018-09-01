@@ -33,6 +33,6 @@ server.use("/assets", express.static(path.join(__dirname, "www/assets")));
 const router = require(`${__dirname}/modules/router`);
 server.use("/", router);
 
-server.listen(3000, () => {
+server.listen((global.config == 'aws') ?  80 : 3000), () => {
 	console.log("Performing 'On Stage'...");
 });
