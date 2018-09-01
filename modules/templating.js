@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const pug = require('pug');
 
 module.exports = function(Handlebars) {
     internal.walk("templates/base", (filePath, rootDir, subDir, fileName) => {
@@ -15,7 +14,7 @@ module.exports = function(Handlebars) {
 
         return Promise.resolve().then(() => {
             return new Promise((resolve, reject) => {
-                fs.readFile(`${templatePath}.mustache}`, 'utf8', (error, source) => {
+                fs.readFile(`${templatePath}.mustache`, 'utf8', (error, source) => {
                     if (error) {
                         reject(error);
                     } else {

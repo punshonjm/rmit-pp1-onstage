@@ -30,6 +30,9 @@ server.use("/public", express.static(path.join(__dirname, "www/public")));
 // Server static, non-public content
 server.use("/assets", express.static(path.join(__dirname, "www/assets")));
 
+const router = require(`${__dirname}/modules/router`);
+server.use("/", router);
+
 server.listen(3000, () => {
 	console.log("Performing 'On Stage'...");
 });
