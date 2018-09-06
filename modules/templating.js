@@ -1,8 +1,9 @@
 const fs = require('fs');
 const path = require('path');
+const app = global.app;
 
 module.exports = function(Handlebars) {
-    internal.walk("templates/base", (filePath, rootDir, subDir, fileName) => {
+    app.pathWalk("templates/base", (filePath, rootDir, subDir, fileName) => {
         let file = fileName.split('.');
         fs.readFile(filePath, 'utf8', (error, partial) => Handlebars.registerPartial(file[0], partial));
     });
@@ -31,20 +32,3 @@ module.exports = function(Handlebars) {
 
     return templating;
 }
-
-var internal = {};
-internal.walk = function(rootDir, callBack, subDir) {
-    function unixifyPath(filePath) {
-        return (process.platform === 'win32') ? filePath.replace(/\\/g, '/') : filePath;
-    }
-
-    var absolutePath = subDir ? path.join(rootDir, subDir) : rootDir;
-    fs.readdirSync(absolutePath).forEach((fileName) => {
-        var filePath = path.join(absolutePath, fileName);
-        if (fs.statSync(filePath).isDirectory()) {
-            walk(rootDir, callBack, unixifyPath(path.join(subDir || '', fileName || '')));
-        } else {
-            callBack(unixifyPath(filePath), rootDir, subDir, fileName);
-        }
-    })
-};

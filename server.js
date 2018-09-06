@@ -13,6 +13,7 @@ const moment = require("moment");
 // Assign globally-used modules to variables
 global.config = (fs.existsSync(`${__dirname}/config.json`)) ? require(`${__dirname}/config.json`) : "aws" ;
 global.dbc = require(`${__dirname}/modules/dbc`);
+global.app = require(`${__dirname}/modules/app`);
 
 // Create express.js Server
 const server = express();
@@ -36,5 +37,5 @@ server.use("/", router);
 let port = process.env.PORT || 3000;
 server.listen(port, () => {
 	console.log("Performing 'On Stage'...");
-	console.log("The action is on Stage #" + port);
+	console.log("The action is happening on Stage #" + port);
 });
