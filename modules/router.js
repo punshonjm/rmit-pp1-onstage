@@ -37,7 +37,7 @@ app.pathWalk("templates/public", (filePath, rootDir, subDir, fileName) => {
 
 	router.get(url, (request, response) => {
 		return Promise.resolve().then(() => {
-			return templating.compile(template, { pageName: file.replace(/ /g, " ") });
+			return templating.compile(template, { pageName: file.replace(/_/g, " ") });
 		}).then((html) => {
 			response.send(html).end();
 		}).catch((err) => app.handleError(err, request, response));
