@@ -12,8 +12,8 @@ const moment = require("moment");
 
 // Assign globally-used modules to variables
 global.config = (fs.existsSync(`${__dirname}/config.json`)) ? require(`${__dirname}/config.json`) : "aws" ;
-global.dbc = require(`${__dirname}/modules/dbc`);
 global.app = require(`${__dirname}/modules/app`);
+global.dbc = require(`${__dirname}/modules/dbc`);
 global.aaa = require(`${__dirname}/modules/aaa`);
 
 // Create express.js Server

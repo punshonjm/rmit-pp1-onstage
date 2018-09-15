@@ -1,22 +1,23 @@
+const fs = require("fs");
+const path = require("path");
+
 const moment = require("moment");
+const _ = require("lodash");
+
 const dbc = global.dbc;
+const app = global.app;
 
 var aaa = {};
 
 aaa.sessionManagement = function( req, res, next ) {
 	// Function that checks if a session is logged in, routing to login in required
 	// If logged in, also responsive for adding user details to the request packet for uses elsewhere
-	// publicPaths allows for url paths, not file paths to be made public vs private
 
 	let authenticationRequired = true;
-	let publicPaths = [
-		"/login",
-		"/public",
-		"/home", "/about"
-	];
-	// TO-DO: Add automatic loading of public paths list
+	let publicPaths = _.cloneDeep(app.publicPaths);
+	publicPaths.push("/login", "/public");
 
-	if (publicPaths.includes(req.url)) {
+	if (publicPaths.includes(req.url) || req.url == "/") {
 		authenticationRequired = false;
 	} else {
 		publicPaths.map((path) => {
@@ -76,9 +77,11 @@ aaa.sessionManagement = function( req, res, next ) {
 				});
 			}
 		} else {
-			console.error(error);
-			console.error("Error.SessionManagement.Uncaught @ ", moment().format("YYYY-MM-DD HH:mm:ss"));
+			return Promise.reject(error);
 		}
+	}).catch((error) => {
+		console.error(error);
+		console.error("Error.SessionManagement.Uncaught @ ", moment().format("YYYY-MM-DD HH:mm:ss"));
 	});
 };
 

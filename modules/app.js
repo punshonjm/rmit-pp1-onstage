@@ -3,6 +3,8 @@ const path = require("path");
 
 var app = {};
 
+app.publicPaths = [];
+
 app.handleError = function( error, request, response ) {
     console.log(error);
 

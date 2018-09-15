@@ -14,8 +14,22 @@ router.get("/", (request, response) => {
         return templating.compile("home", { pageName: "Home" });
     }).then((html) => {
         response.send(html).end();
-    }).catch((err) => app.handleError(err, request, response));
+    })
 });
+
+router.get("/login", (req, res) => {
+	return Promise.resolve().then(() => {
+		fs.readFile(path.join(__dirname, "../templates", "login.html"), "utf8", (error, html) => {
+			if (error) {
+				console.error(error);
+				console.error("Error.SessionManagement.FileError.Uncaught @ ", moment().format("YYYY-MM-DD HH:mm:ss"));
+				res.status(500).end();
+			} else {
+				res.send(html).end();
+			}
+		});
+	}).catch((err) => app.handleError(err, request, response));
+})
 
 const api = require("./api");
 router.use("/api", api);
@@ -34,6 +48,8 @@ app.pathWalk("templates/public", (filePath, rootDir, subDir, fileName) => {
 		file = _.last( subDir.split("/") );
 		url = "/" + subDir.replace("/" + file, "") + "/" + file.toLowerCase();
 	}
+	
+	app.publicPaths.push(url);
 
 	router.get(url, (request, response) => {
 		return Promise.resolve().then(() => {
