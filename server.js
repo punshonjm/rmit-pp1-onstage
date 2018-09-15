@@ -14,6 +14,7 @@ const moment = require("moment");
 global.config = (fs.existsSync(`${__dirname}/config.json`)) ? require(`${__dirname}/config.json`) : "aws" ;
 global.dbc = require(`${__dirname}/modules/dbc`);
 global.app = require(`${__dirname}/modules/app`);
+global.aaa = require(`${__dirname}/modules/aaa`);
 
 // Create express.js Server
 const server = express();
@@ -27,6 +28,7 @@ server.use(bodyParser.urlencoded({ "extended": true }));
 // Serve static, public content
 server.use("/public", express.static(path.join(__dirname, "www/public")));
 
+server.use(aaa.sessionManagement);
 
 // Server static, non-public content
 server.use("/assets", express.static(path.join(__dirname, "www/assets")));

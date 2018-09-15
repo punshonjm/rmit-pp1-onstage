@@ -43,6 +43,29 @@ app.pathWalk("templates/public", (filePath, rootDir, subDir, fileName) => {
 		}).catch((err) => app.handleError(err, request, response));
 	});
 });
+app.pathWalk("templates/private", (filePath, rootDir, subDir, fileName) => {
+	let file = fileName.split('.')[0];
+	let url = "/" + file.toLowerCase();
+	let template = "/private/" + file;
+
+	if ( typeof subDir != "undefined" ) {
+		url = "/" + subDir.toLowerCase() + "/" + file.toLowerCase();
+		template = "/private/" + subDir + "/" + file;
+	}
+
+	if ( file == "index" ) {
+		file = _.last( subDir.split("/") );
+		url = "/" + subDir.replace("/" + file, "") + "/" + file.toLowerCase();
+	}
+
+	router.get(url, (request, response) => {
+		return Promise.resolve().then(() => {
+			return templating.compile(template, { pageName: file.replace(/_/g, " ") });
+		}).then((html) => {
+			response.send(html).end();
+		}).catch((err) => app.handleError(err, request, response));
+	});
+});
 
 router.get('*', function(req, res) {
     res.redirect('/');
