@@ -11,7 +11,9 @@ const helmet = require('helmet');
 const moment = require("moment");
 
 // Assign globally-used modules to variables
-global.config = (fs.existsSync(`${__dirname}/config.json`)) ? require(`${__dirname}/config.json`) : "aws" ;
+const configExists = fs.existsSync(`${__dirname}/config.json`);
+
+global.config = (configExists) ? require(`${__dirname}/config.json`) : "aws" ;
 global.app = require(`${__dirname}/modules/app`);
 global.dbc = require(`${__dirname}/modules/dbc`);
 global.aaa = require(`${__dirname}/modules/aaa`);
@@ -37,7 +39,21 @@ const router = require(`${__dirname}/modules/router`);
 server.use("/", router);
 
 let port = process.env.PORT || 3000;
-server.listen(port, () => {
-	console.log("Performing 'On Stage'...");
-	console.log("The action is happening on Stage #" + port);
-});
+
+if ( configExists ) {
+	server.listen(port, () => {
+		console.log("Performing 'On Stage'...");
+		console.log("The action is happening on Stage #" + port);
+	});
+} else {
+	// Initialise express server with SSL/TLS
+	require("greenlock-express").create({
+	    version: "draft-11",
+	    configDir: "~/.config/acme/",
+	    server: "staging",
+	    email: "s3671009@student.rmit.edu.au",
+	    agreeTos: true, debug: false,
+	    approveDomains: [ "onstage.octbox.com" ],
+	    app: server,
+	}).listen( port );
+}
