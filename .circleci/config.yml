@@ -22,7 +22,7 @@ jobs:
       - run:
           name: Deploy to EB if branch is Master
           command: |
-            eb use CodeyMccodeface-env --profile eb-cli
+            eb use CodeyMccodeface-env2 --profile eb-cli
             eb deploy -v --staged --profile eb-cli
  
 workflows:
