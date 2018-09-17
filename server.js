@@ -39,24 +39,7 @@ const router = require(`${__dirname}/modules/router`);
 server.use("/", router);
 
 let port = process.env.PORT || 3000;
-
-console.log(fs.existsSync("FC.pem", "/etc/letsencrypt/live/ebcert/fullchain.pem"));
-console.log(fs.existsSync("pk.pem", "/etc/letsencrypt/live/ebcert/privkey.pem"));
-
-//if ( configExists ) {
-	server.listen(port, () => {
-		console.log("Performing 'On Stage'...");
-		console.log("The action is happening on Stage #" + port);
-	});
-//} else {
-//	// Initialise express server with SSL/TLS
-//	require("greenlock-express").create({
-//	    version: "draft-11",
-//	    configDir: "~/.config/acme/",
-//	    server: "staging",
-//	    email: "s3671009@student.rmit.edu.au",
-//	    agreeTos: true, debug: false,
-//	    approveDomains: [ "onstage.octbox.com" ],
-//	    app: server,
-//	}).listen( port );
-//}
+server.listen(port, () => {
+    console.log("Performing 'On Stage'...");
+    console.log("The action is happening on Stage #" + port);
+});
