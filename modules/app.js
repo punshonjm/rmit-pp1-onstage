@@ -5,10 +5,18 @@ var app = {};
 
 app.publicPaths = [];
 
-app.handleError = function( error, request, response ) {
-    console.log(error);
+app.handleError = function( error, req, res ) {
+    if ( "authenticationError" in error ) {
+		res.status(401).json({ message: error.message }).end();
+	} else {
+		console.log(error);
 
-
+		if ('message' in error) {
+            res.status(500).json({ message: error.message }).end();
+        } else {
+            res.status(500).end();
+        }
+	}
 }
 
 app.pathWalk = function(rootDir, callBack, subDir) {

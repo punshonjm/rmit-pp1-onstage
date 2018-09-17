@@ -53,7 +53,7 @@ router.post("/login", (req, res) => {
 			expires: user.expires.clone().format("YYYY-MM-DD HH:mm:ss")
 		};
 
-		res.status(200).cookies("stagePass", stagePass, {
+		res.status(200).cookie("stagePass", stagePass, {
 			expires: moment(user.expires).toDate()
 		}).end();
 	}).catch((err) => app.handleError(err, req, res));
@@ -92,7 +92,7 @@ folders.map((folder) => {
 		router.get(url, (req, res) => {
 			Promise.resolve().then(() => {
 				var data = {
-					user: request.user,
+					user: req.user,
 					pageName: file.replace(/_/g, " ")
 				};
 

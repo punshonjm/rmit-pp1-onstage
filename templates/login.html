@@ -1,9 +1,51 @@
 <!doctype html>
 <html lang="en">
 	<head>
-		<title>Login</title>
+		<title>On Stage | Login</title>
+
+		<script type="text/javascript" src="/public/js/jquery-3.3.1.js"></script>
 	</head>
 	<body>
 		<p>Login</p>
+		<div class='form-group'>
+			<label>Username</label>
+			<input class='form-control' type='text' id='username'>
+		</div>
+		<div class='form-group'>
+			<label>Password</label>
+			<input class='form-control' type='password' id='password'>
+		</div>
+		<p class="loginStatus"></p>
+		<button id='login' class='btn btn-outline-primary'>Login</button>
+
+		<script>
+			$(document).ready(function() {
+
+			}).on("click", "#login", function() {
+				app.login();
+			});
+
+			var app = {};
+			app.login = function() {
+				$(".loginStatus").empty();
+
+				var data = {
+					username: $("#username").val(),
+					password: $("#password").val(),
+				};
+
+				$.post("/login", data, function(res) {
+					window.setTimeout(function() {
+                        window.location.reload();
+                    }, 250);
+				}).fail(function(error) {
+					if ( error.status == 401 && ("responseJSON" in error) ) {
+						$(".loginStatus").text(error.responseJSON.message);
+					} else {
+						console.log("failed", error);
+					}
+				});
+			};
+		</script>
 	</body>
 </html>
