@@ -1,6 +1,6 @@
 branch-defaults:
   master:
-    environment: CodeyMccodeface-env
+    environment: CodeyMccodeface-env2
 global:
   application_name: Codey Mccodeface
   default_region: ap-southeast-2
