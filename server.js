@@ -40,6 +40,9 @@ server.use("/", router);
 
 let port = process.env.PORT || 3000;
 
+console.log(fs.existsSync("FC.pem", "/etc/letsencrypt/live/ebcert/fullchain.pem"));
+console.log(fs.existsSync("pk.pem", "/etc/letsencrypt/live/ebcert/privkey.pem"));
+
 //if ( configExists ) {
 	server.listen(port, () => {
 		console.log("Performing 'On Stage'...");
