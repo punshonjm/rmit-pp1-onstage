@@ -19,8 +19,6 @@ jobs:
             echo "[profile eb-cli]" > ~/.aws/config
             echo "aws_access_key_id=$AWS_ACCESS_KEY_ID" >> ~/.aws/config
             echo "aws_secret_access_key=$AWS_SECRET_ACCESS_KEY" >> ~/.aws/config
-            echo "CERTDOMAIN=onstage.octbox.com"
-            echo "EMAIL=s3671009@student.rmit.edu.au"
       - run:
           name: Deploy to EB if branch is Master
           command: |
