@@ -11,11 +11,21 @@ module.exports = function(Handlebars) {
     var templating = {};
 
     templating.compile = function( template, data ) {
-        let templatePath = `templates/${template}`;
+        let templatePath = `templates/${template}`, fileExtension = false;
 
         return Promise.resolve().then(() => {
+			internal.fileExtensions.map((extension) => {
+				if (fileExtension === false && fs.existsSync(`${templatePath}.${extension}`)) { fileExtension = extension };
+			});
+
+			if ( !fileExtension ) {
+				return Promise.reject({ message: "Template not found." });
+			} else {
+				return Promise.resolve();
+			}
+		}).then(() => {
             return new Promise((resolve, reject) => {
-                fs.readFile(`${templatePath}.mustache`, 'utf8', (error, source) => {
+                fs.readFile(`${templatePath}.${fileExtension}`, 'utf8', (error, source) => {
                     if (error) {
                         reject(error);
                     } else {
@@ -23,12 +33,32 @@ module.exports = function(Handlebars) {
                     }
                 });
             });
-        }).then((source) => {
-            let createHtml = Handlebars.compile(`{{> header}}${source}{{> footer}}`);
-            source = createHtml(data);
+        }).then((templateLoaded) => {
+			let source = "{{> head}}";
+			if ( fileExtension == "mst-b") {
+				source += "{{> nav_standard}}";
+			} else if ( fileExtension == "mst-h" ) {
+				source += "{{> nav_header}}";
+
+				if ( !("headerImage" in data) ) {
+					data.headerImage = "/public/img/bg-new.jpg";
+				}
+			}
+
+			source += templateLoaded + "{{> footer}}";
+
+            let groomMustache = Handlebars.compile(source);
+            source = groomMustache(data);
             return Promise.resolve(source);
         });
     };
 
     return templating;
-}
+};
+
+var internal = {};
+internal.fileExtensions = [
+	"mustache",
+	// "mst-p", "mst-f",
+	"mst-b", "mst-h"
+];

@@ -43,7 +43,9 @@ aaa.sessionManagement = function( req, res, next ) {
 			return Promise.reject({ noCookie: true, reason: "timeExpired" });
 		} else {
 			let query = dbc.sql.select().fields([
-				"u.username", "s.user_id", "s.session_started"
+				"u.username", "s.user_id",
+				"s.session_started",
+				"u.type_id", "u.golden_ticket",
 			]).from(
 				"ebdb.session", "s"
 			).left_join(

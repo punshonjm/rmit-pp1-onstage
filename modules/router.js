@@ -13,7 +13,18 @@ const aaa = require("./aaa");
 router.get("/", (req, res) => {
 	// Present home page
     Promise.resolve().then(() => {
-        return templating.compile("home", { pageName: "Home" });
+		var data = { pageName: "Home" };
+		data.user = req.user;
+
+		data.headerTitle = "On Stage";
+		data.headerSubtitle = "Connecting bands and Musicians.<br />When you want to get up On Stage,<br />This is where that happens.<br />This is On Stage.";
+		data.headerCTA = {
+			link: "/register_now",
+			text: "Sign Up Now!",
+			icon: null
+		};
+
+        return templating.compile("home", data);
     }).then((html) => {
         res.send(html).end();
     }).catch((err) => app.handleError(err, req, res));

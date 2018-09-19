@@ -11,17 +11,22 @@ app.handleError = function( error, req, res ) {
 	} else {
 		console.log(error);
 
-		if ('message' in error) {
-            res.status(500).json({ message: error.message }).end();
+		var statusCode = 500;
+		if ( "status" in error ) {
+			statusCode = Number(error.status) || 500;
+		}
+
+		if ( "message" in error ) {
+            res.status(statusCode).json({ message: error.message }).end();
         } else {
-            res.status(500).end();
+            res.status(statusCode).end();
         }
 	}
 }
 
 app.pathWalk = function(rootDir, callBack, subDir) {
     function unixifyPath(filePath) {
-        return (process.platform === 'win32') ? filePath.replace(/\\/g, '/') : filePath;
+        return ( process.platform === "win32" ) ? filePath.replace(/\\/g, '/') : filePath;
     }
 
     var absolutePath = subDir ? path.join(rootDir, subDir) : rootDir;
@@ -32,7 +37,7 @@ app.pathWalk = function(rootDir, callBack, subDir) {
         } else {
             callBack(unixifyPath(filePath), rootDir, subDir, fileName);
         }
-    })
+    });
 };
 
 module.exports = app;

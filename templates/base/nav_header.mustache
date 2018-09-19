@@ -1,0 +1,27 @@
+<nav class="navbar navbar-color-on-scroll navbar-transparent fixed-top navbar-expand-lg" color-on-scroll="100">
+	{{> navbar}}
+</nav>
+<div class="page-header header-filter" data-parallax="true" style="background-image: url('{{this.headerImage}}')">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 ml-auto mr-auto">
+				<div class="brand">
+					{{#if this.headerTitle}}
+					<h1 class='title'>{{this.headerTitle}}</h1>
+					{{/if}}
+					{{#if this.headerSubtitle}}
+					<h4>{{{this.headerSubtitle}}}</h3>
+					{{/if}}
+					{{#if this.headerCTA}}
+					<br>
+		            <a href="{{this.headerCTA.link}}" class="btn btn-danger btn-raised btn-lg">
+		            	{{#if this.headerCTA.icon}}<i class="{{this.headerCTA.icon}}"></i>{{/if}}  {{this.headerCTA.text}}
+		            </a>
+					{{/if}}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="main main-raised flex-fill">
+	<div class="container">
