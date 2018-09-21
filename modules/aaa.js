@@ -6,6 +6,8 @@ const moment = require("moment");
 const _ = require("lodash");
 const CryptoJS = require('crypto-js');
 
+const Handlebars = require('handlebars');
+const templating = require("./templating")(Handlebars);
 const dbc = global.dbc;
 const app = global.app;
 
@@ -15,18 +17,30 @@ aaa.sessionManagement = function( req, res, next ) {
 	// Function that checks if a session is logged in, routing to login in required
 	// If logged in, also responsive for adding user details to the request packet for uses elsewhere
 
-	let authenticationRequired = true;
-	let publicPaths = _.cloneDeep(app.publicPaths);
-	publicPaths.push("/login", "/public");
+	let authenticationRequired = true, adminRequired = false;
 	req.user = false;
 
+	let publicPaths = _.cloneDeep(app.publicPaths);
+	publicPaths.push("/login", "/public");
 	if (publicPaths.includes(req.url) || req.url == "/") {
 		authenticationRequired = false;
 	} else {
 		publicPaths.map((path) => {
-			let test = new RegExp( path.replace("/", "\\/") );
-			if (test.test(req.url)) {
+			let pathTest = new RegExp( path.replace("/", "\\/") );
+			if (pathTest.test(req.url)) {
 				authenticationRequired = false;
+			}
+		});
+	}
+
+	let adminPaths = _.cloneDeep(app.adminPaths);
+	if (adminPaths.includes(req.url)) {
+		adminRequired = true;
+	} else {
+		adminPaths.map((path) => {
+			let pathTest = new RegExp( path.replace("/", "\\/") );
+			if (pathTest.test(req.url)) {
+				adminRequired = true;
 			}
 		});
 	}
@@ -64,7 +78,11 @@ aaa.sessionManagement = function( req, res, next ) {
 			return Promise.reject({ noCookie: true, reason: "tokenInvalid" });
 		} else {
 			req.user = dbSession;
-			next();
+			if ( adminRequired && req.user.type_id != 1) {
+				return Promise.reject({ noAccess: true });
+			} else {
+				next();
+			}
 		}
 	}).catch((error) => {
 		if ( ("noCookie" in error) ) {
@@ -81,6 +99,19 @@ aaa.sessionManagement = function( req, res, next ) {
 					}
 				});
 			}
+		} else if ( ("noAccess" in error) ) {
+			return Promise.resolve().then(() => {
+				var data = { pageName: "No Access" };
+				data.user = req.user;
+
+				data.headerTitle = "Sorry! You don't have access to this part of the venue.";
+				data.headerSubtitle = null;
+				data.headerCTA = null;
+
+		        return templating.compile("no_access", data);
+			}).then((html) => {
+		        res.send(html).end();
+			});
 		} else {
 			return Promise.reject(error);
 		}

@@ -2,8 +2,8 @@ const fs = require("fs");
 const path = require("path");
 
 var app = {};
-
 app.publicPaths = [];
+app.adminPaths = [];
 
 app.handleError = function( error, req, res ) {
     if ( "authenticationError" in error ) {

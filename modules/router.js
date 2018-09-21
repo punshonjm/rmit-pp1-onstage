@@ -1,11 +1,11 @@
 const fs = require("fs");
 const path = require("path");
 
-const Handlebars = require('handlebars');
 const moment = require("moment");
 const router = require("express").Router();
 const _ = require("lodash");
 
+const Handlebars = require('handlebars');
 const templating = require("./templating")(Handlebars);
 const app = require("./app");
 const aaa = require("./aaa");
@@ -79,7 +79,7 @@ router.get("/logout", (req, res) => {
 	}).catch((err) => app.handleError(err, req, res));
 });
 
-let folders = [ "public", "private" ];
+let folders = [ "public", "private", "admin" ];
 folders.map((folder) => {
 	app.pathWalk("templates/" + folder, (filePath, rootDir, subDir, fileName) => {
 		let file = fileName.split('.')[0];
@@ -98,6 +98,8 @@ folders.map((folder) => {
 
 		if ( folder == "public" ) {
 			app.publicPaths.push(url);
+		} else if ( folder == "admin" ) {
+			app.adminPaths.push(url);
 		}
 
 		router.get(url, (req, res) => {

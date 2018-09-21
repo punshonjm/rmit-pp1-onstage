@@ -2,9 +2,9 @@ window.app = {};
 
 window.app.logout = function() {
 	$.get("/logout", function(res) {
+		
+	}).always(function() {
 		window.location.reload();
-	}).fail(function() {
-
 	});
 }
 
