@@ -21,7 +21,7 @@ global.aaa = require(`${__dirname}/modules/aaa`);
 // Create express.js Server
 const server = express();
 
-// Setup middle-ware
+// Setup standard middle-ware
 server.use(helmet());
 server.use(cookieParser());
 server.use(bodyParser.json());
@@ -30,6 +30,7 @@ server.use(bodyParser.urlencoded({ "extended": true }));
 // Serve static, public content
 server.use("/public", express.static(path.join(__dirname, "www/public")));
 
+// Setup session management middle-ware
 server.use(aaa.sessionManagement);
 
 // Server static, non-public content

@@ -55,30 +55,36 @@
 								<h4 class="card-title">Login To On Stage</h4>
 								<h3 class="card-title">On Stage</h3>
 							</div>
-							<div class="card-body">
+							<div class="card-body px-2" id="loginForm">
 								<div class='row'>
 									<div class='col-md-12'>
-										<div class="input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text">
-													<i class="material-icons">face</i>
-												</span>
+										<div class="form-group label-floating">
+											<label class="pl-5 control-label">Username</label>
+											<div class="input-group mt-0">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="material-icons">face</i>
+													</span>
+												</div>
+												<input id="username" type="text" class="form-control" required>
 											</div>
-											<input id="username" type="text" class="form-control" placeholder="Username...">
 										</div>
 									</div>
 									<div class='col-md-12'>
-										<div class="input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text">
-													<i class="material-icons">lock_outline</i>
-												</span>
+										<div class="form-group label-floating">
+											<label class="pl-5 control-label">Password</label>
+											<div class="input-group mt-0">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="material-icons">lock_outline</i>
+													</span>
+												</div>
+												<input id="password" type="password" class="form-control" required>
 											</div>
-											<input id="password" type="password" class="form-control" placeholder="Password...">
 										</div>
 									</div>
 									<div class='col-md-12 mb-3'>
-										<p class='loginStatus'></p>
+										<div class='loginStatus text-center p-2'></div>
 									</div>
 									<div class='col-md-12 d-flex justify-content-center'>
 										<button id="login" class="btn btn-primary btn-wd btn-lg">Jump On Up!</button>
@@ -89,6 +95,13 @@
 									<div class="col-md-12 text-center mb-3">
 										<h4 class="d-block">New around here?</h4>
 										<a href="/register_now" class='btn btn-primary btn-wd btn-lg'>Register Now!</a>
+									</div>
+								</div>
+							</div>
+							<div class="card-body px-2" id="loginStatus" style="display:none;">
+								<div class='row my-4'>
+									<div class="col-md-12 text-center">
+										<h2>Logging In <i class="fa fa-spinner fa-spin"></i> </h2>
 									</div>
 								</div>
 							</div>
@@ -139,34 +152,63 @@
 		<script src="/public/js/plugins/jquery.sharrre.js" type="text/javascript"></script>
 		<!-- Control Center for Material Kit-->
 		<script src="/public/js/material-kit.js?v=2.0.4" type="text/javascript"></script>
+		<script src="/public/js/app.js" type="text/javascript"></script>
 
 		<script>
 			$(document).ready(function() {
 
 			}).on("click", "#login", function() {
 				app.login();
+			}).on("keyup", "#username", function(event) {
+				if (event.keyCode == 13) $('#password').focus();
+			}).on("keyup", "#password", function(event) {
+				if (event.keyCode == 13) app.login();
 			});
 
 			var app = {};
 			app.login = function() {
 				$(".loginStatus").empty();
+				$("#loginStatus").show();
+				$("#loginForm").hide();
+				$(".has-danger").removeClass("has-danger");
 
 				var data = {
 					username: $("#username").val(),
 					password: $("#password").val(),
 				};
 
-				$.post("/login", data, function(res) {
-					window.setTimeout(function() {
-                        window.location.reload();
-                    }, 250);
-				}).fail(function(error) {
-					if ( error.status == 401 && ("responseJSON" in error) ) {
-						$(".loginStatus").text(error.responseJSON.message);
-					} else {
-						console.log("failed", error);
+				if ( String.isNullOrEmpty(data.username) || String.isNullOrEmpty(data.password) ) {
+					if ( String.isNullOrEmpty(data.username) ) {
+						$("#username").closest(".form-group").addClass("has-danger");
+						$(".loginStatus").append("<p class='text-danger'>Username can't be blank!</p>");
 					}
-				});
+					if ( String.isNullOrEmpty(data.password) ) {
+						$("#password").closest(".form-group").addClass("has-danger");
+						$(".loginStatus").append("<p class='text-danger'>Password can't be blank!</p>");
+					}
+
+					setTimeout(function() {
+						$("#loginStatus").hide();
+						$("#loginForm").show();
+					}, 500);
+				} else {
+					$.post("/login", data, function(res) {
+						window.setTimeout(function() {
+	                        window.location.reload();
+	                    }, 250);
+					}).fail(function(error) {
+						setTimeout(function() {
+							$("#loginStatus").hide();
+							$("#loginForm").show();
+						}, 500);
+
+						if ( error.status == 401 && ("responseJSON" in error) ) {
+							$(".loginStatus").append("<p class='text-danger'>" + error.responseJSON.message + "</p>");
+						} else {
+							console.log("Login Error", error);
+						}
+					});
+				}
 			};
 		</script>
 	</body>

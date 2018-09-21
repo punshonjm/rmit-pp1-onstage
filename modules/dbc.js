@@ -81,7 +81,7 @@ module.exports = dbc;
 
 if (!String.isNullOrEmpty) {
     Object.defineProperty(String, 'isNullOrEmpty', {
-        value: function(val) {
+        value: function(value) {
             return !(typeof value === 'string' && value.length > 0);
         },
         enumerable: false,

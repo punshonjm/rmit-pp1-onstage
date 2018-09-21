@@ -160,12 +160,12 @@ aaa.logout = function(req, res) {
 		if ( ("cookies" in req) && ("stagePass" in req.cookies) && !String.isNullOrEmpty(req.cookies.stagePass.token) ) {
 			let expr = dbc.sql.expr().or("session_token = ?", req.cookies.stagePass.token);
 			if (("user" in req) && ("user_id" in req.user)) {
-				expr.or("user_id = ?", req.user);
+				expr.or("user_id = ?", req.user.user_id);
 			}
 
 			let query = dbc.sql.delete().from("ebdb.session").where(expr);
 
-			return db.execute(query);
+			return dbc.execute(query);
 		} else {
 			return Promise.resolve();
 		}
