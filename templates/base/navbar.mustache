@@ -1,5 +1,5 @@
 <div class="container">
-	<a class="navbar-brand" href="/">On Stage</a>
+	<a class="navbar-brand onStageHeaderFont" href="/">On Stage</a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="sr-only">Toggle navigation</span>
 		<span class="navbar-toggler-icon"></span>
@@ -9,10 +9,10 @@
 	<div class="collapse navbar-collapse" id="navbarText">
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item">
-				<a class="nav-link" href="/about_us">About Us</a>
+				<a class="nav-link" href="/">Home</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="/contact_us">Contact Us</a>
+				<a class="nav-link" href="/about_us">About</a>
 			</li>
 		</ul>
 		<ul class="navbar-nav ml-auto">
@@ -21,7 +21,7 @@
 				{{#compare this.user.type_id 1}}
 				<a class="nav-link" href="/green_room">Green Room</a>
 				{{else}}
-				<a class="nav-link" href="/my_profile">My Profile</a>
+				<a class="nav-link" href="/my_profile">Profile</a>
 				{{/compare}}
 			</li>
 			<li class="nav-item">
