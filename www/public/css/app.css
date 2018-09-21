@@ -5,3 +5,19 @@ body, wrapper {
 .flex-fill {
    flex:1 1 auto;
 }
+
+.search-form select {
+    font-size: 18px;
+    height: 49px;
+    padding-right: 15px;
+    float: left;
+    margin-right: 18px;
+}
+
+.onStageHeaderFont {
+   font-family: 'Archivo Black', sans-serif;   
+}
+
+.card .card_login {
+   margin-top:20px;  
+}
