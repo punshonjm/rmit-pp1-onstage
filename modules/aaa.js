@@ -59,12 +59,15 @@ aaa.sessionManagement = function( req, res, next ) {
 			let query = dbc.sql.select().fields([
 				"u.username", "s.user_id",
 				"s.session_started",
-				"u.type_id", "u.golden_ticket",
+				"u.type_id", "t.type_name", "u.golden_ticket",
 			]).from(
 				"ebdb.session", "s"
 			).left_join(
 				"ebdb.user", "u",
 				"s.user_id = u.id"
+			).left_join(
+				"ebdb.user_type", "t",
+				"u.type_id = t.id"
 			).where(dbc.sql.expr()
 				.and("s.session_token = ?", cookie.token)
 				.and("s.session_started > DATE_SUB(CURRENT_DATE, INTERVAL 14 DAY)")
