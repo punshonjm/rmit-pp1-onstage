@@ -1,6 +1,6 @@
 body, wrapper {
    min-height:100vh;
-    background-color: black;
+    background-color: whitesmoke;
 }
 
 .flex-fill {
@@ -32,5 +32,5 @@ body, wrapper {
 }
 
 .copyright, .copyright a {
-    color: white;
+    color: black;
 }
