@@ -4,7 +4,7 @@ const dbc = global.dbc;
 const app = global.app;
 
 router.post("/golden_ticket/:type", (req, res) => {
-	return Promise.resolve().then(() => {
+	return aaa.checkAccess(req, { golden_ticket: true }).then(() => {
 		if ( req.user.golden_ticket ) {
 			let query = dbc.sql.update().table(
 				"ebdb.user"

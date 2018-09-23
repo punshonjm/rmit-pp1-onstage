@@ -7,6 +7,7 @@ const _ = require("lodash");
 
 const Handlebars = require('handlebars');
 const templating = require("./templating")(Handlebars);
+const controllers = require("./pageControllers");
 const app = require("./app");
 const aaa = require("./aaa");
 
@@ -21,24 +22,6 @@ router.get("/", (req, res) => {
         res.send(html).end();
     }).catch((err) => app.handleError(err, req, res));
 });
-
-// router.get("/about_us", (req, res) => {
-//     // Present about_us page
-//     Promise.resolve().then(() => {
-//         var data = { pageName: "About" };
-//         data.user = req.user;
-//
-//         data.headerTitle = "About Us";
-//         data.headerSubtitle = "On Stage was created to support the live music industry in Australia <br />" +
-//             "by making it easier for bands and musicians to connect. <br /> " +
-//             "Not being affiliated with any management agencies or labels means <br /> " +
-//             "that all of our services are unbiased and fair for all performers.";
-//
-//         return templating.compile("../templates/public/about_us", data);
-//     }).then((html) => {
-//         res.send(html).end();
-//     }).catch((err) => app.handleError(err, req, res));
-// });
 
 router.get("/login", (req, res) => {
 	// Present login page
@@ -94,16 +77,14 @@ folders.map((folder) => {
 	app.pathWalk("templates/" + folder, (filePath, rootDir, subDir, fileName) => {
 		let file = fileName.split('.')[0];
 		let url = "/" + file.toLowerCase();
-		let template = "/" + folder + "/" + file;
+		let template = filePath.replace("templates/", "").split(".")[0];
 
-		if ( typeof subDir != "undefined" ) {
+		if ( typeof subDir != typeof undefined ) {
 			url = "/" + subDir.toLowerCase() + "/" + file.toLowerCase();
-			template = "/" + folder + "/" + subDir + "/" + file;
 		}
 
 		if ( file == "index" ) {
-			file = _.last( subDir.split("/") );
-			url = "/" + subDir.replace("/" + file, "") + "/" + file.toLowerCase();
+			url = url.replace("/index", "");
 		}
 
 		if ( folder == "public" ) {
@@ -113,11 +94,16 @@ folders.map((folder) => {
 		}
 
 		router.get(url, (req, res) => {
-			Promise.resolve().then(() => {
-				var data = {
-					user: req.user,
-					pageName: file.replace(/_/g, " ")
-				};
+			Promise.resolve().then((html) => {
+				if ( url in controllers ) {
+					return controllers[url](req);
+				} else {
+					var data = {};
+					return Promise.resolve(data);
+				}
+			}).then(() => {
+				data.user = req.user;
+				data.pageName = file.replace(/_/g, " ");
 
 				return templating.compile(template, data);
 			}).then((html) => {

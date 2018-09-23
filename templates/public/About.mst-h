@@ -20,26 +20,44 @@
 <div class="section text-left">
 	<div class="row">
 		<div class="col-md-8 ml-auto mr-auto">
-			<h2 class="title">Contact Us</h2>
-	            <form class="search-form">
-	                <label>Name:</label>
-	                <br />
-	                <input type="text" placeholder="Your Name">
-	                <br />
-	                <label>Email:</label>
-	                <br />
-	                <input type="text" placeholder="Your E-mail">
-	                <br />
-	                <label>Subject:</label>
-	                <br />
-	                <input type="text" placeholder="Subject">
-	                <br />
-	                <label>Message:</label>
-	                <br />
-	                <textarea placeholder="Message"></textarea>
-	                <br />
-	                <button class="btn btn-primary btn-raised btn-lg">Send</button>
-	            </form>
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="title">Contact Us</h2>
+				</div>
+				<div class="col-md-12">
+					<form class="search-form">
+						<div class='row'>
+							<div class="col-md-12">
+								<div class="form-group bmd-form-group">
+                                    <label class="bmd-label-floating">Your Name:</label>
+                                    <input id="name" type="text" class="form-control" required>
+                                </div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group bmd-form-group">
+                                    <label class="bmd-label-floating">Your Email:</label>
+                                    <input id="email" type="text" class="form-control" required>
+                                </div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group bmd-form-group">
+                                    <label class="bmd-label-floating">Subject:</label>
+                                    <input id="subject" type="text" class="form-control" required>
+                                </div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group bmd-form-group">
+                                    <label class="bmd-label-floating">Your Message:</label>
+                                    <textarea id="message" class="form-control" rows="4"></textarea>
+                                </div>
+							</div>
+							<div class="col-md-12 d-flex justify-content-end">
+								<button class="btn btn-primary btn-raised btn-lg">Send</button>
+							</div>
+						</div>
+		            </form>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

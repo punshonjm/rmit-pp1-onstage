@@ -123,6 +123,46 @@ aaa.sessionManagement = function( req, res, next ) {
 		console.error("Error.SessionManagement.Uncaught @ ", moment().format("YYYY-MM-DD HH:mm:ss"));
 	});
 };
+aaa.checkAccess = function( req, perms = {} ) {
+	return Promise.resolve().then(() => {
+		if ( !("user" in req) || req.user == false ) {
+			return Promise.reject({ noAccess: true });
+		} else {
+			return Promise.resolve();
+		}
+	}).then(() => {
+		if ( ("golden_ticket" in perms) && perms.golden_ticket == true ) {
+			if ( req.user.golden_ticket == 1 ) {
+				return Promise.resolve();
+			} else {
+				return Promise.reject({ noAccess: true });
+			}
+		} else {
+			return Promise.resolve();
+		}
+	}).then(() => {
+		if ( ("admin" in perms) && perms.admin == true ) {
+			if ( req.user.type_id == 1 ) {
+				return Promise.resolve();
+			} else {
+				return Promise.reject({ noAccess: true });
+			}
+		} else {
+			return Promise.resolve();
+		}
+	}).then(() => {
+		if ( ("user" in perms) && perms.user == true ) {
+			var typesAllowed = [ 2, 3 ];
+			if ( typesAllowed.includes(req.user.type_id) ) {
+				return Promise.resolve();
+			} else {
+				return Promise.reject({ noAccess: true });
+			}
+		} else {
+			return Promise.resolve();
+		}
+	});
+};
 
 // Authentication: Login & Logout
 aaa.login = function(details) {

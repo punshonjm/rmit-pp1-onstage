@@ -20,22 +20,52 @@
 <div class="section text-left">
 	<div class="row">
 		<div class="col-md-8 ml-auto mr-auto">
-			<h2 class="title">Search for Bands / Musicians</h2>
-          <form class="search-form">
-            <select>
-              <option>Musician</option>
-            </select>
-            <select>
-              <option>Instrument</option>
-            </select>
-            <select>
-              <option>Genre</option>
-            </select>
-            <select>
-              <option>Location</option>
-            </select>
-            <button class="btn btn-primary btn-raised btn-lg">Search</button>
-          </form>
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="title">Search for Bands or Musicians...</h2>
+				</div>
+				<div class="col-md-12">
+					<form class="search-form">
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="musician">Musician/Band</label>
+									<select class="form-control selectpicker" data-style="btn btn-link" id="musician">
+										<option>Choose...</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="musician">Instruments</label>
+									<select class="form-control selectpicker" data-style="btn btn-link" id="instrument">
+										<option>Choose...</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="musician">Genre</label>
+									<select class="form-control selectpicker" data-style="btn btn-link" id="genre">
+										<option>Choose...</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="musician">Location</label>
+									<select class="form-control selectpicker" data-style="btn btn-link" id="musician">
+										<option value="">Choose...</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-12 d-flex justify-content-end mt-2">
+								<button class="btn btn-primary btn-raised btn-lg">Search</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

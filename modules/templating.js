@@ -86,7 +86,5 @@ module.exports = function(Handlebars) {
 
 var internal = {};
 internal.fileExtensions = [
-	"mustache",
-	// "mst-p", "mst-f",
-	"mst-b", "mst-h"
+	"mustache", "mst-b", "mst-h"
 ];
