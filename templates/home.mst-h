@@ -15,7 +15,7 @@
             <select>
               <option>Location</option>
             </select>
-            <button class="btn btn-danger btn-raised btn-lg">Search</button>
+            <button class="btn btn-primary btn-raised btn-lg">Search</button>
           </form>
 		</div>
 	</div>

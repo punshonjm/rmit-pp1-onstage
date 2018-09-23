@@ -16,15 +16,35 @@ router.get("/", (req, res) => {
 		var data = { pageName: "Home" };
 		data.user = req.user;
 
-		data.headerTitle = "On Stage";
-		data.headerSubtitle = "Connecting bands and Musicians.<br />When you want to get up On Stage,<br />This is where that happens.<br />This is On Stage.";
+		data.headerTitle = "Live Auditions";
+		data.headerSubtitle = "Whether you want to get up On Stage or need someone to <br /> " +
+			"join you On Stage, this is where this can happen. <br /> " +
+			"Bringing bands and musicians together, this is On Stage.";
 		data.headerCTA = {
 			link: "/register_now",
-			text: "Sign Up Now!",
+			text: "Join Now",
 			icon: null
 		};
 
         return templating.compile("home", data);
+    }).then((html) => {
+        res.send(html).end();
+    }).catch((err) => app.handleError(err, req, res));
+});
+
+router.get("/about_us", (req, res) => {
+    // Present about_us page
+    Promise.resolve().then(() => {
+        var data = { pageName: "About" };
+        data.user = req.user;
+
+        data.headerTitle = "About Us";
+        data.headerSubtitle = "On Stage was created to support the live music industry in Australia <br />" +
+            "by making it easier for bands and musicians to connect. <br /> " +
+            "Not being affiliated with any management agencies or labels means <br /> " +
+            "that all of our services are unbiased and fair for all performers.";
+
+        return templating.compile("../templates/public/about_us", data);
     }).then((html) => {
         res.send(html).end();
     }).catch((err) => app.handleError(err, req, res));

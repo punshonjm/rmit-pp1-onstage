@@ -1,5 +1,6 @@
 body, wrapper {
    min-height:100vh;
+    background-color: black;
 }
 
 .flex-fill {
@@ -18,6 +19,18 @@ body, wrapper {
    font-family: 'Archivo Black', sans-serif;   
 }
 
-.card .card_login {
-   margin-top:20px;  
+.card {
+   margin-top:150px;
+}
+
+.loginbtns {
+    background-color: red;
+}
+
+.loginbg {
+    background-color: transparent;
+}
+
+.copyright, .copyright a {
+    color: white;
 }
