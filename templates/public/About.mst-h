@@ -1,0 +1,45 @@
+{{#*inline "header_block"}}
+<div class="page-header header-filter" data-parallax="true" style="background-image: url('{{this.headerImage}}')">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 ml-auto mr-auto">
+				<div class="brand">
+					<h1 class='title'>About Us</h1>
+					<h4>
+						On Stage was created to support the live music industry in Australia
+						<br />by making it easier for bands and musicians to connect.
+						<br />Not being affiliated with any management agencies or labels means
+						<br />that all of our services are unbiased and fair for all performers.
+					</h4>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{{/inline}}
+<div class="section text-left">
+	<div class="row">
+		<div class="col-md-8 ml-auto mr-auto">
+			<h2 class="title">Contact Us</h2>
+	            <form class="search-form">
+	                <label>Name:</label>
+	                <br />
+	                <input type="text" placeholder="Your Name">
+	                <br />
+	                <label>Email:</label>
+	                <br />
+	                <input type="text" placeholder="Your E-mail">
+	                <br />
+	                <label>Subject:</label>
+	                <br />
+	                <input type="text" placeholder="Subject">
+	                <br />
+	                <label>Message:</label>
+	                <br />
+	                <textarea placeholder="Message"></textarea>
+	                <br />
+	                <button class="btn btn-primary btn-raised btn-lg">Send</button>
+	            </form>
+		</div>
+	</div>
+</div>

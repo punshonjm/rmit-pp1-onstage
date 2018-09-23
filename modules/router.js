@@ -22,6 +22,24 @@ router.get("/", (req, res) => {
     }).catch((err) => app.handleError(err, req, res));
 });
 
+// router.get("/about_us", (req, res) => {
+//     // Present about_us page
+//     Promise.resolve().then(() => {
+//         var data = { pageName: "About" };
+//         data.user = req.user;
+//
+//         data.headerTitle = "About Us";
+//         data.headerSubtitle = "On Stage was created to support the live music industry in Australia <br />" +
+//             "by making it easier for bands and musicians to connect. <br /> " +
+//             "Not being affiliated with any management agencies or labels means <br /> " +
+//             "that all of our services are unbiased and fair for all performers.";
+//
+//         return templating.compile("../templates/public/about_us", data);
+//     }).then((html) => {
+//         res.send(html).end();
+//     }).catch((err) => app.handleError(err, req, res));
+// });
+
 router.get("/login", (req, res) => {
 	// Present login page
 	Promise.resolve().then(() => {

@@ -2,31 +2,22 @@
 		</div>
 		<footer class="footer">
 			<div class="container">
+				{{#if this.user.golden_ticket}}
 				<nav class="float-left">
-					<ul>
+ 					<ul>
 						<li>
-							<a href="/about_us">About Us</a>
-						</li>
-						<li>
-							<a href="/contact_us">Contact Us</a>
-						</li>
-						<li>
-							<a href="/legal_stuff">T&Cs + Privacy</a>
-						</li>
-						{{#if this.user.golden_ticket}}
-						<li>
-							<a href="#ticketModal" data-toggle="modal"><i class="fa fa-ticket"></i> Ticket</a>
-						</li>
-						{{/if}}
-					</ul>
-				</nav>
-				<div class="copyright float-right">
-					&copy;
-					<script>
-						document.write(new Date().getFullYear())
-					</script> On Stage,
-					<a href="https://www.creative-tim.com" target="_blank">made with <i class="material-icons">favorite</i></a>.
-				</div>
+ 							<a href="#ticketModal" data-toggle="modal"><i class="fa fa-ticket"></i> Ticket</a>
+ 						</li>
+ 					</ul>
+ 				</nav>
+				{{/if}}
+                <div class="copyright {{#if this.user.golden_ticket}}float-left{{else}}float-right{{/if}}">
+                    &copy; Copyright
+                    <script>
+                        document.write(new Date().getFullYear())
+                    </script>, onstage.com
+                    <a href="https://www.creative-tim.com" target="_blank">made with <i class="material-icons">favorite</i></a>.
+                </div>
 			</div>
 		</footer>
 	</wrapper>
