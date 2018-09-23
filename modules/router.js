@@ -101,7 +101,7 @@ folders.map((folder) => {
 					var data = {};
 					return Promise.resolve(data);
 				}
-			}).then(() => {
+			}).then((data) => {
 				data.user = req.user;
 				data.pageName = file.replace(/_/g, " ");
 
