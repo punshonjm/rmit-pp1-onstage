@@ -16,7 +16,7 @@ app.handleError = function( error, req, res ) {
 			statusCode = Number(error.status) || 500;
 		}
 
-		if ( "message" in error ) {
+		if ( ("message" in error) && !("fileName" in error) && !("lineNumber" in error) ) {
             res.status(statusCode).json({ message: error.message }).end();
         } else {
             res.status(statusCode).end();
