@@ -12,7 +12,7 @@ let config = {
 	dateString: true,
 };
 
-if (global.config == 'aws') {
+if ( global.config == 'aws' ) {
 	config.host = process.env.RDS_HOSTNAME;
 	config.user = process.env.RDS_USERNAME;
 	config.password = process.env.RDS_PASSWORD;
@@ -31,7 +31,7 @@ dbc.execute = function(query) {
             if (error) {
                 reject({ "error": error, "note": "MySQL Connection Error" });
             } else {
-                if (!('text' in query) && !('values' in query)) {
+                if ( !('text' in query) && !('values' in query) ) {
                     query = query.toParam();
                 }
 
@@ -50,7 +50,7 @@ dbc.execute = function(query) {
 dbc.getRow = function(query) {
     return new Promise(function(resolve, reject) {
         dbc.pool.getConnection((error, connection) => {
-            if (error) {
+            if ( error ) {
                 reject({ "error": error, "note": "MySQL Connection Error" });
             } else {
                 if (!('text' in query) && !('values' in query)) {
@@ -59,7 +59,7 @@ dbc.getRow = function(query) {
 
                 connection.query(query.text, query.values, (error, rows) => {
                     connection.release();
-                    if (error) {
+                    if ( error ) {
                         reject({ "error": error, "note": "MySQL Query Error" });
                     } else {
                         resolve((typeof rows[0] === typeof undefined) ? false : rows[0]);

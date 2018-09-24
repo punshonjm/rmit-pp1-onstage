@@ -45,6 +45,11 @@ aaa.sessionManagement = function( req, res, next ) {
 		});
 	}
 
+	let logRequest = true;
+	if ( req.url.includes("/assets") ) {
+		logRequest = false;
+	}
+
 	return Promise.resolve().then(() => {
 		if ( ("cookies" in req) && ("stagePass" in req.cookies) ) {
 			return Promise.resolve(req.cookies.stagePass);
@@ -98,6 +103,7 @@ aaa.sessionManagement = function( req, res, next ) {
 						console.error("Error.SessionManagement.FileError.Uncaught @ ", moment().format("YYYY-MM-DD HH:mm:ss"));
 						res.status(500).end();
 					} else {
+						if (logRequest) aaa.createLog(req, "notAuthenticated");
 						res.send(html).end();
 					}
 				});
@@ -113,6 +119,7 @@ aaa.sessionManagement = function( req, res, next ) {
 
 		        return templating.compile("no_access", data);
 			}).then((html) => {
+				if (logRequest) aaa.createLog(req, "noAccess");
 		        res.send(html).end();
 			});
 		} else {
@@ -126,6 +133,7 @@ aaa.sessionManagement = function( req, res, next ) {
 aaa.checkAccess = function( req, perms = {} ) {
 	return Promise.resolve().then(() => {
 		if ( !("user" in req) || req.user == false ) {
+			aaa.createLog(req, "accessFailure:Unauthenticated");
 			return Promise.reject({ noAccess: true });
 		} else {
 			return Promise.resolve();
@@ -135,6 +143,7 @@ aaa.checkAccess = function( req, perms = {} ) {
 			if ( req.user.golden_ticket == 1 ) {
 				return Promise.resolve();
 			} else {
+				aaa.createLog(req, "accessFailure:NoGoldenTicket");
 				return Promise.reject({ noAccess: true });
 			}
 		} else {
@@ -145,6 +154,7 @@ aaa.checkAccess = function( req, perms = {} ) {
 			if ( req.user.type_id == 1 ) {
 				return Promise.resolve();
 			} else {
+				aaa.createLog(req, "accessFailure:NotAdmin");
 				return Promise.reject({ noAccess: true });
 			}
 		} else {
@@ -156,6 +166,7 @@ aaa.checkAccess = function( req, perms = {} ) {
 			if ( typesAllowed.includes(req.user.type_id) ) {
 				return Promise.resolve();
 			} else {
+				aaa.createLog(req, "accessFailure:NotUserGroup");
 				return Promise.reject({ noAccess: true });
 			}
 		} else {
@@ -184,16 +195,18 @@ aaa.login = function(details) {
 		return dbc.getRow(query);
 	}).then((dbRow) => {
 		if ( !dbRow ) {
+			aaa.createLog(details, "authenticaionFailure:Username");
 			return Promise.reject({ authenticationError: true, message: "Username/Password combination doesn't match." });
 		} else {
 			details.user_id = dbRow.user_id;
 			return internal.password.check(details.password, dbRow.password);
 		}
 	}).then((pwdVerified) => {
+		delete details.password;
 		if ( pwdVerified ) {
-			delete details.password;
 			return Promise.resolve(details);
 		} else {
+			aaa.createLog(details, "authenticaionFailure:Password");
 			return Promise.reject({ authenticationError: true, message: "Username/Password combination doesn't match." });
 		}
 	}).then((details) => {
@@ -223,6 +236,7 @@ aaa.login = function(details) {
 				"user_id": details.user_id,
 				"session_token": cookie.token
 			});
+
 			dbc.execute(query);
 		}
 
@@ -246,6 +260,34 @@ aaa.logout = function(req, res) {
 	}).then((result) => {
 		res.clearCookie("stagePass");
 		return Promise.resolve({ sendRefresh: true });
+	});
+};
+
+aaa.createLog = function(req, logType) {
+	return Promise.resolve().then(() => {
+		let row = {};
+		row.log_type = logType;
+
+		if ( ("headers" in req) ) {
+			row.req_ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+			row.req_url = req.url;
+
+			if ( req.user != false ) {
+				row.user_id = req.user.user_id;
+			}
+		}
+
+		if ( ("username" in req) ) {
+			row.req_params = req.username;
+		}
+
+		let query = dbc.sql.insert().into("ebdb.log").setFields(row);
+		return dbc.execute(query);
+	}).then((result) => {
+		// No action need after logging
+	}).catch((error) => {
+		console.error(error);
+		console.error("Error.LogManagement.Uncaught @ ", moment().format("YYYY-MM-DD HH:mm:ss"));
 	});
 };
 

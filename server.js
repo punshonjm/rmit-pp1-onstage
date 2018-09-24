@@ -8,8 +8,6 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 
-const moment = require("moment");
-
 // Assign globally-used modules to variables
 const configExists = fs.existsSync(`${__dirname}/config.json`);
 
