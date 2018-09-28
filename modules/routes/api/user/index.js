@@ -1,7 +1,7 @@
 const router = require("express").Router();
-const aaa = global.aaa;
-const dbc = global.dbc;
-const app = global.app;
+const aaa = require("@modules/aaa");
+const dbc = require("@modules/dbc");
+const app = require("@modules/app");
 
 router.post("/golden_ticket/:type", (req, res) => {
 	return aaa.checkAccess(req, { golden_ticket: true }).then(() => {

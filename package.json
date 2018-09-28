@@ -25,6 +25,7 @@
     "handlebars": "^4.0.11",
     "helmet": "^3.13.0",
     "lodash": "^4.17.10",
+    "module-alias": "^2.1.0",
     "moment": "^2.22.2",
     "mysql": "^2.16.0",
     "squel": "^5.12.2"

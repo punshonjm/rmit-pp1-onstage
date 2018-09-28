@@ -1,5 +1,6 @@
 const fs = require("fs");
 const _ = require("lodash");
+const app = require("@modules/app");
 
 var controllers = {};
 

@@ -6,10 +6,9 @@ const moment = require("moment");
 const _ = require("lodash");
 const CryptoJS = require('crypto-js');
 
-const Handlebars = require('handlebars');
-const templating = require("./templating")(Handlebars);
-const dbc = global.dbc;
-const app = global.app;
+const templating = require("@modules/templating");
+const dbc = require("@modules/dbc");
+const app = require("@modules/app");
 
 var aaa = {};
 
@@ -97,15 +96,11 @@ aaa.sessionManagement = function( req, res, next ) {
 			if ( !authenticationRequired ) {
 				next();
 			} else {
-				fs.readFile(path.join(__dirname, "../templates", "login.html"), "utf8", (error, html) => {
-					if (error) {
-						console.error(error);
-						console.error("Error.SessionManagement.FileError.Uncaught @ ", moment().format("YYYY-MM-DD HH:mm:ss"));
-						res.status(500).end();
-					} else {
-						if (logRequest) aaa.createLog(req, "notAuthenticated");
-						res.send(html).end();
-					}
+				return Promise.resolve().then(() => {
+					return templating.build(path.join(__dirname, "../templates", "login.html"));
+				}).then((html) => {
+					if (logRequest) aaa.createLog(req, "notAuthenticated");
+					res.send(html).end();
 				});
 			}
 		} else if ( ("noAccess" in error) ) {

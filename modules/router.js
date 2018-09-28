@@ -5,11 +5,10 @@ const moment = require("moment");
 const router = require("express").Router();
 const _ = require("lodash");
 
-const Handlebars = require('handlebars');
-const templating = require("./templating")(Handlebars);
-const controllers = require("./pageControllers");
-const app = require("./app");
-const aaa = require("./aaa");
+const templating = require("@modules/templating");
+const controllers = require("@modules/pageControllers");
+const app = require("@modules/app");
+const aaa = require("@modules/aaa");
 
 router.get("/", (req, res) => {
 	// Present home page
@@ -30,16 +29,10 @@ router.get("/login", (req, res) => {
 			// If user is already logged in, redirect to homepage
 			res.redirect('/');
 		} else {
-			fs.readFile(path.join(__dirname, "../templates", "login.html"), "utf8", (error, html) => {
-				if (error) {
-					console.error(error);
-					console.error("Error.SessionManagement.FileError.Uncaught @ ", moment().format("YYYY-MM-DD HH:mm:ss"));
-					res.status(500).end();
-				} else {
-					res.send(html).end();
-				}
-			});
+			return templating.build(path.join(__dirname, "../templates", "login.html"));
 		}
+	}).then((html) => {
+		res.send(html).end();
 	}).catch((err) => app.handleError(err, req, res));
 });
 router.post("/login", app.slowDown, (req, res) => {
@@ -113,8 +106,8 @@ folders.map((folder) => {
 	});
 });
 
-const api = require("./api");
-router.use("/api", api);
+const api = require("./routes/api");
+router.use("/api", app.rateLimit, api);
 
 // Handles routing of unfound routes
 router.get('*', function(req, res) {
