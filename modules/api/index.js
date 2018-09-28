@@ -1,5 +1,5 @@
 const routes = require('express').Router();
-const app = global.app
+const app = global.app;
 
 routes.get("/", (req, res) => {
     res.status(200).json({ message: "Connected." }).end();

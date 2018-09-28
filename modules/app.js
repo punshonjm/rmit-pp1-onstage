@@ -1,9 +1,21 @@
 const fs = require("fs");
 const path = require("path");
+const slowDown = require("express-slow-down");
+const rateLimit = require("express-rate-limit");
 
 var app = {};
 app.publicPaths = [];
 app.adminPaths = [];
+
+app.slowDown = slowDown({
+	windowMs: 15 * 60 * 1000,
+	delayAfter: 5,
+	delayMs: 100
+});
+app.rateLimit = rateLimit({
+	windowMs: 15 * 60 * 1000,
+	max: 100
+});
 
 app.handleError = function( error, req, res ) {
     if ( "authenticationError" in error ) {

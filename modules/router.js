@@ -42,7 +42,7 @@ router.get("/login", (req, res) => {
 		}
 	}).catch((err) => app.handleError(err, req, res));
 });
-router.post("/login", (req, res) => {
+router.post("/login", app.slowDown, (req, res) => {
 	// Handle login request
 	Promise.resolve().then(() => {
 		let details = {

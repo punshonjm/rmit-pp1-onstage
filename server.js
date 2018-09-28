@@ -18,6 +18,7 @@ global.aaa = require(`${__dirname}/modules/aaa`);
 
 // Create express.js Server
 const server = express();
+server.enable("trust proxy");
 
 // Setup standard middle-ware
 server.use(helmet());
