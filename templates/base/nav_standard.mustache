@@ -1,7 +1,7 @@
 <nav class="navbar fixed-top navbar-expand-lg bg-primary">
 	{{> navbar}}
 </nav>
-{{#compare this.user.email_verified 0}}
+{{#if this.user}}{{#compare this.user.email_verified 0}}
 <div class='alert alert-warning alert-dismissible fade show email_verification_warning' role="alert">
 	<div class="container">
 		<strong>Your email isn't verified yet!</strong> Please check your inbox and verify your email address. <a href="#" class="alert-link">Resend</a>
@@ -10,6 +10,6 @@
 	  	</button>
 	</div>
 </div>
-{{/compare}}
+{{/compare}}{{/if}}
 <div class="main flex-fill">
 	<div class="container">
