@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const moment = require("moment");
 const slowDown = require("express-slow-down");
 const rateLimit = require("express-rate-limit");
 
@@ -18,20 +19,27 @@ app.rateLimit = rateLimit({
 });
 
 app.handleError = function( error, req, res ) {
-    if ( "authenticationError" in error ) {
+    if ( ("authenticationError" in error) ) {
 		res.status(401).json({ message: error.message }).end();
 	} else {
-		console.log(error);
-
 		var statusCode = 500;
-		if ( "status" in error ) {
+		if ( ("status" in error) ) {
 			statusCode = Number(error.status) || 500;
+		}
+
+		if ( ("error" in error) && ("sql" in error.error) ) {
+			console.error("=========================================");
+			console.error("SQL Error @ ", moment().format("YYYY-MM-DD HH:mm:ss"));
+			console.error(error.error.sqlMessage);
+			console.error("=========================================");
+		} else {
+			console.log(error);
 		}
 
 		if ( ("message" in error) && !("fileName" in error) && !("lineNumber" in error) ) {
             res.status(statusCode).json({ message: error.message }).end();
         } else {
-            res.status(statusCode).end();
+            res.status(statusCode).json({ message: "Whoops! An error occured." }).end();
         }
 	}
 }

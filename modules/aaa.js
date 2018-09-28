@@ -61,7 +61,7 @@ aaa.sessionManagement = function( req, res, next ) {
 			return Promise.reject({ noCookie: true, reason: "timeExpired" });
 		} else {
 			let query = dbc.sql.select().fields([
-				"u.username", "s.user_id",
+				"u.username", "s.user_id", "u.display_name",
 				"s.session_started",
 				"u.type_id", "t.type_name", "u.golden_ticket",
 			]).from(

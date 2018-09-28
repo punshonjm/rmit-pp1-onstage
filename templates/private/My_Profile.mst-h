@@ -1,1 +1,56 @@
-<h1>My Profile - {{this.user.username}}</h1>
+{{#*inline "header_block"}}
+<div class="page-header header-filter" data-parallax="true" style="background-image: url('{{#if this.profile.background}}{{this.profile.background}}{{else}}{{this.headerImage}}{{/if}}')">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4 ml-auto">
+				<img src="{{#if this.profile.picture}}{{this.profile.picture}}{{else}}/public/img/faces/card-profile2-square.jpg{{/if}}" alt="Profile Picture" class="img-raised rounded-circle img-fluid" />
+			</div>
+			<div class="col-md-6 mr-auto">
+				<div class="brand">
+					<h1 class='title'>{{this.profile.display_name}}<br /><small>{{this.profile.user_type}}</small></h1>
+					<h4>{{this.profile.about}}</h4>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{{/inline}}
+<div class="section text-left">
+	<div class="row">
+		<div class="col-md-8 ml-auto mr-auto">
+			<div class="row">
+				<div class="col-md-12">
+					<h1>My Profile</h1>
+					<p data-user-id="{{this.profile.user_id}}"><strong>Username:</strong> {{this.profile.username}}</p>
+					<p><strong>Email:</strong> {{this.profile.email}}</p>
+					<p><strong>Name:</strong> {{this.profile.display_name}}</p>
+					<p><strong>Postcode:</strong> {{this.profile.postcode}}</p>
+					<p><strong>Past Gigs:</strong> {{this.profile.past_gigs}}</p>
+					<p><strong>Music Experience:</strong> {{this.profile.music_experience}}</p>
+					{{#compare this.profile.user_type "Band"}}
+					<p><strong>Band Size:</strong> {{this.profile.band_size}}</p>
+					{{/compare}}
+					<p data-id="{{this.profile.age_bracket_id}}"><strong>Age Bracket:</strong> {{this.profile.age_bracket}}</p>
+					{{#if this.profile.preferred_age_bracket}}
+					<p data-id="{{this.profile.preference_age_bracket_id}}"><strong>Preferred Age Bracket to play with:</strong> {{this.profile.preferred_age_bracket}}</p>
+					{{/if}}
+					<p data-id="{{this.profile.commitment_level_id}}"><strong>Commitment Level:</strong> {{this.profile.commitment_level}}</p>
+					<p data-id="{{this.profile.gender_id}}"><strong>Gender:</strong> {{this.profile.gender}}</p>
+					<p data-id="{{this.profile.gig_frequency_id}}"><strong>Gig Frequency:</strong> {{this.profile.gig_frequency}}</p>
+					<p data-id="{{this.profile.status_id}}"><strong>Status:</strong> {{this.profile.status}}</p>
+					<p data-id="{{this.profile.type_id}}"><strong>User Type:</strong> {{this.profile.user_type}}</p>
+
+					<h3>Genres</h3>
+					{{#each this.profile.genres}}
+					<p data-id="{{this.genre_id}}">{{this.name}}</p>
+					{{/each}}
+
+					<h3>Instruments</h3>
+					{{#each this.profile.instruments}}
+					<p data-id="{{this.instrument_id}}">{{this.name}}</p>
+					{{/each}}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

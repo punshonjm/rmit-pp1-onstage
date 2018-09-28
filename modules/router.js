@@ -88,7 +88,7 @@ folders.map((folder) => {
 
 		router.get(url, (req, res) => {
 			Promise.resolve().then((html) => {
-				if ( url in controllers ) {
+				if ( (url in controllers) ) {
 					return controllers[url](req);
 				} else {
 					var data = {};
