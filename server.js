@@ -21,7 +21,7 @@ const aaa = require("@modules/aaa");
 
 // Create express.js Server
 const server = express();
-server.enable("trust proxy");
+if ( global.config == "aws") server.enable("trust proxy");
 
 // Setup standard middle-ware
 server.use(helmet());

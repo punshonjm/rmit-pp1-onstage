@@ -27,7 +27,7 @@ router.get("/login", (req, res) => {
 	Promise.resolve().then(() => {
 		if ( ("user" in req) && req.user != false ) {
 			// If user is already logged in, redirect to homepage
-			res.redirect('/');
+			res.redirect("/");
 		} else {
 			return templating.build(path.join(__dirname, "../templates", "login.html"));
 		}
