@@ -40,12 +40,12 @@
 					<p data-id="{{this.profile.status_id}}"><strong>Status:</strong> {{this.profile.status}}</p>
 					<p data-id="{{this.profile.type_id}}"><strong>User Type:</strong> {{this.profile.user_type}}</p>
 
-					<h3>Genres</h3>
+					<h3>Genres Played</h3>
 					{{#each this.profile.genres}}
 					<p data-id="{{this.genre_id}}">{{this.name}}</p>
 					{{/each}}
 
-					<h3>Instruments</h3>
+					<h3>Instruments {{#compare this.profile.user_type "Band"}}Needed{{else}}Played{{/compare}}</h3>
 					{{#each this.profile.instruments}}
 					<p data-id="{{this.instrument_id}}">{{this.name}}</p>
 					{{/each}}
