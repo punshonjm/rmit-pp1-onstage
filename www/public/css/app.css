@@ -7,6 +7,10 @@ body, wrapper {
    flex:1 1 auto;
 }
 
+.email_verification_warning {
+	margin-top: 70px;
+}
+
 .search-form select {
     font-size: 18px;
     height: 49px;
@@ -16,7 +20,7 @@ body, wrapper {
 }
 
 .onStageHeaderFont {
-   font-family: 'Archivo Black', sans-serif;   
+   font-family: 'Archivo Black', sans-serif;
 }
 
 .card {
