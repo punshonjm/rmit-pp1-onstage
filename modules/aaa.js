@@ -188,7 +188,10 @@ aaa.login = function(details) {
 			"ebdb.password", "p",
 			"u.id = p.user_id"
 		).where(dbc.sql.expr()
-			.and("u.username = ?", details.username)
+			.and(dbc.sql.expr()
+				.or("u.username = ?", details.username)
+				.or("u.email = ?", details.username)
+			)
 			.and("p.password_valid = 1")
 		).order("p.password_set", false).limit(1);
 
