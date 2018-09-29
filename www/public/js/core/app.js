@@ -2,17 +2,21 @@ window.app = {};
 
 window.app.logout = function() {
 	$.get("/logout", function(res) {
-		
+
 	}).always(function() {
 		window.location.reload();
 	});
 }
 
 $(document).ready(function() {
-
+	window.app.initialise();
 }).on("click", "#logout", function() {
 	window.app.logout();
 });
+
+window.app.initialise = function() {
+	$(".modal").appendTo("body");
+};
 
 // Add additional global functions
 if (!String.isNullOrEmpty) {

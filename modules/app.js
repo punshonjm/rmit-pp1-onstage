@@ -3,10 +3,12 @@ const path = require("path");
 const moment = require("moment");
 const slowDown = require("express-slow-down");
 const rateLimit = require("express-rate-limit");
+// const templating = require("@modules/templating");
 
 var app = {};
 app.publicPaths = [];
 app.adminPaths = [];
+app.privatePaths = [];
 
 app.slowDown = slowDown({
 	windowMs: 15 * 60 * 1000,
@@ -19,7 +21,7 @@ app.rateLimit = rateLimit({
 });
 
 app.handleError = function( error, req, res ) {
-    if ( ("authenticationError" in error) ) {
+	if ( ("authenticationError" in error) ) {
 		res.status(401).json({ message: error.message }).end();
 	} else {
 		var statusCode = 500;
@@ -36,11 +38,16 @@ app.handleError = function( error, req, res ) {
 			console.log(error);
 		}
 
-		if ( ("message" in error) && !("fileName" in error) && !("lineNumber" in error) ) {
-            res.status(statusCode).json({ message: error.message }).end();
-        } else {
-            res.status(statusCode).json({ message: "Whoops! An error occured." }).end();
-        }
+		if ( req.originalUrl.includes("api") || ( ("isApi" in req) && req.isApi == true) ) {
+			if ( ("message" in error) && !("fileName" in error) && !("lineNumber" in error) ) {
+	            res.status(statusCode).json({ message: error.message }).end();
+	        } else {
+	            res.status(statusCode).json({ message: "Whoops! An error occured." }).end();
+	        }
+		} else {
+			req.session.error = error;
+			res.redirect('/whoops');
+		}
 	}
 }
 

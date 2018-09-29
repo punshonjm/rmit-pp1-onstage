@@ -10,6 +10,7 @@ const express = require("express");
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
+const session = require('express-session');
 
 // Assign globally-used modules to variables
 const configExists = fs.existsSync(`${__dirname}/config.json`);
@@ -21,13 +22,14 @@ const aaa = require("@modules/aaa");
 
 // Create express.js Server
 const server = express();
-if ( global.config == "aws") server.enable("trust proxy");
+if ( global.config == "aws") server.enable("trust proxy", 1);
 
 // Setup standard middle-ware
 server.use(helmet());
 server.use(cookieParser());
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ "extended": true }));
+server.use(session({ secret: "thisStagePassSecret", cookie: {}, resave: false, saveUninitialized: false }));
 
 // Serve static, public content
 server.use("/public", express.static(path.join(__dirname, "www/public")));

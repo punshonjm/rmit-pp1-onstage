@@ -20,7 +20,7 @@ aaa.sessionManagement = function( req, res, next ) {
 	req.user = false;
 
 	let publicPaths = _.cloneDeep(app.publicPaths);
-	publicPaths.push("/login", "/public");
+	publicPaths.push("/login", "/public", "/user/.*/report");
 	if (publicPaths.includes(req.url) || req.url == "/") {
 		authenticationRequired = false;
 	} else {
@@ -104,19 +104,8 @@ aaa.sessionManagement = function( req, res, next ) {
 				});
 			}
 		} else if ( ("noAccess" in error) ) {
-			return Promise.resolve().then(() => {
-				var data = { pageName: "No Access" };
-				data.user = req.user;
-
-				data.headerTitle = "Sorry! You don't have access to this part of the venue.";
-				data.headerSubtitle = null;
-				data.headerCTA = null;
-
-		        return templating.compile("no_access", data);
-			}).then((html) => {
-				if (logRequest) aaa.createLog(req, "noAccess");
-		        res.send(html).end();
-			});
+			if (logRequest) aaa.createLog(req, "noAccess");
+			res.redirect("/no_access");
 		} else {
 			return Promise.reject(error);
 		}
@@ -175,6 +164,7 @@ aaa.login = function(details) {
 	// return internal._createAccount(details);
 
 	return Promise.resolve().then(() => {
+		console.log(details.username);
 		let query = dbc.sql.select().fields([
 			"p.user_id", "u.username", "p.password"
 		]).from(

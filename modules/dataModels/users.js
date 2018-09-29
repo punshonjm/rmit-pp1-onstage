@@ -7,12 +7,16 @@ users.details = function(user_id) {
 	var user = {};
 
 	return Promise.resolve().then(() => {
-		if ( !isNaN(user_id) ) {
+		if ( user_id != null ) {
 			let query = internal.query.user();
-			query.where("u.id = ?", user_id);
+			query.where(dbc.sql.expr()
+				.or("u.id = ?", user_id)
+				.or("u.username = ?", user_id)
+			);
+
 			return dbc.getRow(query);
 		} else {
-			return Promise.reject({ message: "Provided an invalid ID." });
+			return Promise.reject({ message: "Provided an invalid ID or username." });
 		}
 	}).then((row) => {
 		if ( row ) {
@@ -26,7 +30,7 @@ users.details = function(user_id) {
 				return Promise.resolve(false);
 			}
 		} else {
-			return Promise.reject({ message: "Provided an invalid ID." });
+			return Promise.reject({ message: "Failed to find user." });
 		}
 	}).then((rows) => {
 		if ( rows ) {
