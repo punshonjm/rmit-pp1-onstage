@@ -20,7 +20,28 @@ body, wrapper {
 }
 
 .card {
-   margin-top:150px;
+   margin-top:-50px;
+    padding-left: 50px;
+}
+
+.registerHeader {
+    padding-right: 50px;
+}
+
+.radio1 {
+    margin-left: 50px;
+}
+
+.radio2 {
+    margin-left: 50px;
+}
+
+.radio3 {
+    margin-left: 50px;
+}
+
+.radio4 {
+    margin-left: 50px;
 }
 
 .loginbtns {
