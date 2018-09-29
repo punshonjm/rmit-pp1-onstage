@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/punshonjm/RMIT_CPT331_PP1#readme",
   "dependencies": {
+    "aws-sdk": "^2.325.0",
     "cookie-parser": "^1.4.3",
     "crypto-js": "^3.1.9-1",
     "express": "^4.16.3",

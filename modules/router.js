@@ -9,6 +9,7 @@ const templating = require("@modules/templating");
 const controllers = require("@modules/pageControllers");
 const app = require("@modules/app");
 const aaa = require("@modules/aaa");
+const mail = require("@modules/mail");
 
 router.get("/", (req, res) => {
 	// Present home page
@@ -35,6 +36,7 @@ router.get("/login", (req, res) => {
 		res.send(html).end();
 	}).catch((err) => app.handleError(err, req, res));
 });
+
 router.post("/login", app.slowDown, (req, res) => {
 	req.isApi = true;
 	// Handle login request
@@ -56,6 +58,7 @@ router.post("/login", app.slowDown, (req, res) => {
 		}).end();
 	}).catch((err) => app.handleError(err, req, res));
 });
+
 router.get("/logout", (req, res) => {
 	req.isApi = true;
 	// Handle logout request
@@ -66,6 +69,21 @@ router.get("/logout", (req, res) => {
 		res.status(code).end();
 	}).catch((err) => app.handleError(err, req, res));
 });
+
+/*
+router.post("/forgotPassword", (req, res)) => {
+  //will need function to check if email exsits in DB
+  var resetKey = "Welcome"; // will need function to set new password or reset link
+  // Handle password Reset request
+	Promise.resolve().then(() => {
+    let details = {
+			email: req.body.email,
+      password: `${resetKey}`
+    };
+    return mail.send.passwordReset(details);
+  }).catch((err) => app.handleError(err, req, res));
+});
+*/
 
 let folders = [ "public", "private", "admin" ];
 folders.map((folder) => {
