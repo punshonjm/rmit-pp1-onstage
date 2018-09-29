@@ -62,7 +62,6 @@ internal.query.user = function() {
 		"u.username",
 		"u.email",
 		"u.display_name",
-		"p.user_id",
 		"p.postcode",
 		"p.picture",
 		"p.background",
@@ -80,6 +79,7 @@ internal.query.user = function() {
 		"t.type_name": "user_type",
 
 		"p.id": "profile_id",
+		"u.id": "user_id",
 	}).fields([
 		"u.type_id",
 		"p.age_bracket_id",
