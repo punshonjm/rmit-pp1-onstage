@@ -2,7 +2,8 @@ const AWS = require("aws-sdk");
 const app = require("@modules/app");
 const templating = require("@modules/templating");
 
-AWS.config.loadFromPath('sesConfig.json');
+AWS.config.update({ region: "us-east-1" });
+// AWS.config.loadFromPath('sesConfig.json');
 
 var mail = {};
 var internal = {};
