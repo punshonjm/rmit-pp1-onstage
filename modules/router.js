@@ -71,8 +71,8 @@ let folders = [ "public", "private", "admin" ];
 folders.map((folder) => {
 	app.pathWalk("templates/" + folder, (filePath, rootDir, subDir, fileName) => {
 		let file = fileName.split('.')[0], param = false, controlUrl = null;
-		if ( file.includes("?") ) {
-			let split = file.split("?");
+		if ( file.includes("@") ) {
+			let split = file.split("@");
 			file = split[0];
 			param = split[1];
 		}
