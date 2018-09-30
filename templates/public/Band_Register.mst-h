@@ -1,0 +1,285 @@
+{{#*inline "header_block"}}
+    <div class="page-header header-filter" style="background-image: url('{{this.headerImage}}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-4 ml-auto mr-auto" style="font-size: 28px; font-weight: bold; margin-top: 1900px;">
+                    <div class="card card-login">
+                        <div class="card-body px-2" id="loginForm">
+                            <div class='row'>
+                                <div class='col-md-12 registerHeader'>
+                                    <h2 class="card-title text-center">Band Registration</h2>
+                                </div>
+                                <div class='col-md-12'>
+                                    <form class="search-form">
+                                        <div class='row'>
+                                            <div class="col-md-12">
+                                                <div class="form-group bmd-form-group">
+                                                    <label class="bmd-label-floating">Full Name:</label>
+                                                    <input id="name" type="text" class="form-control" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group bmd-form-group">
+                                                    <label class="bmd-label-floating">Band/User Mame:</label>
+                                                    <input id="username" type="text" class="form-control" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group bmd-form-group">
+                                                    <label class="bmd-label-floating">Email:</label>
+                                                    <input id="email" type="text" class="form-control" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group bmd-form-group">
+                                                    <label class="bmd-label-floating">Password:</label>
+                                                    <input id="password" type="password" class="form-control" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group bmd-form-group">
+                                                    <label class="bmd-label-floating">City:</label>
+                                                    <br />
+                                                    <br />
+                                                    <select>
+                                                        <option>Adelaide</option>
+                                                        <option>Brisbane</option>
+                                                        <option>Canberra</option>
+                                                        <option>Darwin</option>
+                                                        <option>Hobart</option>
+                                                        <option>Melbourne</option>
+                                                        <option>Perth</option>
+                                                        <option>Sydney</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group bmd-form-group">
+                                                    <label class="bmd-label-floating">Band Size:</label>
+                                                    <input id="bandSize" type="text" class="form-control" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group bmd-form-group">
+                                                    <label class="bmd-label-floating">Music Experience:</label>
+                                                    <br />
+                                                    <br />
+                                                    <select>
+                                                        <option>1</option>
+                                                        <option>2</option>
+                                                        <option>5</option>
+                                                        <option>10</option>
+                                                        <option>20+</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group bmd-form-group">
+                                                    <label class="bmd-label-floating">Band&apos;s Music Genres:</label>
+                                                    <br />
+                                                    <br />
+                                                    <label class="radio-inline">
+                                                        <select multiple size="60" style="overflow: hidden;">
+                                                            <option>Accoustic</option>
+                                                            <option>Alternative</option>
+                                                            <option>Bluegrass</option>
+                                                            <option>Blues</option>
+                                                            <option>Celtic</option>
+                                                            <option>Christian / Gospel</option>
+                                                            <option>Christian</option>
+                                                            <option>Contempory</option>
+                                                            <option>Classic Rock</option>
+                                                            <option>Classical</option>
+                                                            <option>Country</option>
+                                                            <option>Cover/Tribute</option>
+                                                            <option>Electronic</option>
+                                                            <option>Folk</option>
+                                                            <option>Funk</option>
+                                                            <option>Hip-Hop/Rap</option>
+                                                            <option>Jazz</option>
+                                                            <option>Latin</option>
+                                                            <option>Lounge</option>
+                                                            <option>Metal</option>
+                                                            <option>Pop</option>
+                                                            <option>Progressive</option>
+                                                            <option>Punk</option>
+                                                            <option>R&amp;B</option>
+                                                            <option>Reggae</option>
+                                                            <option>Rock</option>
+                                                            <option>Ska</option>
+                                                            <option>Southern Rock</option>
+                                                            <option>World</option>
+                                                        </select> You may choose more than one by holding down control
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group bmd-form-group">
+                                                    <label class="bmd-label-floating">Profile Picture:</label>
+                                                    <input type="file" name="fileupload" value="fileupload" id="fileupload">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group bmd-form-group">
+                                                    <label class="bmd-label-floating">About Our Band:</label>
+                                                    <textarea id="aboutUs" class="form-control" rows="4"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class='col-md-12 registerHeader'>
+                                                <h3 class="card-title text-left">New Band Member/s Requirements</h3>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group bmd-form-group">
+                                                    <label class="bmd-label-floating">Preferred Gender:</label>
+                                                    <br />
+                                                    <label class="radio-inline radio1">
+                                                        <input type="radio" name="gender" checked> Female
+                                                    </label>
+                                                    <label class="radio-inline radio2">
+                                                        <input type="radio" name="gender"> Male
+                                                    </label>
+                                                    <label class="radio-inline radio3">
+                                                        <input type="radio" name="gender"> Non-Binary/Third Gender
+                                                    </label>
+                                                    <label class="radio-inline radio4">
+                                                        <input type="radio" name="gender"> Unspecified
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group bmd-form-group">
+                                                    <label class="bmd-label-floating">Number Needed:</label>
+                                                    <br />
+                                                    <br />
+                                                    <select>
+                                                        <option>1</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                        <option>5</option>
+                                                        <option>6+</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group bmd-form-group">
+                                                    <label class="bmd-label-floating">Music Skill Needed:</label>
+                                                    <br />
+                                                    <br />
+                                                    <label class="radio-inline">
+                                                        <select multiple size="4">
+                                                            <option>Accoustic Guitar</option>
+                                                            <option>Background Singer</option>
+                                                            <option>Banjo</option>
+                                                            <option>Bass Guitar</option>
+                                                            <option>Cello</option>
+                                                            <option>Clarinet</option>
+                                                            <option>Drums</option>
+                                                            <option>Fiddle</option>
+                                                            <option>Flute</option>
+                                                            <option>Harmonica</option>
+                                                            <option>Harp</option>
+                                                            <option>Keyboard</option>
+                                                            <option>Lead Guitar</option>
+                                                            <option>Mandolin</option>
+                                                            <option>Percussion</option>
+                                                            <option>Piano</option>
+                                                            <option>Rhythm Guitar</option>
+                                                            <option>Saxophone</option>
+                                                            <option>Steel Guitar</option>
+                                                            <option>Trombone</option>
+                                                            <option>Trumpet</option>
+                                                            <option>Upright bass</option>
+                                                            <option>Violin</option>
+                                                            <option>Vocalist</option>
+                                                            <option>Vocalist - Alto</option>
+                                                            <option>Vocalist - Baritone</option>
+                                                            <option>Vocalist - Bass</option>
+                                                            <option>Vocalist - Soprano</option>
+                                                            <option>Vocalist - Tenor</option>
+                                                        </select> You may choose more than one by holding down control
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group bmd-form-group">
+                                                    <label class="bmd-label-floating">Music Experience:</label>
+                                                    <br />
+                                                    <br />
+                                                    <select>
+                                                        <option>1</option>
+                                                        <option>2</option>
+                                                        <option>5</option>
+                                                        <option>10</option>
+                                                        <option>20+</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group bmd-form-group">
+                                                    <label class="bmd-label-floating">Past Gigs:</label>
+                                                    <br />
+                                                    <br />
+                                                    <select>
+                                                        <option>10</option>
+                                                        <option>20</option>
+                                                        <option>30</option>
+                                                        <option>40</option>
+                                                        <option>50</option>
+                                                        <option>60+</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group bmd-form-group">
+                                                    <label class="bmd-label-floating">Gig Availability:</label>
+                                                    <br />
+                                                    <br />
+                                                    <select>
+                                                        <option>1 night p/week</option>
+                                                        <option>2 nights p/week</option>
+                                                        <option>3 nights p/week</option>
+                                                        <option>4 nights p/week</option>
+                                                        <option>5 nights p/week</option>
+                                                        <option>6 nights p/week</option>
+                                                        <option>7 nights p/week</option>
+                                                        <option>8 days p/week</option>
+                                                        <option>Touring</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group bmd-form-group">
+                                                    <label class="bmd-label-floating">Commitment Level:</label>
+                                                    <br />
+                                                    <br />
+                                                    <select>
+                                                        <option>Casual/Fun</option>
+                                                        <option>Moderately committed</option>
+                                                        <option>Committed</option>
+                                                        <option>Very committed</option>
+                                                        <option>Touring</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group bmd-form-group">
+                                                    <label class="radio-inline radio1">
+                                                        <input type="checkbox" name="agree"> I agree to comply with the On Stage <a href="/terms">Terms &amp; Conditions</a> and <a href="privacy_policy">Privacy Policy</a>.
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 d-flex justify-content-center registerHeader" style="padding-bottom: 10px;">
+                                                <button class="btn btn-primary btn-raised btn-lg">Join On Stage Now</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/inline}}

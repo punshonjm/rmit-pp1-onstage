@@ -1,0 +1,31 @@
+{{#*inline "header_block"}}
+    <div class="page-header header-filter" data-parallax="true" style="background-image: url('{{this.headerImage}}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-4 ml-auto mr-auto" style="font-size: 28px; font-weight: bold; margin-top: 180px;">
+                    <div class="card card-login">
+                        <div class="card-body px-2" id="loginForm">
+                            <div class='row'>
+                                <div class='col-md-12 registerHeader'>
+                                    <h2 class="card-title text-center">Join On Stage</h2>
+                                    <p class="text-center">What type of profile would you like?</p>
+                                </div>
+                                <div class='col-md-12'>
+                                    <form class="search-form">
+                                        <div class='row'>
+                                            <div class="col-md-12 d-flex justify-content-center registerHeader" style="padding-bottom: 20px;">
+                                                <a href=".band_register" class="btn btn-success btn-raised btn-lg"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Band&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
+                                                <span style="font-size: 20px; font-weight: bold; padding-left:10px; padding-right: 10px; padding-top: 20px;">OR</span>
+                                                <a href="/musician_register" class="btn btn-success btn-raised btn-lg">Musician</a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/inline}}

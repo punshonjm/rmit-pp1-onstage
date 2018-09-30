@@ -492,7 +492,9 @@ th {
 
 label {
   display: inline-block;
-  margin-bottom: .5rem; }
+  margin-bottom: .5rem;
+  color: #000;
+  font-weight: bold;  }
 
 button {
   border-radius: 0; }
@@ -509,7 +511,9 @@ textarea {
   margin: 0;
   font-family: inherit;
   font-size: inherit;
-  line-height: inherit; }
+  line-height: inherit;
+  color: #000;
+  font-weight: bold;  }
 
 button,
 input {
@@ -1556,7 +1560,8 @@ pre {
   padding: 0.4375rem 0;
   font-size: 1rem;
   line-height: 1.5;
-  color: #495057;
+  color: #000000;
+  font-weight: bold;
   background-color: rgba(0, 0, 0, 0);
   background-clip: padding-box;
   border: 1px solid #d2d2d2;
@@ -1567,22 +1572,27 @@ pre {
     background-color: transparent;
     border: 0; }
   .form-control:focus {
-    color: #495057;
+    color: #000000;
+    font-weight: bold;
     background-color: rgba(0, 0, 0, 0);
     border-color: #9acffa;
     outline: 0;
     box-shadow: none, 0 0 0 0.2rem rgba(33, 150, 243, 0.25); }
   .form-control::-webkit-input-placeholder {
-    color: #6c757d;
+    color: #000000;
+    font-weight: bold;
     opacity: 1; }
   .form-control:-ms-input-placeholder {
-    color: #6c757d;
+    color: #000000;
+    font-weight: bold;
     opacity: 1; }
   .form-control::-ms-input-placeholder {
-    color: #6c757d;
+    color: #000000;
+    font-weight: bold;
     opacity: 1; }
   .form-control::placeholder {
-    color: #6c757d;
+    color: #000000;
+    font-weight: bold;
     opacity: 1; }
   .form-control:disabled, .form-control[readonly] {
     background-color: #e9ecef;
@@ -1592,7 +1602,7 @@ select.form-control:not([size]):not([multiple]) {
   height: calc(2.4375rem + 2px); }
 
 select.form-control:focus::-ms-value {
-  color: #495057;
+  color: #000000;
   background-color: rgba(0, 0, 0, 0); }
 
 .form-control-file,
@@ -9494,7 +9504,7 @@ fieldset[disabled][disabled] .has-rose .form-control, .has-rose .form-control.di
   padding-top: 27px; }
   .bmd-form-group:not(.has-success):not(.has-danger) [class^='bmd-label'].bmd-label-floating,
   .bmd-form-group:not(.has-success):not(.has-danger) [class*=' bmd-label'].bmd-label-floating {
-    color: #AAAAAA; }
+    color: #000000; }
   .bmd-form-group [class^='bmd-label'],
   .bmd-form-group [class*=' bmd-label'] {
     position: absolute;
@@ -9542,7 +9552,7 @@ fieldset[disabled][disabled] .has-rose .form-control, .has-rose .form-control.di
   .bmd-form-group input::placeholder {
     line-height: 1.1; }
   .bmd-form-group label {
-    color: #AAAAAA; }
+    color: #000000; }
   .bmd-form-group .radio label,
   .bmd-form-group label.radio-inline,
   .bmd-form-group .checkbox label,
@@ -9599,7 +9609,7 @@ fieldset[disabled][disabled] .has-rose .form-control, .has-rose .form-control.di
   .bmd-form-group.bmd-form-group-sm input::placeholder {
     line-height: 1.1; }
   .bmd-form-group.bmd-form-group-sm label {
-    color: #AAAAAA; }
+    color: #000000; }
   .bmd-form-group.bmd-form-group-sm .radio label,
   .bmd-form-group.bmd-form-group-sm label.radio-inline,
   .bmd-form-group.bmd-form-group-sm .checkbox label,
@@ -9656,7 +9666,7 @@ fieldset[disabled][disabled] .has-rose .form-control, .has-rose .form-control.di
   .bmd-form-group.bmd-form-group-lg input::placeholder {
     line-height: 1.1; }
   .bmd-form-group.bmd-form-group-lg label {
-    color: #AAAAAA; }
+    color: #000000; }
   .bmd-form-group.bmd-form-group-lg .radio label,
   .bmd-form-group.bmd-form-group-lg label.radio-inline,
   .bmd-form-group.bmd-form-group-lg .checkbox label,
