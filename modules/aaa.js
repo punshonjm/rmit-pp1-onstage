@@ -278,6 +278,9 @@ aaa.createLog = function(req, logType) {
 		console.error("Error.LogManagement.Uncaught @ ", moment().format("YYYY-MM-DD HH:mm:ss"));
 	});
 };
+aaa.hashPassword = function(pwd) {
+	return internal.password.hash(pwd);
+};
 
 module.exports = aaa;
 
