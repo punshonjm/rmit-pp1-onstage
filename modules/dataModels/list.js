@@ -6,7 +6,6 @@ let list = {};
 list.instrument = {};
 list.instrument.query = function(search_query = null) {
 	return Promise.resolve().then(() => {
-
 		let query = internal.query.instruments();
 		if ( search_query != null ) {
 			query.where("i.name like ?", "%"+search_query+"%");
@@ -19,7 +18,6 @@ list.instrument.query = function(search_query = null) {
         } else {
             return Promise.resolve(false);
 		}
-
     });
 };
 
@@ -86,7 +84,6 @@ list.gender.query = function(search_query = null) {
 list.commitment_level = {};
 list.commitment_level.query = function(search_query = null) {
 	return Promise.resolve().then(() => {
-
 		let query = internal.query.commitment_level();
 		if ( search_query != null ) {
 			query.where("i.name like ?", "%"+search_query+"%");
@@ -106,20 +103,37 @@ list.commitment_level.query = function(search_query = null) {
 list.age_bracket = {};
 list.age_bracket.query = function(search_query = null) {
 	return Promise.resolve().then(() => {
-
 		let query = internal.query.age_bracket();
 		if ( search_query != null ) {
 			query.where("i.name like ?", "%"+search_query+"%");
 		}
+
 		return dbc.execute(query);
+    }).then((rows) => {
+        if ( rows ) {
+            return Promise.resolve(rows);
+        } else {
+            return Promise.resolve(false);
+        }
+    });
+};
+
+list.genre = {};
+list.genre.query = function(search_query) {
+    return Promise.resolve().then(() => {
+
+        let query = internal.query.genres();
+        if ( search_query != null ) {
+            query.where("g.name like ?", "%"+search_query+"%");
+        }
+        return dbc.execute(query);
 
     }).then((rows) => {
         if ( rows ) {
             return Promise.resolve(rows);
         } else {
             return Promise.resolve(false);
-		}
-
+        }
     });
 };
 
