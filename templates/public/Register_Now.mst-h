@@ -14,7 +14,7 @@
                                     <form class="search-form">
                                         <div class='row'>
                                             <div class="col-md-12 d-flex justify-content-center registerHeader" style="padding-bottom: 20px;">
-                                                <a href=".band_register" class="btn btn-success btn-raised btn-lg"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Band&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
+                                                <a href="/band_register" class="btn btn-success btn-raised btn-lg"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Band&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
                                                 <span style="font-size: 20px; font-weight: bold; padding-left:10px; padding-right: 10px; padding-top: 20px;">OR</span>
                                                 <a href="/musician_register" class="btn btn-success btn-raised btn-lg">Musician</a>
                                             </div>

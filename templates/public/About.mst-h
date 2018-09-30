@@ -17,12 +17,12 @@
 	</div>
 </div>
 {{/inline}}
-<div class="section text-left">
+<div class="section text-left" id="contactSection">
 	<div class="row">
 		<div class="col-md-8 ml-auto mr-auto">
 			<div class="row">
 				<div class="col-md-12">
-					<h2 class="title">Contact Us</h2>
+					<h2 class="title" >Contact Us</h2>
 				</div>
 				<div class="col-md-12">
 					<form class="search-form">
