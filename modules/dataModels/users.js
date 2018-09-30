@@ -4,6 +4,7 @@ const _ = require("lodash");
 var users = {};
 
 users.details = function(user_id) {
+	// Get Details for specific user
 	var user = {};
 
 	return Promise.resolve().then(() => {
