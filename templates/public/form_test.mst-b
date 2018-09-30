@@ -1,0 +1,23 @@
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+<br/><br/><br/><br/><!-- Not sure what is going on with template and CSS but here is a quick workaround while testing -->
+
+<p>Basic Form Test</p>
+<p>
+	<select title="instrument" class="form-control" id="instruments"></select>
+</p>
+<script>
+    $('#instruments').select2({
+        ajax: {
+            url: 'http://localhost:3000/api/instrument/',
+            data: function (params) {
+                var query = {
+                    search: params.term
+                };
+                return query;
+            }
+        }
+    });
+</script>
