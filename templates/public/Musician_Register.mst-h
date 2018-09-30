@@ -259,21 +259,21 @@
                                                 <div class="form-group bmd-form-group">
                                                     <label>Gig Availability:</label>
                                                     <select class='form-control selectpicker' data-style="btn btn-link">
-														<option value="">Choose...</option>
-														{{#each this.criteria.gig_frequency}}
+														                            <option value="">Choose...</option>
+														                            {{#each this.criteria.gig_frequency}}
                                                         <option value="{{this.id}}">{{this.name}}</option>
-														{{/each}}
+														                            {{/each}}
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group bmd-form-group">
                                                     <label class="radio-inline radio1">
-                                                        <input type="checkbox" name="agree"> I agree to comply with the On Stage <a href="#">Terms &amp; Conditions</a> and <a href="#">Privacy Policy</a>.
+                                                        <input type="checkbox" name="agree"> I agree to comply with the On Stage <a href="/terms" target="_blank">Terms &amp; Conditions</a> and <a href="/privacy_policy" target="_blank">Privacy Policy</a>.
                                                     </label>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12 d-flex justify-content-center registerHeader">
+                                            <div class="col-md-12 d-flex justify-content-center registerHeader" style="padding-bottom: 15px;">
                                                 <button class="btn btn-primary btn-raised btn-lg">Join On Stage Now</button>
                                             </div>
                                         </div>

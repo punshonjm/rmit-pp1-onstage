@@ -1,10 +1,12 @@
 {{#*inline "header_block"}}
-    <div class="page-header header-filter" data-parallax="true" style="background-image: url('{{this.headerImage}}')">
+    <div class="page-header header-filter" data-parallax="false" style="background-image: url('{{this.headerImage}}')">
         <div class="container">
             <div class="row">
-                <div class="col-md-12 ml-auto mr-auto">
+                <div class="col-md-12 ml-auto mr-auto" style="background-color: white; color: black; margin-top: 2500px; padding-bottom: 30px;">
                     <div class="brand">
-                        <h1 class='title'>On Stage Terms and Conditions of Use</h1>
+                        <h1 class='title text-center' style="color: black; font-family: 'Archivo Black', sans-serif;"><a href=""></a> On Stage</h1>
+                        <h1 class="title text-center" style="color: black;">Terms and Conditions of Use</h1>
+                        <div style="padding-left: 30px; padding-right: 30px;">
                         <p>Welcome to On Stage, the service for bands and musicians to meet each other online operated by Codey McCodeface.</p>
                         <p>By using the On Stage Website (the "Website") you agree to be bound by these Terms of Use (this "Agreement"), whether or not you register as a member ("Member") or create a profile ("Profile"). If you wish to become a Member and communicate with other Members and make use of the On Stage service (the "Service"), read these Terms of Use and indicate your acceptance of them by following the instructions in the <span class="font-italic">registration process</span>.</p>
                         <p>This Agreement sets out the legally binding terms of your use of the Website and your membership in the Service and may be modified by On Stage from time to time, such modifications to be effective upon posting by On Stage on the Website. This Agreement includes On Stage's Acceptable Use Policy for Content Posted on the Website, On Stage's Privacy Policy, and any notices regarding the Website.</p>
@@ -47,7 +49,8 @@
                             <li><span class="font-weight-bold">Indemnity</span>. You agree to indemnify and hold On Stage, its subsidiaries, affiliates, officers, agents, and other partners and employees, harmless from any loss, liability, claim, or demand, including reasonable attorney's fees, made by any third party due to or arising out of your use of the Service in violation of this Agreement and/or arising from a breach of this Agreement and/or any breach of your representations and warranties set forth above.</li>
                             <li><span class="font-weight-bold">Other</span>. This Agreement, accepted upon use of the Website and further affirmed by becoming a Member of the Service, contains the entire agreement between you and On Stage regarding the use of the Website and/or the Service. If any provision of this Agreement is held invalid, the remainder of this Agreement shall continue in full force and effect.</li>
                         </ol>
-                        <p>Please <a href="/about">contact us</a> if you have any questions regarding this agreement.</p>
+                        <p>Please <a href="/about#contactSection">contact us</a> if you have any questions regarding this agreement.</p>
+                        </div>
                     </div>
                 </div>
             </div>

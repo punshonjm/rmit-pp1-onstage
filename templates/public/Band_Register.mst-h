@@ -3,7 +3,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-4 ml-auto mr-auto" style="font-size: 28px; font-weight: bold; margin-top: 1900px;">
-                    <div class="card card-login">
+                    <div class="card card-login" style="background-color: white;">
                         <div class="card-body px-2" id="loginForm">
                             <div class='row'>
                                 <div class='col-md-12 registerHeader'>
@@ -56,7 +56,19 @@
                                             <div class="col-md-12">
                                                 <div class="form-group bmd-form-group">
                                                     <label class="bmd-label-floating">Band Size:</label>
-                                                    <input id="bandSize" type="text" class="form-control" required>
+                                                    <br />
+                                                    <br />
+                                                    <select>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                        <option>5</option>
+                                                        <option>6</option>
+                                                        <option>7</option>
+                                                        <option>8</option>
+                                                        <option>9</option>
+                                                        <option>10+</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
@@ -65,11 +77,11 @@
                                                     <br />
                                                     <br />
                                                     <select>
-                                                        <option>1</option>
-                                                        <option>2</option>
-                                                        <option>5</option>
-                                                        <option>10</option>
-                                                        <option>20+</option>
+                                                        <option>1 year</option>
+                                                        <option>2 years</option>
+                                                        <option>5 years</option>
+                                                        <option>10 years</option>
+                                                        <option>20+ years</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -207,11 +219,11 @@
                                                     <br />
                                                     <br />
                                                     <select>
-                                                        <option>1</option>
-                                                        <option>2</option>
-                                                        <option>5</option>
-                                                        <option>10</option>
-                                                        <option>20+</option>
+                                                        <option>1 year</option>
+                                                        <option>2 years</option>
+                                                        <option>5 years</option>
+                                                        <option>10 years</option>
+                                                        <option>20+ years</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -243,7 +255,6 @@
                                                         <option>5 nights p/week</option>
                                                         <option>6 nights p/week</option>
                                                         <option>7 nights p/week</option>
-                                                        <option>8 days p/week</option>
                                                         <option>Touring</option>
                                                     </select>
                                                 </div>
@@ -265,7 +276,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group bmd-form-group">
                                                     <label class="radio-inline radio1">
-                                                        <input type="checkbox" name="agree"> I agree to comply with the On Stage <a href="/terms">Terms &amp; Conditions</a> and <a href="privacy_policy">Privacy Policy</a>.
+                                                        <input type="checkbox" name="agree"> I agree to comply with the On Stage <a href="/terms" target="_blank">Terms &amp; Conditions</a> and <a href="/privacy_policy" target="_blank">Privacy Policy</a>.
                                                     </label>
                                                 </div>
                                             </div>
