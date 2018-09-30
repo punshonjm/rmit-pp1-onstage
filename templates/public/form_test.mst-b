@@ -5,11 +5,19 @@
 <br/><br/><br/><br/><!-- Not sure what is going on with template and CSS but here is a quick workaround while testing -->
 
 <p>Basic Form Test</p>
-<p>
-	<select title="instrument" class="form-control" id="instruments"></select>
-</p>
+<form>
+    <div class="form-group">
+        <label for="id_instrument_single">Instrument (Single)</label>
+        <select class="select2-test js-example-basic-single js-states form-control" id="id_instrument_single"></select>
+    </div>
+    <div class="form-group">
+        <label for="id_instrument_multiple">Instrument (Multiple)</label>
+        <select class="select2-test js-example-basic-multiple js-states form-control" id="id_instrument_multiple" multiple="multiple"></select>
+    </div>
+</form>
+
 <script>
-    $('#instruments').select2({
+    $('.select2-test').select2({
         ajax: {
             url: 'http://localhost:3000/api/instrument/',
             data: function (params) {
