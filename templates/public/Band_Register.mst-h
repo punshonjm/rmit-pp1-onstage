@@ -36,21 +36,10 @@
                                                     <input id="password" type="password" class="form-control" required>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
+											<div class="col-md-12">
                                                 <div class="form-group bmd-form-group">
-                                                    <label class="bmd-label-floating">City:</label>
-                                                    <br />
-                                                    <br />
-                                                    <select>
-                                                        <option>Adelaide</option>
-                                                        <option>Brisbane</option>
-                                                        <option>Canberra</option>
-                                                        <option>Darwin</option>
-                                                        <option>Hobart</option>
-                                                        <option>Melbourne</option>
-                                                        <option>Perth</option>
-                                                        <option>Sydney</option>
-                                                    </select>
+                                                    <label class="bmd-label-floating">Postcode:</label>
+                                                    <input id="postcode" type="text" class="form-control" required>
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
@@ -85,51 +74,43 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group bmd-form-group">
-                                                    <label class="bmd-label-floating">Band&apos;s Music Genres:</label>
-                                                    <br />
-                                                    <br />
-                                                    <label class="radio-inline">
-                                                        <select multiple size="60" style="overflow: hidden;">
-                                                            <option>Accoustic</option>
-                                                            <option>Alternative</option>
-                                                            <option>Bluegrass</option>
-                                                            <option>Blues</option>
-                                                            <option>Celtic</option>
-                                                            <option>Christian / Gospel</option>
-                                                            <option>Christian</option>
-                                                            <option>Contempory</option>
-                                                            <option>Classic Rock</option>
-                                                            <option>Classical</option>
-                                                            <option>Country</option>
-                                                            <option>Cover/Tribute</option>
-                                                            <option>Electronic</option>
-                                                            <option>Folk</option>
-                                                            <option>Funk</option>
-                                                            <option>Hip-Hop/Rap</option>
-                                                            <option>Jazz</option>
-                                                            <option>Latin</option>
-                                                            <option>Lounge</option>
-                                                            <option>Metal</option>
-                                                            <option>Pop</option>
-                                                            <option>Progressive</option>
-                                                            <option>Punk</option>
-                                                            <option>R&amp;B</option>
-                                                            <option>Reggae</option>
-                                                            <option>Rock</option>
-                                                            <option>Ska</option>
-                                                            <option>Southern Rock</option>
-                                                            <option>World</option>
-                                                        </select> You may choose more than one by holding down control
-                                                    </label>
-                                                </div>
+                                            <div class="col-md-12 d-flex justify-content-center">
+												<div class="form-group bmd-form-group">
+													<label class="d-block w-100">Profile Picture:</label>
+													<div class="fileinput fileinput-new text-center" data-provides="fileinput">
+														<div class="fileinput-new thumbnail img-raised">
+															<img src="http://style.anu.edu.au/_anu/4/images/placeholders/person_8x10.png" alt="...">
+														</div>
+														<div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
+														<div>
+															<span class="btn btn-raised btn-round btn-default btn-file" data-trigger="fileinput">
+																<span class="fileinput-new">Select image</span>
+																<span class="fileinput-exists">Change</span>
+																<input type="file" name="..." />
+															</span>
+															<a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+														</div>
+													</div>
+												</div>
                                             </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group bmd-form-group">
-                                                    <label class="bmd-label-floating">Profile Picture:</label>
-                                                    <input type="file" name="fileupload" value="fileupload" id="fileupload">
-                                                </div>
+                                            <div class="col-md-12 d-flex justify-content-center">
+												<div class="form-group bmd-form-group">
+													<label class="d-block">Profile Background:</label>
+													<div class="fileinput fileinput-new text-center" data-provides="fileinput">
+														<div class="fileinput-new thumbnail img-raised">
+															<img src="{{this.headerImage}}" alt="...">
+														</div>
+														<div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
+														<div>
+															<span class="btn btn-raised btn-round btn-default btn-file" data-trigger="fileinput">
+																<span class="fileinput-new">Select image</span>
+																<span class="fileinput-exists">Change</span>
+																<input type="file" name="..." />
+															</span>
+															<a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+														</div>
+													</div>
+												</div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group bmd-form-group">
@@ -142,20 +123,17 @@
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group bmd-form-group">
-                                                    <label class="bmd-label-floating">Preferred Gender:</label>
-                                                    <br />
-                                                    <label class="radio-inline radio1">
-                                                        <input type="radio" name="gender" checked> Female
-                                                    </label>
-                                                    <label class="radio-inline radio2">
-                                                        <input type="radio" name="gender"> Male
-                                                    </label>
-                                                    <label class="radio-inline radio3">
-                                                        <input type="radio" name="gender"> Non-Binary/Third Gender
-                                                    </label>
-                                                    <label class="radio-inline radio4">
-                                                        <input type="radio" name="gender"> Unspecified
-                                                    </label>
+                                                    <label class="d-block">Preferred Gender:</label>
+													{{#each this.criteria.gender}}
+													<div class="form-check form-check-radio form-check-inline">
+														<label class="form-check-label" for="gender_{{this.id}}">
+															<input class="form-check-input" type="radio" name="gender" id="gender_{{this.id}}" value="{{this.id}}"> {{this.name}}
+															<span class="circle">
+																<span class="check"></span>
+															</span>
+														</label>
+													</div>
+													{{/each}}
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
@@ -173,45 +151,17 @@
                                                     </select>
                                                 </div>
                                             </div>
+											<div class="col-md-12">
+												<div class="form-group bmd-form-group">
+											        <label for="id_instrument_multiple">Instrument (You may choose more than one)</label>
+											        <select class="select2-instrument js-states form-control" id="id_instrument_multiple" multiple="multiple"></select>
+											    </div>
+                                            </div>
                                             <div class="col-md-12">
-                                                <div class="form-group bmd-form-group">
-                                                    <label class="bmd-label-floating">Music Skill Needed:</label>
-                                                    <br />
-                                                    <br />
-                                                    <label class="radio-inline">
-                                                        <select multiple size="4">
-                                                            <option>Accoustic Guitar</option>
-                                                            <option>Background Singer</option>
-                                                            <option>Banjo</option>
-                                                            <option>Bass Guitar</option>
-                                                            <option>Cello</option>
-                                                            <option>Clarinet</option>
-                                                            <option>Drums</option>
-                                                            <option>Fiddle</option>
-                                                            <option>Flute</option>
-                                                            <option>Harmonica</option>
-                                                            <option>Harp</option>
-                                                            <option>Keyboard</option>
-                                                            <option>Lead Guitar</option>
-                                                            <option>Mandolin</option>
-                                                            <option>Percussion</option>
-                                                            <option>Piano</option>
-                                                            <option>Rhythm Guitar</option>
-                                                            <option>Saxophone</option>
-                                                            <option>Steel Guitar</option>
-                                                            <option>Trombone</option>
-                                                            <option>Trumpet</option>
-                                                            <option>Upright bass</option>
-                                                            <option>Violin</option>
-                                                            <option>Vocalist</option>
-                                                            <option>Vocalist - Alto</option>
-                                                            <option>Vocalist - Baritone</option>
-                                                            <option>Vocalist - Bass</option>
-                                                            <option>Vocalist - Soprano</option>
-                                                            <option>Vocalist - Tenor</option>
-                                                        </select> You may choose more than one by holding down control
-                                                    </label>
-                                                </div>
+												<div class="form-group bmd-form-group">
+											        <label for="id_genre_multiple">Genre (You may choose more than one)</label>
+											        <select class="select2-genre js-states form-control" id="id_genre_multiple" multiple="multiple"></select>
+											    </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group bmd-form-group">
@@ -242,34 +192,25 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
+											<div class="col-md-12">
                                                 <div class="form-group bmd-form-group">
-                                                    <label class="bmd-label-floating">Gig Availability:</label>
-                                                    <br />
-                                                    <br />
-                                                    <select>
-                                                        <option>1 night p/week</option>
-                                                        <option>2 nights p/week</option>
-                                                        <option>3 nights p/week</option>
-                                                        <option>4 nights p/week</option>
-                                                        <option>5 nights p/week</option>
-                                                        <option>6 nights p/week</option>
-                                                        <option>7 nights p/week</option>
-                                                        <option>Touring</option>
+                                                    <label>Gig Availability:</label>
+                                                    <select class='form-control selectpicker' data-style="btn btn-link">
+							                            <option value="">Choose...</option>
+							                            {{#each this.criteria.gig_frequency}}
+                                                        <option value="{{this.id}}">{{this.name}}</option>
+							                            {{/each}}
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
+											<div class="col-md-12">
                                                 <div class="form-group bmd-form-group">
-                                                    <label class="bmd-label-floating">Commitment Level:</label>
-                                                    <br />
-                                                    <br />
-                                                    <select>
-                                                        <option>Casual/Fun</option>
-                                                        <option>Moderately committed</option>
-                                                        <option>Committed</option>
-                                                        <option>Very committed</option>
-                                                        <option>Touring</option>
+                                                    <label>Commitment Level:</label>
+                                                    <select class='form-control selectpicker' data-style="btn btn-link">
+														<option value="">Choose...</option>
+														{{#each this.criteria.commitment_level}}
+                                                        <option value="{{this.id}}">{{this.name}}</option>
+														{{/each}}
                                                     </select>
                                                 </div>
                                             </div>
@@ -294,3 +235,38 @@
         </div>
     </div>
 {{/inline}}
+
+
+<script>
+	$(document).ready(function() {
+		$('.select2-instrument').select2({
+			placeholder: "Choose instruments...",
+	        ajax: {
+	            url: '/api/instrument/',
+	            data: function (params) {
+	                var query = {
+	                    search: params.term
+	                };
+	                return query;
+	            }
+	        },
+	        theme: "material"
+	    });
+
+	    $('.select2-genre').select2({
+			placeholder: "Choose genres...",
+	        ajax: {
+	            url: '/api/genre/',
+	            data: function (params) {
+	                var query = {
+	                    search: params.term
+	                };
+	                return query;
+	            }
+	        },
+	        theme: "material"
+	    });
+
+		$(".select2-selection__arrow").addClass("material-icons").html("arrow_drop_down");
+	});
+</script>
