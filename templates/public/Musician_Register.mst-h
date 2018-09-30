@@ -1,213 +1,220 @@
 {{#*inline "header_block"}}
-    <div class="page-header header-filter" data-parallax="true" style="background-image: url('{{this.headerImage}}')">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-4 ml-auto mr-auto" style="font-size: 28px; font-weight: bold; margin-top: 2200px;">
-                    <div class="card card-login">
-                        <div class="card-body px-2" id="loginForm">
-                            <div class='row'>
-                                <div class='col-md-12 registerHeader'>
-                                    <h2 class="card-title text-center">Musician Registration</h2>
-                                </div>
-                                <div class='col-md-12'>
-                                    <form class="search-form">
-                                        <div class='row'>
-                                            <div class="col-md-12">
-                                                <div class="form-group bmd-form-group">
-                                                    <label class="bmd-label-floating">Full Name:</label>
-                                                    <input id="name" type="text" class="form-control" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group bmd-form-group">
-                                                    <label class="d-block">Gender:</label>
-													{{#each this.criteria.gender}}
-													<div class="form-check form-check-radio form-check-inline">
-														<label class="form-check-label" for="gender_{{this.id}}">
-															<input class="form-check-input" type="radio" name="gender" id="gender_{{this.id}}" value="{{this.id}}"> {{this.name}}
-															<span class="circle">
-																<span class="check"></span>
-															</span>
-														</label>
-													</div>
-													{{/each}}
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group bmd-form-group">
-                                                    <label>Age Bracket:</label>
-                                                    <select class='form-control'>
-														<option value="">Choose...</option>
-														{{#each this.criteria.age_bracket}}
-                                                        <option value="{{this.id}}">{{this.name}}</option>
-														{{/each}}
-                                                        <option value="Unspecified">Unspecified</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group bmd-form-group">
-                                                    <label class="bmd-label-floating">Username:</label>
-                                                    <input id="username" type="text" class="form-control" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group bmd-form-group">
-                                                    <label class="bmd-label-floating">Email:</label>
-                                                    <input id="email" type="text" class="form-control" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group bmd-form-group">
-                                                    <label class="bmd-label-floating">Password:</label>
-                                                    <input id="password" type="password" class="form-control" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group bmd-form-group">
-                                                    <label class="bmd-label-floating">Postcode:</label>
-                                                    <input id="postcode" type="text" class="form-control" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 d-flex justify-content-center">
-												<div class="form-group bmd-form-group">
-													<label class="d-block w-100">Profile Picture:</label>
-													<div class="fileinput fileinput-new text-center" data-provides="fileinput">
-														<div class="fileinput-new thumbnail img-raised">
-															<img src="http://style.anu.edu.au/_anu/4/images/placeholders/person_8x10.png" alt="...">
-														</div>
-														<div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
-														<div>
-															<span class="btn btn-raised btn-round btn-default btn-file" data-trigger="fileinput">
-																<span class="fileinput-new">Select image</span>
-																<span class="fileinput-exists">Change</span>
-																<input type="file" name="..." />
-															</span>
-															<a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
-														</div>
-													</div>
-												</div>
-                                            </div>
-                                            <div class="col-md-12 d-flex justify-content-center">
-												<div class="form-group bmd-form-group">
-													<label class="d-block">Profile Background:</label>
-													<div class="fileinput fileinput-new text-center" data-provides="fileinput">
-														<div class="fileinput-new thumbnail img-raised">
-															<img src="{{this.headerImage}}" alt="...">
-														</div>
-														<div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
-														<div>
-															<span class="btn btn-raised btn-round btn-default btn-file" data-trigger="fileinput">
-																<span class="fileinput-new">Select image</span>
-																<span class="fileinput-exists">Change</span>
-																<input type="file" name="..." />
-															</span>
-															<a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
-														</div>
-													</div>
-												</div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group bmd-form-group">
-                                                    <label class="bmd-label-floating">About Me:</label>
-                                                    <textarea id="aboutMe" class="form-control" rows="4"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group bmd-form-group">
-                                                    <label class="d-block font-weight-bold">Current Status:</label>
-													{{#each this.criteria.status}}
-													<div class="form-check form-check-radio form-check-inline">
-														<label class="form-check-label" for="status_{{this.id}}">
-															<input class="form-check-input" type="radio" name="status" id="status_{{this.id}}" value="{{this.id}}"> {{this.name}}
-															<span class="circle">
-																<span class="check"></span>
-															</span>
-														</label>
-													</div>
-													{{/each}}
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group bmd-form-group">
-                                                    <label>Years of Experience:</label>
-                                                    <select class='form-control'>
-                                                        <option>1</option>
-                                                        <option>2</option>
-                                                        <option>5</option>
-                                                        <option>10</option>
-                                                        <option>20+</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group bmd-form-group">
-                                                    <label>Past Gigs:</label>
-                                                    <select class='form-control'>
-                                                        <option>10</option>
-                                                        <option>20</option>
-                                                        <option>30</option>
-                                                        <option>40</option>
-                                                        <option>50</option>
-                                                        <option>60+</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-												<div class="form-group bmd-form-group">
-											        <label for="id_instrument_multiple">Instrument (You may choose more than one)</label>
-											        <select class="select2-instrument js-states form-control" id="id_instrument_multiple" multiple="multiple"></select>
-											    </div>
-                                            </div>
-                                            <div class="col-md-12">
-												<div class="form-group bmd-form-group">
-											        <label for="id_genre_multiple">Genre (You may choose more than one)</label>
-											        <select class="select2-genre js-states form-control" id="id_genre_multiple" multiple="multiple"></select>
-											    </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group bmd-form-group">
-                                                    <label>Commitment Level:</label>
-                                                    <select class='form-control selectpicker' data-style="btn btn-link">
-														<option value="">Choose...</option>
-														{{#each this.criteria.commitment_level}}
-                                                        <option value="{{this.id}}">{{this.name}}</option>
-														{{/each}}
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group bmd-form-group">
-                                                    <label>Gig Availability:</label>
-                                                    <select class='form-control selectpicker' data-style="btn btn-link">
-							                            <option value="">Choose...</option>
-							                            {{#each this.criteria.gig_frequency}}
-                                                        <option value="{{this.id}}">{{this.name}}</option>
-							                            {{/each}}
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group bmd-form-group">
-                                                    <label class="radio-inline radio1">
-                                                        <input type="checkbox" name="agree"> I agree to comply with the On Stage <a href="/terms" target="_blank">Terms &amp; Conditions</a> and <a href="/privacy_policy" target="_blank">Privacy Policy</a>.
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 d-flex justify-content-center registerHeader" style="padding-bottom: 15px;">
-                                                <button class="btn btn-primary btn-raised btn-lg">Join On Stage Now</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="page-header header-filter" style="background-image: url('{{this.headerImage}}'); height:250px; ">
+    <div class="container"></div>
+</div>
 {{/inline}}
+
+<div class="row">
+	<div class="col-lg-8 col-lg-4 ml-auto mr-auto" style="font-size: 28px; font-weight: bold;">
+		<div class='row'>
+			<div class='col-md-12 text-center'>
+				<h2>Musician Registration</h2>
+			</div>
+			<div class='col-md-12'>
+				<form class="search-form">
+					<div class='row pb-2'>
+						<div class="col-md-12">
+							<div class="form-group bmd-form-group">
+								<label class="bmd-label-floating">Full Name:</label>
+								<input id="name" type="text" class="form-control" required>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group bmd-form-group">
+								<label class="d-block">Gender:</label>
+								{{#each this.criteria.gender}}
+								<div class="form-check form-check-radio form-check-inline">
+									<label class="form-check-label" for="gender_{{this.id}}">
+										<input class="form-check-input" type="radio" name="gender" id="gender_{{this.id}}" value="{{this.id}}"> {{this.name}}
+										<span class="circle">
+											<span class="check"></span>
+										</span>
+									</label>
+								</div>
+								{{/each}}
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group bmd-form-group">
+								<label>Age Bracket:</label>
+								<select class='form-control'>
+									<option value="">Choose...</option>
+									{{#each this.criteria.age_bracket}}
+									<option value="{{this.id}}">{{this.name}}</option>
+									{{/each}}
+									<option value="Unspecified">Unspecified</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group bmd-form-group">
+								<label class="bmd-label-floating">Username:</label>
+								<input id="username" type="text" class="form-control" required>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group bmd-form-group">
+								<label class="bmd-label-floating">Email:</label>
+								<input id="email" type="text" class="form-control" required>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group bmd-form-group">
+								<label class="bmd-label-floating">Password:</label>
+								<input id="password" type="password" class="form-control" required>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group bmd-form-group">
+								<label class="bmd-label-floating">Confirm Password:</label>
+								<input id="passwordConfirm" type="password" class="form-control" required>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group bmd-form-group">
+								<label class="bmd-label-floating">Postcode:</label>
+								<input id="postcode" type="text" class="form-control" required>
+							</div>
+						</div>
+						<div class="col-md-6 d-flex justify-content-center">
+							<div class="form-group bmd-form-group">
+								<label class="d-block w-100">Profile Picture:</label>
+								<div class="fileinput fileinput-new text-center" data-provides="fileinput">
+									<div class="fileinput-new thumbnail img-raised">
+										<img src="http://style.anu.edu.au/_anu/4/images/placeholders/person_8x10.png" alt="...">
+									</div>
+									<div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
+									<div>
+										<span class="btn btn-raised btn-round btn-default btn-file" data-trigger="fileinput">
+											<span class="fileinput-new">Select image</span>
+											<span class="fileinput-exists">Change</span>
+											<input type="file" name="..." />
+										</span>
+										<a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 d-flex justify-content-center">
+							<div class="form-group bmd-form-group">
+								<label class="d-block">Profile Background:</label>
+								<div class="fileinput fileinput-new text-center" data-provides="fileinput">
+									<div class="fileinput-new thumbnail img-raised">
+										<img src="{{this.headerImage}}" alt="...">
+									</div>
+									<div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
+									<div>
+										<span class="btn btn-raised btn-round btn-default btn-file" data-trigger="fileinput">
+											<span class="fileinput-new">Select image</span>
+											<span class="fileinput-exists">Change</span>
+											<input type="file" name="..." />
+										</span>
+										<a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group bmd-form-group">
+								<label class="bmd-label-floating">About Me:</label>
+								<textarea id="aboutMe" class="form-control" rows="4"></textarea>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group bmd-form-group">
+								<label class="d-block font-weight-bold">Current Status:</label>
+								{{#each this.criteria.status}}
+								<div class="form-check form-check-radio form-check-inline">
+									<label class="form-check-label" for="status_{{this.id}}">
+										<input class="form-check-input" type="radio" name="status" id="status_{{this.id}}" value="{{this.id}}"> {{this.name}}
+										<span class="circle">
+											<span class="check"></span>
+										</span>
+									</label>
+								</div>
+								{{/each}}
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group bmd-form-group">
+								<label>Music Experience:</label>
+								<select class='form-control'>
+									<option>1</option>
+									<option>2</option>
+									<option>5</option>
+									<option>10</option>
+									<option>20+</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group bmd-form-group">
+								<label>Past Gigs:</label>
+								<select class='form-control'>
+									<option>10</option>
+									<option>20</option>
+									<option>30</option>
+									<option>40</option>
+									<option>50</option>
+									<option>60+</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group bmd-form-group">
+								<label for="id_instrument_multiple">Instrument/s Played (You may choose more than one)</label>
+								<select class="select2-instrument js-states form-control" id="id_instrument_multiple" multiple="multiple"></select>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group bmd-form-group">
+								<label for="id_genre_multiple">Genres Played (You may choose more than one)</label>
+								<select class="select2-genre js-states form-control" id="id_genre_multiple" multiple="multiple"></select>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group bmd-form-group">
+								<label>Commitment Level:</label>
+								<select class='form-control selectpicker' data-style="btn btn-link">
+									<option value="">Choose...</option>
+									{{#each this.criteria.commitment_level}}
+									<option value="{{this.id}}">{{this.name}}</option>
+									{{/each}}
+								</select>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group bmd-form-group">
+								<label>Gig Availability:</label>
+								<select class='form-control selectpicker' data-style="btn btn-link">
+									<option value="">Choose...</option>
+									{{#each this.criteria.gig_frequency}}
+									<option value="{{this.id}}">{{this.name}}</option>
+									{{/each}}
+								</select>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group bmd-form-group">
+								<div class="form-check form-check-inline">
+									<label class="form-check-label" for="agree">
+										<input class="form-check-input" type="checkbox" name="gender" id="agree" value="yes"> I agree to comply with the On Stage <a href="/terms" target="_blank">Terms &amp; Conditions</a> and <a href="privacy_policy" target="_blank">Privacy Policy</a>.
+										<span class="form-check-sign">
+											<span class="check"></span>
+										</span>
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12 d-flex justify-content-center">
+							<button class="btn btn-primary btn-raised btn-lg">Join On Stage Now</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 
 <script>
 	$(document).ready(function() {
