@@ -3,23 +3,44 @@ const dbc = require("@modules/dbc");
 
 let list = {};
 list.instrument = {};
+list.genre = {};
 
 list.instrument.query = function(search_query) {
 
     return Promise.resolve().then(() => {
 
-		let query = internal.query.instruments();
-		if ( search_query != null ) {
-			query.where("i.name like ?", "%"+search_query+"%");
-		}
-		return dbc.execute(query);
+        let query = internal.query.instruments();
+        if ( search_query != null ) {
+            query.where("i.name like ?", "%"+search_query+"%");
+        }
+        return dbc.execute(query);
 
     }).then((rows) => {
         if ( rows ) {
             return Promise.resolve(rows);
         } else {
             return Promise.resolve(false);
-		}
+        }
+
+    });
+};
+
+list.genre.query = function(search_query) {
+
+    return Promise.resolve().then(() => {
+
+        let query = internal.query.genres();
+        if ( search_query != null ) {
+            query.where("g.name like ?", "%"+search_query+"%");
+        }
+        return dbc.execute(query);
+
+    }).then((rows) => {
+        if ( rows ) {
+            return Promise.resolve(rows);
+        } else {
+            return Promise.resolve(false);
+        }
 
     });
 };
