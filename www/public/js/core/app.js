@@ -17,7 +17,7 @@ $(document).ready(function() {
 	pageApp.setup();
 }).on("click", "#logout", function() {
 	pageApp.logout();
-});
+})
 
 // Add additional global functions
 if (!String.isNullOrEmpty) {

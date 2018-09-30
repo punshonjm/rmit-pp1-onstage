@@ -20,7 +20,7 @@ aaa.sessionManagement = function( req, res, next ) {
 	req.user = false;
 
 	let publicPaths = _.cloneDeep(app.publicPaths);
-	publicPaths.push("/login", "/public", "/user/.*/report");
+	publicPaths.push("/login", "/public", "/user/.*/report", "/api/instruments", "/api/genre");
 	if (publicPaths.includes(req.url) || req.url == "/") {
 		authenticationRequired = false;
 	} else {
@@ -277,6 +277,9 @@ aaa.createLog = function(req, logType) {
 		console.error(error);
 		console.error("Error.LogManagement.Uncaught @ ", moment().format("YYYY-MM-DD HH:mm:ss"));
 	});
+};
+aaa.hashPassword = function(pwd) {
+	return internal.password.hash(pwd);
 };
 
 module.exports = aaa;

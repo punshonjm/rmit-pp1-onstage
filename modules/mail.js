@@ -8,7 +8,7 @@ var mail = {};
 var internal = {};
 
 //Function to send custom email
-mail.send = function(to, subject, content) {
+mail.send = function(to, name, subject, content) {
 	return Promise.resolve().then(() => {
 		let details = {
 			"to": to,
@@ -21,9 +21,10 @@ mail.send = function(to, subject, content) {
 };
 
 //function to send registration email
-mail.send.registration = function(to, verificationKey) {
+mail.send.registration = function(to, name, verificationKey) {
 	return Promise.resolve().then(() => {
 		var data = {
+			display_name: name,
 			verification_link: `${verificationKey}`
 		};
 
@@ -40,9 +41,10 @@ mail.send.registration = function(to, verificationKey) {
 };
 
 //function sends a password reset email
-mail.send.passwordReset = function(to, resetKey) {
+mail.send.passwordReset = function(to, name, resetKey) {
 	return Promise.resolve().then(() => {
 		var data = {
+			display_name: name,
 			reset_link: `${resetKey}`
 		};
 
