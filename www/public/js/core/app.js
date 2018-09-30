@@ -1,18 +1,23 @@
+var pageApp = {};
 window.app = {};
 
-window.app.logout = function() {
+pageApp.logout = function() {
 	$.get("/logout", function(res) {
-		
+
 	}).always(function() {
 		window.location.reload();
 	});
-}
+};
+
+pageApp.setup = function() {
+	$(".modal").appendTo("body");
+};
 
 $(document).ready(function() {
-
+	pageApp.setup();
 }).on("click", "#logout", function() {
-	window.app.logout();
-});
+	pageApp.logout();
+})
 
 // Add additional global functions
 if (!String.isNullOrEmpty) {

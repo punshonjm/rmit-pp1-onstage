@@ -65,3 +65,4 @@ typings/
 # Configuration Files
 config.json
 package-lock.json
+nodemon.json

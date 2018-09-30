@@ -1,3 +1,16 @@
+{{#*inline "header_block"}}
+<div class="page-header header-filter" data-parallax="true" style="background-image: url('{{this.headerImage}}')">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 ml-auto mr-auto">
+				<div class="brand">
+					<h1 class='title'>Sorry! You don't have access to this part of the venue.</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{{/inline}}
 <div class="section text-center">
 	<div class="row">
 		<div class="col-md-8 ml-auto mr-auto">

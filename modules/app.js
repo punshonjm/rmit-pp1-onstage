@@ -1,26 +1,53 @@
 const fs = require("fs");
 const path = require("path");
+const moment = require("moment");
+const slowDown = require("express-slow-down");
+const rateLimit = require("express-rate-limit");
+// const templating = require("@modules/templating");
 
 var app = {};
 app.publicPaths = [];
 app.adminPaths = [];
+app.privatePaths = [];
+
+app.slowDown = slowDown({
+	windowMs: 15 * 60 * 1000,
+	delayAfter: 5,
+	delayMs: 100
+});
+app.rateLimit = rateLimit({
+	windowMs: 15 * 60 * 1000,
+	max: 100
+});
 
 app.handleError = function( error, req, res ) {
-    if ( "authenticationError" in error ) {
+	if ( ("authenticationError" in error) ) {
 		res.status(401).json({ message: error.message }).end();
 	} else {
-		console.log(error);
-
 		var statusCode = 500;
-		if ( "status" in error ) {
+		if ( ("status" in error) ) {
 			statusCode = Number(error.status) || 500;
 		}
 
-		if ( ("message" in error) && !("fileName" in error) && !("lineNumber" in error) ) {
-            res.status(statusCode).json({ message: error.message }).end();
-        } else {
-            res.status(statusCode).end();
-        }
+		if ( ("error" in error) && ("sql" in error.error) ) {
+			console.error("=========================================");
+			console.error("SQL Error @ ", moment().format("YYYY-MM-DD HH:mm:ss"));
+			console.error(error.error.sqlMessage);
+			console.error("=========================================");
+		} else {
+			console.log(error);
+		}
+
+		if ( req.originalUrl.includes("api") || ( ("isApi" in req) && req.isApi == true) ) {
+			if ( ("message" in error) && !("fileName" in error) && !("lineNumber" in error) ) {
+	            res.status(statusCode).json({ message: error.message }).end();
+	        } else {
+	            res.status(statusCode).json({ message: "Whoops! An error occured." }).end();
+	        }
+		} else {
+			req.session.error = error;
+			res.redirect('/whoops');
+		}
 	}
 }
 
