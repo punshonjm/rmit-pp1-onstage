@@ -20,7 +20,7 @@ aaa.sessionManagement = function( req, res, next ) {
 	req.user = false;
 
 	let publicPaths = _.cloneDeep(app.publicPaths);
-	publicPaths.push("/login", "/public", "/user/.*/report");
+	publicPaths.push("/login", "/public", "/user/.*/report", "/api/instruments", "/api/genre");
 	if (publicPaths.includes(req.url) || req.url == "/") {
 		authenticationRequired = false;
 	} else {

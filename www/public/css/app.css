@@ -1,10 +1,10 @@
 body, wrapper {
-	min-height:100vh;
+	min-height: 100vh;
 	background-color: whitesmoke;
 }
 
 .flex-fill {
-	flex:1 1 auto;
+	flex: 1 1 auto;
 }
 
 .email_verification_warning {
@@ -35,6 +35,8 @@ body, wrapper {
 .copyright, .copyright a {
     color: black;
 }
+
+
 
 /* File Upload Button Styling */
 .btn-file {
