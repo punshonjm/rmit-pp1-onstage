@@ -8,12 +8,10 @@ router.get("/", (req, res) => {
         return models.list.instrument.query(search);
     }).then((instrument) => {
         // Convert into Select2 format and return
-        var instrumentRemap = instrument.map(row => {
-            return {
-                id: row.id,
-                text: row.name
-            };
-        });
+        var instrumentRemap = instrument.map(row => ({
+            id: row.id,
+            text: row.name
+        }));
         res.status(200)
             .json({results: instrumentRemap})
             .end();
