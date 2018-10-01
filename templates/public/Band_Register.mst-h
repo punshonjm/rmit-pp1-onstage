@@ -57,7 +57,7 @@
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label>Music Experience:</label>
-								<select class='form-control'>
+								<select id="music_experience" class='form-control'>
 									<option>1</option>
 									<option>2</option>
 									<option>5</option>
@@ -84,7 +84,7 @@
 										<span class="btn btn-raised btn-round btn-default btn-file" data-trigger="fileinput">
 											<span class="fileinput-new">Select image</span>
 											<span class="fileinput-exists">Change</span>
-											<input type="file" name="..." />
+											<input type="file" name="profile" id="profile" />
 										</span>
 										<a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
 									</div>
@@ -103,7 +103,7 @@
 										<span class="btn btn-raised btn-round btn-default btn-file" data-trigger="fileinput">
 											<span class="fileinput-new">Select image</span>
 											<span class="fileinput-exists">Change</span>
-											<input type="file" name="..." />
+											<input type="file" name="background" id="background" />
 										</span>
 										<a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
 									</div>
@@ -139,7 +139,7 @@
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label>Number of Members Needed:</label>
-								<select class='form-control'>
+								<select id="members_needed" class='form-control'>
 									<option>1</option>
 									<option>2</option>
 									<option>3</option>
@@ -170,7 +170,7 @@
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label>Music Experience:</label>
-								<select class='form-control'>
+								<select id="required_music_experience" class='form-control'>
 									<option>1</option>
 									<option>2</option>
 									<option>5</option>
@@ -182,7 +182,7 @@
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label>Past Gigs:</label>
-								<select class='form-control'>
+								<select id="past_gigs" class='form-control'>
 									<option>10</option>
 									<option>20</option>
 									<option>30</option>
@@ -195,7 +195,7 @@
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label>Gig Availability:</label>
-								<select class='form-control selectpicker' data-style="btn btn-link">
+								<select id="gig_frequency" class='form-control selectpicker' data-style="btn btn-link">
 									<option value="">Choose...</option>
 									{{#each this.criteria.gig_frequency}}
 									<option value="{{this.id}}">{{this.name}}</option>
@@ -206,7 +206,7 @@
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label>Commitment Level:</label>
-								<select class='form-control selectpicker' data-style="btn btn-link">
+								<select id="commitment_level" class='form-control selectpicker' data-style="btn btn-link">
 									<option value="">Choose...</option>
 									{{#each this.criteria.commitment_level}}
 									<option value="{{this.id}}">{{this.name}}</option>
@@ -214,11 +214,13 @@
 								</select>
 							</div>
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-12 mt-3">
+							<p>To join On Stage you must comply with our <a href="/terms_and_conditions" target="_blank">Terms &amp; Conditions</a> and agree with our <a href="privacy_policy" target="_blank">Privacy Policy</a>.</p>
 							<div class="form-group bmd-form-group">
-								<div class="form-check form-check-inline">
-									<label class="form-check-label" for="agree">
-										<input class="form-check-input" type="checkbox" name="gender" id="agree" value="yes"> I agree to comply with the On Stage <a href="/terms_and_conditions" target="_blank">Terms &amp; Conditions</a> and <a href="privacy_policy" target="_blank">Privacy Policy</a>.
+								<div class="form-check">
+									<label class="form-check-label">
+										<input class="form-check-input" type="checkbox" name="agree" id="agree" value="yes">
+										By ticking this box you agree to the Terms &amp; Conditions and the Privacy Policy of On Stage.
 										<span class="form-check-sign">
 											<span class="check"></span>
 										</span>

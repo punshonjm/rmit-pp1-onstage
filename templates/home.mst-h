@@ -28,45 +28,102 @@
 				<div class="col-md-12">
 					<form class="search-form">
 						<div class="row">
-							<div class="col-md-3">
-								<div class="form-group">
+							<div class="col-md-4">
+								<div class="form-group bmd-form-group">
 									<label for="musician">Musician/Band</label>
-									<select class="form-control selectpicker" data-style="btn btn-link" id="musician">
-										<option>Choose...</option>
+									<select class="form-control select2-user_type js-states" id="musician" multiple="multiple">
+										<option>Band</option>
+										<option>Musician</option>
 									</select>
 								</div>
 							</div>
-							<div class="col-md-3">
-								<div class="form-group">
-									<label for="musician">Instruments</label>
-									<select class="form-control selectpicker" data-style="btn btn-link" id="instrument">
-										<option>Choose...</option>
-									</select>
+							<div class="col-md-4">
+								<div class="form-group bmd-form-group">
+									<label for="id_instrument_multiple">Instrument/s</label>
+									<select class="select2-instrument js-states form-control" id="id_instrument_multiple" multiple="multiple"></select>
 								</div>
 							</div>
-							<div class="col-md-3">
-								<div class="form-group">
-									<label for="musician">Genre</label>
-									<select class="form-control selectpicker" data-style="btn btn-link" id="genre">
-										<option>Choose...</option>
-									</select>
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="form-group">
-									<label for="musician">Location</label>
-									<select class="form-control selectpicker" data-style="btn btn-link" id="musician">
-										<option value="">Choose...</option>
-									</select>
+							<div class="col-md-4">
+								<div class="form-group bmd-form-group">
+									<label for="id_genre_multiple">Genre/s</label>
+									<select class="select2-genre js-states form-control" id="id_genre_multiple" multiple="multiple"></select>
 								</div>
 							</div>
 							<div class="col-md-12 d-flex justify-content-end mt-2">
-								<button class="btn btn-primary btn-raised btn-lg">Search</button>
+								<button class="btn btn-primary btn-lg">Search</button>
 							</div>
 						</div>
 					</form>
 				</div>
 			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="info text-center">
+						<div class="icon icon-primary">
+							<i class="material-icons">chat</i>
+						</div>
+						<h4 class="info-title">Reach Out for Free</h4>
+						<p>Matched with an artist or band you are keen to collaborate and jam with? Reach out to them through the website for no additional cost.</p>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="info text-center">
+						<div class="icon icon-primary">
+							<i class="fa fa-lock"></i>
+						</div>
+						<h4 class="info-title">Safe & Secure</h4>
+						<p>Keeping you safe is a big focus for On Stage. Wtih content monitoring and strong user reporting system, you're in good hands!</p>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="info text-center">
+						<div class="icon icon-primary">
+							<i class="material-icons">mobile_friendly</i>
+						</div>
+						<h4 class="info-title">Mobile Friendly</h4>
+						<p>On Stage was developed with a mobile first attitude, meaning you can trust it will work while you're out on the road. </p>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
+
+<script>
+	$(document).ready(function() {
+		$('.select2-instrument').select2({
+			placeholder: "Choose instruments...",
+	        ajax: {
+	            url: '/api/instrument/',
+	            data: function (params) {
+	                var query = {
+	                    search: params.term
+	                };
+	                return query;
+	            }
+	        },
+	        theme: "material"
+	    });
+
+		$('.select2-user_type').select2({
+			placeholder: "Choose type...",
+	        theme: "material"
+	    });
+
+	    $('.select2-genre').select2({
+			placeholder: "Choose genres...",
+	        ajax: {
+	            url: '/api/genre/',
+	            data: function (params) {
+	                var query = {
+	                    search: params.term
+	                };
+	                return query;
+	            }
+	        },
+	        theme: "material"
+	    });
+
+		$(".select2-selection__arrow").addClass("material-icons").html("arrow_drop_down");
+	});
+</script>

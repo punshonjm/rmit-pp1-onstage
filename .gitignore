@@ -66,3 +66,5 @@ typings/
 config.json
 package-lock.json
 nodemon.json
+
+www/uploads/*

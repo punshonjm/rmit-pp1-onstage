@@ -24,21 +24,20 @@ const aaa = require("@modules/aaa");
 const server = express();
 if ( global.config == "aws") server.enable("trust proxy", 1);
 
-// Setup standard middle-ware
+// Setup security middle-ware
 server.use(helmet());
+
+// Serve static, public content
+server.use("/public", express.static(path.join(__dirname, "www/public")));
+
+// Setup standard middle-ware
 server.use(cookieParser());
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ "extended": true }));
 server.use(session({ secret: "thisStagePassSecret", cookie: {}, resave: false, saveUninitialized: false }));
 
-// Serve static, public content
-server.use("/public", express.static(path.join(__dirname, "www/public")));
-
 // Setup session management middle-ware
 server.use(aaa.sessionManagement);
-
-// Server static, non-public content
-server.use("/assets", express.static(path.join(__dirname, "www/assets")));
 
 const router = require("@modules/router");
 server.use("/", router);

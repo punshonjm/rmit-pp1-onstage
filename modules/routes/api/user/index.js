@@ -1,8 +1,14 @@
+const path = require("path");
 const router = require("express").Router();
+
 const aaa = require("@modules/aaa");
 const dbc = require("@modules/dbc");
 const app = require("@modules/app");
+
 const models = require("@modules/models");
+const multr = require("multer");
+
+var uploader = multr({ dest: path.join(app.rootDir, "www/uploads") });
 
 router.post("/golden_ticket/:type", (req, res) => {
 	aaa.checkAccess(req, { golden_ticket: true }).then(() => {
@@ -22,11 +28,12 @@ router.post("/golden_ticket/:type", (req, res) => {
 	}).catch((err) => app.handleError(err, req, res));
 });
 
-router.post("/register", (req, res) => {
+router.post("/register", uploader.fields([ { name: "background", maxCount: 1 }, { name: "profile", maxCount: 1 } ]), (req, res) => {
 	Promise.resolve().then(() => {
+		req.body.files = req.files;
 		return models.users.register(req.body);
 	}).then((status) => {
-		
+
 		res.status(200).end();
 	}).catch((error) => {
 

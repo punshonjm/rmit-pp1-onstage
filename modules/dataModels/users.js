@@ -61,6 +61,8 @@ users.details = function(user_id) {
 users.register = function(params) {
 	let row = {}, profile = {}, pwd = {}, verify = {};
 
+	console.log(params);
+
 	return Promise.resolve().then(() => {
 		return aaa.hashPassword(params.password);
 	}).then((pwdHash) => {

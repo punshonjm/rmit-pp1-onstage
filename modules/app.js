@@ -3,12 +3,12 @@ const path = require("path");
 const moment = require("moment");
 const slowDown = require("express-slow-down");
 const rateLimit = require("express-rate-limit");
-// const templating = require("@modules/templating");
 
 var app = {};
 app.publicPaths = [];
 app.adminPaths = [];
 app.privatePaths = [];
+app.rootDir = path.join(__dirname, "../");
 
 app.slowDown = slowDown({
 	windowMs: 15 * 60 * 1000,
