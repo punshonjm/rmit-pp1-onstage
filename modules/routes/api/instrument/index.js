@@ -12,6 +12,7 @@ router.get("/", (req, res) => {
             id: row.id,
             text: row.name
         }));
+
         res.status(200)
             .json({results: instrumentRemap})
             .end();

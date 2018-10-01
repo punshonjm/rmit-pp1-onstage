@@ -22,6 +22,18 @@ router.post("/golden_ticket/:type", (req, res) => {
 	}).catch((err) => app.handleError(err, req, res));
 });
 
+router.post("/register", (req, res) => {
+	Promise.resolve().then(() => {
+		return models.users.register(req.body);
+	}).then((status) => {
+		
+		res.status(200).end();
+	}).catch((error) => {
+
+		return Promise.reject(error)
+	}).catch((error) => app.handleError(error, req, res));
+});
+
 router.param("id", (req, res, next, id) => {
 	Promise.resolve().then(() => {
 		return models.users.details(id);

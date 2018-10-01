@@ -20,7 +20,12 @@ aaa.sessionManagement = function( req, res, next ) {
 	req.user = false;
 
 	let publicPaths = _.cloneDeep(app.publicPaths);
-	publicPaths.push("/login", "/public", "/user/.*/report", "/api/instrument", "/api/genre");
+	publicPaths.push(
+		"/login", "/public",
+		"/user/.*/report",
+		"/api/instrument", "/api/genre", "/user/register"
+	);
+
 	if (publicPaths.includes(req.url) || req.url == "/") {
 		authenticationRequired = false;
 	} else {
@@ -278,6 +283,7 @@ aaa.createLog = function(req, logType) {
 		console.error("Error.LogManagement.Uncaught @ ", moment().format("YYYY-MM-DD HH:mm:ss"));
 	});
 };
+
 aaa.hashPassword = function(pwd) {
 	return internal.password.hash(pwd);
 };
@@ -342,42 +348,4 @@ internal.password.check = function(password, dbHash) {
             });
         });
 	});
-};
-
-internal._createAccount = function(details) {
-	// Setup for testing platform, full user creation will be through a proper process
-    return false;
-
-	let pwdValues = {};
-
-    return Promise.resolve().then((hashed) => {
-        let query = {
-            text: "INSERT INTO ebdb.user SET ?",
-            values: {
-                username: details.username,
-				account_locked: 0,
-				type_id: 1,
-				golden_ticket: 1
-            }
-        }
-
-        return dbc.execute(query);
-    }).then((res) => {
-		pwdValues.user_id = res.insertId;
-
-        return internal.password.hash(details.password);
-    }).then((hashed) => {
-		pwdValues.password = hashed;
-
-        let query = {
-            text: "INSERT INTO ebdb.password SET ?",
-            values: pwdValues
-        }
-
-        return dbc.execute(query);
-    }).then((sqlResults) => {
-        console.log(sqlResults)
-    }).catch((error) => {
-        console.log(error);
-    });
 };
