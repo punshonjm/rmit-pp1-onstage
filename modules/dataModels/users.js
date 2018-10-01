@@ -60,7 +60,6 @@ users.details = function(user_id) {
 
 users.register = function(params) {
 	let row = {}, profile = {}, pwd = {}, verify = {};
-
 	console.log(params);
 
 	return Promise.resolve().then(() => {
@@ -79,8 +78,8 @@ users.register = function(params) {
 		profile.user_id = res.insertId;
 		profile.postcode = params.postcode;
 		profile.gender_id = params.gender;
-		profile.picture = "";
-		profile.background = "";
+		// profile.picture = params.files.profile;
+		// profile.background = params.files.background;
 		profile.about = params.about;
 		profile.age_bracket_id = params.age_bracket;
 		profile.preference_age_bracket_id = params.preferred_age_bracket;

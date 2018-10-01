@@ -30,13 +30,14 @@ router.post("/golden_ticket/:type", (req, res) => {
 
 router.post("/register", uploader.fields([ { name: "background", maxCount: 1 }, { name: "profile", maxCount: 1 } ]), (req, res) => {
 	Promise.resolve().then(() => {
+		// Adds the uploaded profile & background photos to the body that is passed
 		req.body.files = req.files;
 		return models.users.register(req.body);
 	}).then((status) => {
-
+		// if we want to check something before responding here
 		res.status(200).end();
 	}).catch((error) => {
-
+		// additional register specific error handling if you want to here
 		return Promise.reject(error)
 	}).catch((error) => app.handleError(error, req, res));
 });
