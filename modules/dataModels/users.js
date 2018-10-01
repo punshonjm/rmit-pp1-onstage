@@ -65,16 +65,16 @@ users.register = function(params) {
 	return Promise.resolve().then(() => {
     // Begin server side validation
 
-        if (!("username" in params)) errors.push({username: 'Username must not be empty.'});
-        if (!("password" in params)) errors.push({password: 'Password must not be empty.'});
-        if (!("passwordConfirm" in params)) errors.push({passwordConfirm: 'Password confirm must not be empty.'});
-        if (!("email" in params)) errors.push({email: 'Email must not be empty.'});
-        if (!("agree" in params)) errors.push({agree: 'You must agree to the terms and conditions.'});
+        if (!("username" in params)) errors.push({key: 'username', error: 'Username must not be empty.'});
+        if (!("password" in params)) errors.push({key: 'password', error: 'Password must not be empty.'});
+        if (!("passwordConfirm" in params)) errors.push({key: 'passwordConfirm', error: 'Password confirm must not be empty.'});
+        if (!("email" in params)) errors.push({key: 'email', error: 'Email must not be empty.'});
+        if (!("agree" in params)) errors.push({key: 'agree', error: 'You must agree to the terms and conditions.'});
 
         // Don't continue if there are already errors
         if (errors.length > 0) return Promise.reject(errors);
 
-		if (params.password !== params.passwordConfirm && params.password !== '') errors.push({passwordConfirm: 'Password does not match.'});
+		if (params.password !== params.passwordConfirm && params.password !== '') errors.push({key: 'passwordConfirm', error: 'Password does not match.'});
 
 		// Check if username is taken
         if ( params.username !== '' ) {
@@ -82,14 +82,14 @@ users.register = function(params) {
             query.where("u.username = ?", params.username);
             return dbc.execute(query);
         } else {
-            errors.push({username: 'Username cannot be empty.'});
+            errors.push({key: 'username', error: 'Username cannot be empty.'});
             return Promise.reject(errors);
 		}
 
     }).then((result) => {
 
     	// If records returned then username already taken
-    	if(result.length > 0) errors.push({username: 'Username has already been taken.'});
+    	if(result.length > 0) errors.push({key: 'username', error: 'Username has already been taken.'});
 
         // Check if email is taken
         if ( params.email !== '' ) {
@@ -97,7 +97,7 @@ users.register = function(params) {
             query.where("u.email = ?", params.email);
             return dbc.execute(query);
         } else {
-            errors.push({email: 'Email cannot be empty.'});
+            errors.push({key: 'email', error: 'Email cannot be empty.'});
             return Promise.reject(errors);
         }
 
@@ -105,11 +105,10 @@ users.register = function(params) {
     }).then((result) => {
 
         // If records returned then email already taken
-        if(result.length > 0) errors.push({email: 'Email has already been taken.'});
+        if(result.length > 0) errors.push({key: 'email', error: 'Email has already been taken.'});
 
-    	if (errors.length > 0) {
-            console.log(errors);
-        };
+        // Reject if any errors exist
+    	if (errors.length > 0) return Promise.reject(errors);
 
 	}).then(() => {
 
