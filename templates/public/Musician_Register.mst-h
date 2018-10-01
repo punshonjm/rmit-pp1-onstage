@@ -1,29 +1,57 @@
 {{#*inline "header_block"}}
 <div class="page-header header-filter" style="background-image: url('{{this.headerImage}}'); height:250px; ">
-    <div class="container"></div>
+    <div class="container text-center">
+		<h2>Register as a Musician</h2>
+	</div>
 </div>
 {{/inline}}
 
 <div class="row">
 	<div class="col-lg-8 col-lg-4 ml-auto mr-auto" style="font-size: 28px; font-weight: bold;">
 		<div class='row'>
-			<div class='col-md-12 text-center'>
-				<h2>Musician Registration</h2>
-			</div>
 			<div class='col-md-12'>
 				<form class="register-form" enctype="multipart/form-data">
 					<div class='row pb-2'>
 						<div class="col-md-12">
+							<h3>The Basics About You</h3>
+						</div>
+						<div class="col-md-6">
 							<div class="form-group bmd-form-group">
-								<label class="bmd-label-floating">Full Name:</label>
+								<label class="bmd-label-floating">Your Name/Display Name *:</label>
 								<input id="name" type="text" class="form-control" required>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group bmd-form-group">
+								<label class="bmd-label-floating">Username *:</label>
+								<input id="username" type="text" class="form-control" required>
 							</div>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
-								<label class="d-block">Gender:</label>
+								<label class="bmd-label-floating">Email *:</label>
+								<input id="email" type="text" class="form-control" required>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group bmd-form-group">
+								<label class="bmd-label-floating">Password *:</label>
+								<input id="password" type="password" class="form-control password" required>
+							</div>
+							<p class="password-strength"></p>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group bmd-form-group">
+								<label class="bmd-label-floating">Confirm Password *:</label>
+								<input id="passwordConfirm" type="password" class="form-control password" required>
+							</div>
+							<p class="password-status"></p>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group bmd-form-group">
+								<label class="d-block">Gender *:</label>
 								{{#each this.criteria.gender}}
-								<div class="form-check form-check-radio form-check-inline">
+								<div class="form-check form-check-radio">
 									<label class="form-check-label" for="gender_{{this.id}}">
 										<input class="form-check-input" type="radio" name="gender" id="gender_{{this.id}}" value="{{this.id}}"> {{this.name}}
 										<span class="circle">
@@ -34,9 +62,9 @@
 								{{/each}}
 							</div>
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-6">
 							<div class="form-group bmd-form-group">
-								<label>Age Bracket:</label>
+								<label>Age Bracket *:</label>
 								<select class='form-control'>
 									<option value="">Choose...</option>
 									{{#each this.criteria.age_bracket}}
@@ -45,35 +73,21 @@
 									<option value="Unspecified">Unspecified</option>
 								</select>
 							</div>
-						</div>
-						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
-								<label class="bmd-label-floating">Username:</label>
-								<input id="username" type="text" class="form-control" required>
-							</div>
-						</div>
-						<div class="col-md-12">
-							<div class="form-group bmd-form-group">
-								<label class="bmd-label-floating">Email:</label>
-								<input id="email" type="text" class="form-control" required>
-							</div>
-						</div>
-						<div class="col-md-12">
-							<div class="form-group bmd-form-group">
-								<label class="bmd-label-floating">Password:</label>
-								<input id="password" type="password" class="form-control" required>
-							</div>
-						</div>
-						<div class="col-md-12">
-							<div class="form-group bmd-form-group">
-								<label class="bmd-label-floating">Confirm Password:</label>
-								<input id="passwordConfirm" type="password" class="form-control" required>
-							</div>
-						</div>
-						<div class="col-md-12">
-							<div class="form-group bmd-form-group">
-								<label class="bmd-label-floating">Postcode:</label>
+								<label class="bmd-label-floating">Postcode *:</label>
 								<input id="postcode" type="text" class="form-control" required>
+							</div>
+						</div>
+					</div>
+					<hr />
+					<div class='row'>
+						<div class="col-md-12">
+							<h3>Make It Personal</h3>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group bmd-form-group">
+								<label class="bmd-label-floating">About Me:</label>
+								<textarea id="aboutMe" class="form-control" rows="4"></textarea>
 							</div>
 						</div>
 						<div class="col-md-6 d-flex justify-content-center">
@@ -81,12 +95,11 @@
 								<label class="d-block w-100">Profile Picture:</label>
 								<div class="fileinput fileinput-new text-center" data-provides="fileinput">
 									<div class="fileinput-new thumbnail img-raised">
-										<img src="http://style.anu.edu.au/_anu/4/images/placeholders/person_8x10.png" alt="...">
+										<img src="http://style.anu.edu.au/_anu/4/images/placeholders/person_8x10.png" alt="Default profile image">
 									</div>
 									<div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
 									<div>
 										<span class="btn btn-raised btn-round btn-default btn-file" >
-										<!-- <span class="btn btn-raised btn-round btn-default btn-file" data-trigger="fileinput"> -->
 											<span class="fileinput-new">Select image</span>
 											<span class="fileinput-exists">Change</span>
 											<input type="file" name="profile" id="profile" />
@@ -101,12 +114,11 @@
 								<label class="d-block">Profile Background:</label>
 								<div class="fileinput fileinput-new text-center" data-provides="fileinput">
 									<div class="fileinput-new thumbnail img-raised">
-										<img src="{{this.headerImage}}" alt="...">
+										<img src="{{this.headerImage}}" alt="Default profile background">
 									</div>
 									<div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
 									<div>
 										<span class="btn btn-raised btn-round btn-default btn-file">
-										<!-- <span class="btn btn-raised btn-round btn-default btn-file" data-trigger="fileinput"> -->
 											<span class="fileinput-new">Select image</span>
 											<span class="fileinput-exists">Change</span>
 											<input type="file" name="background" id="background" />
@@ -116,15 +128,15 @@
 								</div>
 							</div>
 						</div>
+					</div>
+					<hr />
+					<div class="row">
 						<div class="col-md-12">
-							<div class="form-group bmd-form-group">
-								<label class="bmd-label-floating">About Me:</label>
-								<textarea id="aboutMe" class="form-control" rows="4"></textarea>
-							</div>
+							<h3>Lets Talk Music</h3>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
-								<label class="d-block font-weight-bold">Current Status:</label>
+								<label class="d-block font-weight-bold">Current Status *:</label>
 								{{#each this.criteria.status}}
 								<div class="form-check form-check-radio form-check-inline">
 									<label class="form-check-label" for="status_{{this.id}}">
@@ -137,9 +149,9 @@
 								{{/each}}
 							</div>
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-6">
 							<div class="form-group bmd-form-group">
-								<label>Music Experience:</label>
+								<label>Music Experience *:</label>
 								<select id="music_experience" class='form-control'>
 									<option>1</option>
 									<option>2</option>
@@ -149,9 +161,9 @@
 								</select>
 							</div>
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-6">
 							<div class="form-group bmd-form-group">
-								<label>Past Gigs:</label>
+								<label>Past Gigs *:</label>
 								<select id="past_gigs" class='form-control'>
 									<option>10</option>
 									<option>20</option>
@@ -164,19 +176,19 @@
 						</div>
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
-								<label for="id_instrument_multiple">Instrument/s Played (You may choose more than one)</label>
+								<label for="id_instrument_multiple">Instrument/s Played *: (You may choose more than one)</label>
 								<select class="select2-instrument js-states form-control" id="id_instrument_multiple" multiple="multiple"></select>
 							</div>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
-								<label for="id_genre_multiple">Genres Played (You may choose more than one)</label>
+								<label for="id_genre_multiple">Genres Played *: (You may choose more than one)</label>
 								<select class="select2-genre js-states form-control" id="id_genre_multiple" multiple="multiple"></select>
 							</div>
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-6">
 							<div class="form-group bmd-form-group">
-								<label>Commitment Level:</label>
+								<label>Commitment Level *:</label>
 								<select id="commitment_level" class='form-control selectpicker' data-style="btn btn-link">
 									<option value="">Choose...</option>
 									{{#each this.criteria.commitment_level}}
@@ -185,9 +197,9 @@
 								</select>
 							</div>
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-6">
 							<div class="form-group bmd-form-group">
-								<label>Gig Availability:</label>
+								<label>Gig Availability *:</label>
 								<select id="gig_frequency" class='form-control selectpicker' data-style="btn btn-link">
 									<option value="">Choose...</option>
 									{{#each this.criteria.gig_frequency}}
@@ -210,7 +222,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-12 d-flex justify-content-center">
+						<div class="col-md-12 d-flex justify-content-end">
 							<button class="btn btn-primary btn-raised btn-lg" id="submit">Join On Stage Now</button>
 						</div>
 					</div>

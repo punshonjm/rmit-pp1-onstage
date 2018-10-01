@@ -28,3 +28,10 @@ if (!String.isNullOrEmpty) {
         enumerable: false,
     });
 }
+
+(function ( $ ) {
+    $.fn.addError = function(error = "has-danger") {
+        this.closest(".form-group").addClass(error);
+        return this;
+    };
+}( jQuery ));
