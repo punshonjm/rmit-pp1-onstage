@@ -36,6 +36,18 @@ appPage.register = function($this) {
 	// $this.prop("disabled", true);
 
 	var data = {}, errors = [];
+	var required = [
+		"name", "age_bracket",
+		"username", "email", "password", "passwordConfirm",
+		"postcode", "music_experience",
+		"past_gigs", "id_instrument_multiple", "id_genre_multiple",
+		"commitment_level", "gig_frequency", "agree"
+
+		// "bandSize", "preferred_age_bracket", "required_music_experience", "members_needed"
+
+		// "status", "gender"
+	];
+
 	data.name = $('#name').val();
 	// data.gender = $('[name="gender"]:checked').val();
 	data.age_bracket = $('#age_bracket').val();
@@ -64,19 +76,57 @@ appPage.register = function($this) {
 	Object.keys(data).map(function(key) {
 		if ( (data[key] != null) && (data[key] != "") && (typeof data[key] != typeof undefined) ) {
 			formData.append(key, data[key]);
+		} else {
+			if ( required.includes(key) ) {
+				errors.push(key);
+			}
 		}
 	});
 
-	$.ajax({
-		type: "POST",
-		url: "/api/user/register",
-        enctype: 'multipart/form-data',
-		cache: false,
-        contentType: false,
-        processData: false,
-		data: formData
-	})
+	if ( !appPage.password.confirm() ) {
+		errors.push("passwordConfirm");
+	}
+
+	if (errors.length > 0) {
+		errors.map(function(key) {
+			$("#" + key).addError();
+		});
+	} else {
+		$.ajax({
+			type: "POST",
+			url: "/api/user/register",
+	        enctype: 'multipart/form-data',
+			cache: false,
+	        contentType: false,
+	        processData: false,
+			data: formData
+		})
+
+	}
 }
+
+appPage.password = {};
+appPage.password.confirm = function() {
+	$(".password").closest(".form-group.has-danger").removeClass("has-danger");
+	$(".password-status").removeClass("text-danger text-success").text("");
+
+	if ( $("#passwordConfirm").val().length > 0 ) {
+		if ( $("#password").val() != $("#passwordConfirm").val() ) {
+			$("#password").addError();
+			$("#passwordConfirm").addError();
+			$(".password-status").addClass("text-danger").text("Passwords do not match!");
+			return false;
+		} else {
+			$(".password-status").addClass("text-success").text("Passwords match.");
+			return true;
+		}
+	} else {
+		return false;
+	}
+};
+appPage.password.strength = function($this) {
+	console.log(zxcvbn($this.val()));
+};
 
 $(document).ready(function() {
 	appPage.initialise();
@@ -86,4 +136,8 @@ $(document).ready(function() {
 	return false;
 }).on("click", "#submit", function() {
 	appPage.register( $(this) );
+}).on("keyup focusout", "#password", function() {
+	appPage.password.strength($(this));
+}).on("keyup focusout", "#passwordConfirm", function() {
+	appPage.password.confirm();
 })
