@@ -7,7 +7,7 @@
 {{/inline}}
 
 <div class="row">
-	<div class="col-lg-8 col-lg-4 ml-auto mr-auto" style="font-size: 28px; font-weight: bold;">
+	<div class="col-lg-8 col-lg-4 ml-auto mr-auto">
 		<div class='row'>
 			<div class='col-md-12'>
 				<form class="register-form" enctype="multipart/form-data">
@@ -15,39 +15,42 @@
 						<div class="col-md-12">
 							<h3>The Basics About You</h3>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label class="bmd-label-floating">Your Name/Display Name *:</label>
-								<input id="name" type="text" class="form-control" required>
+								<input id="display_name" type="text" class="form-control" required>
+								<small class="form-text text-danger"></small>
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label class="bmd-label-floating">Username *:</label>
 								<input id="username" type="text" class="form-control" required>
+								<small class="form-text text-danger"></small>
 							</div>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label class="bmd-label-floating">Email *:</label>
-								<input id="email" type="text" class="form-control" required>
+								<input id="email" type="email" class="form-control" required>
+								<small class="form-text text-danger"></small>
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label class="bmd-label-floating">Password *:</label>
 								<input id="password" type="password" class="form-control password" required>
 							</div>
 							<p class="password-strength"></p>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label class="bmd-label-floating">Confirm Password *:</label>
 								<input id="passwordConfirm" type="password" class="form-control password" required>
 							</div>
 							<p class="password-status"></p>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label class="d-block">Gender *:</label>
 								{{#each this.criteria.gender}}
@@ -62,10 +65,10 @@
 								{{/each}}
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label>Age Bracket *:</label>
-								<select class='form-control'>
+								<select id="age_bracket" class='form-control'>
 									<option value="">Choose...</option>
 									{{#each this.criteria.age_bracket}}
 									<option value="{{this.id}}">{{this.name}}</option>
@@ -149,44 +152,46 @@
 								{{/each}}
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label>Music Experience *:</label>
 								<select id="music_experience" class='form-control'>
-									<option>1</option>
-									<option>2</option>
-									<option>5</option>
-									<option>10</option>
-									<option>20+</option>
+									<option value="">Choose...</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="5">5</option>
+									<option value="10">10</option>
+									<option value="20+">20+</option>
 								</select>
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label>Past Gigs *:</label>
 								<select id="past_gigs" class='form-control'>
-									<option>10</option>
-									<option>20</option>
-									<option>30</option>
-									<option>40</option>
-									<option>50</option>
-									<option>60+</option>
+									<option value="">Choose...</option>
+									<option value="10">10</option>
+									<option value="20">20</option>
+									<option value="30">30</option>
+									<option value="40">40</option>
+									<option value="50">50</option>
+									<option value="60+">60+</option>
 								</select>
 							</div>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
-								<label for="id_instrument_multiple">Instrument/s Played *: (You may choose more than one)</label>
-								<select class="select2-instrument js-states form-control" id="id_instrument_multiple" multiple="multiple"></select>
+								<label for="instruments">Instrument/s Played *: (You may choose more than one)</label>
+								<select class="select2-instrument js-states form-control" id="instruments" multiple="multiple"></select>
 							</div>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
-								<label for="id_genre_multiple">Genres Played *: (You may choose more than one)</label>
-								<select class="select2-genre js-states form-control" id="id_genre_multiple" multiple="multiple"></select>
+								<label for="genre">Genre/s Played *: (You may choose more than one)</label>
+								<select class="select2-genre js-states form-control" id="genre" multiple="multiple"></select>
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label>Commitment Level *:</label>
 								<select id="commitment_level" class='form-control selectpicker' data-style="btn btn-link">
@@ -197,9 +202,9 @@
 								</select>
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
-								<label>Gig Availability *:</label>
+								<label for="gig_frequency">Gig Availability *:</label>
 								<select id="gig_frequency" class='form-control selectpicker' data-style="btn btn-link">
 									<option value="">Choose...</option>
 									{{#each this.criteria.gig_frequency}}
@@ -222,7 +227,10 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-12 d-flex justify-content-end">
+						<div class="col-md-9">
+							<p class="form-status"></p>
+						</div>
+						<div class="col-md-3 d-flex justify-content-end">
 							<button class="btn btn-primary btn-raised btn-lg" id="submit">Join On Stage Now</button>
 						</div>
 					</div>
@@ -232,4 +240,6 @@
 	</div>
 </div>
 
+<script src="/public/js/plugins/zxcvbn.js" type="text/javascript"></script>
+<script src="/public/js/plugins/mailcheck.min.js" type="text/javascript"></script>
 <script src="/public/js/app/user/register.js" type="text/javascript"></script>

@@ -33,23 +33,27 @@ appPage.initialise = function() {
 };
 
 appPage.register = function($this) {
-	// $this.prop("disabled", true);
+	$this.prop("disabled", true);
+	$(".has-danger").removeClass("has-danger");
+	$("label.text-danger, select.text-danger").removeClass("text-danger");
+	$(".form-status").removeClass("text-danger text-success").text("");
+	$(".form-text").text("");
 
 	var data = {}, errors = [];
 	var required = [
-		"name", "age_bracket",
+		"display_name", "age_bracket", "postcode", "music_experience",
 		"username", "email", "password", "passwordConfirm",
-		"postcode", "music_experience",
 		"past_gigs", "id_instrument_multiple", "id_genre_multiple",
 		"commitment_level", "gig_frequency", "agree"
 
 		// "bandSize", "preferred_age_bracket", "required_music_experience", "members_needed"
-
 		// "status", "gender"
 	];
 
-	data.name = $('#name').val();
 	// data.gender = $('[name="gender"]:checked').val();
+	// data.status = $('[name="status"]:checked').val();
+
+	data.display_name = $('#display_name').val();
 	data.age_bracket = $('#age_bracket').val();
 	data.username = $('#username').val();
 	data.email = $('#email').val();
@@ -58,20 +62,23 @@ appPage.register = function($this) {
 	data.postcode = $('#postcode').val();
 
 	data.aboutMe = $('#aboutMe').val();
-	// data.status = $('[name="status"]:checked').val();
 	data.music_experience = $('#music_experience').val();
 	data.past_gigs = $('#past_gigs').val();
-	data.id_instrument_multiple = $('#id_instrument_multiple').val();
-	data.id_genre_multiple = $('#id_genre_multiple').val();
+	data.instruments = $('#instruments').val();
+	data.genre = $('#genre').val();
 	data.commitment_level = $('#commitment_level').val();
 	data.gig_frequency = $('#gig_frequency').val();
 	data.agree = $('#agree:checked').val();
 
+	// Band specific options
 	data.bandSize = $("#bandSize").val();
 	data.preferred_age_bracket = $("#preferred_age_bracket").val();
 	data.required_music_experience = $("#required_music_experience").val();
 	data.members_needed = $("#members_needed").val();
 
+	console.log(data);
+
+	// Process into form data to support adding
 	var formData = new FormData($(".register-form")[0]);
 	Object.keys(data).map(function(key) {
 		if ( (data[key] != null) && (data[key] != "") && (typeof data[key] != typeof undefined) ) {
@@ -83,15 +90,102 @@ appPage.register = function($this) {
 		}
 	});
 
-	if ( !appPage.password.confirm() ) {
-		errors.push("passwordConfirm");
+	// add name check
+	if ( ("display_name" in data) && data.display_name.length < 3 ) {
+		$('#display_name').addError("has-danger", "Please enter at least 3 characters");
+		errors.push("display_name");
+	}
+
+	// add username check
+	if ( ("username" in data) && data.username.length < 5 ) {
+		$('#username').addError("has-danger", "Please enter at least 5 characters");
+		errors.push("username");
+	}
+
+	// email check
+	if ( !/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/.test(data.email) ) {
+		$("#email").addError("has-danger", "Please enter a valid email address.");
+		errors.push("email");
+	}
+
+	// add post code check
+	if ( ("postcode" in data) && data.postcode.length != 4 ) {
+		$('#postcode').addError("has-danger", "A postcode consists of 4 numbers.");
+		errors.push("postcode");
+	}
+
+	// add gender check
+	if ( typeof $("[name='gender']:checked").val() == typeof undefined ) {
+		$("[name='gender']").closest("label").addClass("text-danger");
+		$("[name='gender']").closest(".form-group").find("label").addClass("text-danger");
+		errors.push("gender");
+	}
+	// add status check
+	if ( typeof $("[name='status']:checked").val() == typeof undefined ) {
+		$("[name='status']").closest("label").addClass("text-danger");
+		$("[name='status']").closest(".form-group").find("label").addClass("text-danger");
+		errors.push("status");
+	}
+	// add agree check
+	if ( typeof $("[name='agree']:checked").val() == typeof undefined ) {
+		 $("[name='agree']").closest("label").addClass("text-danger");
+		 errors.push("agree");
+		 $(".form-status").addClass("text-danger").append("<span class='d-block'>You must agree to continue using On Stage.</span>");
+	}
+
+	if ( data.instruments.length == 0 ) {
+		errors.push("instruments");
+		$("#instruments").closest(".form-group").find("label").addClass("text-danger");
+		$("#instruments").closest(".form-group").find("input").addClass("text-danger");
+	}
+
+	if ( data.genre.length == 0 ) {
+		errors.push("genre");
+		$("#genre").closest(".form-group").find("label").addClass("text-danger");
+		$("#genre").closest(".form-group").find("input").addClass("text-danger");
+	}
+
+	if ( data.age_bracket == "" ) {
+		errors.push("age_bracket");
+		$("#age_bracket").closest(".form-group").find("label").addClass("text-danger");
+		$("#age_bracket").closest(".form-group").find("select").addClass("text-danger");
+	}
+	if ( data.music_experience == "" ) {
+		errors.push("music_experience");
+		$("#music_experience").closest(".form-group").find("label").addClass("text-danger");
+		$("#music_experience").closest(".form-group").find("select").addClass("text-danger");
+	}
+	if ( data.past_gigs == "" ) {
+		errors.push("past_gigs");
+		$("#past_gigs").closest(".form-group").find("label").addClass("text-danger");
+		$("#past_gigs").closest(".form-group").find("select").addClass("text-danger");
+	}
+	if ( data.commitment_level == "" ) {
+		errors.push("commitment_level");
+		$("#commitment_level").closest(".form-group").find("label").addClass("text-danger");
+		$("#commitment_level").closest(".form-group").find("select").addClass("text-danger");
+	}
+	if ( data.gig_frequency == "" ) {
+		errors.push("gig_frequency");
+		$("#gig_frequency").closest(".form-group").find("label").addClass("text-danger");
+		$("#gig_frequency").closest(".form-group").find("select").addClass("text-danger");
+	}
+
+	// Check password is strong & confirmed before allowing submission
+	if ( !appPage.password.confirm() || !appPage.password.strength() ) {
+		errors.push("passwordConfirm", "password");
 	}
 
 	if (errors.length > 0) {
 		errors.map(function(key) {
 			$("#" + key).addError();
 		});
+
+		$this.prop("disabled", false);
+		$(".form-status").addClass("text-danger").append("<span class='d-block'>There was an error/s with your submission,<br> please check the highlighted fields and try again.</span>");
 	} else {
+		// add response error handling & loading indicators
+
 		$.ajax({
 			type: "POST",
 			url: "/api/user/register",
@@ -100,8 +194,14 @@ appPage.register = function($this) {
 	        contentType: false,
 	        processData: false,
 			data: formData
-		})
+		}).done(function() {
+			// add response error handling & loading indicators
+		}).fail(function() {
+			$this.prop("disabled", false);
+			// add response error handling & loading indicators
+		}).always(function() {
 
+		});
 	}
 }
 
@@ -124,8 +224,39 @@ appPage.password.confirm = function() {
 		return false;
 	}
 };
-appPage.password.strength = function($this) {
-	console.log(zxcvbn($this.val()));
+appPage.password.strength = function() {
+	$(".password-strength").text("");
+	var strength = zxcvbn($("#password").val());
+
+	// show pwd strength strength.score
+
+	if ( strength.score < 3 ) {
+		if ( strength.feedback.warning != null ) {
+			$(".password-strength").append("<span class='d-block text-danger'>"+strength.feedback.warning+"</span>");
+		}
+
+		if ( strength.feedback.suggestions.length > 0 ) {
+			strength.feedback.suggestions.map(function(suggestion) {
+				$(".password-strength").append("<span class='d-block text-warning'>"+suggestion+"</span>");
+			});
+		}
+
+		return false;
+	} else {
+		$(".password-strength").text("Good choice!");
+
+		return true;
+	}
+};
+appPage.email = function($this) {
+	$this.mailcheck({
+		suggested: function(element, suggestion) {
+			$("#email").addError("has-warning", "<span class='suggestion' data-suggestion='" + suggestion.full + "'>Did you mean " + suggestion.full + "?");
+		},
+		empty: function(element) {
+			$("#email").clearError();
+		}
+	});
 };
 
 $(document).ready(function() {
@@ -137,7 +268,11 @@ $(document).ready(function() {
 }).on("click", "#submit", function() {
 	appPage.register( $(this) );
 }).on("keyup focusout", "#password", function() {
-	appPage.password.strength($(this));
+	appPage.password.strength();
 }).on("keyup focusout", "#passwordConfirm", function() {
 	appPage.password.confirm();
-})
+}).on('blur', '#email', function() {
+	appPage.email($(this));
+}).on("click", "[data-suggestion]", function() {
+	$("#email").val($(this).data().suggestion).blur();
+});

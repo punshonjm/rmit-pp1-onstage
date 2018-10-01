@@ -1,23 +1,11 @@
 /**
  * Multiple Select2
  */
+ .select2 input, select.form-control {
+     font-weight: normal !important;
+ }
 .select2-container--material {
   width: 100% !important;
-  /**
-   * Textbox
-   */
-  /**
-   * Dropdown
-   */
-  /**
-   * Options
-   */
-  /**
-   * Focused textbox
-   */
-  /**
-   * Disabled textbox
-   */
 }
 .select2-container--material ::-webkit-input-placeholder {
   color: inherit;

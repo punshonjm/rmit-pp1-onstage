@@ -30,8 +30,18 @@ if (!String.isNullOrEmpty) {
 }
 
 (function ( $ ) {
-    $.fn.addError = function(error = "has-danger") {
+    $.fn.addError = function(error = "has-danger", text = null) {
         this.closest(".form-group").addClass(error);
+
+		if ( text != null ) {
+			this.closest(".form-group").find(".form-text").html(text);
+		}
+
+        return this;
+    };
+    $.fn.clearError = function() {
+        this.closest(".form-group").removeClass("has-danger has-warning");
+		this.closest(".form-group").find(".form-text").empty();
         return this;
     };
 }( jQuery ));

@@ -63,8 +63,7 @@ users.register = function(params) {
 	console.log(params);
 
 	return Promise.resolve().then(() => {
-    // Begin server side validation
-
+    	// Begin server side validation
         if (!("username" in params)) errors.push({key: 'username', error: 'Username must not be empty.'});
         if (!("password" in params)) errors.push({key: 'password', error: 'Password must not be empty.'});
         if (!("passwordConfirm" in params)) errors.push({key: 'passwordConfirm', error: 'Password confirm must not be empty.'});
@@ -72,9 +71,9 @@ users.register = function(params) {
         if (!("agree" in params)) errors.push({key: 'agree', error: 'You must agree to the terms and conditions.'});
 
         // Don't continue if there are already errors
-        if (errors.length > 0) return Promise.reject(errors);
+        if ( errors.length > 0 ) return Promise.reject(errors);
 
-		if (params.password !== params.passwordConfirm && params.password !== '') errors.push({key: 'passwordConfirm', error: 'Password does not match.'});
+		if ( params.password !== params.passwordConfirm ) errors.push({key: 'passwordConfirm', error: 'Passwords do not match.'});
 
 		// Check if username is taken
         if ( params.username !== '' ) {
@@ -85,11 +84,9 @@ users.register = function(params) {
             errors.push({key: 'username', error: 'Username cannot be empty.'});
             return Promise.reject(errors);
 		}
-
     }).then((result) => {
-
     	// If records returned then username already taken
-    	if(result.length > 0) errors.push({key: 'username', error: 'Username has already been taken.'});
+    	if (result.length > 0) errors.push({key: 'username', error: 'Username has already been taken. Please enter another.'});
 
         // Check if email is taken
         if ( params.email !== '' ) {
@@ -100,18 +97,24 @@ users.register = function(params) {
             errors.push({key: 'email', error: 'Email cannot be empty.'});
             return Promise.reject(errors);
         }
-
-
     }).then((result) => {
-
         // If records returned then email already taken
-        if(result.length > 0) errors.push({key: 'email', error: 'Email has already been taken.'});
+        if (result.length > 0) errors.push({key: 'email', error: 'Email has already been used.'});
 
         // Reject if any errors exist
-    	if (errors.length > 0) return Promise.reject(errors);
-
+    	if (errors.length > 0) {
+			return Promise.reject(errors);
+		} else {
+			return Promise.resolve();
+		}
 	}).then(() => {
+		// handle file uploads here
 
+		// profile.picture = params.files.profile;
+		// profile.background = params.files.background;
+
+		return Promise.resolve();
+	}).then(() => {
 		return aaa.hashPassword(params.password);
 	}).then((pwdHash) => {
 		pwd.password = pwdHash;
@@ -126,8 +129,6 @@ users.register = function(params) {
 		profile.user_id = res.insertId;
 		profile.postcode = params.postcode;
 		profile.gender_id = params.gender;
-		// profile.picture = params.files.profile;
-		// profile.background = params.files.background;
 		profile.about = params.about;
 		profile.age_bracket_id = params.age_bracket;
 		profile.preference_age_bracket_id = params.preferred_age_bracket;
@@ -188,7 +189,7 @@ users.register = function(params) {
 	}).then((res) => {
 
 		return Promise.resolve();
-	})
+	});
 };
 
 module.exports = users;
