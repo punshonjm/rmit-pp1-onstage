@@ -59,14 +59,60 @@ users.details = function(user_id) {
 }
 
 users.register = function(params) {
-	let row = {}, profile = {}, pwd = {}, verify = {};
+	let row = {}, profile = {}, pwd = {}, verify = {}, errors = [];
 	console.log(params);
 
 	return Promise.resolve().then(() => {
+    // Begin server side validation
+
+        if (!("agree" in params)) errors.push({agree: 'You must agree to the terms and conditions.'});
+        if (!("password" in params)) errors.push({agree: 'Password must not be empty.'});
+
+        // Don't continue if there are already errors
+        if (errors.length > 0) return Promise.reject(errors);
+
+		if (params.password !== params.passwordConfirm && params.password !== '') errors.push({password: 'Password does not match.'});
+
+		// Check if username is taken
+        if ( params.username != null ) {
+        	let query = internal.query.getUserUsername();
+            query.where("u.username = ?", params.username);
+            return dbc.execute(query);
+        } else {
+            errors.push({username: 'Username cannot be empty.'});
+            return Promise.reject(errors);
+		}
+
+    }).then((result) => {
+
+    	// If records returned then username already taken
+    	if(result.length > 0) errors.push({username: 'Username has already been taken.'});
+
+        // Check if email is taken
+        if ( params.email != null ) {
+            let query = internal.query.getUserEmail();
+            query.where("u.email = ?", params.email);
+            return dbc.execute(query);
+        } else {
+            errors.push({email: 'Email cannot be empty.'});
+            return Promise.reject(errors);
+        }
+
+
+    }).then((result) => {
+
+        // If records returned then email already taken
+        if(result.length > 0) errors.push({email: 'Email has already been taken.'});
+
+    	if (errors.length > 0) {
+            console.log(errors);
+        };
+
+	}).then(() => {
+
 		return aaa.hashPassword(params.password);
 	}).then((pwdHash) => {
 		pwd.password = pwdHash;
-
 		row.username = params.username;
 		row.type_id = (params.type == "band") ? 2 : 3;
 		row.email = params.email;
@@ -212,6 +258,24 @@ internal.query.user = function() {
 
 	return query;
 };
+
+internal.query.getUserUsername = function() {
+    let query = dbc.sql.select().fields([
+        "u.username"
+    ]).from(
+        "ebdb.user", "u"
+    )
+    return query;
+};
+internal.query.getUserEmail = function() {
+    let query = dbc.sql.select().fields([
+        "u.email"
+    ]).from(
+        "ebdb.user", "u"
+    )
+    return query;
+};
+
 internal.query.userGenres = function() {
 	let query = dbc.sql.select().fields([
 		"m.profile_id",
