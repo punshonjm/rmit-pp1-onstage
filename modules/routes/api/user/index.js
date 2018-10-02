@@ -41,7 +41,7 @@ router.post("/register", uploader.fields([ { name: "background", maxCount: 1 }, 
 		}).end();
 	}).catch((error) => {
 		// additional register specific error handling if you want to here
-		if ( ("key" in error) ) {
+		if ( ("errorSet" in error)) {
 			res.status(400).json(error).end();
 		} else {
 			return Promise.reject(error)

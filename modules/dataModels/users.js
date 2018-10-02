@@ -84,7 +84,7 @@ users.register = function(params) {
         if (!("agree" in params)) errors.push({key: 'agree', error: 'You must agree to the terms and conditions.'});
 
         // Don't continue if there are already errors
-        if ( errors.length > 0 ) return Promise.reject(errors);
+        if ( errors.length > 0 ) return Promise.reject({ errorSet: errors });
 
 		if ( params.password !== params.passwordConfirm ) errors.push({key: 'passwordConfirm', error: 'Passwords do not match.'});
 
@@ -95,7 +95,7 @@ users.register = function(params) {
             return dbc.execute(query);
         } else {
             errors.push({key: 'username', error: 'Username cannot be empty.'});
-            return Promise.reject(errors);
+            return Promise.reject({ errorSet: errors });
 		}
     }).then((result) => {
     	// If records returned then username already taken
@@ -108,7 +108,7 @@ users.register = function(params) {
             return dbc.execute(query);
         } else {
             errors.push({key: 'email', error: 'Email cannot be empty.'});
-            return Promise.reject(errors);
+            return Promise.reject({ errorSet: errors });
         }
     }).then((result) => {
         // If records returned then email already taken
@@ -116,7 +116,7 @@ users.register = function(params) {
 
         // Reject if any errors exist
     	if (errors.length > 0) {
-			return Promise.reject(errors);
+			return Promise.reject({ errorSet: errors });
 		} else {
 			return Promise.resolve();
 		}
@@ -137,7 +137,7 @@ users.register = function(params) {
 					});
 				});
 			} else {
-				return Promise.reject({ key: "profile", message: "Profile image must be a JPEG or PNG." });
+				return Promise.reject({ errorSet: [{ key: "profile", message: "Profile image must be a JPEG or PNG." }] });
 			}
 		} else {
 			return Promise.resolve(null);
@@ -164,7 +164,7 @@ users.register = function(params) {
 					});
 				});
 			} else {
-				return Promise.reject({ key: "background", message: "Background image must be a JPEG or PNG." });
+				return Promise.reject({ errorSet: [{ key: "background", message: "Background image must be a JPEG or PNG." }] });
 			}
 		} else {
 			return Promise.resolve(null);

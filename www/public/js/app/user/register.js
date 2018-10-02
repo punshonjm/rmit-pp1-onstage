@@ -36,7 +36,7 @@ appPage.register = function($this) {
 	$this.prop("disabled", true);
 	$(".has-danger").removeClass("has-danger");
 	$("label.text-danger, select.text-danger").removeClass("text-danger");
-	$(".form-status").removeClass("text-danger text-success").text("");
+	$(".form-status").removeClass("text-danger text-success").empty();
 	$(".form-text").text("");
 
 	var data = {}, errors = [];
@@ -75,8 +75,6 @@ appPage.register = function($this) {
 	data.preferred_age_bracket = $("#preferred_age_bracket").val();
 	data.required_music_experience = $("#required_music_experience").val();
 	data.members_needed = $("#members_needed").val();
-
-	console.log(data);
 
 	// Process into form data to support adding
 	var formData = new FormData($(".register-form")[0]);
@@ -185,6 +183,8 @@ appPage.register = function($this) {
 		$(".form-status").addClass("text-danger").append("<span class='d-block'>There was an error/s with your submission,<br> please check the highlighted fields and try again.</span>");
 	} else {
 		// add response error handling & loading indicators
+		$(".loading-indicator").find(".loading-status").text("Warming up...");
+		$(".loading-indicator").show();
 
 		$.ajax({
 			type: "POST",
@@ -195,12 +195,23 @@ appPage.register = function($this) {
 	        processData: false,
 			data: formData
 		}).done(function() {
-			// add response error handling & loading indicators
-		}).fail(function() {
+			$(".loading-indicator").find(".loading-status").text("All set. Let's go!");
+			setTimeout(function() {
+				window.location.href = "/my_profile?newRegister=yes";
+			}, 500);
+		}).fail(function(error) {
 			$this.prop("disabled", false);
-			// add response error handling & loading indicators
-		}).always(function() {
+			$(".loading-indicator").find(".loading-status").text("");
+			$(".loading-indicator").hide();
 
+			if ( error.status == 400 && ("errorSet" in error.responseJSON) ) {
+				$(".form-status").addClass("text-danger")
+				error.responseJSON.errorSet.map(function(err) {
+					$(".form-status").append("<span class='d-block'>" + error.responseJSON.message + "</span>");
+				});
+			} else {
+				$(".form-status").addClass("text-danger").text(error.responseJSON.message);
+			}
 		});
 	}
 }

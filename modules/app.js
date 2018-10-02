@@ -21,6 +21,7 @@ app.rateLimit = rateLimit({
 });
 
 app.handleError = function( error, req, res ) {
+	console.log(":app error");
 	if ( ("authenticationError" in error) ) {
 		res.status(401).json({ message: error.message }).end();
 	} else {
