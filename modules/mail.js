@@ -1,5 +1,6 @@
 const AWS = require("aws-sdk");
 const app = require("@modules/app");
+const path = require("path");
 const templating = require("@modules/templating");
 
 AWS.config.update({ region: "us-east-1" });
@@ -29,7 +30,7 @@ mail.send.registration = function(to, name, verificationKey) {
 		};
 
 		return templating.build(path.join(__dirname, "../templates/emails", "registerEmail.html"), data);
-	}).then((content) => {
+	}).then((html) => {
 		let details = {
 			"to": to,
 			"subject": "On Stage - Email Verification",
@@ -49,7 +50,7 @@ mail.send.passwordReset = function(to, name, resetKey) {
 		};
 
 		return templating.build(path.join(__dirname, "../templates/emails", "passwordReset.html"), data);
-	}).then((content) => {
+	}).then((html) => {
 		let details = {
 			"to": to,
 			"subject": "On Stage - Password Reset",
@@ -60,34 +61,34 @@ mail.send.passwordReset = function(to, name, resetKey) {
 	});
 };
 
-module.export = mail;
+module.exports = mail;
 
 //function sends mail
 internal.sendMail = function(emailDetails) {
 	return Promise.resolve().then(() => {
 		let mailOptions = {
 			Destination: {
-				ToAddresses: [ `${emailDetials.to}` ]
+				ToAddresses: [ `${emailDetails.to}` ]
 			},
 			Message: {
 				Body: {
 					Html: {
 						Charset: "UTF-8",
-						Data: `${emailDetails.messagage}`
+						Data: `${emailDetails.message}`
 					},
-					Subject: {
-						Charset: 'UTF-8',
-						Data: `${emailDetails.subject}`
-					}
 				},
-				Source: `"OnStage" <onstageprojectteam@gmail.com>`,
-			}
+				Subject: {
+					Charset: 'UTF-8',
+					Data: `${emailDetails.subject}`
+				}
+			},
+			Source: `"On Stage" <admin@onstage.octbox.com>`,
 		};
 
 		return Promise.resolve(mailOptions)
 	}).then((options) => {
 		return new Promise(function(resolve, reject) {
-			internal.AWS.SES.sendEmail(options, (error, info) => {
+			internal.ses.sendEmail(options, (error, info) => {
 				if ( error ) {
 					reject(error);
 				} else {
@@ -100,3 +101,5 @@ internal.sendMail = function(emailDetails) {
 		return Promise.reject(error);
 	}).catch((error) => app.handleError(error));
 };
+
+internal.ses = new AWS.SES({apiVersion: '2010-12-01'});

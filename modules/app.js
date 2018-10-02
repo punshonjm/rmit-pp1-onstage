@@ -30,9 +30,10 @@ app.handleError = function( error, req, res ) {
 		}
 
 		if ( ("error" in error) && ("sql" in error.error) ) {
+			console.error( error.error );
 			console.error("=========================================");
 			console.error("SQL Error @ ", moment().format("YYYY-MM-DD HH:mm:ss"));
-			console.error(error.error.sqlMessage);
+			console.error( error.error.sqlMessage );
 			console.error("=========================================");
 		} else {
 			console.log(error);

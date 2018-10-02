@@ -166,10 +166,7 @@ aaa.checkAccess = function( req, perms = {} ) {
 
 // Authentication: Login & Logout
 aaa.login = function(details) {
-	// return internal._createAccount(details);
-
 	return Promise.resolve().then(() => {
-		console.log(details.username);
 		let query = dbc.sql.select().fields([
 			"p.user_id", "u.username", "p.password"
 		]).from(

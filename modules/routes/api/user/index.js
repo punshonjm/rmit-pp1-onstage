@@ -1,4 +1,5 @@
 const path = require("path");
+const moment = require("moment");
 const router = require("express").Router();
 
 const aaa = require("@modules/aaa");
@@ -33,9 +34,11 @@ router.post("/register", uploader.fields([ { name: "background", maxCount: 1 }, 
 		// Adds the uploaded profile & background photos to the body that is passed
 		req.body.files = req.files;
 		return models.users.register(req.body);
-	}).then((status) => {
+	}).then((stagePass) => {
 		// if we want to check something before responding here
-		res.status(200).end();
+		res.status(200).cookie("stagePass", stagePass, {
+			expires: moment(stagePass.expires, "YYYY-MM-DD HH:mm:ss").toDate()
+		}).end();
 	}).catch((error) => {
 		// additional register specific error handling if you want to here
 		if ( ("key" in error) ) {

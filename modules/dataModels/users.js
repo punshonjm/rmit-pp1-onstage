@@ -1,9 +1,15 @@
-const dbc = require("@modules/dbc");
-const aaa = require("@modules/aaa");
-const mail = require("@modules/mail");
+const fs = require('fs');
+const path = require('path');
+
 const AWS = require('aws-sdk');
 const _ = require("lodash");
 const crypto = require("crypto");
+const CryptoJS = require("crypto-js");
+const moment = require("moment");
+
+const dbc = require("@modules/dbc");
+const aaa = require("@modules/aaa");
+const mail = require("@modules/mail");
 
 var users = {};
 
@@ -59,10 +65,17 @@ users.details = function(user_id) {
 }
 
 users.register = function(params) {
-	let row = {}, profile = {}, pwd = {}, verify = {}, errors = [];
-	console.log(params);
+	let row = {}, profile = {}, pwd = {}, verify = {}, errors = [], files = [];
+	let allowedTypes = [ "image/png", "image/jpeg" ];
 
 	return Promise.resolve().then(() => {
+		if ( ("profile" in params.files) ) {
+			files.push(params.files.profile[0].path);
+		}
+		if ( ("background" in params.files) ) {
+			files.push(params.files.background[0].path);
+		}
+
     	// Begin server side validation
         if (!("username" in params)) errors.push({key: 'username', error: 'Username must not be empty.'});
         if (!("password" in params)) errors.push({key: 'password', error: 'Password must not be empty.'});
@@ -108,13 +121,61 @@ users.register = function(params) {
 			return Promise.resolve();
 		}
 	}).then(() => {
-		// handle file uploads here
+		if ( ("profile" in params.files) ) {
+			let img = params.files.profile[0];
 
-		// profile.picture = params.files.profile;
-		// profile.background = params.files.background;
+			if ( allowedTypes.includes(img.mimetype) ) {
+				return new Promise(function(resolve, reject) {
+					fs.readFile(img.path, (error, file) => {
+						if ( error ) {
+							reject(error);
+						}
+
+						let imgName = CryptoJS.MD5(params.username + "_pp").toString();
+						imgName += (img.mimetype == "image/png") ? ".png" : ".jpg";
+						resolve( internal.images.upload(imgName, file) );
+					});
+				});
+			} else {
+				return Promise.reject({ key: "profile", message: "Profile image must be a JPEG or PNG." });
+			}
+		} else {
+			return Promise.resolve(null);
+		}
+
+	}).then((profileLoc) => {
+		if ( profileLoc != null ) {
+			profile.picture = profileLoc;
+		}
+
+		if ( ("background" in params.files) ) {
+			let img = params.files.background[0];
+
+			if ( allowedTypes.includes(img.mimetype) ) {
+				return new Promise(function(resolve, reject) {
+					fs.readFile(img.path, (error, file) => {
+						if ( error ) {
+							reject(error);
+						}
+
+						let imgName = CryptoJS.MD5(params.username + "_bg").toString();
+						imgName += (img.mimetype == "image/png") ? ".png" : ".jpg";
+						resolve( internal.images.upload(imgName, file) );
+					});
+				});
+			} else {
+				return Promise.reject({ key: "background", message: "Background image must be a JPEG or PNG." });
+			}
+		} else {
+			return Promise.resolve(null);
+		}
 
 		return Promise.resolve();
-	}).then(() => {
+	}).then((bgLoc) => {
+		if ( bgLoc != null ) {
+			profile.background = bgLoc;
+		}
+
 		return aaa.hashPassword(params.password);
 	}).then((pwdHash) => {
 		pwd.password = pwdHash;
@@ -123,7 +184,7 @@ users.register = function(params) {
 		row.email = params.email;
 		row.display_name = params.display_name;
 
-		let query = dbc.insert().into("ebdb.user").setFields(row);
+		let query = dbc.sql.insert().into("ebdb.user").setFields(row);
 		return dbc.execute(query);
 	}).then((res) => {
 		profile.user_id = res.insertId;
@@ -137,59 +198,83 @@ users.register = function(params) {
 		profile.commitment_level_id = params.commitment_level;
 		profile.gig_frequency_id = params.gig_frequency;
 		profile.status_id = params.status;
+		profile.sql_updated_by = res.insertId;
 
 		if ( ("band_size" in params) ) {
 			profile.band_size = params.band_size;
 		}
 
-		let query = dbc.insert().into("ebdb.profile").setFields(profile);
+		let query = dbc.sql.insert().into("ebdb.profile").setFields(profile);
 		return dbc.execute(query);
 	}).then((res) => {
 		profile.id = res.insertId;
 		pwd.user_id = profile.user_id;
 
-		let query = dbc.insert().into("ebdb.password").setFields(pwd);
-		return dbc.execute(query);
+		// Need to self-param query due to password field being stored blob
+		let query = { text: "INSERT INTO ebdb.password SET ?", values: pwd };
+ 		return dbc.execute(query);
 	}).then((res) => {
-		let rows = [];
-
-		params.genres.map((gnr) => {
+		let genres = [];
+		params.genre.split(",").map((gnr) => {
 			let genre = {}
 			genre.profile_id = profile.id;
-			genre.genre_id = id_genre_multiple;
-			rows.push(genres);
+			genre.genre_id = gnr;
+			genres.push(genre);
 		});
 
-		let query = dbc.insert().into("ebdb.profile_genre_map").setFieldsRows(pwd);
+		let query = dbc.sql.insert().into("ebdb.profile_genre_map").setFieldsRows(genres);
 		return dbc.execute(query);
 	}).then((res) => {
-		let rows = [];
-
-		params.instruments.map((instr) => {
+		let instruments = [];
+		params.instruments.split(",").map((instr) => {
 			let instrument = {};
 			instrument.profile_id = profile.id;
 			instrument.instrument_id = instr;
-			rows.push(instrument);
+			instruments.push(instrument);
 		});
 
-		let query = dbc.insert().into("ebdb.profile_instrument_map").setFieldsRows(pwd);
+		let query = dbc.sql.insert().into("ebdb.profile_instrument_map").setFieldsRows(instruments);
 		return dbc.execute(query);
 	}).then((res) => {
 		verify.key = crypto.randomBytes(Math.ceil(24 / 2)).toString('hex').slice(0, 24);
-		return mail.send.verification(row.email, row.display_name, verify.key);
+		return mail.send.registration(row.email, row.display_name, verify.key);
 	}).then((eml) => {
-		return aaa.hashPassword(verfiy.key);
+		return aaa.hashPassword(verify.key);
 	}).then((key) => {
 		verify.user_id = profile.user_id;
 		verify.key = key;
 		verify.expires = moment().add(1, "day").format("YYYY-MM-DD HH:mm:ss");
 
-		let query = dbc.insert().into("ebdb.email_verification").setFieldsRows(pwd);
+		// Need to self-param query due to key field being stored blob
+		let query = { text: "INSERT INTO ebdb.email_verification SET ?", values: verify };
 		return dbc.execute(query);
 	}).then((res) => {
 
-		return Promise.resolve();
-	});
+		let details = {
+			username: params.username,
+			password: params.password
+		};
+
+		return aaa.login(details);
+	}).then((user) => {
+		if ( files.length > 0 ) files.map((file)  => fs.unlinkSync(file) );
+		files = [];
+
+		let stagePass = {
+			token: user.token,
+			expires: user.expires.clone().format("YYYY-MM-DD HH:mm:ss")
+		};
+
+		return Promise.resolve(stagePass);
+	}).catch((error) => {
+		if ( files.length > 0 ) files.map((file)  => fs.unlinkSync(file) );
+		if ( ("user_id" in profile) ) {
+			let query = dbc.sql.delete().from("ebdb.user").where("id = ?", profile.user_id);
+			dbc.execute(query);
+		}
+
+		return Promise.reject(error);
+	})
 };
 
 module.exports = users;

@@ -103,7 +103,7 @@ appPage.register = function($this) {
 	}
 
 	// email check
-	if ( !/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/.test(data.email) ) {
+	if ( !/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/.test(data.email) ) {
 		$("#email").addError("has-danger", "Please enter a valid email address.");
 		errors.push("email");
 	}
@@ -269,7 +269,7 @@ $(document).ready(function() {
 	appPage.register( $(this) );
 }).on("keyup focusout", "#password", function() {
 	appPage.password.strength();
-}).on("keyup focusout", "#passwordConfirm", function() {
+}).on("keyup focusout", "#passwordConfirm, #password", function() {
 	appPage.password.confirm();
 }).on('blur', '#email', function() {
 	appPage.email($(this));
