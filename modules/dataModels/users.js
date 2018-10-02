@@ -83,6 +83,10 @@ users.register = function(params) {
         if (!("email" in params)) errors.push({key: 'email', error: 'Email must not be empty.'});
         if (!("agree" in params)) errors.push({key: 'agree', error: 'You must agree to the terms and conditions.'});
 
+		if ( !/^[a-zA-Z0-9]+[a-zA-Z0-9_.-]*$/.test(params.username) ) {
+			errors.push({key: 'username', error: 'Username contains invalid characters.'});
+		}
+
         // Don't continue if there are already errors
         if ( errors.length > 0 ) return Promise.reject({ errorSet: errors });
 

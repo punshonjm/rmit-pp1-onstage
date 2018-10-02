@@ -50,9 +50,6 @@ appPage.register = function($this) {
 		// "status", "gender"
 	];
 
-	// data.gender = $('[name="gender"]:checked').val();
-	// data.status = $('[name="status"]:checked').val();
-
 	data.display_name = $('#display_name').val();
 	data.age_bracket = $('#age_bracket').val();
 	data.username = $('#username').val();
@@ -77,7 +74,7 @@ appPage.register = function($this) {
 	data.members_needed = $("#members_needed").val();
 
 	// Process into form data to support adding
-	var formData = new FormData($(".register-form")[0]);
+	var formData = new FormData( $(".register-form")[0] );
 	Object.keys(data).map(function(key) {
 		if ( (data[key] != null) && (data[key] != "") && (typeof data[key] != typeof undefined) ) {
 			formData.append(key, data[key]);
@@ -100,6 +97,12 @@ appPage.register = function($this) {
 		errors.push("username");
 	}
 
+	// Username character check
+	if ( !/^[a-zA-Z0-9]+[a-zA-Z0-9_.-]*$/.test(data.username) ) {
+		$('#username').addError("has-danger", "Please enter letters, numbers, '_', '.' or '-' only. Do not start with any of the special characters.");
+		errors.push("username");
+	}
+
 	// email check
 	if ( !/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/.test(data.email) ) {
 		$("#email").addError("has-danger", "Please enter a valid email address.");
@@ -118,12 +121,14 @@ appPage.register = function($this) {
 		$("[name='gender']").closest(".form-group").find("label").addClass("text-danger");
 		errors.push("gender");
 	}
+
 	// add status check
 	if ( typeof $("[name='status']:checked").val() == typeof undefined ) {
 		$("[name='status']").closest("label").addClass("text-danger");
 		$("[name='status']").closest(".form-group").find("label").addClass("text-danger");
 		errors.push("status");
 	}
+
 	// add agree check
 	if ( typeof $("[name='agree']:checked").val() == typeof undefined ) {
 		 $("[name='agree']").closest("label").addClass("text-danger");
@@ -255,7 +260,6 @@ appPage.password.strength = function() {
 		return false;
 	} else {
 		$(".password-strength").text("Good choice!");
-
 		return true;
 	}
 };
