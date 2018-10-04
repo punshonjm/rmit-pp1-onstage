@@ -41,7 +41,7 @@ appPage.register = function($this) {
 
 	var data = {}, errors = [];
 	var required = [
-		"display_name", "age_bracket", "postcode", "music_experience",
+		"display_name", "postcode", "music_experience",
 		"username", "email", "password", "passwordConfirm",
 		"past_gigs", "commitment_level", "gig_frequency", "agree"
 	];
@@ -49,6 +49,8 @@ appPage.register = function($this) {
 	data.type = window.app.data.formType;
 	if ( data.type == "band" ) {
 		required.push( "bandSize", "preferred_age_bracket", "required_music_experience", "members_needed" );
+	} else {
+		required.push( "age_bracket");
 	}
 
 	data.display_name = $('#display_name').val();
@@ -61,9 +63,9 @@ appPage.register = function($this) {
 
 	data.aboutMe = $('#aboutMe').val();
 	data.music_experience = $('#music_experience').val();
-	data.past_gigs = $('#past_gigs').val();
 	data.instruments = $('#instruments').val();
 	data.genre = $('#genre').val();
+	data.past_gigs = $('#past_gigs').val();
 	data.commitment_level = $('#commitment_level').val();
 	data.gig_frequency = $('#gig_frequency').val();
 	data.agree = $('#agree:checked').val();
@@ -73,6 +75,9 @@ appPage.register = function($this) {
 	data.preferred_age_bracket = $("#preferred_age_bracket").val();
 	data.required_music_experience = $("#required_music_experience").val();
 	data.members_needed = $("#members_needed").val();
+	// data.past_gigs = $('#required_past_gigs').val();
+	// data.commitment_level = $('#required_commitment_level').val();
+	// data.gig_frequency = $('#required_gig_frequency').val();
 
 	// Process into form data to support adding
 	var formData = new FormData( $(".register-form")[0] );

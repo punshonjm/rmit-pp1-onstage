@@ -1,51 +1,60 @@
 {{#*inline "header_block"}}
 <div class="page-header header-filter" style="background-image: url('{{this.headerImage}}');  height:250px;">
-    <div class="container"></div>
+    <div class="container text-center">
+		<h2>Band Registration</h2>
+	</div>
 </div>
 {{/inline}}
 <div class="row">
 	<div class="col-lg-8 col-lg-4 ml-auto mr-auto" style="font-size: 28px;">
 		<div class='row'>
-			<div class='col-md-12 text-center'>
-				<h2>Band Registration</h2>
-			</div>
 			<div class='col-md-12'>
 				<form class="search-form">
 					<div class='row pb-2'>
 						<div class="col-md-12">
+							<h3>The Basics About You</h3>
+						</div>
+						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label class="bmd-label-floating">Display/Band Name:</label>
-								<input id="name" type="text" class="form-control" required>
+								<input id="display_name" type="text" class="form-control" required>
+								<small class="form-text text-danger"></small>
 							</div>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label class="bmd-label-floating">Username:</label>
 								<input id="username" type="text" class="form-control" required>
+								<small class="form-text text-danger"></small>
 							</div>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label class="bmd-label-floating">Email:</label>
 								<input id="email" type="text" class="form-control" required>
+								<small class="form-text text-danger"></small>
 							</div>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
-								<label class="bmd-label-floating">Password:</label>
-								<input id="password" type="password" class="form-control" required>
+								<label class="bmd-label-floating">Password *:</label>
+								<input id="password" type="password" class="form-control password" required>
+								<div class="password-meter"></div>
 							</div>
+							<p class="password-strength"></p>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
-								<label class="bmd-label-floating">Confirm Password:</label>
-								<input id="passwordConfirm" type="password" class="form-control" required>
+								<label class="bmd-label-floating">Confirm Password *:</label>
+								<input id="passwordConfirm" type="password" class="form-control password" required>
 							</div>
+							<p class="password-status"></p>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
-								<label class="bmd-label-floating">Postcode:</label>
+								<label class="bmd-label-floating">Postcode *:</label>
 								<input id="postcode" type="text" class="form-control" required>
+								<small class="form-text text-danger"></small>
 							</div>
 						</div>
 						<div class="col-md-12">
@@ -69,7 +78,13 @@
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label for="id_genre_multiple">Genres Played (You may choose more than one)</label>
-								<select class="select2-genre js-states form-control" id="id_genre_multiple" multiple="multiple"></select>
+								<select class="select2-genre js-states form-control" id="genre" multiple="multiple"></select>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group bmd-form-group">
+								<label class="bmd-label-floating">About Our Band:</label>
+								<textarea id="aboutUs" class="form-control" rows="4"></textarea>
 							</div>
 						</div>
 						<div class="col-md-6 d-flex justify-content-center">
@@ -86,7 +101,7 @@
 											<span class="fileinput-exists" data-trigger="fileinput">Change</span>
 											<input type="file" name="profile" id="profile" accept="image/*" />
 										</span>
-										<a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+										<a href="#" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
 									</div>
 								</div>
 							</div>
@@ -105,20 +120,29 @@
 											<span class="fileinput-exists" data-trigger="fileinput">Change</span>
 											<input type="file" name="background" id="background" accept="image/*" />
 										</span>
-										<a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+										<a href="#" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
-								<label class="bmd-label-floating">About Our Band:</label>
-								<textarea id="aboutUs" class="form-control" rows="4"></textarea>
+								<label class="d-block font-weight-bold">Current Status *:</label>
+								{{#each this.criteria.status}}
+								<div class="form-check form-check-radio form-check-inline">
+									<label class="form-check-label" for="status_{{this.id}}">
+										<input class="form-check-input" type="radio" name="status" id="status_{{this.id}}" value="{{this.id}}"> {{this.name}}
+										<span class="circle">
+											<span class="check"></span>
+										</span>
+									</label>
+								</div>
+								{{/each}}
 							</div>
 						</div>
 					</div>
 					<div class="row">
-						<div class='col-md-12 registerHeader'>
+						<div class='col-md-12'>
 							<h3>New Band Member/s Requirements</h3>
 						</div>
 						<div class="col-md-12">
@@ -152,7 +176,7 @@
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label for="id_instrument_multiple">Instrument/s Required (You may choose more than one)</label>
-								<select class="select2-instrument js-states form-control" id="id_instrument_multiple" multiple="multiple"></select>
+								<select class="select2-instrument js-states form-control" id="instruments" multiple="multiple"></select>
 							</div>
 						</div>
 						<div class="col-md-12">
@@ -169,7 +193,7 @@
 						</div>
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
-								<label>Music Experience:</label>
+								<label>Required Music Experience:</label>
 								<select id="required_music_experience" class='form-control'>
 									<option>1</option>
 									<option>2</option>

@@ -204,8 +204,15 @@ users.register = function(params) {
 		profile.status_id = params.status;
 		profile.sql_updated_by = res.insertId;
 
+		// band
 		if ( ("band_size" in params) ) {
 			profile.band_size = params.band_size;
+		}
+		if ( ("members_needed" in params) ) {
+			profile.members_needed = params.members_needed;
+		}
+		if ( ("required_music_experience" in params) ) {
+			profile.required_music_experience = params.required_music_experience;
 		}
 
 		let query = dbc.sql.insert().into("ebdb.profile").setFields(profile);

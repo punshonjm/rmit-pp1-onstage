@@ -1,6 +1,6 @@
 {{#*inline "header_block"}}
 <div class="page-header header-filter" style="background-image: url('{{this.headerImage}}'); height:250px; ">
-	<div class="container text-center registration_musician" style="display:none;">
+	<div class="container text-center">
 		<h2>Register as a Musician</h2>
 	</div>
 </div>
