@@ -219,7 +219,7 @@ appPage.register = function($this) {
 				$(".form-status").addClass("text-danger");
 				
 				error.responseJSON.errorSet.map(function(err) {
-					if ( .length > 0 ) {
+					if ( $("#" + err.key).length > 0 ) {
 						$("#" + err.key).addError("has-warning", error.responseJSON.error);
 					} else {
 						$(".form-status").append("<span class='d-block'>" + error.responseJSON.error + "</span>");
