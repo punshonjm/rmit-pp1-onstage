@@ -242,5 +242,7 @@
 <script src="/public/js/plugins/mailcheck.min.js" type="text/javascript"></script>
 <script src="/public/js/app/user/register.js" type="text/javascript"></script>
 <script>
-	window.app.data.formType = "band";
+	$(document).ready(function() {
+		window.app.data.formType = "band";
+	});
 </script>
