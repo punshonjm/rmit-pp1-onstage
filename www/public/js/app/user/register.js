@@ -110,7 +110,7 @@ appPage.register = function($this) {
 	}
 
 	// add post code check
-	if ( ("postcode" in data) && data.postcode.length != 4 ) {
+	if ( ("postcode" in data) && !/[0-9]{4}/.test(data.postcode) ) {
 		$('#postcode').addError("has-danger", "A postcode consists of 4 numbers.");
 		errors.push("postcode");
 	}
@@ -212,7 +212,7 @@ appPage.register = function($this) {
 			if ( error.status == 400 && ("errorSet" in error.responseJSON) ) {
 				$(".form-status").addClass("text-danger")
 				error.responseJSON.errorSet.map(function(err) {
-					$(".form-status").append("<span class='d-block'>" + error.responseJSON.message + "</span>");
+					$(".form-status").append("<span class='d-block'>" + error.responseJSON.error + "</span>");
 				});
 			} else {
 				$(".form-status").addClass("text-danger").text(error.responseJSON.message);
@@ -245,8 +245,14 @@ appPage.password.strength = function() {
 	var strength = zxcvbn($("#password").val());
 
 	// show pwd strength strength.score
+	$(".password-meter").empty();
+	$(".password-meter").append("<span></span>");
+	$(".password-meter span").addClass("strength-" + strength.score);
 
 	if ( strength.score < 3 ) {
+		$("#password").addError();
+		$(".password-strength").append("<span class='d-block text-danger'>Please choose a stronger password.</span>");
+
 		if ( strength.feedback.warning != null ) {
 			$(".password-strength").append("<span class='d-block text-danger'>"+strength.feedback.warning+"</span>");
 		}
@@ -290,4 +296,4 @@ $(document).ready(function() {
 	appPage.email($(this));
 }).on("click", "[data-suggestion]", function() {
 	$("#email").val($(this).data().suggestion).blur();
-});
+})
