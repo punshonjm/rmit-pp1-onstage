@@ -43,12 +43,13 @@ appPage.register = function($this) {
 	var required = [
 		"display_name", "age_bracket", "postcode", "music_experience",
 		"username", "email", "password", "passwordConfirm",
-		"past_gigs", "id_instrument_multiple", "id_genre_multiple",
-		"commitment_level", "gig_frequency", "agree"
-
-		// "bandSize", "preferred_age_bracket", "required_music_experience", "members_needed"
-		// "status", "gender"
+		"past_gigs", "commitment_level", "gig_frequency", "agree"
 	];
+
+	data.type = window.app.data.formType;
+	if ( data.type == "band" ) {
+		required.push( "bandSize", "preferred_age_bracket", "required_music_experience", "members_needed" );
+	}
 
 	data.display_name = $('#display_name').val();
 	data.age_bracket = $('#age_bracket').val();

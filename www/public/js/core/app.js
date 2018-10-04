@@ -1,5 +1,6 @@
 var pageApp = {};
 window.app = {};
+window.app.data = {};
 
 pageApp.logout = function() {
 	$.get("/logout", function(res) {
