@@ -11,22 +11,6 @@ body, wrapper {
 	margin-top: 70px;
 }
 
-.onStageHeaderFont {
-   font-family: 'Archivo Black', sans-serif;
-}
-
-.registerHeader {
-    padding-right: 50px;
-}
-
-.loginbtns {
-    background-color: red;
-}
-
-.loginbg {
-    background-color: transparent;
-}
-
 .copyright, .copyright a {
     color: black;
 }

@@ -5,11 +5,9 @@
 			<div class="col-md-8 ml-auto mr-auto">
 				<div class="brand">
 					<h1 class='title'>Welcome to On Stage</h1>
-					<h4>
-						Whether you want to get up On Stage or need someone to
-						<br /> join you On Stage, this is where this can happen.
-						<br />Bringing bands and musicians together, this is On Stage.
-					</h4>
+					<h3>
+						Bringing bands and musicians together.
+					</h3>
 					<br>
 					<a href="/register_now" class="btn btn-danger btn-raised btn-lg">Join Now!</a>
 				</div>

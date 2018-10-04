@@ -1,5 +1,5 @@
 <div class="container">
-	<a class="navbar-brand onStageHeaderFont" href="/">On Stage</a>
+	<a class="navbar-brand" href="/">On Stage</a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="sr-only">Toggle navigation</span>
 		<span class="navbar-toggler-icon"></span>
@@ -11,8 +11,8 @@
 			<li class="nav-item">
 				<a class="nav-link" href="/">Home</a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="/about">About</a>
+			<li class="nav-item d-md-none">
+				<a class="nav-link" href="/contact_us">Contact Us</a>
 			</li>
 		</ul>
 		<ul class="navbar-nav ml-auto">
@@ -21,7 +21,7 @@
 				{{#compare this.user.type_id 1}}
 				<a class="nav-link" href="/green_room">Green Room</a>
 				{{else}}
-				<a class="nav-link" href="/my_profile">Profile</a>
+				<a class="nav-link" href="/my_profile">My Profile</a>
 				{{/compare}}
 			</li>
 			<li class="nav-item">
@@ -38,16 +38,19 @@
 			<li class="nav-item">
 				<a class="nav-link" rel="tooltip" title="" data-placement="bottom" href="https://twitter.com/hashtag/onstage?f=images&vertical=default&src=hash&lang=en" target="_blank" data-original-title="Follow us on Twitter">
 					<i class="fa fa-twitter"></i>
+					<span class="d-md-none"> Twitter</span>
 				</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" rel="tooltip" title="" data-placement="bottom" href="https://www.facebook.com/search/videos/?q=%23onstage" target="_blank" data-original-title="Like us on Facebook">
 					<i class="fa fa-facebook-square"></i>
+					<span class="d-md-none"> Facebook</span>
 				</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" rel="tooltip" title="" data-placement="bottom" href="https://www.instagram.com/explore/tags/onstage" target="_blank" data-original-title="Follow us on Instagram">
 					<i class="fa fa-instagram"></i>
+					<span class="d-md-none"> Instragram</span>
 				</a>
 			</li>
 		</ul>

@@ -22,7 +22,7 @@
 	<body class="login-page sidebar-collapse" style="background-image: url('/public/img/bg-new.jpg'); background-size: cover; background-position: top center;">
 		<nav class="navbar fixed-top navbar-expand-lg navbar-transparent">
 		    <div class="container">
-		        <a class="navbar-brand onStageHeaderFont" href="/">On Stage</a>
+		        <a class="navbar-brand" href="/">On Stage</a>
 		        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 		            <span class="sr-only">Toggle navigation</span>
 		            <span class="navbar-toggler-icon"></span>
@@ -34,16 +34,19 @@
 						<li class="nav-item">
 							<a class="nav-link" rel="tooltip" title="" data-placement="bottom" href="https://twitter.com/hashtag/onstage?f=images&vertical=default&src=hash&lang=en" target="_blank" data-original-title="Follow us on Twitter">
 								<i class="fa fa-twitter"></i>
+								<span class="d-md-none"> Twitter</span>
 							</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" rel="tooltip" title="" data-placement="bottom" href="https://www.facebook.com/search/videos/?q=%23onstage" target="_blank" data-original-title="Like us on Facebook">
 								<i class="fa fa-facebook-square"></i>
+								<span class="d-md-none"> Facebook</span>
 							</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" rel="tooltip" title="" data-placement="bottom" href="https://www.instagram.com/explore/tags/onstage" target="_blank" data-original-title="Follow us on Instagram">
 								<i class="fa fa-instagram"></i>
+								<span class="d-md-none"> Instragram</span>
 							</a>
 						</li>
 		            </ul>
@@ -55,11 +58,12 @@
 		        <div class="row">
 		            <div class="col-lg-4 col-md-6 ml-auto mr-auto">
 		                <div class="card card-login">
+							<div class="card-header card-header-primary text-center">
+								<h4 class="card-title">Log in to</h4>
+								<h2>On Stage</h2>
+							</div>
 		                    <div class="card-body px-2" id="loginForm">
 		                        <div class='row'>
-		                            <div class='col-md-12'>
-										<h2 class="card-title text-center">Log in to On Stage</h2>
-									</div>
 		                            <div class='col-md-12'>
 		                                <div class="form-group bmd-form-group">
 		                                    <label class="pl-5 ml-2 bmd-label-floating">Username</label>
@@ -90,14 +94,14 @@
 		                                <div class='loginStatus text-center p-2'></div>
 		                            </div>
 		                            <div class='col-md-12 d-flex justify-content-center'>
-		                                <button id="login" class="btn btn-primary btn-wd btn-lg">&nbsp;&nbsp;&nbsp;Log In&nbsp;&nbsp;&nbsp;</button>
+		                                <button id="login" class="btn btn-primary btn-wd btn-lg w-50">Log In</button>
 		                            </div>
 		                        </div>
 		                        <hr />
 		                        <div class="row">
 		                            <div class="col-md-12 text-center mb-3">
 		                                <h4 class="d-block">New around here?</h4>
-		                                <a href="/register_now" class='btn btn-primary btn-wd btn-lg'>Join Now</a>
+		                                <a href="/register_now" class='btn btn-primary btn-wd btn-lg w-50'>Join Now</a>
 		                            </div>
 		                        </div>
 		                    </div>
