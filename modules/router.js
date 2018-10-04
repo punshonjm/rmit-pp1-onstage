@@ -10,6 +10,7 @@ const controllers = require("@modules/pageControllers");
 const app = require("@modules/app");
 const aaa = require("@modules/aaa");
 const mail = require("@modules/mail");
+const models = require("@modules/models");
 
 router.get("/", (req, res) => {
 	// Present home page
@@ -68,6 +69,20 @@ router.get("/logout", (req, res) => {
 		let code = (sr) ? 200 : 500;
 		res.status(code).end();
 	}).catch((err) => app.handleError(err, req, res));
+});
+
+router.get("/user/verify/:key", (req, res) => {
+	Promise.resolve().then(() => {
+		return models.users.verifyEmail(req.params.key);
+	}).then((result) => {
+		var data = { pageName: "Email Verified" };
+		data.user = req.user;
+		data.message = result.message;
+
+		return templating.compile("email_verified", data);
+    }).then((html) => {
+        res.send(html).end();
+    }).catch((err) => app.handleError(err, req, res));
 });
 
 /*

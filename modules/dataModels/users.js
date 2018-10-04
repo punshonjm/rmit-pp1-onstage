@@ -204,7 +204,7 @@ users.register = function(params) {
 		profile.status_id = params.status;
 		profile.sql_updated_by = res.insertId;
 
-		// band
+		// Band Options
 		if ( ("band_size" in params) ) {
 			profile.band_size = params.band_size;
 		}
@@ -248,19 +248,14 @@ users.register = function(params) {
 		return dbc.execute(query);
 	}).then((res) => {
 		verify.key = crypto.randomBytes(Math.ceil(24 / 2)).toString('hex').slice(0, 24);
-		return mail.send.registration(row.email, row.display_name, verify.key);
-	}).then((eml) => {
-		return aaa.hashPassword(verify.key);
-	}).then((key) => {
 		verify.user_id = profile.user_id;
-		verify.key = key;
 		verify.expires = moment().add(1, "day").format("YYYY-MM-DD HH:mm:ss");
 
-		// Need to self-param query due to key field being stored blob
-		let query = { text: "INSERT INTO ebdb.email_verification SET ?", values: verify };
+		return mail.send.registration(row.email, row.display_name, verify.key);
+	}).then((eml) => {
+		let query = dbc.sql.insert().into("ebdb.email_verification").setFieldsRows(verify);
 		return dbc.execute(query);
 	}).then((res) => {
-
 		let details = {
 			username: params.username,
 			password: params.password
@@ -286,6 +281,49 @@ users.register = function(params) {
 
 		return Promise.reject(error);
 	})
+};
+
+users.verifyEmail = function(key) {
+	let verifyRow = {};
+	return Promise.resolve().then(() => {
+		if ( key != null && key != "" ) {
+			let query = dbc.sql.select().from(
+				"ebdb.email_verification",
+				"e"
+			).where("e.key = ?", key);
+
+			return dbc.getRow(query);
+		} else {
+			return Promise.reject({ message: "That doesn't seem to be for anything. Are you sure you copied the link correctly?" });
+		}
+	}).then((rows) => {
+		if ( row ) {
+			if ( moment(row.expires, "YYYY-MM-DD HH:mm:ss").isAfter( moment() ) ) {
+				verifyRow = _.cloneDeep(row);
+				return Promise.resolve();
+			} else {
+				return Promise.reject({ message: "Sorry that link has expired! You can send a new one from your profile page." });
+			}
+		} else {
+			return Promise.reject({ message: "That doesn't seem to be for anything. Are you sure you copied the link correctly?" });
+		}
+	}).then(() => {
+		let query = dbc.sql.update().table(
+			"ebdb.user"
+		).setFields({
+			email_verified: 1
+		}).where("id = ?", verifyRow.user_id);
+
+		return dbc.execute(query);
+	}).then((res) => {
+		let query = dbc.sql.delete().from(
+			"ebdb.email_verification"
+		).where("id = ?", verifyRow.id);
+
+		return dbc.execute(query);
+	}).then((res) => {
+		return Promise.resolve({ message: "Successfully verified your email. Enjoy On Stage!" });
+	});
 };
 
 module.exports = users;

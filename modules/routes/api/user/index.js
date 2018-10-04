@@ -61,9 +61,10 @@ router.param("id", (req, res, next, id) => {
 router.post("/:id/report", (req, res) => {
 	Promise.resolve().then(() => {
 		let row = {};
-		row.user_id = req.profile.user_id
+		row.user_id = req.profile.user_id;
 		row.req_ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 		row.reason = req.body.reportReason;
+
 		if ( req.user ) {
 			row.report_by = req.user.user_id;
 		}
