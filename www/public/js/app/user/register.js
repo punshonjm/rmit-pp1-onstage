@@ -216,9 +216,14 @@ appPage.register = function($this) {
 			$(".loading-indicator").hide();
 
 			if ( error.status == 400 && ("errorSet" in error.responseJSON) ) {
-				$(".form-status").addClass("text-danger")
+				$(".form-status").addClass("text-danger");
+				
 				error.responseJSON.errorSet.map(function(err) {
-					$(".form-status").append("<span class='d-block'>" + error.responseJSON.error + "</span>");
+					if ( .length > 0 ) {
+						$("#" + err.key).addError("has-warning", error.responseJSON.error);
+					} else {
+						$(".form-status").append("<span class='d-block'>" + error.responseJSON.error + "</span>");
+					}
 				});
 			} else {
 				$(".form-status").addClass("text-danger").text(error.responseJSON.message);

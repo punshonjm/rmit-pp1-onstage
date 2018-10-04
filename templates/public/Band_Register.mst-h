@@ -67,11 +67,12 @@
 							<div class="form-group bmd-form-group">
 								<label>Music Experience:</label>
 								<select id="music_experience" class='form-control'>
-									<option>1</option>
-									<option>2</option>
-									<option>5</option>
-									<option>10</option>
-									<option>20+</option>
+									<option value="">Choose...</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="5">5</option>
+									<option value="10">10</option>
+									<option value="20+">20+</option>
 								</select>
 							</div>
 						</div>
@@ -164,6 +165,7 @@
 							<div class="form-group bmd-form-group">
 								<label>Number of Members Needed:</label>
 								<select id="members_needed" class='form-control'>
+									<option value="">Choose...</option>
 									<option>1</option>
 									<option>2</option>
 									<option>3</option>
@@ -187,7 +189,6 @@
 									{{#each this.criteria.age_bracket}}
 									<option value="{{this.id}}">{{this.name}}</option>
 									{{/each}}
-									<option value="Unspecified">Unspecified</option>
 								</select>
 							</div>
 						</div>
@@ -195,6 +196,7 @@
 							<div class="form-group bmd-form-group">
 								<label>Required Music Experience:</label>
 								<select id="required_music_experience" class='form-control'>
+									<option value="">Choose...</option>
 									<option>1</option>
 									<option>2</option>
 									<option>5</option>
@@ -207,6 +209,7 @@
 							<div class="form-group bmd-form-group">
 								<label>Past Gigs:</label>
 								<select id="past_gigs" class='form-control'>
+									<option value="">Choose...</option>
 									<option>10</option>
 									<option>20</option>
 									<option>30</option>
