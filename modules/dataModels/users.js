@@ -196,7 +196,7 @@ users.register = function(params) {
 		profile.gender_id = params.gender;
 		profile.about = params.about;
 		profile.age_bracket_id = params.age_bracket;
-		profile.preference_age_bracket_id = params.preferred_age_bracket;
+
 		profile.past_gigs = params.past_gigs;
 		profile.music_experience = params.music_experience;
 		profile.commitment_level_id = params.commitment_level;
@@ -204,15 +204,15 @@ users.register = function(params) {
 		profile.status_id = params.status;
 		profile.sql_updated_by = res.insertId;
 
-		// Band Options
-		if ( ("band_size" in params) ) {
+		if ( params.type == "band" ) {
 			profile.band_size = params.band_size;
-		}
-		if ( ("members_needed" in params) ) {
 			profile.members_needed = params.members_needed;
-		}
-		if ( ("required_music_experience" in params) ) {
+			profile.preference_age_bracket_id = params.preferred_age_bracket;
+
 			profile.required_music_experience = params.required_music_experience;
+			profile.required_past_gigs = params.required_past_gigs;
+			profile.required_commitment_level = params.required_commitment_level;
+			profile.required_gig_frequency = params.required_gig_frequency;
 		}
 
 		let query = dbc.sql.insert().into("ebdb.profile").setFields(profile);

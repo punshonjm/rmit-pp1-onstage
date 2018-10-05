@@ -12,16 +12,16 @@
 				<form class="search-form">
 					<div class='row pb-2'>
 						<div class="col-md-12">
-							<h3>The Basics About You</h3>
+							<h3>The Basics About Your Band</h3>
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-6">
 							<div class="form-group bmd-form-group">
 								<label class="bmd-label-floating">Display/Band Name:</label>
 								<input id="display_name" type="text" class="form-control" required>
 								<small class="form-text text-danger"></small>
 							</div>
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-6">
 							<div class="form-group bmd-form-group">
 								<label class="bmd-label-floating">Username:</label>
 								<input id="username" type="text" class="form-control" required>
@@ -35,7 +35,7 @@
 								<small class="form-text text-danger"></small>
 							</div>
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-6">
 							<div class="form-group bmd-form-group">
 								<label class="bmd-label-floating">Password *:</label>
 								<input id="password" type="password" class="form-control password" required>
@@ -43,7 +43,7 @@
 							</div>
 							<p class="password-strength"></p>
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-6">
 							<div class="form-group bmd-form-group">
 								<label class="bmd-label-floating">Confirm Password *:</label>
 								<input id="passwordConfirm" type="password" class="form-control password" required>
@@ -65,14 +65,35 @@
 						</div>
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
+								<label class="d-block font-weight-bold">Current Status *:</label>
+								{{#each this.criteria.status}}
+								<div class="form-check form-check-radio form-check-inline">
+									<label class="form-check-label" for="status_{{this.id}}">
+										<input class="form-check-input" type="radio" name="status" id="status_{{this.id}}" value="{{this.id}}"> {{this.name}}
+										<span class="circle">
+											<span class="check"></span>
+										</span>
+									</label>
+								</div>
+								{{/each}}
+							</div>
+						</div>
+					</div>
+					<hr />
+					<div class="row">
+						<div class="col-md-12">
+							<h3>Let's Talk Music</h3>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group bmd-form-group">
 								<label>Music Experience:</label>
 								<select id="music_experience" class='form-control'>
 									<option value="">Choose...</option>
-									<option value="1">1</option>
-									<option value="2">2</option>
-									<option value="5">5</option>
-									<option value="10">10</option>
-									<option value="20+">20+</option>
+									<option value="1">1 year</option>
+									<option value="2">2 years</option>
+									<option value="5">5 years</option>
+									<option value="10">10 years</option>
+									<option value="20+">20+ years</option>
 								</select>
 							</div>
 						</div>
@@ -81,6 +102,72 @@
 								<label for="id_genre_multiple">Genres Played (You may choose more than one)</label>
 								<select class="select2-genre js-states form-control" id="genre" multiple="multiple"></select>
 							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group bmd-form-group">
+								<label>Age Bracket:</label>
+								<select id="age_bracket" class='form-control'>
+									<option value="">Choose...</option>
+									{{#each this.criteria.age_bracket}}
+									<option value="{{this.id}}">{{this.name}}</option>
+									{{/each}}
+								</select>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group bmd-form-group">
+								<label>Band's Music Experience:</label>
+								<select id="music_experience" class='form-control'>
+									<option value="">Choose...</option>
+									<option value="1">1 year</option>
+									<option value="2">2 years</option>
+									<option value="5">5 years</option>
+									<option value="10">10 years</option>
+									<option value="20+">20+ years</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group bmd-form-group">
+								<label>Past Gigs:</label>
+								<select id="past_gigs" class='form-control'>
+									<option value="">Choose...</option>
+									<option value="10">10 or under</option>
+									<option value="20">20</option>
+									<option value="30">30</option>
+									<option value="40">40</option>
+									<option value="50">50</option>
+									<option value="60+">60+</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group bmd-form-group">
+								<label>Gig Frequency:</label>
+								<select id="gig_frequency" class='form-control selectpicker' data-style="btn btn-link">
+									<option value="">Choose...</option>
+									{{#each this.criteria.gig_frequency}}
+									<option value="{{this.id}}">{{this.name}}</option>
+									{{/each}}
+								</select>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group bmd-form-group">
+								<label>Band's Commitment Level:</label>
+								<select id="commitment_level" class='form-control selectpicker' data-style="btn btn-link">
+									<option value="">Choose...</option>
+									{{#each this.criteria.commitment_level}}
+									<option value="{{this.id}}">{{this.name}}</option>
+									{{/each}}
+								</select>
+							</div>
+						</div>
+					</div>
+					<hr />
+					<div class="row">
+						<div class="col-md-12">
+							<h3>Make It Personal</h3>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
@@ -126,22 +213,8 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-12">
-							<div class="form-group bmd-form-group">
-								<label class="d-block font-weight-bold">Current Status *:</label>
-								{{#each this.criteria.status}}
-								<div class="form-check form-check-radio form-check-inline">
-									<label class="form-check-label" for="status_{{this.id}}">
-										<input class="form-check-input" type="radio" name="status" id="status_{{this.id}}" value="{{this.id}}"> {{this.name}}
-										<span class="circle">
-											<span class="check"></span>
-										</span>
-									</label>
-								</div>
-								{{/each}}
-							</div>
-						</div>
 					</div>
+					<hr />
 					<div class="row">
 						<div class='col-md-12'>
 							<h3>New Band Member/s Requirements</h3>
@@ -166,12 +239,12 @@
 								<label>Number of Members Needed:</label>
 								<select id="members_needed" class='form-control'>
 									<option value="">Choose...</option>
-									<option>1</option>
-									<option>2</option>
-									<option>3</option>
-									<option>4</option>
-									<option>5</option>
-									<option>6+</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6+">6+</option>
 								</select>
 							</div>
 						</div>
@@ -197,32 +270,32 @@
 								<label>Required Music Experience:</label>
 								<select id="required_music_experience" class='form-control'>
 									<option value="">Choose...</option>
-									<option>1</option>
-									<option>2</option>
-									<option>5</option>
-									<option>10</option>
-									<option>20+</option>
+									<option value="1">1 year or less</option>
+									<option value="2">2 years</option>
+									<option value="5">5 years</option>
+									<option value="10">10 years</option>
+									<option value="20+">20+ years</option>
 								</select>
 							</div>
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-6">
 							<div class="form-group bmd-form-group">
 								<label>Past Gigs:</label>
-								<select id="past_gigs" class='form-control'>
+								<select id="required_past_gigs" class='form-control'>
 									<option value="">Choose...</option>
-									<option>10</option>
-									<option>20</option>
-									<option>30</option>
-									<option>40</option>
-									<option>50</option>
-									<option>60+</option>
+									<option value="10">10 or under</option>
+									<option value="20">20</option>
+									<option value="30">30</option>
+									<option value="40">40</option>
+									<option value="50">50</option>
+									<option value="60+">60+</option>
 								</select>
 							</div>
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-6">
 							<div class="form-group bmd-form-group">
 								<label>Gig Availability:</label>
-								<select id="gig_frequency" class='form-control selectpicker' data-style="btn btn-link">
+								<select id="required_gig_frequency" class='form-control selectpicker' data-style="btn btn-link">
 									<option value="">Choose...</option>
 									{{#each this.criteria.gig_frequency}}
 									<option value="{{this.id}}">{{this.name}}</option>
@@ -233,7 +306,7 @@
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label>Commitment Level:</label>
-								<select id="commitment_level" class='form-control selectpicker' data-style="btn btn-link">
+								<select id="required_commitment_level" class='form-control selectpicker' data-style="btn btn-link">
 									<option value="">Choose...</option>
 									{{#each this.criteria.commitment_level}}
 									<option value="{{this.id}}">{{this.name}}</option>

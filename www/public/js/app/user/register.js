@@ -71,13 +71,15 @@ appPage.register = function($this) {
 	data.agree = $('#agree:checked').val();
 
 	// Band specific options
-	data.bandSize = $("#bandSize").val();
-	data.preferred_age_bracket = $("#preferred_age_bracket").val();
-	data.required_music_experience = $("#required_music_experience").val();
-	data.members_needed = $("#members_needed").val();
-	// data.past_gigs = $('#required_past_gigs').val();
-	// data.commitment_level = $('#required_commitment_level').val();
-	// data.gig_frequency = $('#required_gig_frequency').val();
+	if ( data.type == "band" ) {
+		data.bandSize = $("#bandSize").val();
+		data.preferred_age_bracket = $("#preferred_age_bracket").val();
+		data.required_music_experience = $("#required_music_experience").val();
+		data.members_needed = $("#members_needed").val();
+		data.required_past_gigs = $('#required_past_gigs').val();
+		data.required_commitment_level = $('#required_commitment_level').val();
+		data.required_gig_frequency = $('#required_gig_frequency').val();
+	}
 
 	// Process into form data to support adding
 	var formData = new FormData( $(".register-form")[0] );
@@ -217,7 +219,7 @@ appPage.register = function($this) {
 
 			if ( error.status == 400 && ("errorSet" in error.responseJSON) ) {
 				$(".form-status").addClass("text-danger");
-				
+
 				error.responseJSON.errorSet.map(function(err) {
 					if ( $("#" + err.key).length > 0 ) {
 						$("#" + err.key).addError("has-warning", error.responseJSON.error);
