@@ -76,6 +76,8 @@
 									{{/each}}
 								</select>
 							</div>
+						</div>
+						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label class="bmd-label-floating">Postcode *:</label>
 								<input id="postcode" type="text" class="form-control" required>
@@ -163,7 +165,7 @@
 									<option value="2">2</option>
 									<option value="5">5</option>
 									<option value="10">10</option>
-									<option value="20+">20+</option>
+									<option value="20">20+</option>
 								</select>
 							</div>
 						</div>
@@ -177,7 +179,7 @@
 									<option value="30">30</option>
 									<option value="40">40</option>
 									<option value="50">50</option>
-									<option value="60+">60+</option>
+									<option value="60">60+</option>
 								</select>
 							</div>
 						</div>

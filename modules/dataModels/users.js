@@ -247,13 +247,13 @@ users.register = function(params) {
 		let query = dbc.sql.insert().into("ebdb.profile_instrument_map").setFieldsRows(instruments);
 		return dbc.execute(query);
 	}).then((res) => {
-		verify.key = crypto.randomBytes(Math.ceil(24 / 2)).toString('hex').slice(0, 24);
+		verify.verification_key = crypto.randomBytes(Math.ceil(24 / 2)).toString('hex').slice(0, 24);
 		verify.user_id = profile.user_id;
 		verify.expires = moment().add(1, "day").format("YYYY-MM-DD HH:mm:ss");
 
-		return mail.send.registration(row.email, row.display_name, verify.key);
+		return mail.send.registration(row.email, row.display_name, verify.verification_key);
 	}).then((eml) => {
-		let query = dbc.sql.insert().into("ebdb.email_verification").setFieldsRows(verify);
+		let query = dbc.sql.insert().into("ebdb.email_verification").setFields(verify);
 		return dbc.execute(query);
 	}).then((res) => {
 		let details = {
@@ -273,14 +273,17 @@ users.register = function(params) {
 
 		return Promise.resolve(stagePass);
 	}).catch((error) => {
-		if ( files.length > 0 ) files.map((file)  => fs.unlinkSync(file) );
+		if ( files.length > 0 ) {
+			files.map((file)  => fs.unlinkSync(file) );
+		}
+
 		if ( ("user_id" in profile) ) {
 			let query = dbc.sql.delete().from("ebdb.user").where("id = ?", profile.user_id);
 			dbc.execute(query);
 		}
 
 		return Promise.reject(error);
-	})
+	});
 };
 
 users.verifyEmail = function(key) {
@@ -290,13 +293,13 @@ users.verifyEmail = function(key) {
 			let query = dbc.sql.select().from(
 				"ebdb.email_verification",
 				"e"
-			).where("e.key = ?", key);
+			).where("e.verification_key = ?", key);
 
 			return dbc.getRow(query);
 		} else {
 			return Promise.reject({ message: "That doesn't seem to be for anything. Are you sure you copied the link correctly?" });
 		}
-	}).then((rows) => {
+	}).then((row) => {
 		if ( row ) {
 			if ( moment(row.expires, "YYYY-MM-DD HH:mm:ss").isAfter( moment() ) ) {
 				verifyRow = _.cloneDeep(row);

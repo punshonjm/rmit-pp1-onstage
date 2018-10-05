@@ -71,12 +71,13 @@ router.get("/logout", (req, res) => {
 	}).catch((err) => app.handleError(err, req, res));
 });
 
-router.get("/user/verify/:key", (req, res) => {
+router.get("/users/verify/:key", (req, res) => {
 	Promise.resolve().then(() => {
 		return models.users.verifyEmail(req.params.key);
 	}).then((result) => {
 		var data = { pageName: "Email Verified" };
 		data.user = req.user;
+		data.user.email_verified = 1;
 		data.message = result.message;
 
 		return templating.compile("email_verified", data);
