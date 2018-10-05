@@ -7772,6 +7772,12 @@ label {
 .tim-white-buttons {
   background-color: #777777; }
 
+.profile .title {
+  margin-top: 0px;
+  margin-bottom: 25px;
+  min-height: 32px; }
+
+
 .title {
   margin-top: 30px;
   margin-bottom: 25px;
@@ -10469,6 +10475,11 @@ small,
 h2.title {
   margin-bottom: 1rem; }
 
+
+.profile .description {
+  color: #5a5a5a; }
+}
+
 .description,
 .card-description,
 .footer-big p {
@@ -12240,7 +12251,7 @@ footer {
 .profile-page .profile {
   text-align: center; }
   .profile-page .profile img {
-    max-width: 160px;
+    max-width: 230px;
     width: 100%;
     margin: 0 auto;
     -webkit-transform: translate3d(0, -50%, 0);
