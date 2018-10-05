@@ -31,9 +31,7 @@ aaa.sessionManagement = function( req, res, next ) {
 	} else {
 		publicPaths.map((path) => {
 			let pathTest = new RegExp( path.replace("/", "\\/") );
-			if (pathTest.test(req.url)) {
-				authenticationRequired = false;
-			}
+			if (pathTest.test(req.url)) authenticationRequired = false;
 		});
 	}
 
@@ -43,9 +41,7 @@ aaa.sessionManagement = function( req, res, next ) {
 	} else {
 		adminPaths.map((path) => {
 			let pathTest = new RegExp( path.replace("/", "\\/") );
-			if (pathTest.test(req.url)) {
-				adminRequired = true;
-			}
+			if (pathTest.test(req.url)) adminRequired = true;
 		});
 	}
 
@@ -92,8 +88,21 @@ aaa.sessionManagement = function( req, res, next ) {
 			req.user = dbSession;
 			if ( adminRequired && req.user.type_id != 1) {
 				return Promise.reject({ noAccess: true });
-			} else {
+			} else if ( req.user.email_verified == 1 ) {
 				next();
+			} else {
+				let unverifiedPaths = [ "/my_profile", "/user/verify/.*" ];
+				let allowedView = false;
+				unverifiedPaths.map((path) => {
+					let pathTest = new RegExp( path.replace("/", "\\/") );
+					if (pathTest.test(req.url)) allowedView = true;
+				});
+
+				if ( allowedView ) {
+					next();
+				} else {
+					res.redirect("/my_profile");
+				}
 			}
 		}
 	}).catch((error) => {

@@ -394,7 +394,7 @@ internal.query.user = function() {
 	).left_join(
 		"ebdb.user_type", "t",
 		"u.type_id = t.id"
-	).where("u.type <> 3");
+	).where("u.type_id <> 3");
 
 	return query;
 };

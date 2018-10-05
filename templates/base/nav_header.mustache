@@ -28,12 +28,17 @@
 <div class="main main-raised flex-fill">
 	{{#if this.user}}{{#compare this.user.email_verified 0}}
 	<div class='alert alert-warning alert-dismissible fade show' role="alert">
-		<div class="container">
-			<strong>Your email isn't verified yet!</strong> Please check your inbox and verify your email address. <a href="#" class="alert-link">Resend</a>
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-		    	<span aria-hidden="true">&times;</span>
-		  	</button>
+		<div class="container d-flex justify-content-between">
+			<span class="w-75">
+				<strong>Your email isn't verified yet!</strong> Please check your inbox and junk, then click the link to verify your email address.
+			</span>
+			<span class="mr-5">
+				<a href="#" class="alert-link">Resend</a>
+			</span>
 		</div>
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
 	</div>
 	{{/compare}}{{/if}}
 	<div class="container">
