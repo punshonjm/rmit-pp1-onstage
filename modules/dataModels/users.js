@@ -211,7 +211,7 @@ users.register = function(params) {
 
 			profile.required_music_experience = params.required_music_experience;
 			profile.required_past_gigs = params.required_past_gigs;
-			profile.required_commitment_level = params.required_commitment_level;
+			profile.required_commitment_level_id = params.required_commitment_level;
 			profile.required_gig_frequency = params.required_gig_frequency;
 		}
 
