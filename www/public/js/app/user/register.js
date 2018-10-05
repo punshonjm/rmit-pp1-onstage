@@ -295,7 +295,7 @@ appPage.email = function($this) {
 	 if ($("#postcode").val().length > 4) {
 		 $(".postcode-status").append("<span class='d-block text-danger'>A postcode consists of 4 numbers.</span>");
 	 }
-	 if (isNaN($("#postcode"))) {
+	 if ((isNaN($("#postcode"))) === true) {
 		 $(".postcode-status").append("<span class='d-block text-danger'>A postcode consists of only numbers.</span>");
 	 }
 	 else {
