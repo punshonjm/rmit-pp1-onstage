@@ -292,14 +292,13 @@ appPage.email = function($this) {
 };
  appPage.postcode = function () {
 	 $(".postcode-status").text("");
-	 if (('#postcode') !/[0-9]{4}/.test(('#postcode'))) {
+	 if (!/[0-9]{4}/.test(('#postcode'))) {
 		 $(".postcode-status").append("<span class='d-block text-danger'>A postcode consists of 4 numbers.</span>");
 	 }
 	 else {
 	 	return true;
 	 }
  }
-
 $(document).ready(function() {
 	appPage.initialise();
 }).on("submit", ".register-form", function(e) {
