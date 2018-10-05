@@ -81,6 +81,7 @@
 								<input id="postcode" type="text" class="form-control" required>
 								<small class="form-text text-danger"></small>
 							</div>
+							<p class="postcode-status"</p>
 						</div>
 					</div>
 					<hr />
