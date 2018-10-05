@@ -217,7 +217,7 @@ appPage.register = function($this) {
 
 			if ( error.status == 400 && ("errorSet" in error.responseJSON) ) {
 				$(".form-status").addClass("text-danger");
-				
+
 				error.responseJSON.errorSet.map(function(err) {
 					if ( $("#" + err.key).length > 0 ) {
 						$("#" + err.key).addError("has-warning", error.responseJSON.error);
@@ -290,6 +290,15 @@ appPage.email = function($this) {
 		}
 	});
 };
+ appPage.postcode = function () {
+	 $(".postcode-status").text("");
+	 if (('#postcode') !/[0-9]{4}/.test(('#postcode'))) {
+		 $(".postcode-status").append("<span class='d-block text-danger'>A postcode consists of 4 numbers.</span>");
+	 }
+	 else {
+	 	return true;
+	 }
+ }
 
 $(document).ready(function() {
 	appPage.initialise();
@@ -307,4 +316,6 @@ $(document).ready(function() {
 	appPage.email($(this));
 }).on("click", "[data-suggestion]", function() {
 	$("#email").val($(this).data().suggestion).blur();
+}).on("keyup focusout", "#postcode", function() {
+	appPage.postcode();
 })
