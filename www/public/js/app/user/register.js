@@ -222,10 +222,10 @@ appPage.register = function($this) {
 
 				error.responseJSON.errorSet.map(function(err) {
 					if ( $("#" + err.key).length > 0 ) {
-						$("#" + err.key).addError("has-warning", error.responseJSON.error);
+						$("#" + err.key).addError("has-warning", err.error);
 						$("#" + err.key).scrollTo();
 					} else {
-						$(".form-status").append("<span class='d-block'>" + error.responseJSON.error + "</span>");
+						$(".form-status").append("<span class='d-block'>" + err.error + "</span>");
 					}
 				});
 			} else {

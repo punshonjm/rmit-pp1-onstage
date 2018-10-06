@@ -36,7 +36,7 @@
 								<small class="form-text text-danger"></small>
 							</div>
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-6">
 							<div class="form-group bmd-form-group">
 								<label class="bmd-label-floating">Password *:</label>
 								<input id="password" type="password" class="form-control password" required>
@@ -44,7 +44,7 @@
 							</div>
 							<p class="password-strength"></p>
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-6">
 							<div class="form-group bmd-form-group">
 								<label class="bmd-label-floating">Confirm Password *:</label>
 								<input id="passwordConfirm" type="password" class="form-control password" required>

@@ -52,8 +52,24 @@ router.post("/register", uploader.fields([ { name: "background", maxCount: 1 }, 
 router.get("/new_verification", (req, res) => {
 	Promise.resolve().then(() => {
 		return models.users.new_verification(req.user);
-	}).then((profile) => {
+	}).then(() => {
 		res.status(200).json({ message: "Successfully resent!" }).end();
+	}).catch((error) => app.handleError(error, req, res));
+});
+
+router.post("/change_password", (req, res) => {
+	Promise.resolve().then(() => {
+		req.body.user = req.user;
+		return models.users.change_password(req.body);
+	}).then(() => {
+		res.status(200).json({ message: "Successfully changed!" }).end();
+	}).catch((error) => {
+		// additional register specific error handling if you want to here
+		if ( ("errorSet" in error)) {
+			res.status(400).json(error).end();
+		} else {
+			return Promise.reject(error)
+		};
 	}).catch((error) => app.handleError(error, req, res));
 });
 

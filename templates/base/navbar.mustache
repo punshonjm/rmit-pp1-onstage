@@ -25,11 +25,12 @@
 				</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 					{{#compare this.user.type_id 1}}
-					<a class="dropdown-item" href="/green_room">Green Room</a>
+					<a class="dropdown-item" href="/green_room"><i class='material-icons mr-2'>dashboard</i> Green Room</a>
 					{{else}}
-					<a class="dropdown-item" href="/my_profile">My Profile</a>
+					<a class="dropdown-item" href="/my_profile"><i class='material-icons mr-2'>face</i> My Profile</a>
 					{{/compare}}
-					<span class="dropdown-item" id="logout" >Logout</span>
+					<span class="dropdown-item" data-target="#change_password_modal" data-toggle="modal"><i class='material-icons mr-2'>lock</i> Change Password</span>
+					<span class="dropdown-item" id="logout" ><i class='material-icons mr-2'>exit_to_app</i> Logout</span>
 				</div>
 			</li>
 			{{else}}
