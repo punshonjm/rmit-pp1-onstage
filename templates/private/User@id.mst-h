@@ -3,7 +3,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-4 ml-auto">
-				<img src="{{#if this.profile.picture}}{{this.profile.picture}}{{else}}http://style.anu.edu.au/_anu/4/images/placeholders/person_8x10.png{{/if}}" alt="Profile Picture" class="img-raised rounded-circle img-fluid" />
+				<img src="{{#if this.profile.picture}}{{this.profile.picture}}{{else}}https://epicattorneymarketing.com/wp-content/uploads/2016/07/Headshot-Placeholder-1.png{{/if}}" alt="Profile Picture" class="img-raised rounded-circle img-fluid" />
 			</div>
 			<div class="col-md-6 mr-auto">
 				<div class="brand">

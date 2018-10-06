@@ -65,11 +65,15 @@ aaa.sessionManagement = function( req, res, next ) {
 				"u.username", "s.user_id", "u.display_name",
 				"s.session_started", "u.email_verified",
 				"u.type_id", "t.type_name", "u.golden_ticket",
+				"p.picture",
 			]).from(
 				"ebdb.session", "s"
 			).left_join(
 				"ebdb.user", "u",
 				"s.user_id = u.id"
+			).left_join(
+				"ebdb.profile", "p",
+				"u.id = p.user_id"
 			).left_join(
 				"ebdb.user_type", "t",
 				"u.type_id = t.id"
