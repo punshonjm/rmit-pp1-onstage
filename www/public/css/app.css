@@ -11,10 +11,6 @@ body, wrapper {
 	margin-top: 70px;
 }
 
-.copyright, .copyright a {
-    color: black;
-}
-
 /* Password Strength Meter */
 .password-meter {
 	padding: 2px 0;

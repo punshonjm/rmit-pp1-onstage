@@ -21,7 +21,8 @@ app.rateLimit = rateLimit({
 });
 
 app.handleError = function( error, req, res ) {
-	console.log(":app error");
+	console.log("app.errorHandler");
+
 	if ( ("authenticationError" in error) ) {
 		res.status(401).json({ message: error.message }).end();
 	} else {
@@ -43,7 +44,9 @@ app.handleError = function( error, req, res ) {
 		if ( req.originalUrl.includes("api") || ( ("isApi" in req) && req.isApi == true) ) {
 			if ( ("message" in error) && !("fileName" in error) && !("lineNumber" in error) ) {
 	            res.status(statusCode).json({ message: error.message }).end();
-	        } else {
+	        } else if ( ("reason" in error) ) {
+				res.status(statusCode).json({ reason: error.reason }).end();
+			} else {
 	            res.status(statusCode).json({ message: "Whoops! An error occured." }).end();
 	        }
 		} else {

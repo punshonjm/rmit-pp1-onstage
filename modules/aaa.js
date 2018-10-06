@@ -21,7 +21,7 @@ aaa.sessionManagement = function( req, res, next ) {
 
 	let publicPaths = _.cloneDeep(app.publicPaths);
 	publicPaths.push(
-		"/login", "/public",
+		"/login", "/public", "/api/user/password_reset",
 		"/user/.*/report", "/user/verify/.*",
 		"/api/instrument", "/api/genre", "/user/register"
 	);
@@ -266,6 +266,30 @@ aaa.logout = function(req, res) {
 		res.clearCookie("stagePass");
 		return Promise.resolve({ sendRefresh: true });
 	});
+};
+
+aaa.resetPassword = function(params, req) {
+	let row = {};
+
+	return Promise.resolve().then(() => {
+		aaa.createLog(req, "requestedPasswordReset");
+
+		let query = dbc.sql.select().fields([
+			"p.user_id", "u.email"
+		]).from(
+			"ebdb.user", "u"
+		).where(dbc.sql.expr()
+			.or("u.username = ?", params.reset)
+			.or("u.email = ?", params.reset)
+		);
+
+		return dbc.getRow(query);
+	}).then((user) => {
+		row.user_id = user.user_id;
+		row.reset_token = "";
+
+		return Promise.reject({ reason: "Invalid for test" });
+	})
 };
 
 aaa.createLog = function(req, logType) {

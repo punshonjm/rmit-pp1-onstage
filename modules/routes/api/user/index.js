@@ -73,6 +73,14 @@ router.post("/change_password", (req, res) => {
 	}).catch((error) => app.handleError(error, req, res));
 });
 
+router.post("/password_reset", (req, res) => {
+	Promise.resolve().then(() => {
+		return aaa.resetPassword(req.body, req);
+	}).then(() => {
+		res.status(200).json({ message: "Successfully changed!" }).end();
+	}).catch((error) => app.handleError(error, req, res));
+});
+
 router.param("id", (req, res, next, id) => {
 	Promise.resolve().then(() => {
 		return models.users.details(id);
