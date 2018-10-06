@@ -8,8 +8,10 @@
 					<h3>
 						Bringing bands and musicians together.
 					</h3>
+					{{#compare this.user false}}
 					<br>
 					<a href="/register_now" class="btn btn-danger btn-raised btn-lg">Join Now!</a>
+					{{/compare}}
 				</div>
 			</div>
 		</div>
