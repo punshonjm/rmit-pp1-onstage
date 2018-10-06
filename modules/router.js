@@ -71,7 +71,8 @@ router.get("/logout", (req, res) => {
 	}).catch((err) => app.handleError(err, req, res));
 });
 
-router.get("/users/verify/:key", (req, res) => {
+router.get("/user/verify/:key", app.rateLimit, (req, res) => {
+	// handle email verification links
 	Promise.resolve().then(() => {
 		return models.users.verifyEmail(req.params.key);
 	}).then((result) => {
@@ -86,20 +87,20 @@ router.get("/users/verify/:key", (req, res) => {
     }).catch((err) => app.handleError(err, req, res));
 });
 
-/*
-router.post("/forgotPassword", (req, res)) => {
-  //will need function to check if email exsits in DB
-  var resetKey = "Welcome"; // will need function to set new password or reset link
-  // Handle password Reset request
+router.get("/user/password_reset/:id/:key", app.rateLimit, (req, res) => {
+	// Handle password reset links
 	Promise.resolve().then(() => {
-    let details = {
-			email: req.body.email,
-      password: `${resetKey}`
-    };
-    return mail.send.passwordReset(details);
-  }).catch((err) => app.handleError(err, req, res));
+		return aaa.checkReset(req, res);
+	}).then((user) => {
+		var data = {};
+		data.pageName = "Reset Password";
+		data.user = user;
+
+		return templating.compile("set_new_password", data);
+    }).then((html) => {
+        res.send(html).end();
+    }).catch((err) => app.handleError(err, req, res));
 });
-*/
 
 let folders = [ "public", "private", "admin" ];
 folders.map((folder) => {
@@ -172,6 +173,7 @@ router.get("/whoops", (req, res) => {
         res.send(html).end();
     }).catch((err) => app.handleError(err, req, res));
 });
+
 router.get("/no_access", (req, res) => {
 	// Present 'no_access' page
     Promise.resolve().then(() => {

@@ -9,6 +9,7 @@ const CryptoJS = require('crypto-js');
 const templating = require("@modules/templating");
 const dbc = require("@modules/dbc");
 const app = require("@modules/app");
+const mail = require("@modules/mail");
 
 var aaa = {};
 
@@ -21,9 +22,10 @@ aaa.sessionManagement = function( req, res, next ) {
 
 	let publicPaths = _.cloneDeep(app.publicPaths);
 	publicPaths.push(
-		"/login", "/public", "/api/user/password_reset",
-		"/user/.*/report", "/user/verify/.*",
-		"/api/instrument", "/api/genre", "/user/register"
+		"/login", "/public", "/favicon.ico", "/whoops",
+		"/api/user/password_reset", "/user/password_reset/.*/.*",
+		"/user/verify/.*", "/user/register",
+		"/api/instrument", "/api/genre",
 	);
 
 	if (publicPaths.includes(req.url) || req.url == "/") {
@@ -90,14 +92,16 @@ aaa.sessionManagement = function( req, res, next ) {
 			return Promise.reject({ noCookie: true, reason: "tokenInvalid" });
 		} else {
 			req.user = dbSession;
+			let redirect = ( req.user.type_id == 1) ? "/green_room" : "/my_profile";
+
 			if ( adminRequired && req.user.type_id != 1) {
 				return Promise.reject({ noAccess: true });
 			} else if ( [ "/user/register", "/register_now", "/register/musician", "/register/band" ].includes( req.url ) ) {
-				res.redirect("/my_profile");
+				res.redirect(redirect);
 			} else if ( req.user.email_verified == 1 ) {
 				next();
 			} else {
-				let unverifiedPaths = [ "/my_profile", "/user/verify/.*", "/logout", "/api/user/new_verification" ];
+				let unverifiedPaths = [ "/green_room", "/my_profile", "/user/verify/.*", "/logout", "/api/user/new_verification", "/api/user/set_password" ];
 				let allowedView = false;
 				unverifiedPaths.map((path) => {
 					let pathTest = new RegExp( path.replace("/", "\\/") );
@@ -107,7 +111,7 @@ aaa.sessionManagement = function( req, res, next ) {
 				if ( allowedView || !authenticationRequired ) {
 					next();
 				} else {
-					res.redirect("/my_profile");
+					res.redirect(redirect);
 				}
 			}
 		}
@@ -272,10 +276,10 @@ aaa.resetPassword = function(params, req) {
 	let row = {};
 
 	return Promise.resolve().then(() => {
-		aaa.createLog(req, "requestedPasswordReset");
+		aaa.createLog(req, "passwordReset:Requested");
 
 		let query = dbc.sql.select().fields([
-			"p.user_id", "u.email"
+			"u.id", "u.email", "u.display_name"
 		]).from(
 			"ebdb.user", "u"
 		).where(dbc.sql.expr()
@@ -285,10 +289,113 @@ aaa.resetPassword = function(params, req) {
 
 		return dbc.getRow(query);
 	}).then((user) => {
-		row.user_id = user.user_id;
-		row.reset_token = "";
+		if ( !user ) {
+			return Promise.reject({ sendProcessed: true });
+		} else {
+			row.user_id = user.id;
+			row.reset_token = crypto.randomBytes(Math.ceil(24 / 2)).toString('hex').slice(0, 24);
+			row.reset_expires = moment().add(30, "minutes").format("YYYY-MM-DD HH:mm:ss");
 
-		return Promise.reject({ reason: "Invalid for test" });
+			return mail.send.passwordReset(user.email, user.display_name, row.user_id + "/" + row.reset_token);
+		}
+	}).then((res) => {
+		return internal.password.hash(row.reset_token);
+	}).then((blob) => {
+		row.reset_token = blob;
+
+		// Need to self-param query due to password field being stored blob
+		let query = { text: "INSERT INTO ebdb.password_reset SET ?", values: row };
+ 		return dbc.execute(query);
+	}).then((res) => {
+		return Promise.resolve( );
+	}).catch((err) => {
+		if ( ("sendProcessed" in err) ) {
+			setTimeout(function() { return Promise.resolve( ); }, 1000);
+		} else {
+			return Promise.reject(err)
+		}
+	})
+};
+
+aaa.checkReset = function(req, res) {
+	let row = {};
+
+	return Promise.resolve().then(() => {
+		let query = dbc.sql.select().fields([
+			"reset_token", "user_id", "id"
+		]).from(
+			"ebdb.password_reset"
+		).where(dbc.sql.expr()
+			.and("user_id = ?", String(req.params.id))
+			.and("reset_used = 0")
+			.and("reset_expires > ?", moment().format("YYYY-MM-DD HH:mm:ss") )
+		);
+
+		return dbc.getRow(query);
+	}).then((user) => {
+		if ( !user ) {
+			aaa.createLog(req, "passwordReset:InvalidRequest");
+			return Promise.reject({ failed: true, message: "Invalid request" });
+		} else {
+			row.user_id = user.user_id;
+			row.reset_id = user.id;
+
+			return internal.password.check(String(req.params.key), user.reset_token);
+		}
+	}).then((pwdVerified) => {
+		if ( pwdVerified ) {
+			let cookie = {};
+			cookie.token = CryptoJS.HmacSHA512(String(row.user_id), moment().format('x')).toString();
+			cookie.expires = moment().add(2, "weeks");
+
+			let query = dbc.sql.insert().into("ebdb.session").setFields({
+				"user_id": row.user_id,
+				"session_token": cookie.token
+			});
+
+			row.token = cookie.token;
+			res.status(200).cookie("stagePass", cookie, {
+				expires: moment(cookie.expires).toDate()
+			});
+
+			return dbc.execute(query);
+		} else {
+			aaa.createLog(req, "passwordReset:InvalidToken");
+			return Promise.reject({ failed: true, message: "Invalid token" });
+		}
+	}).then(() => {
+		let query = dbc.sql.update().table("ebdb.password_reset").set("reset_used = 1").where("id = ?", row.reset_id);
+		return dbc.execute(query);
+	}).then(() => {
+		let query = dbc.sql.select().fields([
+			"u.username", "s.user_id", "u.display_name",
+			"s.session_started", "u.email_verified",
+			"u.type_id", "t.type_name", "u.golden_ticket",
+			"p.picture",
+		]).from(
+			"ebdb.session", "s"
+		).left_join(
+			"ebdb.user", "u",
+			"s.user_id = u.id"
+		).left_join(
+			"ebdb.profile", "p",
+			"u.id = p.user_id"
+		).left_join(
+			"ebdb.user_type", "t",
+			"u.type_id = t.id"
+		).where(dbc.sql.expr()
+			.and("s.session_token = ?", row.token)
+			.and("s.session_started > DATE_SUB(CURRENT_DATE, INTERVAL 14 DAY)")
+		).order("s.SESSION_STARTED", false).limit(1);
+
+		return dbc.getRow(query);
+	}).then((dbSession) => {
+		if ( dbSession ) {
+			dbSession.reset_key = req.params.key;
+			return Promise.resolve(dbSession);
+		} else {
+			return Promise.reject({ message: "Something went wrong! "});
+		}
 	})
 };
 
@@ -322,6 +429,9 @@ aaa.createLog = function(req, logType) {
 
 aaa.hashPassword = function(pwd) {
 	return internal.password.hash(pwd);
+};
+aaa.checkPassword = function(pwd, dbh) {
+	return internal.password.check(pwd, dbh);
 };
 
 module.exports = aaa;
@@ -363,6 +473,7 @@ internal.password.hash = function(password) {
 		});
 	});
 };
+
 internal.password.check = function(password, dbHash) {
 	let buffer = Buffer.from(dbHash);
 	let saltBytes = buffer.readUInt32BE(0);
@@ -385,3 +496,16 @@ internal.password.check = function(password, dbHash) {
         });
 	});
 };
+
+var check = function() {
+	return Promise.resolve().then(() => {
+		return internal.password.hash("1f0c127df9689d84cbf2a454");
+	}).then((blob) => {
+		return internal.password.check("1f0c127df9689d84cbf2a454", blob);
+	}).then((res) => {
+		console.log("res", res);
+	}).catch((err) => {
+		console.log(err);
+	})
+}
+// check()

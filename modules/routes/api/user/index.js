@@ -72,12 +72,27 @@ router.post("/change_password", (req, res) => {
 		};
 	}).catch((error) => app.handleError(error, req, res));
 });
+router.post("/set_password", (req, res) => {
+	Promise.resolve().then(() => {
+		req.body.user = req.user;
+		return models.users.set_password(req.body);
+	}).then(() => {
+		res.status(200).json({ message: "Successfully changed!" }).end();
+	}).catch((error) => {
+		// additional register specific error handling if you want to here
+		if ( ("errorSet" in error)) {
+			res.status(400).json(error).end();
+		} else {
+			return Promise.reject(error)
+		};
+	}).catch((error) => app.handleError(error, req, res));
+});
 
 router.post("/password_reset", (req, res) => {
 	Promise.resolve().then(() => {
 		return aaa.resetPassword(req.body, req);
 	}).then(() => {
-		res.status(200).json({ message: "Successfully changed!" }).end();
+		res.status(200).json({ message: "Processed!" }).end();
 	}).catch((error) => app.handleError(error, req, res));
 });
 

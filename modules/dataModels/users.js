@@ -15,6 +15,7 @@ var users = {};
 
 users.details = function(user_id) {
 	// Get Details for specific user
+	console.log(user_id);
 	var user = {};
 
 	return Promise.resolve().then(() => {
@@ -356,6 +357,80 @@ users.change_password = function(params) {
 	});
 };
 
+users.set_password = function(params) {
+	let row = {};
+
+	return Promise.resolve().then(() => {
+		var errors = [];
+
+		if ( params.current == "" ) errors.push({ key: 'current_password', error: 'Current password must not be empty.'});
+        if ( params.password == "" ) errors.push({ key: 'password_new', error: 'New password must not be empty.'});
+        if ( params.passwordConfirm == "" ) errors.push({ key: 'password_confirm_new', error: 'New password confirm retyped must not be empty.'});
+
+		if ( params.password !== params.passwordConfirm ) errors.push({ key: 'password_confirm_new', error: 'Passwords do not match.'});
+		if ( params.password == params.current ) errors.push({ key: 'password_new', error: "You can't use the same password." });
+
+		if ( errors.length > 0 ) {
+			return Promise.reject({ errorSet: errors });
+		} else {
+			return Promise.resolve();
+		}
+	}).then(() => {
+		let query = dbc.sql.select().fields([
+			"reset_token", "user_id", "id"
+		]).from(
+			"ebdb.password_reset"
+		).where(dbc.sql.expr()
+			.and("user_id = ?", params.user.user_id)
+			.and("reset_used = 1")
+			.and("reset_expires > ?", moment().subtract(10, "minutes").format("YYYY-MM-DD HH:mm:ss") )
+		);
+
+		return dbc.getRow(query);
+	}).then((user) => {
+		if ( !user ) {
+			return Promise.reject({ failed: true, message: "Invalid request" });
+		} else {
+			row.reset_id = user.id;
+			return aaa.checkPassword(params.current, user.reset_token);
+		}
+	}).then((pwdVerified) => {
+		if ( pwdVerified ) {
+			return aaa.hashPassword(params.password);
+		} else {
+			return Promise.reject({ failed: true, message: "Invalid token" });
+		}
+	}).then((pwdHash) => {
+		let pwd = {};
+		pwd.password = pwdHash;
+		pwd.user_id = params.user.user_id;
+
+		// Need to self-param query due to password field being stored blob
+		let query = { text: "INSERT INTO ebdb.password SET ?", values: pwd };
+		return dbc.execute(query);
+	}).then((res) => {
+		let query = dbc.sql.update().table("ebdb.password").setFields({
+			password_valid: 0
+		}).where(dbc.sql.expr()
+			.and("id <> ?", res.insertId)
+			.and("user_id = ?", params.user.user_id)
+		);
+
+		return dbc.execute(query);
+	}).then((res) => {
+		let query = dbc.sql.update().table("ebdb.password_reset").set("reset_used = 2").where("id = ?", row.reset_id);
+		return dbc.execute(query);
+	}).then((res) => {
+		return Promise.resolve({ message: "Successfully set password!" });
+	}).catch((error) => {
+		if ( "authenticationError" in error ) {
+			error.errorSet = [ { key: "current_password", message: "Please enter your current password correctly" } ];
+		}
+
+		return Promise.reject(error);
+	});
+};
+
 users.verifyEmail = function(key) {
 	let verifyRow = {};
 	return Promise.resolve().then(() => {
@@ -464,7 +539,7 @@ internal.query.user = function() {
 	).left_join(
 		"ebdb.user_type", "t",
 		"u.type_id = t.id"
-	).where("u.type_id <> 3");
+	).where("u.type_id <> 1");
 
 	return query;
 };
