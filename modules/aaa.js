@@ -91,14 +91,14 @@ aaa.sessionManagement = function( req, res, next ) {
 			} else if ( req.user.email_verified == 1 ) {
 				next();
 			} else {
-				let unverifiedPaths = [ "/my_profile", "/user/verify/.*" ];
+				let unverifiedPaths = [ "/my_profile", "/user/verify/.*", "/logout" ];
 				let allowedView = false;
 				unverifiedPaths.map((path) => {
 					let pathTest = new RegExp( path.replace("/", "\\/") );
 					if (pathTest.test(req.url)) allowedView = true;
 				});
 
-				if ( allowedView ) {
+				if ( allowedView || !authenticationRequired ) {
 					next();
 				} else {
 					res.redirect("/my_profile");
