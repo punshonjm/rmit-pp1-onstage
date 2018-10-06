@@ -49,6 +49,14 @@ router.post("/register", uploader.fields([ { name: "background", maxCount: 1 }, 
 	}).catch((error) => app.handleError(error, req, res));
 });
 
+router.get("/new_verification", (req, res) => {
+	Promise.resolve().then(() => {
+		return models.users.new_verification(req.user);
+	}).then((profile) => {
+		res.status(200).json({ message: "Successfully resent!" }).end();
+	}).catch((error) => app.handleError(error, req, res));
+});
+
 router.param("id", (req, res, next, id) => {
 	Promise.resolve().then(() => {
 		return models.users.details(id);

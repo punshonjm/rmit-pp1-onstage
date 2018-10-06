@@ -286,6 +286,28 @@ users.register = function(params) {
 	});
 };
 
+users.new_verification = function(user) {
+	let verify = {};
+
+	return Promise.resolve().then(() => {
+		return users.details(user.user_id);
+	}).then((row) => {
+		verify.verification_key = crypto.randomBytes(Math.ceil(24 / 2)).toString('hex').slice(0, 24);
+		verify.user_id = user.user_id;
+		verify.expires = moment().add(1, "day").format("YYYY-MM-DD HH:mm:ss");
+
+		return mail.send.registration(row.email, row.display_name, verify.verification_key);
+	}).then((res) => {
+		let query = dbc.sql.delete().from("ebdb.email_verification").where("user_id = ?", user.user_id);
+		return dbc.execute(query);
+	}).then((eml) => {
+		let query = dbc.sql.insert().into("ebdb.email_verification").setFields(verify);
+		return dbc.execute(query);
+	}).then((res) => {
+		return Promise.resolve();
+	});
+}
+
 users.verifyEmail = function(key) {
 	let verifyRow = {};
 	return Promise.resolve().then(() => {
