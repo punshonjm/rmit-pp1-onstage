@@ -92,6 +92,8 @@ aaa.sessionManagement = function( req, res, next ) {
 			req.user = dbSession;
 			if ( adminRequired && req.user.type_id != 1) {
 				return Promise.reject({ noAccess: true });
+			} else if ( [ "/user/register", "/register_now", "/register/musician", "/register/band" ].includes( req.url ) ) {
+				res.redirect("/my_profile");
 			} else if ( req.user.email_verified == 1 ) {
 				next();
 			} else {
