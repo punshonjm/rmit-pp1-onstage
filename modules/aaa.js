@@ -25,7 +25,7 @@ aaa.sessionManagement = function( req, res, next ) {
 		"/login", "/public", "/favicon.ico", "/whoops",
 		"/api/user/password_reset", "/user/password_reset/.*/.*",
 		"/user/verify/.*", "/user/register",
-		"/api/instrument", "/api/genre",
+		"/api/instrument", "/api/genre"
 	);
 
 	if (publicPaths.includes(req.url) || req.url == "/") {
