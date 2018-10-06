@@ -15,7 +15,6 @@ var users = {};
 
 users.details = function(user_id) {
 	// Get Details for specific user
-	console.log(user_id);
 	var user = {};
 
 	return Promise.resolve().then(() => {
