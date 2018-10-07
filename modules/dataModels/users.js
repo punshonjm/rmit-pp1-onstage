@@ -489,15 +489,19 @@ internal.query.user = function() {
 		"p.past_gigs",
 		"p.music_experience",
 		"p.band_size",
+		"required_music_experience",
+		"required_past_gigs",
+		"members_needed"
 	]).fields({
 		"a.name": "age_bracket",
 		"abp.name": "preferred_age_bracket",
 		"c.name": "commitment_level",
+		"rc.name": "required_commitment_level",
 		"g.name": "gender",
 		"f.name": "gig_frequency",
+		"rf.name": "required_gig_frequency",
 		"s.name": "status",
 		"t.type_name": "user_type",
-
 		"p.id": "profile_id",
 		"u.id": "user_id",
 	}).fields([
@@ -505,6 +509,7 @@ internal.query.user = function() {
 		"p.age_bracket_id",
 		"p.preference_age_bracket_id",
 		"p.commitment_level_id",
+		"p.required_commitment_level_id",
 		"p.gender_id",
 		"p.gig_frequency_id",
 		"p.status_id",
@@ -527,11 +532,17 @@ internal.query.user = function() {
 		"ebdb.commitment_level", "c",
 		"p.commitment_level_id = c.id"
 	).left_join(
+		"ebdb.commitment_level", "rc",
+		"p.required_commitment_level_id = rc.id"
+	).left_join(
 		"ebdb.gender", "g",
 		"p.gender_id = g.id"
 	).left_join(
 		"ebdb.gig_frequency", "f",
 		"p.gig_frequency_id = f.id"
+	).left_join(
+		"ebdb.gig_frequency", "rf",
+		"p.required_gig_frequency_id = rf.id"
 	).left_join(
 		"ebdb.status", "s",
 		"p.status_id = s.id"

@@ -6,17 +6,13 @@
 
 <div class="section text-left pt-0 profile-page">
     <div class="row">
-        <div class="follow pr-5">
-            <button class="btn btn-fab btn-primary btn-round" rel="tooltip" title="Options?">
-                <i class="material-icons">menu</i>
-            </button>
-        </div>
         <div class="col-lg-4 col-md-12 col-sm-12">
             <div class="row">
                 <div class="col-md-11 ml-auto mr-auto">
                     <div class="profile">
                         <div class="avatar">
-                            <img src="{{#if this.profile.picture}}{{this.profile.picture}}{{else}}https://epicattorneymarketing.com/wp-content/uploads/2016/07/Headshot-Placeholder-1.png{{/if}}"
+                            <img src="{{#if
+                                    this.profile.picture}}{{this.profile.picture}}{{else}}https://epicattorneymarketing.com/wp-content/uploads/2016/07/Headshot-Placeholder-1.png{{/if}}"
                                  alt="Circle Image" class="img-raised rounded-circle img-fluid">
                         </div>
                         <div class="name">
@@ -29,16 +25,19 @@
                             {{/compare}}
                             <div class="container">
                                 <div class="row">
-                                    <div class="col"> <a href="#pablo" class="btn btn-just-icon btn-link btn-youtube"><i
-                                            class="fa fa-youtube"></i></a> joshband</div>
+                                    <div class="col"><a href="#pablo" class="btn btn-just-icon btn-link btn-youtube"><i
+                                            class="fa fa-youtube"></i></a> joshband
+                                    </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col"> <a href="#pablo" class="btn btn-just-icon btn-link btn-facebook"><i
-                                            class="fa fa-facebook"></i></a> joshonfb</div>
+                                    <div class="col"><a href="#pablo" class="btn btn-just-icon btn-link btn-facebook"><i
+                                            class="fa fa-facebook"></i></a> joshonfb
+                                    </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col"> <a href="#pablo" class="btn btn-just-icon btn-link btn-twitter"><i
-                                            class="fa fa-twitter"></i></a> hashtagjosh</div>
+                                    <div class="col"><a href="#pablo" class="btn btn-just-icon btn-link btn-twitter"><i
+                                            class="fa fa-twitter"></i></a> hashtagjosh
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -55,31 +54,62 @@
 
                 <div class="row">
                     <div class="col"><h4 class="title border-bottom">Account</h4></div>
+                    <div class="col-2 my-auto email-view">
+                        <button class="btn btn-sm btn-fab btn-primary btn-round email-toggle" rel="tooltip"
+                                title="Edit Email">
+                            <i class="material-icons">edit</i>
+                        </button>
+                    </div>
+                    <div class="col-2 my-auto email-edit" style="display: none">
+                        <button class="btn btn-sm btn-fab btn-success btn-round" rel="tooltip" title="Confirm">
+                            <i class="material-icons">check</i>
+                        </button>
+                        <button class="btn btn-sm btn-fab btn-danger btn-round email-toggle" rel="tooltip"
+                                title="Cancel">
+                            <i class="material-icons">close</i>
+                        </button>
+                    </div>
                 </div>
-                <!--<div class="row">
-                    <div class="col-4">Name</div>
-                    <div class="col">{{this.profile.display_name}}</div>
-                </div>-->
+
                 <div class="row">
                     <div class="col-4">Username</div>
                     <div class="col">{{this.profile.username}}</div>
                 </div>
-                <div class="row">
+
+
+                <div class="row email-view">
                     <div class="col-4">Email</div>
-                    <div class="col">{{this.profile.email}}</div>
+                    <div class="col ">{{this.profile.email}}</div>
                 </div>
-                <!--<div class="row">
-                    <div class="col-4">Account Type</div>
-                    <div class="col">{{this.profile.user_type}}</div>
-                </div>-->
+
+
+                <div class="row email-edit" style="display: none">
+                    <div class="col-4 my-auto">Email</div>
+                    <div class="col">
+                        <div class="form-group bmd-form-group m-1 p-1">
+                            <input id="email" type="text" class="form-control" required="">
+                            <small class="form-text text-danger"></small>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    $(".email-toggle").click(function () {
+                        $(".email-view").toggle();
+                        $(".email-edit").toggle();
+                    });
+                </script>
 
                 <div class="row">
                     <div class="col"><h4 class="title border-bottom">Profile Information</h4></div>
+
                 </div>
-                <!--<div class="row">
-                    <div class="col-4">Status</div>
-                    <div class="col"><label class="badge {{#compare this.profile.status "Searching"}}badge-success{{else}}badge-rose</label>{{/compare}}">{{this.profile.status}}</label></div>
-                </div>-->
+
+                {{#compare this.profile.user_type "Musician"}}
+                    <div class="row">
+                        <div class="col-4">Gender</div>
+                        <div class="col">{{this.profile.gender}}</div>
+                    </div>
+                {{/compare}}
                 <div class="row">
                     <div class="col-4">Postcode</div>
                     <div class="col">{{this.profile.postcode}}</div>
@@ -89,7 +119,7 @@
                     <div class="col">{{this.profile.past_gigs}}</div>
                 </div>
                 <div class="row">
-                    <div class="col-4">Music Experience</div>
+                    <div class="col-4">Music Experience (Years)</div>
                     <div class="col">{{this.profile.music_experience}}</div>
                 </div>
                 {{#compare this.profile.user_type "Band"}}
@@ -102,94 +132,153 @@
                     <div class="col-4">Age Bracket</div>
                     <div class="col">{{this.profile.age_bracket}}</div>
                 </div>
-                {{#if this.profile.preferred_age_bracket}}
-                    <div class="row">
-                        <div class="col-4">Preferred Age Bracket</div>
-                        <div class="col">{{this.profile.preferred_age_bracket}}</div>
-                    </div>
-                {{/if}}
+
 
                 <div class="row">
                     <div class="col-4">Commitment Level</div>
                     <div class="col">{{this.profile.commitment_level}}</div>
                 </div>
                 <div class="row">
-                    <div class="col-4">Gender</div>
-                    <div class="col">{{this.profile.gender}}</div>
-                </div>
-                <div class="row">
                     <div class="col-4">Gig Frequency</div>
                     <div class="col" data-id="{{this.profile.gig_frequency_id}}">{{this.profile.gig_frequency}}</div>
                 </div>
 
-                <div class="row">
-                    <div class="col"><h6 class="title border-bottom">Genres Played</h6></div>
-                </div>
-                {{#each this.profile.genres}}
-                    <div class="row">
-                        <div class="col" data-id="{{this.genre_id}}">{{this.name}}</div>
-                    </div>
-                {{/each}}
 
                 <div class="row">
-                    <div class="col"><h6 class="title border-bottom">Instruments {{#compare this.profile.user_type "Band"}}
-                        Needed{{else}}Played{{/compare}}</h6></div>
-                </div>
-                {{#each this.profile.instruments}}
-                    <div class="row">
-                        <div class="col" data-id="{{this.instrument_id}}">{{this.name}}</div>
+                    <div class="col-4 my-auto">Genres Played</div>
+                    <div class="col">
+                        <div class="form-group bmd-form-group">
+                            <select class="select2-genre js-states form-control" id="genre" multiple="multiple">
+                                {{#each this.profile.genres}}
+                                    <option value="{{this.genre_id}}" selected>{{this.name}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
                     </div>
-                {{/each}}
+                </div>
+
+                <!-- Begin band requirements -->
+                {{#compare this.profile.user_type "Band"}}
+                    <div class="row">
+                        <div class="col"><h4 class="title border-bottom">New Band Member/s Requirements</h4></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Number of Members Needed</div>
+                        <div class="col">{{#if this.profile.members_needed}}{{this.profile.members_needed}}{{else}}
+                            Not set{{/if}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Required Commitment Level</div>
+                        <div class="col">{{#if required_commitment_level}}{{required_commitment_level}}{{else}}
+                            Not set{{/if}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Required Music Experience (Years)</div>
+                        <div class="col">{{#if required_music_experience}}{{required_music_experience}}{{else}}
+                            Not set{{/if}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Required Past Gigs</div>
+                        <div class="col">{{#if
+                                this.profile.required_past_gigs}}{{this.profile.required_past_gigs}}{{else}}
+                            Not set{{/if}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Required Gig Frequency</div>
+                        <div class="col">{{#if
+                                this.profile.required_gig_frequency}}{{this.profile.required_gig_frequency}}{{else}}
+                            Not set{{/if}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Preferred Age Bracket</div>
+                        <div class="col">{{#if
+                                this.profile.preferred_age_bracket}}{{this.profile.preferred_age_bracket}}{{else}}
+                            Not set{{/if}}</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4 my-auto">Instrument/s Required</div>
+                        <div class="col">
+                            <div class="form-group bmd-form-group">
+                                <select class="select2-instrument js-states form-control" id="instrument"
+                                        multiple="multiple">
+                                    {{#each this.profile.instruments}}
+                                        <option value="{{this.instrument_id}}" selected>{{this.name}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                {{/compare}}
 
             </div>
         </div>
     </div>
 </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        $('.select2-instrument').select2({
+            theme: "material",
+            disabled: true
+        });
+        $('.select2-genre').select2({
+            theme: "material",
+            disabled: true
+        });
+
+        $(".select2-selection__arrow").addClass("material-icons").html("arrow_drop_down");
+    });
+</script>
 
 <div class="modal fade" tabindex="-1" role="dialog" id="newRegister">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title">Hi {{this.profile.display_name}}. Welcome to On Stage!</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class='container'>
-					<div class='row'>
-						<div class="col-md-12 text-center">
-							<p>You've made your first step towards your next step on stage.</p>
-							<p>The most important thing to do now is to verify your email.</p>
-							<p>This helps us keep On Stage safe and give you the best experience!</p>
-							<p>If you haven't received your email yet, try checking your junk/spam folder.</p>
-						</div>
-						<div class="col-md-6">
-							<div class="info text-center">
-								<div class="icon icon-primary">
-									<i class="fa fa-lock"></i>
-								</div>
-								<h4 class="info-title">Keeping You Safe</h4>
-								<p>To help keep On Stage safe, you need to verify your email before accessing the rest of the On Stage.</p>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="info text-center">
-								<div class="icon icon-primary">
-									<i class="material-icons">chat</i>
-								</div>
-								<h4 class="info-title">This Includes Reach Out</h4>
-								<p>You won't be able to message any artists or bands on the platform until its verified.</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer d-flex justify-content-end">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Hi {{this.profile.display_name}}. Welcome to On Stage!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class='container'>
+                    <div class='row'>
+                        <div class="col-md-12 text-center">
+                            <p>You've made your first step towards your next step on stage.</p>
+                            <p>The most important thing to do now is to verify your email.</p>
+                            <p>This helps us keep On Stage safe and give you the best experience!</p>
+                            <p>If you haven't received your email yet, try checking your junk/spam folder.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info text-center">
+                                <div class="icon icon-primary">
+                                    <i class="fa fa-lock"></i>
+                                </div>
+                                <h4 class="info-title">Keeping You Safe</h4>
+                                <p>To help keep On Stage safe, you need to verify your email before accessing the rest
+                                    of the On Stage.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info text-center">
+                                <div class="icon icon-primary">
+                                    <i class="material-icons">chat</i>
+                                </div>
+                                <h4 class="info-title">This Includes Reach Out</h4>
+                                <p>You won't be able to message any artists or bands on the platform until its
+                                    verified.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-end">
 
-			</div>
-		</div>
-	</div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="/public/js/app/user/my_profile.js" type="text/javascript"></script>
