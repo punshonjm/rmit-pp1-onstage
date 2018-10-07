@@ -47,21 +47,14 @@ appPage.initialise = function() {
 	});
 
 	$(".select2-selection__arrow").addClass("material-icons").html("arrow_drop_down");
-
-
-
 };
 
 
 $(".account-toggle").click(function () {
 
 	if($(".account-edit").is(":hidden")) {
-		var username = $("#username-text").text();
-		var email = $("#email-text").text();
-
-		$("#username").val(username);
-		$("#email").val(email);
-
+		$("#username").val($("#username-data").data("id"));
+		$("#email").val($("#email-data").data("id"));
 	};
 
 	$(".account-view").toggle();
@@ -74,19 +67,13 @@ $(".profile-toggle").click(function () {
 
 	if($(".profile-edit").is(":hidden")) {
 
-		"commitment_level"
-
-		var commitment_level_id = $("#commitment_level_id-view").data("id");
-		$("#commitment_level_id").val(commitment_level_id);
-
-		var gig_frequency_id = $("#gig_frequency_id-view").data("id");
-		$("#gig_frequency_id").val(gig_frequency_id);
-
-		var age_bracket_id = $("#age_bracket_id-view").data("id");
-		$("#age_bracket_id").val(age_bracket_id);
-
-
-
+		$("#postcode").val($("#postcode-data").data("id"));
+		$("#past_gigs").val($("#past_gigs-data").data("id"));
+		$("#music_experience").val($("#music_experience-data").data("id"));
+		$("#band_size").val($("#band_size-data").data("id"));
+		$("#commitment_level_id").val($("#commitment_level_id-view").data("id"));
+		$("#gig_frequency_id").val($("#gig_frequency_id-view").data("id"));
+		$("#age_bracket_id").val($("#age_bracket_id-view").data("id"));
 	};
 
 	$(".profile-view").toggle();
@@ -96,21 +83,28 @@ $(".profile-toggle").click(function () {
 $(".social-media-toggle").click(function () {
 
 	if($(".social-media-edit").is(":hidden")) {
-		var instagram_user = $("#instagram_user-data").data("id");
-		var twitter_user = $("#twitter_user-data").data("id");
-		var facebook_user = $("#facebook_user-data").data("id");
-		var youtube_user = $("#youtube_user-data").data("id");
 
-
-		$("#instagram_user").val(instagram_user);
-		$("#twitter_user").val(twitter_user);
-		$("#facebook_user").val(facebook_user);
-		$("#youtube_user").val(youtube_user);
-
-
+		$("#instagram_user").val($("#instagram_user-data").data("id"));
+		$("#twitter_user").val($("#twitter_user-data").data("id"));
+		$("#facebook_user").val($("#facebook_user-data").data("id"));
+		$("#youtube_user").val($("#youtube_user-data").data("id"));
 	};
 
 	$(".social-media-view").toggle();
 	$(".social-media-edit").toggle();
+});
+
+$(".band-toggle").click(function () {
+
+	if($(".band-edit").is(":hidden")) {
+
+		$("#members_needed").val($("#members_needed-data").data("id"));
+		$("#required_commitment_level_id").val($("#required_commitment_level_id-view").data("id"));
+		$("#required_music_experience").val($("#required_music_experience-data").data("id"));
+		$("#required_past_gigs").val($("#required_past_gigs-data").data("id"));
+	};
+
+	$(".band-view").toggle();
+	$(".band-edit").toggle();
 });
 

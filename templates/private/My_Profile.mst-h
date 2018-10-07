@@ -58,11 +58,11 @@
                 <div class="account-view">
                     <div class="row">
                         <div class="col-4">Username</div>
-                        <div class="col" id="username-text">{{this.profile.username}}</div>
+                        <div class="col" id="username-data" data-id="{{this.profile.username}}">{{this.profile.username}}</div>
                     </div>
                     <div class="row">
                         <div class="col-4">Email</div>
-                        <div class="col" id="email-text">{{this.profile.email}}</div>
+                        <div class="col" id="email-data" data-id="{{this.profile.email}}">{{this.profile.email}}</div>
                     </div>
                 </div>
                 <div class="account-edit" style="display: none;">
@@ -114,20 +114,20 @@
                     {{/compare}}
                     <div class="row">
                         <div class="col-4">Postcode</div>
-                        <div class="col">{{this.profile.postcode}}</div>
+                        <div class="col" id="postcode-data" data-id="{{this.profile.postcode}}">{{this.profile.postcode}}</div>
                     </div>
                     <div class="row">
                         <div class="col-4">Past Gigs</div>
-                        <div class="col">{{this.profile.past_gigs}}</div>
+                        <div class="col" id="past_gigs-data" data-id="{{this.profile.past_gigs}}">{{this.profile.past_gigs}}</div>
                     </div>
                     <div class="row">
                         <div class="col-4">Music Experience (Years)</div>
-                        <div class="col">{{this.profile.music_experience}}</div>
+                        <div class="col" id="music_experience-data" data-id="{{this.profile.music_experience}}">{{this.profile.music_experience}}</div>
                     </div>
                     {{#compare this.profile.user_type "Band"}}
                         <div class="row">
                             <div class="col-4">Band Size</div>
-                            <div class="col">{{this.profile.band_size}}</div>
+                            <div class="col" id="band_size-data" data-id="{{this.profile.band_size}}">{{this.profile.band_size}}</div>
                         </div>
                     {{/compare}}
                     <div class="row">
@@ -196,7 +196,7 @@
                         <div class="col-4 my-auto">Music Experience (Years)</div>
                         <div class="col">
                             <div class="form-group bmd-form-group m-1 p-1">
-                                <input id="past_gigs" type="text" class="form-control" required="">
+                                <input id="music_experience" type="text" class="form-control" required="">
                                 <small class="form-text text-danger"></small>
                             </div>
                         </div>
@@ -357,54 +357,117 @@
                 {{#compare this.profile.user_type "Band"}}
                     <div class="row">
                         <div class="col"><h4 class="title border-bottom">New Band Member/s Requirements</h4></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4">Number of Members Needed</div>
-                        <div class="col">{{#if this.profile.members_needed}}{{this.profile.members_needed}}{{else}}
-                            Not set{{/if}}</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4">Required Commitment Level</div>
-                        <div class="col">{{#if required_commitment_level}}{{required_commitment_level}}{{else}}
-                            Not set{{/if}}</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4">Required Music Experience (Years)</div>
-                        <div class="col">{{#if required_music_experience}}{{required_music_experience}}{{else}}
-                            Not set{{/if}}</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4">Required Past Gigs</div>
-                        <div class="col">{{#if
-                                this.profile.required_past_gigs}}{{this.profile.required_past_gigs}}{{else}}
-                            Not set{{/if}}</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4">Required Gig Frequency</div>
-                        <div class="col">{{#if
-                                this.profile.required_gig_frequency}}{{this.profile.required_gig_frequency}}{{else}}
-                            Not set{{/if}}</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4">Preferred Age Bracket</div>
-                        <div class="col">{{#if
-                                this.profile.preferred_age_bracket}}{{this.profile.preferred_age_bracket}}{{else}}
-                            Not set{{/if}}</div>
+                        <div class="col-2 my-auto band-view">
+                            <button class="btn btn-sm btn-fab btn-primary btn-round band-toggle" rel="tooltip"
+                                    title="Edit">
+                                <i class="material-icons">edit</i>
+                            </button>
+                        </div>
+                        <div class="col-2 my-auto band-edit" style="display: none">
+                            <button class="btn btn-sm btn-fab btn-success btn-round" rel="tooltip" title="Save">
+                                <i class="material-icons">check</i>
+                            </button>
+                            <button class="btn btn-sm btn-fab btn-danger btn-round band-toggle" rel="tooltip"
+                                    title="Cancel">
+                                <i class="material-icons">close</i>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-4 my-auto">Instrument/s Required</div>
-                        <div class="col">
-                            <div class="form-group bmd-form-group">
-                                <select class="select2-instrument-view js-states form-control" id="instrument"
-                                        multiple="multiple">
-                                    {{#each this.profile.instruments}}
-                                        <option value="{{this.instrument_id}}" selected>{{this.name}}</option>
-                                    {{/each}}
-                                </select>
+                    <div class="band-view">
+                        <div class="row">
+                            <div class="col-4">Number of Members Needed</div>
+                            <div class="col" id="members_needed-data" data-id="{{this.profile.members_needed}}">{{#if this.profile.members_needed}}{{this.profile.members_needed}}{{else}}
+                                Not set{{/if}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">Required Commitment Level</div>
+                            <div class="col" id="required_commitment_level_id-data" data-id="{{required_commitment_level_id}}">{{#if required_commitment_level}}{{required_commitment_level}}{{else}}
+                                Not set{{/if}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">Required Music Experience (Years)</div>
+                            <div class="col" id="required_music_experience-data" data-id="{{required_music_experience}}">{{#if required_music_experience}}{{required_music_experience}}{{else}}
+                                Not set{{/if}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">Required Past Gigs</div>
+                            <div class="col" id="required_past_gigs-data" data-id="{{this.profile.required_past_gigs}}">{{#if
+                                    this.profile.required_past_gigs}}{{this.profile.required_past_gigs}}{{else}}
+                                Not set{{/if}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">Required Gig Frequency</div>
+                            <div class="col" id="required_gig_frequency-data" data-id="{{this.profile.required_gig_frequency_id}}">{{#if
+                                    this.profile.required_gig_frequency}}{{this.profile.required_gig_frequency}}{{else}}
+                                Not set{{/if}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">Preferred Age Bracket</div>
+                            <div class="col" id="preferred_age_bracket-data" data-id="{{preferred_age_bracket_id}}">{{#if
+                                    this.profile.preferred_age_bracket}}{{this.profile.preferred_age_bracket}}{{else}}
+                                Not set{{/if}}</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-4 my-auto">Instrument/s Required</div>
+                            <div class="col">
+                                <div class="form-group bmd-form-group">
+                                    <select class="select2-instrument-view js-states form-control" id="instrument"
+                                            multiple="multiple">
+                                        {{#each this.profile.instruments}}
+                                            <option value="{{this.instrument_id}}" selected>{{this.name}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="band-edit" style="display: none;">
+                        <div class="row">
+                            <div class="col-4 my-auto">Number of Members Needed</div>
+                            <div class="col">
+                                <div class="form-group bmd-form-group m-1 p-1">
+                                    <input id="members_needed" type="text" class="form-control" required="">
+                                    <small class="form-text text-danger"></small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4 my-auto">Required Commitment Level</div>
+                            <div class="col">
+                                <div class="form-group bmd-form-group">
+                                    <select id="required_commitment_level_id" class='form-control selectpicker'
+                                            data-style="btn btn-link">
+                                        <option value="">Choose...</option>
+                                        {{#each this.criteria.commitment_level}}
+                                            <option value="{{this.id}}">{{this.name}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4 my-auto">Required Music Experience (Years)</div>
+                            <div class="col">
+                                <div class="form-group bmd-form-group m-1 p-1">
+                                    <input id="required_music_experience" type="text" class="form-control" required="">
+                                    <small class="form-text text-danger"></small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4 my-auto">Required Past Gigs</div>
+                            <div class="col">
+                                <div class="form-group bmd-form-group m-1 p-1">
+                                    <input id="required_past_gigs" type="text" class="form-control" required="">
+                                    <small class="form-text text-danger"></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 {{/compare}}
 
             </div>
