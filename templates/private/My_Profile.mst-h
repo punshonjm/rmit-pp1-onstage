@@ -162,6 +162,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="profile-edit" style="display: none;">
                     {{#compare this.profile.user_type "Musician"}}
                         <div class="row">
@@ -398,13 +399,13 @@
                         </div>
                         <div class="row">
                             <div class="col-4">Required Gig Frequency</div>
-                            <div class="col" id="required_gig_frequency-data" data-id="{{this.profile.required_gig_frequency_id}}">{{#if
+                            <div class="col" id="required_gig_frequency_id-data" data-id="{{this.profile.required_gig_frequency_id}}">{{#if
                                     this.profile.required_gig_frequency}}{{this.profile.required_gig_frequency}}{{else}}
                                 Not set{{/if}}</div>
                         </div>
                         <div class="row">
                             <div class="col-4">Preferred Age Bracket</div>
-                            <div class="col" id="preferred_age_bracket-data" data-id="{{preferred_age_bracket_id}}">{{#if
+                            <div class="col" id="preference_age_bracket_id-data" data-id="{{this.profile.preference_age_bracket_id}}">{{#if
                                     this.profile.preferred_age_bracket}}{{this.profile.preferred_age_bracket}}{{else}}
                                 Not set{{/if}}</div>
                         </div>
@@ -413,7 +414,7 @@
                             <div class="col-4 my-auto">Instrument/s Required</div>
                             <div class="col">
                                 <div class="form-group bmd-form-group">
-                                    <select class="select2-instrument-view js-states form-control" id="instrument"
+                                    <select class="select2-instrument-view js-states form-control" id="instrument-view"
                                             multiple="multiple">
                                         {{#each this.profile.instruments}}
                                             <option value="{{this.instrument_id}}" selected>{{this.name}}</option>
@@ -462,6 +463,46 @@
                                 <div class="form-group bmd-form-group m-1 p-1">
                                     <input id="required_past_gigs" type="text" class="form-control" required="">
                                     <small class="form-text text-danger"></small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4 my-auto">Required Gig Frequency</div>
+                            <div class="col">
+                                <div class="form-group bmd-form-group">
+                                    <select id="required_gig_frequency_id" class='form-control selectpicker'
+                                            data-style="btn btn-link">
+                                        <option value="">Choose...</option>
+                                        {{#each this.criteria.gig_frequency}}
+                                            <option value="{{this.id}}">{{this.name}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4 my-auto">Preferred Age Bracket</div>
+                            <div class="col">
+                                <div class="form-group bmd-form-group">
+                                    <select id="preference_age_bracket_id" class='form-control'>
+                                        <option value="">Choose...</option>
+                                        {{#each this.criteria.age_bracket}}
+                                            <option value="{{this.id}}">{{this.name}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4 my-auto">Instrument/s Required</div>
+                            <div class="col">
+                                <div class="form-group bmd-form-group">
+                                    <select class="select2-instrument-edit js-states form-control" id="instrument-edit"
+                                            multiple="multiple">
+                                        {{#each this.profile.instruments}}
+                                            <option value="{{this.instrument_id}}" selected>{{this.name}}</option>
+                                        {{/each}}
+                                    </select>
                                 </div>
                             </div>
                         </div>

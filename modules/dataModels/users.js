@@ -516,6 +516,7 @@ internal.query.user = function() {
 		"p.required_commitment_level_id",
 		"p.gender_id",
 		"p.gig_frequency_id",
+		"p.required_gig_frequency_id",
 		"p.status_id",
 		"u.type_id",
 
