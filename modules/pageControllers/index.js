@@ -13,6 +13,10 @@ app.pathWalk("modules/pageControllers", (filePath, rootDir, subDir, fileName) =>
 
 		if ( typeof subDir != typeof undefined ) {
 			url = "/" + subDir.toLowerCase();
+			if ( file != "index" ) {
+				url += "/" + file.toLowerCase();
+			}
+
 			template = "/" + subDir + "/" + file;
 		} else if ( file == "index" ) {
 			file = _.last( subDir.split("/") );

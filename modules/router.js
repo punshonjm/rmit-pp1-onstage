@@ -129,6 +129,7 @@ folders.map((folder) => {
 		}
 
 		app[folder + "Paths"].push(url);
+		// console.log(controllers);
 		router.get(url, (req, res) => {
 			Promise.resolve().then((html) => {
 				if ( (controlUrl in controllers) ) {
