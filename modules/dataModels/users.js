@@ -212,7 +212,7 @@ users.register = function(params) {
 			profile.required_music_experience = params.required_music_experience;
 			profile.required_past_gigs = params.required_past_gigs;
 			profile.required_commitment_level_id = params.required_commitment_level;
-			profile.required_gig_frequency = params.required_gig_frequency;
+			profile.required_gig_frequency_id = params.required_gig_frequency;
 		}
 
 		let query = dbc.sql.insert().into("ebdb.profile").setFields(profile);
@@ -623,9 +623,9 @@ internal.images.upload = function(user, image) {
 			internal.s3.upload(params, function(s3Err, data) {
 				if (s3Err) {
 					reject(s3Err);
+				} else {
+					resolve(data.Location);
 				}
-
-				resolve(data.Location);
 			});
 		});
 	});
