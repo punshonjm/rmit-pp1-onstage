@@ -13,6 +13,7 @@ appPage.initialise = function() {
 		theme: "material",
 		disabled: true
 	});
+
 	$('.select2-genre-view').select2({
 		theme: "material",
 		disabled: true
@@ -99,9 +100,11 @@ $(".band-toggle").click(function () {
 	if($(".band-edit").is(":hidden")) {
 
 		$("#members_needed").val($("#members_needed-data").data("id"));
-		$("#required_commitment_level_id").val($("#required_commitment_level_id-view").data("id"));
+		$("#required_commitment_level_id").val($("#required_commitment_level_id-data").data("id"));
 		$("#required_music_experience").val($("#required_music_experience-data").data("id"));
 		$("#required_past_gigs").val($("#required_past_gigs-data").data("id"));
+		$("#required_gig_frequency_id").val($("#required_gig_frequency_id-data").data("id"));
+		$("#preference_age_bracket_id").val($("#preference_age_bracket_id-data").data("id"));
 	};
 
 	$(".band-view").toggle();
