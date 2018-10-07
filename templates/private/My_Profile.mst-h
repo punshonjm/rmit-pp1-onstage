@@ -132,17 +132,20 @@
                     {{/compare}}
                     <div class="row">
                         <div class="col-4">Age Bracket</div>
-                        <div class="col">{{this.profile.age_bracket}}</div>
+                        <div class="col"id="age_bracket_id-view"
+                             data-id="{{this.profile.age_bracket_id}}">{{this.profile.age_bracket}}</div>
                     </div>
 
 
                     <div class="row">
                         <div class="col-4">Commitment Level</div>
-                        <div class="col">{{this.profile.commitment_level}}</div>
+                        <div class="col" id="commitment_level_id-view"
+                             data-id="{{this.profile.commitment_level_id}}">{{this.profile.commitment_level}}</div>
                     </div>
                     <div class="row">
                         <div class="col-4">Gig Frequency</div>
-                        <div class="col" data-id="{{this.profile.gig_frequency_id}}">{{this.profile.gig_frequency}}</div>
+                        <div class="col" id="gig_frequency_id-view"
+                             data-id="{{this.profile.gig_frequency_id}}">{{this.profile.gig_frequency}}</div>
                     </div>
 
 
@@ -150,7 +153,7 @@
                         <div class="col-4 my-auto">Genres Played</div>
                         <div class="col">
                             <div class="form-group bmd-form-group">
-                                <select class="select2-genre js-states form-control" id="genre" multiple="multiple">
+                                <select class="select2-genre-view js-states form-control" id="genre-view" multiple="multiple">
                                     {{#each this.profile.genres}}
                                         <option value="{{this.genre_id}}" selected>{{this.name}}</option>
                                     {{/each}}
@@ -160,9 +163,113 @@
                     </div>
                 </div>
                 <div class="profile-edit" style="display: none;">
+                    {{#compare this.profile.user_type "Musician"}}
+                        <div class="row">
+                            <div class="col-4 my-auto">Gender</div>
+                            <div class="col">
+                                <div class="form-group bmd-form-group m-1 p-1">
+                                    <input id="gender" type="text" class="form-control" required="">
+                                    <small class="form-text text-danger"></small>
+                                </div>
+                            </div>
+                        </div>
+                    {{/compare}}
+                    <div class="row">
+                        <div class="col-4 my-auto">Postcode</div>
+                        <div class="col">
+                            <div class="form-group bmd-form-group m-1 p-1">
+                                <input id="postcode" type="text" class="form-control" required="">
+                                <small class="form-text text-danger"></small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 my-auto">Past Gigs</div>
+                        <div class="col">
+                            <div class="form-group bmd-form-group m-1 p-1">
+                                <input id="past_gigs" type="text" class="form-control" required="">
+                                <small class="form-text text-danger"></small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 my-auto">Music Experience (Years)</div>
+                        <div class="col">
+                            <div class="form-group bmd-form-group m-1 p-1">
+                                <input id="past_gigs" type="text" class="form-control" required="">
+                                <small class="form-text text-danger"></small>
+                            </div>
+                        </div>
+                    </div>
+                    {{#compare this.profile.user_type "Band"}}
+                        <div class="row">
+                            <div class="col-4 my-auto">Band Size</div>
+                            <div class="col">
+                                <div class="form-group bmd-form-group m-1 p-1">
+                                    <input id="band_size" type="text" class="form-control" required="">
+                                    <small class="form-text text-danger"></small>
+                                </div>
+                            </div>
+                        </div>
+                    {{/compare}}
 
+                    <div class="row">
+                        <div class="col-4 my-auto">Age Bracket</div>
+                        <div class="col">
+                            <div class="form-group bmd-form-group">
+                                <select id="age_bracket_id" class='form-control'>
+                                    <option value="">Choose...</option>
+                                    {{#each this.criteria.age_bracket}}
+                                        <option value="{{this.id}}">{{this.name}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4 my-auto">Commitment Level</div>
+                        <div class="col">
+                            <div class="form-group bmd-form-group">
+                                <select id="commitment_level_id" class='form-control selectpicker'
+                                        data-style="btn btn-link">
+                                    <option value="">Choose...</option>
+                                    {{#each this.criteria.commitment_level}}
+                                        <option value="{{this.id}}">{{this.name}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4 my-auto">Gig Frequency</div>
+                        <div class="col">
+                            <div class="form-group bmd-form-group">
+                                <select id="gig_frequency_id" class='form-control selectpicker'
+                                        data-style="btn btn-link">
+                                    <option value="">Choose...</option>
+                                    {{#each this.criteria.gig_frequency}}
+                                        <option value="{{this.id}}">{{this.name}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4 my-auto">Genres Played</div>
+                        <div class="col">
+                            <div class="form-group bmd-form-group">
+                                <select class="select2-genre-edit js-states form-control" id="genre-edit" multiple="multiple">
+                                    {{#each this.profile.genres}}
+                                        <option value="{{this.genre_id}}" selected>{{this.name}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
 
 
                 <!-- ##### Begin social media ##### -->
@@ -187,19 +294,23 @@
                 <div class="social-media-view">
                     <div class="row">
                         <div class="col-4"><i class="fa fa-instagram"></i> Instragram</div>
-                        <div class="col my-auto" id="instagram_user-text">{{#if this.profile.instagram_user}}{{this.profile.instagram_user}}{{else}}Not set{{/if}}</div>
+                        <div class="col my-auto" id="instagram_user-data" data-id="{{this.profile.instagram_user}}">{{#if
+                                this.profile.instagram_user}}{{this.profile.instagram_user}}{{else}}Not set{{/if}}</div>
                     </div>
                     <div class="row">
                         <div class="col-4"><i class="fa fa-twitter"></i> Twitter</div>
-                        <div class="col my-auto" id="twitter_user-text">{{#if this.profile.twitter_user}}{{this.profile.twitter_user}}{{else}}Not set{{/if}}</div>
+                        <div class="col my-auto" id="twitter_user-data" data-id="{{this.profile.twitter_user}}">{{#if
+                                this.profile.twitter_user}}{{this.profile.twitter_user}}{{else}}Not set{{/if}}</div>
                     </div>
                     <div class="row">
                         <div class="col-4"><i class="fa fa-facebook"></i> Facebook</div>
-                        <div class="col my-auto" id="facebook_user-text">{{#if this.profile.facebook_user}}{{this.profile.facebook_user}}{{else}}Not set{{/if}}</div>
+                        <div class="col my-auto" id="facebook_user-data" data-id="{{this.profile.facebook_user}}">{{#if
+                                this.profile.facebook_user}}{{this.profile.facebook_user}}{{else}}Not set{{/if}}</div>
                     </div>
                     <div class="row">
                         <div class="col-4"><i class="fa fa-youtube"></i> Youtube</div>
-                        <div class="col my-auto" id="youtube_user-text">{{#if this.profile.youtube_user}}{{this.profile.youtube_user}}{{else}}Not set{{/if}}</div>
+                        <div class="col my-auto" id="youtube_user-data" data-id="{{this.profile.youtube_user}}">{{#if
+                                this.profile.youtube_user}}{{this.profile.youtube_user}}{{else}}Not set{{/if}}</div>
                     </div>
                 </div>
                 <div class="social-media-edit" style="display: none;">
@@ -240,7 +351,6 @@
                         </div>
                     </div>
                 </div>
-
 
 
                 <!-- Begin band requirements -->
@@ -286,7 +396,7 @@
                         <div class="col-4 my-auto">Instrument/s Required</div>
                         <div class="col">
                             <div class="form-group bmd-form-group">
-                                <select class="select2-instrument js-states form-control" id="instrument"
+                                <select class="select2-instrument-view js-states form-control" id="instrument"
                                         multiple="multiple">
                                     {{#each this.profile.instruments}}
                                         <option value="{{this.instrument_id}}" selected>{{this.name}}</option>

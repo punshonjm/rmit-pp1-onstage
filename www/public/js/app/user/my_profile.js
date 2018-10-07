@@ -9,13 +9,41 @@ appPage.initialise = function() {
 	if ( newRegister ) $("#newRegister").modal("show");
 
 
-	$('.select2-instrument').select2({
+	$('.select2-instrument-view').select2({
 		theme: "material",
 		disabled: true
 	});
-	$('.select2-genre').select2({
+	$('.select2-genre-view').select2({
 		theme: "material",
 		disabled: true
+	});
+
+	$('.select2-instrument-edit').select2({
+		placeholder: "Choose instruments...",
+		ajax: {
+			url: '/api/instrument/',
+			data: function (params) {
+				var query = {
+					search: params.term
+				};
+				return query;
+			}
+		},
+		theme: "material"
+	});
+
+	$('.select2-genre-edit').select2({
+		placeholder: "Choose genres...",
+		ajax: {
+			url: '/api/genre/',
+			data: function (params) {
+				var query = {
+					search: params.term
+				};
+				return query;
+			}
+		},
+		theme: "material"
 	});
 
 	$(".select2-selection__arrow").addClass("material-icons").html("arrow_drop_down");
@@ -45,16 +73,18 @@ $(".account-toggle").click(function () {
 $(".profile-toggle").click(function () {
 
 	if($(".profile-edit").is(":hidden")) {
-		var instagram_user = $("#instagram_user-text").text();
-		var twitter_user = $("#twitter_user-text").text();
-		var facebook_user = $("#facebook_user-text").text();
-		var youtube_user = $("#youtube_user-text").text();
 
+		"commitment_level"
 
-		$("#instagram_user").val((instagram_user === "Not set") ? "" : instagram_user);
-		$("#twitter_user").val((twitter_user === "Not set") ? "" : twitter_user);
-		$("#facebook_user").val((facebook_user === "Not set") ? "" : facebook_user);
-		$("#youtube_user").val((youtube_user === "Not set") ? "" : youtube_user);
+		var commitment_level_id = $("#commitment_level_id-view").data("id");
+		$("#commitment_level_id").val(commitment_level_id);
+
+		var gig_frequency_id = $("#gig_frequency_id-view").data("id");
+		$("#gig_frequency_id").val(gig_frequency_id);
+
+		var age_bracket_id = $("#age_bracket_id-view").data("id");
+		$("#age_bracket_id").val(age_bracket_id);
+
 
 
 	};
@@ -66,16 +96,16 @@ $(".profile-toggle").click(function () {
 $(".social-media-toggle").click(function () {
 
 	if($(".social-media-edit").is(":hidden")) {
-		var instagram_user = $("#instagram_user-text").text();
-		var twitter_user = $("#twitter_user-text").text();
-		var facebook_user = $("#facebook_user-text").text();
-		var youtube_user = $("#youtube_user-text").text();
+		var instagram_user = $("#instagram_user-data").data("id");
+		var twitter_user = $("#twitter_user-data").data("id");
+		var facebook_user = $("#facebook_user-data").data("id");
+		var youtube_user = $("#youtube_user-data").data("id");
 
 
-		$("#instagram_user").val((instagram_user === "Not set") ? "" : instagram_user);
-		$("#twitter_user").val((twitter_user === "Not set") ? "" : twitter_user);
-		$("#facebook_user").val((facebook_user === "Not set") ? "" : facebook_user);
-		$("#youtube_user").val((youtube_user === "Not set") ? "" : youtube_user);
+		$("#instagram_user").val(instagram_user);
+		$("#twitter_user").val(twitter_user);
+		$("#facebook_user").val(facebook_user);
+		$("#youtube_user").val(youtube_user);
 
 
 	};
