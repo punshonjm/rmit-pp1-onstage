@@ -106,6 +106,9 @@
 .select2-container--disabled .select2-search--inline .select2-search__field {
     display: none;
 }
+.select2-container--material.select2-container--disabled.select2-container--focus .select2-selection {
+    border-bottom: 0px;
+}
 .select2-container--disabled .select2-selection {
     border-bottom: 0px;
 }

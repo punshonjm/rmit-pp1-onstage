@@ -491,7 +491,11 @@ internal.query.user = function() {
 		"p.band_size",
 		"required_music_experience",
 		"required_past_gigs",
-		"members_needed"
+		"members_needed",
+		"p.instagram_user",
+		"p.twitter_user",
+		"p.facebook_user",
+		"p.youtube_user"
 	]).fields({
 		"a.name": "age_bracket",
 		"abp.name": "preferred_age_bracket",

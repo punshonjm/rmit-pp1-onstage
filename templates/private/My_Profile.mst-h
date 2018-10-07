@@ -23,23 +23,7 @@
                             {{else}}
                                 <label class="badge badge-rose">{{this.profile.status}}</label>
                             {{/compare}}
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col"><a href="#pablo" class="btn btn-just-icon btn-link btn-youtube"><i
-                                            class="fa fa-youtube"></i></a> joshband
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col"><a href="#pablo" class="btn btn-just-icon btn-link btn-facebook"><i
-                                            class="fa fa-facebook"></i></a> joshonfb
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col"><a href="#pablo" class="btn btn-just-icon btn-link btn-twitter"><i
-                                            class="fa fa-twitter"></i></a> hashtagjosh
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
 
@@ -52,6 +36,7 @@
         <div class="col-lg-8 col-md-12 col-sm-12 py-4">
             <div class="container">
 
+                <!-- ##### Begin Account section ###### -->
                 <div class="row">
                     <div class="col"><h4 class="title border-bottom">Account</h4></div>
                     <div class="col-2 my-auto email-view">
@@ -70,28 +55,38 @@
                         </button>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col-4">Username</div>
-                    <div class="col">{{this.profile.username}}</div>
+                <div class="email-view">
+                    <div class="row">
+                        <div class="col-4">Username</div>
+                        <div class="col" id="username-text">{{this.profile.username}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Email</div>
+                        <div class="col ">{{this.profile.email}}</div>
+                    </div>
                 </div>
-
-
-                <div class="row email-view">
-                    <div class="col-4">Email</div>
-                    <div class="col ">{{this.profile.email}}</div>
-                </div>
-
-
-                <div class="row email-edit" style="display: none">
-                    <div class="col-4 my-auto">Email</div>
-                    <div class="col">
-                        <div class="form-group bmd-form-group m-1 p-1">
-                            <input id="email" type="text" class="form-control" required="">
-                            <small class="form-text text-danger"></small>
+                <div class="email-edit" style="display: none;">
+                    <div class="row">
+                        <div class="col-4 my-auto">Username</div>
+                        <div class="col">
+                            <div class="form-group bmd-form-group m-1 p-1">
+                                <input id="username" type="text" class="form-control" required="">
+                                <small class="form-text text-danger"></small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 my-auto">Email</div>
+                        <div class="col">
+                            <div class="form-group bmd-form-group m-1 p-1">
+                                <input id="email" type="text" class="form-control" required="">
+                                <small class="form-text text-danger"></small>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+
                 <script>
                     $(".email-toggle").click(function () {
                         $(".email-view").toggle();
@@ -101,7 +96,6 @@
 
                 <div class="row">
                     <div class="col"><h4 class="title border-bottom">Profile Information</h4></div>
-
                 </div>
 
                 {{#compare this.profile.user_type "Musician"}}
@@ -156,6 +150,28 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Begin social media -->
+                <div class="row">
+                    <div class="col"><h4 class="title border-bottom">Social Media Links</h4></div>
+                </div>
+                <div class="row">
+                    <div class="col-4"><i class="fa fa-instagram"></i> Instragram</div>
+                    <div class="col my-auto">{{#if this.profile.instagram_user}}{{this.profile.instagram_user}}{{else}}Not set{{/if}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-4"><i class="fa fa-twitter"></i> Twitter</div>
+                    <div class="col my-auto">{{#if this.profile.twitter_user}}{{this.profile.twitter_user}}{{else}}Not set{{/if}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-4"><i class="fa fa-facebook"></i></a> Facebook</div>
+                    <div class="col my-auto">{{#if this.profile.facebook_user}}{{this.profile.facebook_user}}{{else}}Not set{{/if}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-4"><i class="fa fa-youtube"></i></a> Youtube</div>
+                    <div class="col my-auto">{{#if this.profile.youtube_user}}{{this.profile.youtube_user}}{{else}}Not set{{/if}}</div>
+                </div>
+
 
                 <!-- Begin band requirements -->
                 {{#compare this.profile.user_type "Band"}}
