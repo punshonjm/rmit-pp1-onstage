@@ -39,33 +39,33 @@
                 <!-- ##### Begin Account section ###### -->
                 <div class="row">
                     <div class="col"><h4 class="title border-bottom">Account</h4></div>
-                    <div class="col-2 my-auto email-view">
-                        <button class="btn btn-sm btn-fab btn-primary btn-round email-toggle" rel="tooltip"
-                                title="Edit Email">
+                    <div class="col-2 my-auto account-view">
+                        <button class="btn btn-sm btn-fab btn-primary btn-round account-toggle" rel="tooltip"
+                                title="Edit">
                             <i class="material-icons">edit</i>
                         </button>
                     </div>
-                    <div class="col-2 my-auto email-edit" style="display: none">
-                        <button class="btn btn-sm btn-fab btn-success btn-round" rel="tooltip" title="Confirm">
+                    <div class="col-2 my-auto account-edit" style="display: none">
+                        <button class="btn btn-sm btn-fab btn-success btn-round" rel="tooltip" title="Save">
                             <i class="material-icons">check</i>
                         </button>
-                        <button class="btn btn-sm btn-fab btn-danger btn-round email-toggle" rel="tooltip"
+                        <button class="btn btn-sm btn-fab btn-danger btn-round account-toggle" rel="tooltip"
                                 title="Cancel">
                             <i class="material-icons">close</i>
                         </button>
                     </div>
                 </div>
-                <div class="email-view">
+                <div class="account-view">
                     <div class="row">
                         <div class="col-4">Username</div>
                         <div class="col" id="username-text">{{this.profile.username}}</div>
                     </div>
                     <div class="row">
                         <div class="col-4">Email</div>
-                        <div class="col ">{{this.profile.email}}</div>
+                        <div class="col" id="email-text">{{this.profile.email}}</div>
                     </div>
                 </div>
-                <div class="email-edit" style="display: none;">
+                <div class="account-edit" style="display: none;">
                     <div class="row">
                         <div class="col-4 my-auto">Username</div>
                         <div class="col">
@@ -86,91 +86,161 @@
                     </div>
                 </div>
 
-
-                <script>
-                    $(".email-toggle").click(function () {
-                        $(".email-view").toggle();
-                        $(".email-edit").toggle();
-                    });
-                </script>
-
+                <!-- ##### Begin profile information ##### -->
                 <div class="row">
                     <div class="col"><h4 class="title border-bottom">Profile Information</h4></div>
-                </div>
-
-                {{#compare this.profile.user_type "Musician"}}
-                    <div class="row">
-                        <div class="col-4">Gender</div>
-                        <div class="col">{{this.profile.gender}}</div>
+                    <div class="col-2 my-auto profile-view">
+                        <button class="btn btn-sm btn-fab btn-primary btn-round profile-toggle" rel="tooltip"
+                                title="Edit">
+                            <i class="material-icons">edit</i>
+                        </button>
                     </div>
-                {{/compare}}
-                <div class="row">
-                    <div class="col-4">Postcode</div>
-                    <div class="col">{{this.profile.postcode}}</div>
-                </div>
-                <div class="row">
-                    <div class="col-4">Past Gigs</div>
-                    <div class="col">{{this.profile.past_gigs}}</div>
-                </div>
-                <div class="row">
-                    <div class="col-4">Music Experience (Years)</div>
-                    <div class="col">{{this.profile.music_experience}}</div>
-                </div>
-                {{#compare this.profile.user_type "Band"}}
-                    <div class="row">
-                        <div class="col-4">Band Size</div>
-                        <div class="col">{{this.profile.band_size}}</div>
+                    <div class="col-2 my-auto profile-edit" style="display: none">
+                        <button class="btn btn-sm btn-fab btn-success btn-round" rel="tooltip" title="Save">
+                            <i class="material-icons">check</i>
+                        </button>
+                        <button class="btn btn-sm btn-fab btn-danger btn-round profile-toggle" rel="tooltip"
+                                title="Cancel">
+                            <i class="material-icons">close</i>
+                        </button>
                     </div>
-                {{/compare}}
-                <div class="row">
-                    <div class="col-4">Age Bracket</div>
-                    <div class="col">{{this.profile.age_bracket}}</div>
+                </div>
+                <div class="profile-view">
+                    {{#compare this.profile.user_type "Musician"}}
+                        <div class="row">
+                            <div class="col-4">Gender</div>
+                            <div class="col">{{this.profile.gender}}</div>
+                        </div>
+                    {{/compare}}
+                    <div class="row">
+                        <div class="col-4">Postcode</div>
+                        <div class="col">{{this.profile.postcode}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Past Gigs</div>
+                        <div class="col">{{this.profile.past_gigs}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Music Experience (Years)</div>
+                        <div class="col">{{this.profile.music_experience}}</div>
+                    </div>
+                    {{#compare this.profile.user_type "Band"}}
+                        <div class="row">
+                            <div class="col-4">Band Size</div>
+                            <div class="col">{{this.profile.band_size}}</div>
+                        </div>
+                    {{/compare}}
+                    <div class="row">
+                        <div class="col-4">Age Bracket</div>
+                        <div class="col">{{this.profile.age_bracket}}</div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-4">Commitment Level</div>
+                        <div class="col">{{this.profile.commitment_level}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Gig Frequency</div>
+                        <div class="col" data-id="{{this.profile.gig_frequency_id}}">{{this.profile.gig_frequency}}</div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-4 my-auto">Genres Played</div>
+                        <div class="col">
+                            <div class="form-group bmd-form-group">
+                                <select class="select2-genre js-states form-control" id="genre" multiple="multiple">
+                                    {{#each this.profile.genres}}
+                                        <option value="{{this.genre_id}}" selected>{{this.name}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-edit" style="display: none;">
+
                 </div>
 
 
-                <div class="row">
-                    <div class="col-4">Commitment Level</div>
-                    <div class="col">{{this.profile.commitment_level}}</div>
-                </div>
-                <div class="row">
-                    <div class="col-4">Gig Frequency</div>
-                    <div class="col" data-id="{{this.profile.gig_frequency_id}}">{{this.profile.gig_frequency}}</div>
-                </div>
 
-
+                <!-- ##### Begin social media ##### -->
                 <div class="row">
-                    <div class="col-4 my-auto">Genres Played</div>
-                    <div class="col">
-                        <div class="form-group bmd-form-group">
-                            <select class="select2-genre js-states form-control" id="genre" multiple="multiple">
-                                {{#each this.profile.genres}}
-                                    <option value="{{this.genre_id}}" selected>{{this.name}}</option>
-                                {{/each}}
-                            </select>
+                    <div class="col"><h4 class="title border-bottom">Social Media Links</h4></div>
+                    <div class="col-2 my-auto social-media-view">
+                        <button class="btn btn-sm btn-fab btn-primary btn-round social-media-toggle" rel="tooltip"
+                                title="Edit">
+                            <i class="material-icons">edit</i>
+                        </button>
+                    </div>
+                    <div class="col-2 my-auto social-media-edit" style="display: none">
+                        <button class="btn btn-sm btn-fab btn-success btn-round" rel="tooltip" title="Save">
+                            <i class="material-icons">check</i>
+                        </button>
+                        <button class="btn btn-sm btn-fab btn-danger btn-round social-media-toggle" rel="tooltip"
+                                title="Cancel">
+                            <i class="material-icons">close</i>
+                        </button>
+                    </div>
+                </div>
+                <div class="social-media-view">
+                    <div class="row">
+                        <div class="col-4"><i class="fa fa-instagram"></i> Instragram</div>
+                        <div class="col my-auto" id="instagram_user-text">{{#if this.profile.instagram_user}}{{this.profile.instagram_user}}{{else}}Not set{{/if}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4"><i class="fa fa-twitter"></i> Twitter</div>
+                        <div class="col my-auto" id="twitter_user-text">{{#if this.profile.twitter_user}}{{this.profile.twitter_user}}{{else}}Not set{{/if}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4"><i class="fa fa-facebook"></i> Facebook</div>
+                        <div class="col my-auto" id="facebook_user-text">{{#if this.profile.facebook_user}}{{this.profile.facebook_user}}{{else}}Not set{{/if}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4"><i class="fa fa-youtube"></i> Youtube</div>
+                        <div class="col my-auto" id="youtube_user-text">{{#if this.profile.youtube_user}}{{this.profile.youtube_user}}{{else}}Not set{{/if}}</div>
+                    </div>
+                </div>
+                <div class="social-media-edit" style="display: none;">
+                    <div class="row">
+                        <div class="col-4 my-auto"><i class="fa fa-instagram"></i> Instagram</div>
+                        <div class="col">
+                            <div class="form-group bmd-form-group m-1 p-1">
+                                <input id="instagram_user" type="text" class="form-control" required="">
+                                <small class="form-text text-danger"></small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 my-auto"><i class="fa fa-twitter"></i> Twitter</div>
+                        <div class="col">
+                            <div class="form-group bmd-form-group m-1 p-1">
+                                <input id="twitter_user" type="text" class="form-control" required="">
+                                <small class="form-text text-danger"></small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 my-auto"><i class="fa fa-facebook"></i> Facebook</div>
+                        <div class="col">
+                            <div class="form-group bmd-form-group m-1 p-1">
+                                <input id="facebook_user" type="text" class="form-control" required="">
+                                <small class="form-text text-danger"></small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 my-auto"><i class="fa fa-youtube"></i> Youtube</div>
+                        <div class="col">
+                            <div class="form-group bmd-form-group m-1 p-1">
+                                <input id="youtube_user" type="text" class="form-control" required="">
+                                <small class="form-text text-danger"></small>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Begin social media -->
-                <div class="row">
-                    <div class="col"><h4 class="title border-bottom">Social Media Links</h4></div>
-                </div>
-                <div class="row">
-                    <div class="col-4"><i class="fa fa-instagram"></i> Instragram</div>
-                    <div class="col my-auto">{{#if this.profile.instagram_user}}{{this.profile.instagram_user}}{{else}}Not set{{/if}}</div>
-                </div>
-                <div class="row">
-                    <div class="col-4"><i class="fa fa-twitter"></i> Twitter</div>
-                    <div class="col my-auto">{{#if this.profile.twitter_user}}{{this.profile.twitter_user}}{{else}}Not set{{/if}}</div>
-                </div>
-                <div class="row">
-                    <div class="col-4"><i class="fa fa-facebook"></i></a> Facebook</div>
-                    <div class="col my-auto">{{#if this.profile.facebook_user}}{{this.profile.facebook_user}}{{else}}Not set{{/if}}</div>
-                </div>
-                <div class="row">
-                    <div class="col-4"><i class="fa fa-youtube"></i></a> Youtube</div>
-                    <div class="col my-auto">{{#if this.profile.youtube_user}}{{this.profile.youtube_user}}{{else}}Not set{{/if}}</div>
-                </div>
 
 
                 <!-- Begin band requirements -->
@@ -232,22 +302,6 @@
     </div>
 </div>
 </div>
-
-<script>
-
-    $(document).ready(function () {
-        $('.select2-instrument').select2({
-            theme: "material",
-            disabled: true
-        });
-        $('.select2-genre').select2({
-            theme: "material",
-            disabled: true
-        });
-
-        $(".select2-selection__arrow").addClass("material-icons").html("arrow_drop_down");
-    });
-</script>
 
 <div class="modal fade" tabindex="-1" role="dialog" id="newRegister">
     <div class="modal-dialog" role="document">
