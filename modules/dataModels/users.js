@@ -291,11 +291,15 @@ users.update = function(params) {
 
 	return Promise.resolve().then(() => {
 		if ( "username" in params ) {
+			// add verification for username not in use
 			user.username = params.username;
 		}
 		if ( "email" in params ) {
+			// add verification for email not in use
+			// send new verificaiton email
 			user.email = params.email;
 		}
+		
 		// if ( "display_name" in params ) {
 		// 	user.display_name = params.display_name;
 		// }
