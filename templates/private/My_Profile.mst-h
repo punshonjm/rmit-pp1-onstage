@@ -157,6 +157,21 @@
                             </div>
                         </div>
                     </div>
+                    {{#compare this.profile.user_type "Musician"}}
+                    <div class="row">
+                        <div class="col-4 my-auto">Instrument/s Played</div>
+                        <div class="col">
+                            <div class="form-group bmd-form-group">
+                                <select class="select2-instrument-view js-states form-control" id="instrument-view"
+                                        multiple="multiple">
+                                    {{#each this.profile.instruments}}
+                                        <option value="{{this.instrument_id}}" selected>{{this.name}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    {{/compare}}
                 </div>
 
                 <div class="editable profile-info edit" style="display: none;">
@@ -266,7 +281,23 @@
                             </div>
                         </div>
                     </div>
+                    {{#compare this.profile.user_type "Musician"}}
+                        <div class="row">
+                            <div class="col-4 my-auto">Instrument/s Played</div>
+                            <div class="col">
+                                <div class="form-group bmd-form-group">
+                                    <select class="select2-instrument-edit js-states form-control" id="instruments"
+                                            multiple="multiple">
+                                        {{#each this.profile.instruments}}
+                                            <option value="{{this.instrument_id}}" selected>{{this.name}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    {{/compare}}
                 </div>
+
 
 
                 <!-- ##### Begin social media ##### -->
