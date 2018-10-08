@@ -286,6 +286,133 @@ users.register = function(params) {
 	});
 };
 
+users.update = function(params) {
+	let user = {}, profile = {}, errors = [];
+
+	return Promise.resolve().then(() => {
+		if ( "username" in params ) {
+			user.username = params.username;
+		}
+		if ( "email" in params ) {
+			user.email = params.email;
+		}
+		if ( "display_name" in params ) {
+			user.display_name = params.display_name;
+		}
+
+		if ( "user_id" in params ) {
+			profile.user_id = res.insertId;
+		}
+		if ( "postcode" in params ) {
+			profile.postcode = params.postcode;
+		}
+		if ( "gender_id" in params ) {
+			profile.gender_id = params.gender;
+		}
+		if ( "about" in params ) {
+			profile.about = params.about;
+		}
+		if ( "age_bracket_id" in params ) {
+			profile.age_bracket_id = params.age_bracket;
+		}
+
+		if ( "past_gigs" in params ) {
+			profile.past_gigs = params.past_gigs;
+		}
+		if ( "music_experience" in params ) {
+			profile.music_experience = params.music_experience;
+		}
+		if ( "commitment_level_id" in params ) {
+			profile.commitment_level_id = params.commitment_level;
+		}
+		if ( "gig_frequency_id" in params ) {
+			profile.gig_frequency_id = params.gig_frequency;
+		}
+		if ( "status_id" in params ) {
+			profile.status_id = params.status;
+		}
+
+		if ( "band_size" in params ) {
+			profile.band_size = params.band_size;
+		}
+		if ( "members_needed" in params ) {
+			profile.members_needed = params.members_needed;
+		}
+		if ( "preference_age_bracket_id" in params ) {
+			profile.preference_age_bracket_id = params.preferred_age_bracket;
+		}
+
+		if ( "required_music_experience" in params ) {
+			profile.required_music_experience = params.required_music_experience;
+		}
+		if ( "required_past_gigs" in params ) {
+			profile.required_past_gigs = params.required_past_gigs;
+		}
+		if ( "required_commitment_level_id" in params ) {
+			profile.required_commitment_level_id = params.required_commitment_level;
+		}
+		if ( "required_gig_frequency_id" in params ) {
+			profile.required_gig_frequency_id = params.required_gig_frequency;
+		}
+
+		if ( errors.length > 0 ) {
+			return Promise.reject({ errorSet: errors });
+		} else {
+			return Promise.resolve();
+		}
+	}).then(() => {
+		// need to add remove of old genres
+
+		// if ( "genres" in params ) {
+		// 	let genres = [];
+		// 	params.genre.split(",").map((gnr) => {
+		// 		let genre = {}
+		// 		genre.profile_id = profile.id;
+		// 		genre.genre_id = gnr;
+		// 		genres.push(genre);
+		// 	});
+		//
+		// 	let query = dbc.sql.insert().into("ebdb.profile_genre_map").setFieldsRows(genres);
+		// 	return dbc.execute(query);
+		// } else {
+			return Promise.resolve();
+		// }
+	}).then((res) => {
+		// need to add remove of old instruments
+
+		// if ( "instruments" in params ) {
+		// 	let instruments = [];
+		// 	params.instruments.split(",").map((instr) => {
+		// 		let instrument = {};
+		// 		instrument.profile_id = profile.id;
+		// 		instrument.instrument_id = instr;
+		// 		instruments.push(instrument);
+		// 	});
+		//
+		// 	let query = dbc.sql.insert().into("ebdb.profile_instrument_map").setFieldsRows(instruments);
+		// 	return dbc.execute(query);
+		// } else {
+			return Promise.resolve();
+		// }
+	}).then(() => {
+		if ( Object.keys(user).length > 0) {
+			let query = dbc.sql.update().table("ebdb.user").setFields(user);
+			return dbc.execute(query);
+		} else {
+			return Promise.resolve();
+		}
+	}).then(() => {
+		if ( Object.keys(profile).length > 0) {
+			let query = dbc.sql.update().table("ebdb.profile").setFields(profile);
+			return dbc.execute(query);
+		} else {
+			return Promise.resolve();
+		}
+	}).then((res) => {
+		return Promise.resolve({ message: "Successfully update your profile!" });
+	});
+}
+
 users.new_verification = function(user) {
 	let verify = {};
 
