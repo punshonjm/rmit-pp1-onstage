@@ -34,7 +34,9 @@
 
                 <!-- ##### Begin Account section ###### -->
                 <div class="row">
-                    <div class="col"><h4 class="title border-bottom">Account</h4></div>
+                    <div class="col my-profile-header">
+						<h4 class="title border-bottom">Account</h4>
+					</div>
                     <div class="col-2 my-auto editable account view">
                         <button class="btn btn-sm btn-fab btn-primary btn-round editable-toggle" data-target="account" data-controls='edit' rel="tooltip"
                                 title="Edit">
@@ -84,7 +86,9 @@
 
                 <!-- ##### Begin profile information ##### -->
                 <div class="row">
-                    <div class="col"><h4 class="title border-bottom">Profile Information</h4></div>
+                    <div class="col my-profile-header">
+						<h4 class="title border-bottom">Profile Information</h4>
+					</div>
                     <div class="col-2 my-auto editable profile-info view">
                         <button class="btn btn-sm btn-fab btn-primary btn-round editable-toggle" data-target="profile-info" data-controls='edit' rel="tooltip"
                                 title="Edit">
@@ -302,7 +306,9 @@
 
                 <!-- ##### Begin social media ##### -->
                 <div class="row">
-                    <div class="col"><h4 class="title border-bottom">Social Media Links</h4></div>
+                    <div class="col my-profile-header">
+						<h4 class="title border-bottom">Social Media Links</h4>
+					</div>
                     <div class="col-2 my-auto editable social-media view">
                         <button class="btn btn-sm btn-fab btn-primary btn-round editable-toggle" rel="tooltip" data-target="social-media" data-controls='edit'
                                 title="Edit">
@@ -384,7 +390,9 @@
                 <!-- Begin band requirements -->
                 {{#compare this.profile.user_type "Band"}}
                     <div class="row">
-                        <div class="col"><h4 class="title border-bottom">New Band Member/s Requirements</h4></div>
+                        <div class="col my-profile-header">
+							<h4 class="title border-bottom">New Band Member/s Requirements</h4>
+						</div>
                         <div class="col-2 my-auto editable band view">
                             <button class="btn btn-sm btn-fab btn-primary btn-round editable-toggle" data-target="band" data-controls='edit' rel="tooltip"
                                     title="Edit">

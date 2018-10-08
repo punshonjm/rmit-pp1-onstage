@@ -194,7 +194,7 @@ users.register = function(params) {
 		profile.user_id = res.insertId;
 		profile.postcode = params.postcode;
 		profile.gender_id = params.gender;
-		profile.about = params.about;
+		profile.about = params.aboutMe;
 		profile.age_bracket_id = params.age_bracket;
 
 		profile.past_gigs = params.past_gigs;
