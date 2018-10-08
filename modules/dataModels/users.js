@@ -247,14 +247,7 @@ users.register = function(params) {
 		let query = dbc.sql.insert().into("ebdb.profile_instrument_map").setFieldsRows(instruments);
 		return dbc.execute(query);
 	}).then((res) => {
-		verify.verification_key = crypto.randomBytes(Math.ceil(24 / 2)).toString('hex').slice(0, 24);
-		verify.user_id = profile.user_id;
-		verify.expires = moment().add(1, "day").format("YYYY-MM-DD HH:mm:ss");
-
-		return mail.send.registration(row.email, row.display_name, verify.verification_key);
-	}).then((eml) => {
-		let query = dbc.sql.insert().into("ebdb.email_verification").setFields(verify);
-		return dbc.execute(query);
+		return internal.verificationEmail( profile.user_id, row.email, row.display_name );
 	}).then((res) => {
 		let details = {
 			username: params.username,
@@ -461,6 +454,12 @@ users.update = function(params) {
 		if ( Object.keys(profile).length > 0) {
 			let query = dbc.sql.update().table("ebdb.profile").setFields(profile).where("user_id = ?", params.user.user_id);
 			return dbc.execute(query);
+		} else {
+			return Promise.resolve();
+		}
+	}).then(() => {
+		if ( ("email" in params) && params.user.email != params.email ) {
+			return internal.verificationEmail( params.user.user_id, params.email, params.user.display_name );
 		} else {
 			return Promise.resolve();
 		}
@@ -814,3 +813,21 @@ internal.images.upload = function(user, image) {
 		});
 	});
 };
+
+internal.verificationEmail = function( user_id, email, display_name ) {
+	let verify = {};
+
+	return Promise.resolve().then(() => {
+		verify.user_id = user_id;
+		verify.verification_key = crypto.randomBytes(Math.ceil(24 / 2)).toString('hex').slice(0, 24);
+		verify.expires = moment().add(1, "day").format("YYYY-MM-DD HH:mm:ss");
+
+		return mail.send.registration(email, display_name, verify.verification_key);
+	}).then((eml) => {
+		let query = dbc.sql.insert().into("ebdb.email_verification").setFields(verify);
+		return dbc.execute(query);
+	}).then((res) => {
+		let query = dbc.sql.update().table("ebdb.user").set("email_verified = 0").where("id = ?", user_id);
+		return dbc.execute(query);
+	});
+}
