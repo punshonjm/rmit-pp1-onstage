@@ -429,7 +429,7 @@ users.update = function(params) {
 			return Promise.resolve();
 		}
 	}).then((res) => {
-		return Promise.resolve({ message: "Successfully update your profile!", user: user, profile: profile });
+		return Promise.resolve({ message: "Successfully updated your profile!", user: user, profile: profile });
 	});
 }
 

@@ -56,6 +56,8 @@ appPage.initialise = function() {
 appPage.editToggle = function($this) {
 	var target = $this.data().target;
 	var controls = $this.data().controls;
+	var $header = $this.closest(".row").find(".my-profile-header");
+	$header.find("span").remove();
 
 	$(".editable." + target).hide();
 	$(".editable." + target + "." + controls).show();
@@ -94,13 +96,13 @@ appPage.editSave = function($this) {
 	} else {
 		$.post("/api/user/update", data, function(res) {
 			$this.prop("disabled", false);
-			$header.append("<span class='d-block text-success'>" + error.responseJSON.message + "</span>");
+			$header.append("<span class='d-block text-success'>" + res.message + "</span>");
 
 			// res.user
 			if ( Object.keys(res.user).length > 0 ) {
-				res.user.map(function(key) {
-					$("#" + key + "-data").text(res.profile[key]);
-					$("#" + key + "-data").data().id = res.profile[key];
+				Object.keys(res.user).map(function(key) {
+					$("#" + key + "-data").text(res.user[key]);
+					$("#" + key + "-data").data().id = res.user[key];
 				});
 			}
 

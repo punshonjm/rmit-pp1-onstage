@@ -53,9 +53,9 @@ router.post("/update", (req, res) => {
 	Promise.resolve().then(() => {
 		req.body.user = req.user;
 		return models.users.update(req.body);
-	}).then((stagePass) => {
+	}).then((msg) => {
 		// if we want to check something before responding here
-		res.status(200).json({ message: "Successfully updated!" }).end();
+		res.status(200).json(msg).end();
 	}).catch((error) => {
 		// additional register specific error handling if you want to here
 		if ( ("errorSet" in error)) {
