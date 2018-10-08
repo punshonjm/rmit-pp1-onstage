@@ -361,49 +361,55 @@ users.update = function(params) {
 			return Promise.resolve();
 		}
 	}).then(() => {
-		// need to add remove of old genres
+		if ( "genres" in params ) {
+			return Promise.resolve().then(() => {
+				let query = dbc.sql.delete().from("ebdb.profile_genre_map").where("profile_id = ?", params.user.profile_id);
+				return dbc.execute(query);
+			}).then(() => {
+				let genres = [];
+				params.genre.split(",").map((gnr) => {
+					let genre = {}
+					genre.profile_id = params.user.profile_id;
+					genre.genre_id = gnr;
+					genres.push(genre);
+				});
 
-		// if ( "genres" in params ) {
-		// 	let genres = [];
-		// 	params.genre.split(",").map((gnr) => {
-		// 		let genre = {}
-		// 		genre.profile_id = profile.id;
-		// 		genre.genre_id = gnr;
-		// 		genres.push(genre);
-		// 	});
-		//
-		// 	let query = dbc.sql.insert().into("ebdb.profile_genre_map").setFieldsRows(genres);
-		// 	return dbc.execute(query);
-		// } else {
+				let query = dbc.sql.insert().into("ebdb.profile_genre_map").setFieldsRows(genres);
+				return dbc.execute(query);
+			});
+		} else {
 			return Promise.resolve();
-		// }
+		}
 	}).then((res) => {
-		// need to add remove of old instruments
+		if ( "instruments" in params ) {
+			return Promise.resolve().then(() => {
+				let query = dbc.sql.delete().from("ebdb.profile_instrument_map").where("profile_id = ?", params.user.profile_id);
+				return dbc.execute(query);
+			}).then(() => {
+				let instruments = [];
+				params.instruments.split(",").map((instr) => {
+					let instrument = {};
+					instrument.profile_id = params.user.profile_id;
+					instrument.instrument_id = instr;
+					instruments.push(instrument);
+				});
 
-		// if ( "instruments" in params ) {
-		// 	let instruments = [];
-		// 	params.instruments.split(",").map((instr) => {
-		// 		let instrument = {};
-		// 		instrument.profile_id = profile.id;
-		// 		instrument.instrument_id = instr;
-		// 		instruments.push(instrument);
-		// 	});
-		//
-		// 	let query = dbc.sql.insert().into("ebdb.profile_instrument_map").setFieldsRows(instruments);
-		// 	return dbc.execute(query);
-		// } else {
+				let query = dbc.sql.insert().into("ebdb.profile_instrument_map").setFieldsRows(instruments);
+				return dbc.execute(query);
+			});
+		} else {
 			return Promise.resolve();
-		// }
+		}
 	}).then(() => {
 		if ( Object.keys(user).length > 0) {
-			let query = dbc.sql.update().table("ebdb.user").setFields(user);
+			let query = dbc.sql.update().table("ebdb.user").setFields(user).where("id = ?", params.user.user_id);
 			return dbc.execute(query);
 		} else {
 			return Promise.resolve();
 		}
 	}).then(() => {
 		if ( Object.keys(profile).length > 0) {
-			let query = dbc.sql.update().table("ebdb.profile").setFields(profile);
+			let query = dbc.sql.update().table("ebdb.profile").setFields(profile).where("user_id = ?", params.user.user_id);
 			return dbc.execute(query);
 		} else {
 			return Promise.resolve();
