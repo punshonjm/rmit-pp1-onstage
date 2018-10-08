@@ -71,31 +71,36 @@ appPage.editToggle = function($this) {
 appPage.editSave = function($this) {
 	var target = $this.data().target;
 
-	var data = {};
+	var data = {}, errors = [];
 	$(".editable." + target + ".edit").find("input, select").each(function() {
 		var isEmpty = ( $(this).val() == "" || $(this).val() == null) ? true : false;
 		if ( !isEmpty ) {
 			data[ $(this).prop("id") ] = $(this).val();
-		}
-	});
-
-	$.post("/api/user/update", data, function(res) {
-
-
-		// setTimeout(function() {
-		// 	window.location = "/my_profile";
-		// }, 500);
-	}).fail(function(error) {
-
-
-		if ( ("errorSet" in error.responseJSON) ) {
-			error.responseJSON.errorSet.map(function(err) {
-				if ( $("#" + err.key).length > 0 ) $("#" + err.key).addError("has-warning", err.error);
-			});
+		} else if ( $(this).hasClass("allowEmpty") ) {
+			data[ $(this).prop("id") ] = "";
 		} else {
-			$("").append("<span class='d-block text-danger'>" + error.responseJSON.message + "</span>");
+			errors.push($(this).prop("id"));
+			$(this).addError();
 		}
 	});
+
+	if ( errors.length > 0 ) {
+
+	} else {
+		$.post("/api/user/update", data, function(res) {
+
+		}).fail(function(error) {
+
+
+			if ( ("errorSet" in error.responseJSON) ) {
+				error.responseJSON.errorSet.map(function(err) {
+					if ( $("#" + err.key).length > 0 ) $("#" + err.key).addError("has-warning", err.error);
+				});
+			} else {
+				$("").append("<span class='d-block text-danger'>" + error.responseJSON.message + "</span>");
+			}
+		});
+	}
 }
 
 $(".social-media-toggle").click(function () {
