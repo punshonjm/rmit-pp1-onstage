@@ -384,6 +384,8 @@ users.update = function(params) {
 					genres.push(genre);
 				});
 
+				profile.genres = genres;
+
 				let query = dbc.sql.insert().into("ebdb.profile_genre_map").setFieldsRows(genres);
 				return dbc.execute(query);
 			});
@@ -403,6 +405,8 @@ users.update = function(params) {
 					instrument.instrument_id = instr;
 					instruments.push(instrument);
 				});
+
+				profile.instruments = instruments;
 
 				let query = dbc.sql.insert().into("ebdb.profile_instrument_map").setFieldsRows(instruments);
 				return dbc.execute(query);
@@ -425,7 +429,7 @@ users.update = function(params) {
 			return Promise.resolve();
 		}
 	}).then((res) => {
-		return Promise.resolve({ message: "Successfully update your profile!" });
+		return Promise.resolve({ message: "Successfully update your profile!", user: user, profile: profile });
 	});
 }
 

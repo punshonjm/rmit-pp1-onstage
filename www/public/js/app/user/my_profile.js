@@ -93,7 +93,28 @@ appPage.editSave = function($this) {
 		$this.prop("disabled", false);
 	} else {
 		$.post("/api/user/update", data, function(res) {
-			
+			$this.prop("disabled", false);
+			$header.append("<span class='d-block text-success'>" + error.responseJSON.message + "</span>");
+
+			// res.user
+			if ( Object.keys(res.user).length > 0 ) {
+				res.user.map(function(key) {
+					$("#" + key + "-data").text(res.profile[key]);
+					$("#" + key + "-data").data().id = res.profile[key];
+				});
+			}
+
+			// res.profile
+			if ( Object.keys(res.profile).length > 0 ) {
+				Object.keys(res.profile).map(function(key) {
+					if ( key == "genres" || key == "instruments" ) {
+
+					} else {
+						$("#" + key + "-data").text(res.profile[key]);
+						$("#" + key + "-data").data().id = res.profile[key];
+					}
+				});
+			}
 		}).fail(function(error) {
 			$this.prop("disabled", false);
 
