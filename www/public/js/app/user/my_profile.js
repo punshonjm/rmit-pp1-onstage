@@ -4,6 +4,8 @@ $(document).ready(function() {
 	appPage.initialise();
 }).on("click", ".editable-toggle", function() {
 	appPage.editToggle($(this));
+}).on("click", ".edit-save", function() {
+	appPage.editSave($(this));
 })
 
 appPage.initialise = function() {
@@ -65,6 +67,36 @@ appPage.editToggle = function($this) {
 		});
 	}
 };
+
+appPage.editSave = function($this) {
+	var target = $this.data().target;
+
+	var data = {};
+	$(".editable." + target + ".edit").find("input, select").each(function() {
+		var isEmpty = ( $(this).val() == "" || $(this).val() == null) ? true : false;
+		if ( !isEmpty ) {
+			data[ $(this).prop("id") ] = $(this).val();
+		}
+	});
+
+	$.post("/api/user/update", data, function(res) {
+
+
+		// setTimeout(function() {
+		// 	window.location = "/my_profile";
+		// }, 500);
+	}).fail(function(error) {
+
+
+		if ( ("errorSet" in error.responseJSON) ) {
+			error.responseJSON.errorSet.map(function(err) {
+				if ( $("#" + err.key).length > 0 ) $("#" + err.key).addError("has-warning", err.error);
+			});
+		} else {
+			$("").append("<span class='d-block text-danger'>" + error.responseJSON.message + "</span>");
+		}
+	});
+}
 
 $(".social-media-toggle").click(function () {
 

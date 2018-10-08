@@ -9,7 +9,7 @@
                 <div class="col-md-11 ml-auto mr-auto">
                     <div class="profile">
                         <div class="avatar">
-                            <img src="{{#if his.profile.picture}}{{this.profile.picture}}{{else}}https://epicattorneymarketing.com/wp-content/uploads/2016/07/Headshot-Placeholder-1.png{{/if}}" alt="Circle Image" class="img-raised rounded-circle img-fluid">
+                            <img src="{{#if this.profile.picture}}{{this.profile.picture}}{{else}}https://epicattorneymarketing.com/wp-content/uploads/2016/07/Headshot-Placeholder-1.png{{/if}}" alt="Circle Image" class="img-raised rounded-circle img-fluid">
                         </div>
                         <div class="name">
                             <h3 class="title">{{this.profile.display_name}}</h3>
@@ -42,7 +42,7 @@
                         </button>
                     </div>
                     <div class="col-2 my-auto editable account edit" style="display: none">
-                        <button class="btn btn-sm btn-fab btn-success btn-round" rel="tooltip" title="Save">
+                        <button class="btn btn-sm btn-fab btn-success btn-round edit-save" data-target="account" rel="tooltip" title="Save">
                             <i class="material-icons">check</i>
                         </button>
                         <button class="btn btn-sm btn-fab btn-danger btn-round editable-toggle" data-target="account" data-controls='view' rel="tooltip"
@@ -92,7 +92,7 @@
                         </button>
                     </div>
                     <div class="col-2 my-auto editable profile-info edit" style="display: none">
-                        <button class="btn btn-sm btn-fab btn-success btn-round" rel="tooltip" title="Save">
+                        <button class="btn btn-sm btn-fab btn-success btn-round edit-save" data-target='profile-info' rel="tooltip" title="Save">
                             <i class="material-icons">check</i>
                         </button>
                         <button class="btn btn-sm btn-fab btn-danger btn-round editable-toggle" data-target="profile-info" data-controls='view' rel="tooltip"
@@ -258,7 +258,7 @@
                         <div class="col-4 my-auto">Genres Played</div>
                         <div class="col">
                             <div class="form-group bmd-form-group">
-                                <select class="select2-genre-edit js-states form-control" id="genre-edit" multiple="multiple">
+                                <select class="select2-genre-edit js-states form-control" id="genres" multiple="multiple">
                                     {{#each this.profile.genres}}
                                         <option value="{{this.genre_id}}" selected>{{this.name}}</option>
                                     {{/each}}
@@ -484,7 +484,7 @@
                             <div class="col-4 my-auto">Instrument/s Required</div>
                             <div class="col">
                                 <div class="form-group bmd-form-group">
-                                    <select class="select2-instrument-edit js-states form-control" id="instrument-edit"
+                                    <select class="select2-instrument-edit js-states form-control" id="instruments"
                                             multiple="multiple">
                                         {{#each this.profile.instruments}}
                                             <option value="{{this.instrument_id}}" selected>{{this.name}}</option>
@@ -494,10 +494,7 @@
                             </div>
                         </div>
                     </div>
-
-
                 {{/compare}}
-
             </div>
         </div>
     </div>

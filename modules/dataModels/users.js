@@ -296,24 +296,24 @@ users.update = function(params) {
 		if ( "email" in params ) {
 			user.email = params.email;
 		}
-		if ( "display_name" in params ) {
-			user.display_name = params.display_name;
-		}
+		// if ( "display_name" in params ) {
+		// 	user.display_name = params.display_name;
+		// }
+		// if ( "gender_id" in params ) {
+		// 	profile.gender_id = params.gender;
+		// }
+		// if ( "status_id" in params ) {
+		// 	profile.status_id = params.status;
+		// }
 
-		if ( "user_id" in params ) {
-			profile.user_id = res.insertId;
-		}
 		if ( "postcode" in params ) {
 			profile.postcode = params.postcode;
-		}
-		if ( "gender_id" in params ) {
-			profile.gender_id = params.gender;
 		}
 		if ( "about" in params ) {
 			profile.about = params.about;
 		}
 		if ( "age_bracket_id" in params ) {
-			profile.age_bracket_id = params.age_bracket;
+			profile.age_bracket_id = params.age_bracket_id;
 		}
 
 		if ( "past_gigs" in params ) {
@@ -323,13 +323,23 @@ users.update = function(params) {
 			profile.music_experience = params.music_experience;
 		}
 		if ( "commitment_level_id" in params ) {
-			profile.commitment_level_id = params.commitment_level;
+			profile.commitment_level_id = params.commitment_level_id;
 		}
 		if ( "gig_frequency_id" in params ) {
-			profile.gig_frequency_id = params.gig_frequency;
+			profile.gig_frequency_id = params.gig_frequency_id;
 		}
-		if ( "status_id" in params ) {
-			profile.status_id = params.status;
+
+		if ( "instagram_user" in params ) {
+			profile.instagram_user = params.instagram_user;
+		}
+		if ( "facebook_user" in params ) {
+			profile.facebook_user = params.facebook_user;
+		}
+		if ( "twitter_user" in params ) {
+			profile.twitter_user = params.twitter_user;
+		}
+		if ( "youtube_user" in params ) {
+			profile.youtube_user = params.youtube_user;
 		}
 
 		if ( "band_size" in params ) {
@@ -339,7 +349,7 @@ users.update = function(params) {
 			profile.members_needed = params.members_needed;
 		}
 		if ( "preference_age_bracket_id" in params ) {
-			profile.preference_age_bracket_id = params.preferred_age_bracket;
+			profile.preference_age_bracket_id = params.preferred_age_bracket_id;
 		}
 
 		if ( "required_music_experience" in params ) {
@@ -349,10 +359,10 @@ users.update = function(params) {
 			profile.required_past_gigs = params.required_past_gigs;
 		}
 		if ( "required_commitment_level_id" in params ) {
-			profile.required_commitment_level_id = params.required_commitment_level;
+			profile.required_commitment_level_id = params.required_commitment_level_id;
 		}
 		if ( "required_gig_frequency_id" in params ) {
-			profile.required_gig_frequency_id = params.required_gig_frequency;
+			profile.required_gig_frequency_id = params.required_gig_frequency_id;
 		}
 
 		if ( errors.length > 0 ) {
