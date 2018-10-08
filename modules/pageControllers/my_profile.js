@@ -3,7 +3,6 @@ const models = require("@modules/models");
 module.exports = function(req) {
 	var data = {};
 
-
 	return Promise.resolve().then(() => {
 		data.criteria = {};
 		return models.users.details(req.user.user_id);

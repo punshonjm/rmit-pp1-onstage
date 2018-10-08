@@ -1,7 +1,5 @@
 {{#*inline "header_block"}}
-    <div class="page-header header-filter" style="background-image: url('{{#if
-            this.profile.background}}{{this.profile.background}}{{else}}{{this.headerImage}}{{/if}}'); min-height:250px; max-height: 400px;">
-    </div>
+    <div class="page-header header-filter" style="background-image: url('{{#if this.profile.background}}{{this.profile.background}}{{else}}{{this.headerImage}}{{/if}}'); min-height:250px; max-height: 400px;"></div>
 {{/inline}}
 
 <div class="section text-left pt-0 profile-page">
@@ -11,9 +9,7 @@
                 <div class="col-md-11 ml-auto mr-auto">
                     <div class="profile">
                         <div class="avatar">
-                            <img src="{{#if
-                                    this.profile.picture}}{{this.profile.picture}}{{else}}https://epicattorneymarketing.com/wp-content/uploads/2016/07/Headshot-Placeholder-1.png{{/if}}"
-                                 alt="Circle Image" class="img-raised rounded-circle img-fluid">
+                            <img src="{{#if his.profile.picture}}{{this.profile.picture}}{{else}}https://epicattorneymarketing.com/wp-content/uploads/2016/07/Headshot-Placeholder-1.png{{/if}}" alt="Circle Image" class="img-raised rounded-circle img-fluid">
                         </div>
                         <div class="name">
                             <h3 class="title">{{this.profile.display_name}}</h3>
@@ -39,23 +35,23 @@
                 <!-- ##### Begin Account section ###### -->
                 <div class="row">
                     <div class="col"><h4 class="title border-bottom">Account</h4></div>
-                    <div class="col-2 my-auto account-view">
-                        <button class="btn btn-sm btn-fab btn-primary btn-round account-toggle" rel="tooltip"
+                    <div class="col-2 my-auto editable account view">
+                        <button class="btn btn-sm btn-fab btn-primary btn-round editable-toggle" data-target="account" data-controls='edit' rel="tooltip"
                                 title="Edit">
                             <i class="material-icons">edit</i>
                         </button>
                     </div>
-                    <div class="col-2 my-auto account-edit" style="display: none">
+                    <div class="col-2 my-auto editable account edit" style="display: none">
                         <button class="btn btn-sm btn-fab btn-success btn-round" rel="tooltip" title="Save">
                             <i class="material-icons">check</i>
                         </button>
-                        <button class="btn btn-sm btn-fab btn-danger btn-round account-toggle" rel="tooltip"
+                        <button class="btn btn-sm btn-fab btn-danger btn-round editable-toggle" data-target="account" data-controls='view' rel="tooltip"
                                 title="Cancel">
                             <i class="material-icons">close</i>
                         </button>
                     </div>
                 </div>
-                <div class="account-view">
+                <div class="editable account view">
                     <div class="row">
                         <div class="col-4">Username</div>
                         <div class="col" id="username-data" data-id="{{this.profile.username}}">{{this.profile.username}}</div>
@@ -65,7 +61,7 @@
                         <div class="col" id="email-data" data-id="{{this.profile.email}}">{{this.profile.email}}</div>
                     </div>
                 </div>
-                <div class="account-edit" style="display: none;">
+                <div class="editable account edit" style="display: none;">
                     <div class="row">
                         <div class="col-4 my-auto">Username</div>
                         <div class="col">
@@ -89,23 +85,23 @@
                 <!-- ##### Begin profile information ##### -->
                 <div class="row">
                     <div class="col"><h4 class="title border-bottom">Profile Information</h4></div>
-                    <div class="col-2 my-auto profile-view">
-                        <button class="btn btn-sm btn-fab btn-primary btn-round profile-toggle" rel="tooltip"
+                    <div class="col-2 my-auto editable profile-info view">
+                        <button class="btn btn-sm btn-fab btn-primary btn-round editable-toggle" data-target="profile-info" data-controls='edit' rel="tooltip"
                                 title="Edit">
                             <i class="material-icons">edit</i>
                         </button>
                     </div>
-                    <div class="col-2 my-auto profile-edit" style="display: none">
+                    <div class="col-2 my-auto editable profile-info edit" style="display: none">
                         <button class="btn btn-sm btn-fab btn-success btn-round" rel="tooltip" title="Save">
                             <i class="material-icons">check</i>
                         </button>
-                        <button class="btn btn-sm btn-fab btn-danger btn-round profile-toggle" rel="tooltip"
+                        <button class="btn btn-sm btn-fab btn-danger btn-round editable-toggle" data-target="profile-info" data-controls='view' rel="tooltip"
                                 title="Cancel">
                             <i class="material-icons">close</i>
                         </button>
                     </div>
                 </div>
-                <div class="profile-view">
+                <div class="editable profile-info view">
                     {{#compare this.profile.user_type "Musician"}}
                         <div class="row">
                             <div class="col-4">Gender</div>
@@ -132,19 +128,19 @@
                     {{/compare}}
                     <div class="row">
                         <div class="col-4">Age Bracket</div>
-                        <div class="col"id="age_bracket_id-view"
+                        <div class="col"id="age_bracket_id-data"
                              data-id="{{this.profile.age_bracket_id}}">{{this.profile.age_bracket}}</div>
                     </div>
 
 
                     <div class="row">
                         <div class="col-4">Commitment Level</div>
-                        <div class="col" id="commitment_level_id-view"
+                        <div class="col" id="commitment_level_id-data"
                              data-id="{{this.profile.commitment_level_id}}">{{this.profile.commitment_level}}</div>
                     </div>
                     <div class="row">
                         <div class="col-4">Gig Frequency</div>
-                        <div class="col" id="gig_frequency_id-view"
+                        <div class="col" id="gig_frequency_id-data"
                              data-id="{{this.profile.gig_frequency_id}}">{{this.profile.gig_frequency}}</div>
                     </div>
 
@@ -153,7 +149,7 @@
                         <div class="col-4 my-auto">Genres Played</div>
                         <div class="col">
                             <div class="form-group bmd-form-group">
-                                <select class="select2-genre-view js-states form-control" id="genre-view" multiple="multiple">
+                                <select class="select2-genre-view js-states form-control" id="genre-data" multiple="multiple">
                                     {{#each this.profile.genres}}
                                         <option value="{{this.genre_id}}" selected>{{this.name}}</option>
                                     {{/each}}
@@ -163,7 +159,7 @@
                     </div>
                 </div>
 
-                <div class="profile-edit" style="display: none;">
+                <div class="editable profile-info edit" style="display: none;">
                     {{#compare this.profile.user_type "Musician"}}
                         <div class="row">
                             <div class="col-4 my-auto">Gender</div>

@@ -2,12 +2,13 @@ var appPage = {};
 
 $(document).ready(function() {
 	appPage.initialise();
-});
+}).on("click", ".editable-toggle", function() {
+	appPage.editToggle($(this));
+})
 
 appPage.initialise = function() {
 	let newRegister = (new URLSearchParams( document.location.search.substring(1) ).get("newRegister") == "yes") ? true : false;
 	if ( newRegister ) $("#newRegister").modal("show");
-
 
 	$('.select2-instrument-view').select2({
 		theme: "material",
@@ -50,36 +51,20 @@ appPage.initialise = function() {
 	$(".select2-selection__arrow").addClass("material-icons").html("arrow_drop_down");
 };
 
+appPage.editToggle = function($this) {
+	var target = $this.data().target;
+	var controls = $this.data().controls;
 
-$(".account-toggle").click(function () {
+	$(".editable." + target).hide();
+	$(".editable." + target + "." + controls).show();
 
-	if($(".account-edit").is(":hidden")) {
-		$("#username").val($("#username-data").data("id"));
-		$("#email").val($("#email-data").data("id"));
-	};
-
-	$(".account-view").toggle();
-	$(".account-edit").toggle();
-});
-
-
-
-$(".profile-toggle").click(function () {
-
-	if($(".profile-edit").is(":hidden")) {
-
-		$("#postcode").val($("#postcode-data").data("id"));
-		$("#past_gigs").val($("#past_gigs-data").data("id"));
-		$("#music_experience").val($("#music_experience-data").data("id"));
-		$("#band_size").val($("#band_size-data").data("id"));
-		$("#commitment_level_id").val($("#commitment_level_id-view").data("id"));
-		$("#gig_frequency_id").val($("#gig_frequency_id-view").data("id"));
-		$("#age_bracket_id").val($("#age_bracket_id-view").data("id"));
-	};
-
-	$(".profile-view").toggle();
-	$(".profile-edit").toggle();
-});
+	if ( controls == "edit" ) {
+		$(".editable." + target + ".view").find("[data-id]").each(function() {
+			var id = $(this).prop("id").split("-data")[0];
+			$("#" + id).val($(this).data().id);
+		});
+	}
+};
 
 $(".social-media-toggle").click(function () {
 
@@ -110,4 +95,3 @@ $(".band-toggle").click(function () {
 	$(".band-view").toggle();
 	$(".band-edit").toggle();
 });
-
