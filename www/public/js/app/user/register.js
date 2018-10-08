@@ -72,7 +72,7 @@ appPage.register = function($this) {
 
 	// Band specific options
 	if ( data.type == "band" ) {
-		data.bandSize = $("#bandSize").val();
+		data.band_size = $("#bandSize").val();
 		data.preferred_age_bracket = $("#preferred_age_bracket").val();
 		data.required_music_experience = $("#required_music_experience").val();
 		data.members_needed = $("#members_needed").val();

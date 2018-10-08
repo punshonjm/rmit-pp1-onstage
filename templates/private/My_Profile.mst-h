@@ -378,36 +378,27 @@
                     <div class="band-view">
                         <div class="row">
                             <div class="col-4">Number of Members Needed</div>
-                            <div class="col" id="members_needed-data" data-id="{{this.profile.members_needed}}">{{#if this.profile.members_needed}}{{this.profile.members_needed}}{{else}}
-                                Not set{{/if}}</div>
+                            <div class="col" id="members_needed-data" data-id="{{this.profile.members_needed}}">{{#if this.profile.members_needed}}{{this.profile.members_needed}}{{else}}Not set{{/if}}</div>
                         </div>
                         <div class="row">
                             <div class="col-4">Required Commitment Level</div>
-                            <div class="col" id="required_commitment_level_id-data" data-id="{{required_commitment_level_id}}">{{#if required_commitment_level}}{{required_commitment_level}}{{else}}
-                                Not set{{/if}}</div>
+                            <div class="col" id="required_commitment_level_id-data" data-id="{{required_commitment_level_id}}">{{#if this.profile.required_commitment_level}}{{this.profile.required_commitment_level}}{{else}}Not set{{/if}}</div>
                         </div>
                         <div class="row">
                             <div class="col-4">Required Music Experience (Years)</div>
-                            <div class="col" id="required_music_experience-data" data-id="{{required_music_experience}}">{{#if required_music_experience}}{{required_music_experience}}{{else}}
-                                Not set{{/if}}</div>
+                            <div class="col" id="required_music_experience-data" data-id="{{required_music_experience}}">{{#if this.profile.required_music_experience}}{{this.profile.required_music_experience}}{{else}}Not set{{/if}}</div>
                         </div>
                         <div class="row">
                             <div class="col-4">Required Past Gigs</div>
-                            <div class="col" id="required_past_gigs-data" data-id="{{this.profile.required_past_gigs}}">{{#if
-                                    this.profile.required_past_gigs}}{{this.profile.required_past_gigs}}{{else}}
-                                Not set{{/if}}</div>
+                            <div class="col" id="required_past_gigs-data" data-id="{{this.profile.required_past_gigs}}">{{#if this.profile.required_past_gigs}}{{this.profile.required_past_gigs}}{{else}}Not set{{/if}}</div>
                         </div>
                         <div class="row">
                             <div class="col-4">Required Gig Frequency</div>
-                            <div class="col" id="required_gig_frequency_id-data" data-id="{{this.profile.required_gig_frequency_id}}">{{#if
-                                    this.profile.required_gig_frequency}}{{this.profile.required_gig_frequency}}{{else}}
-                                Not set{{/if}}</div>
+                            <div class="col" id="required_gig_frequency_id-data" data-id="{{this.profile.required_gig_frequency_id}}">{{#if this.profile.required_gig_frequency}}{{this.profile.required_gig_frequency}}{{else}}Not set{{/if}}</div>
                         </div>
                         <div class="row">
                             <div class="col-4">Preferred Age Bracket</div>
-                            <div class="col" id="preference_age_bracket_id-data" data-id="{{this.profile.preference_age_bracket_id}}">{{#if
-                                    this.profile.preferred_age_bracket}}{{this.profile.preferred_age_bracket}}{{else}}
-                                Not set{{/if}}</div>
+                            <div class="col" id="preference_age_bracket_id-data" data-id="{{this.profile.preference_age_bracket_id}}">{{#if this.profile.preferred_age_bracket}}{{this.profile.preferred_age_bracket}}{{else}}Not set{{/if}}</div>
                         </div>
 
                         <div class="row">
