@@ -291,15 +291,14 @@ users.update = function(params) {
 
 	return Promise.resolve().then(() => {
 		if ( "username" in params ) {
-			// add verification for username not in use
 			user.username = params.username;
 		}
+
 		if ( "email" in params ) {
-			// add verification for email not in use
 			// send new verificaiton email
 			user.email = params.email;
 		}
-		
+
 		// if ( "display_name" in params ) {
 		// 	user.display_name = params.display_name;
 		// }
@@ -370,6 +369,39 @@ users.update = function(params) {
 		}
 
 		if ( errors.length > 0 ) {
+			return Promise.reject({ errorSet: errors });
+		} else {
+			return Promise.resolve();
+		}
+	}).then(() => {
+		// Check if username is taken
+		if ( "username" in params ) {
+			let query = internal.query.getUserUsername();
+			query.where("u.username = ?", params.username);
+			return dbc.execute(query);
+		} else {
+			errors.push({key: 'username', error: 'Username cannot be empty.'});
+			return Promise.reject({ errorSet: errors });
+		}
+	}).then((result) => {
+		// If records returned then username already taken
+		if (result.length > 0) errors.push({key: 'username', error: 'Username has already been taken. Please enter another.'});
+
+		// Check if email is taken
+		if ( "email" in params ) {
+			let query = internal.query.getUserEmail();
+			query.where("u.email = ?", params.email);
+			return dbc.execute(query);
+		} else {
+			errors.push({key: 'email', error: 'Email cannot be empty.'});
+			return Promise.reject({ errorSet: errors });
+		}
+	}).then((result) => {
+		// If records returned then email already taken
+		if (result.length > 0) errors.push({key: 'email', error: 'Email has already been used.'});
+
+		// Reject if any errors exist
+		if (errors.length > 0) {
 			return Promise.reject({ errorSet: errors });
 		} else {
 			return Promise.resolve();

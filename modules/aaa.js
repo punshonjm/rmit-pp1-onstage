@@ -67,7 +67,7 @@ aaa.sessionManagement = function( req, res, next ) {
 				"u.username", "s.user_id", "u.display_name",
 				"s.session_started", "u.email_verified",
 				"u.type_id", "t.type_name", "u.golden_ticket",
-				"p.picture",
+				"p.picture", "u.email"
 			]).fields({
 				"p.id": "profile_id"
 			}).from(
