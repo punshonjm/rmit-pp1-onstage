@@ -272,23 +272,23 @@
                 <!-- ##### Begin social media ##### -->
                 <div class="row">
                     <div class="col"><h4 class="title border-bottom">Social Media Links</h4></div>
-                    <div class="col-2 my-auto social-media-view">
-                        <button class="btn btn-sm btn-fab btn-primary btn-round social-media-toggle" rel="tooltip"
+                    <div class="col-2 my-auto editable social-media view">
+                        <button class="btn btn-sm btn-fab btn-primary btn-round editable-toggle" rel="tooltip" data-target="social-media" data-controls='edit'
                                 title="Edit">
                             <i class="material-icons">edit</i>
                         </button>
                     </div>
-                    <div class="col-2 my-auto social-media-edit" style="display: none">
+                    <div class="col-2 my-auto editable social-media edit" style="display: none">
                         <button class="btn btn-sm btn-fab btn-success btn-round" rel="tooltip" title="Save">
                             <i class="material-icons">check</i>
                         </button>
-                        <button class="btn btn-sm btn-fab btn-danger btn-round social-media-toggle" rel="tooltip"
+                        <button class="btn btn-sm btn-fab btn-danger btn-round editable-toggle" data-target="social-media" data-controls='view' rel="tooltip"
                                 title="Cancel">
                             <i class="material-icons">close</i>
                         </button>
                     </div>
                 </div>
-                <div class="social-media-view">
+                <div class="editable social-media view">
                     <div class="row">
                         <div class="col-4"><i class="fa fa-instagram"></i> Instragram</div>
                         <div class="col my-auto" id="instagram_user-data" data-id="{{this.profile.instagram_user}}">{{#if
@@ -310,7 +310,7 @@
                                 this.profile.youtube_user}}{{this.profile.youtube_user}}{{else}}Not set{{/if}}</div>
                     </div>
                 </div>
-                <div class="social-media-edit" style="display: none;">
+                <div class="editable social-media edit" style="display: none;">
                     <div class="row">
                         <div class="col-4 my-auto"><i class="fa fa-instagram"></i> Instagram</div>
                         <div class="col">
@@ -354,24 +354,24 @@
                 {{#compare this.profile.user_type "Band"}}
                     <div class="row">
                         <div class="col"><h4 class="title border-bottom">New Band Member/s Requirements</h4></div>
-                        <div class="col-2 my-auto band-view">
-                            <button class="btn btn-sm btn-fab btn-primary btn-round band-toggle" rel="tooltip"
+                        <div class="col-2 my-auto editable band view">
+                            <button class="btn btn-sm btn-fab btn-primary btn-round editable-toggle" data-target="band" data-controls='edit' rel="tooltip"
                                     title="Edit">
                                 <i class="material-icons">edit</i>
                             </button>
                         </div>
-                        <div class="col-2 my-auto band-edit" style="display: none">
+                        <div class="col-2 my-auto editable band edit" style="display: none">
                             <button class="btn btn-sm btn-fab btn-success btn-round" rel="tooltip" title="Save">
                                 <i class="material-icons">check</i>
                             </button>
-                            <button class="btn btn-sm btn-fab btn-danger btn-round band-toggle" rel="tooltip"
+                            <button class="btn btn-sm btn-fab btn-danger btn-round editable-toggle" data-target="band" data-controls='view'  rel="tooltip"
                                     title="Cancel">
                                 <i class="material-icons">close</i>
                             </button>
                         </div>
                     </div>
 
-                    <div class="band-view">
+                    <div class="editable band view">
                         <div class="row">
                             <div class="col-4">Number of Members Needed</div>
                             <div class="col" id="members_needed-data" data-id="{{this.profile.members_needed}}">{{#if this.profile.members_needed}}{{this.profile.members_needed}}{{else}}Not set{{/if}}</div>
@@ -411,7 +411,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="band-edit" style="display: none;">
+                    <div class="editable band edit" style="display: none;">
                         <div class="row">
                             <div class="col-4 my-auto">Number of Members Needed</div>
                             <div class="col">
