@@ -38,7 +38,8 @@ router.get("/login", (req, res) => {
 	}).catch((err) => app.handleError(err, req, res));
 });
 
-router.post("/login", app.slowDown, (req, res) => {
+router.post("/login", (req, res) => {
+// router.post("/login", app.slowDown, (req, res) => {
 	req.isApi = true;
 	// Handle login request
 	Promise.resolve().then(() => {
@@ -71,7 +72,8 @@ router.get("/logout", (req, res) => {
 	}).catch((err) => app.handleError(err, req, res));
 });
 
-router.get("/user/verify/:key", app.rateLimit, (req, res) => {
+router.get("/user/verify/:key", (req, res) => {
+// router.get("/user/verify/:key", app.rateLimit, (req, res) => {
 	// handle email verification links
 	Promise.resolve().then(() => {
 		return models.users.verifyEmail(req.params.key);
@@ -87,7 +89,8 @@ router.get("/user/verify/:key", app.rateLimit, (req, res) => {
     }).catch((err) => app.handleError(err, req, res));
 });
 
-router.get("/user/password_reset/:id/:key", app.rateLimit, (req, res) => {
+router.get("/user/password_reset/:id/:key", (req, res) => {
+// router.get("/user/password_reset/:id/:key", app.rateLimit, (req, res) => {
 	// Handle password reset links
 	Promise.resolve().then(() => {
 		return aaa.checkReset(req, res);
@@ -187,7 +190,8 @@ router.get("/no_access", (req, res) => {
 });
 
 const api = require("./routes/api");
-router.use("/api", app.rateLimit, api);
+router.use("/api", api);
+// router.use("/api", app.rateLimit, api);
 
 // Handles routing of unfound routes
 router.get('*', function(req, res) {
