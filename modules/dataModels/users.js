@@ -345,7 +345,7 @@ users.update = function(params) {
 			profile.members_needed = params.members_needed;
 		}
 		if ( "preference_age_bracket_id" in params ) {
-			profile.preference_age_bracket_id = params.preferred_age_bracket_id;
+			profile.preference_age_bracket_id = (params.preference_age_bracket_id == '') ? null : params.preference_age_bracket_id;
 		}
 
 		if ( "required_music_experience" in params ) {
@@ -355,10 +355,10 @@ users.update = function(params) {
 			profile.required_past_gigs = params.required_past_gigs;
 		}
 		if ( "required_commitment_level_id" in params ) {
-			profile.required_commitment_level_id = params.required_commitment_level_id;
+			profile.required_commitment_level_id = (params.required_commitment_level_id == '') ? null : params.required_commitment_level_id;
 		}
 		if ( "required_gig_frequency_id" in params ) {
-			profile.required_gig_frequency_id = params.required_gig_frequency_id;
+			profile.required_gig_frequency_id = (params.required_gig_frequency_id == '') ? null : params.required_gig_frequency_id;
 		}
 
 		if ( errors.length > 0 ) {
@@ -369,30 +369,50 @@ users.update = function(params) {
 	}).then(() => {
 		// Check if username is taken
 		if ( "username" in params ) {
+
+			// Only validate if attempting to update
+			if ( params.username == "") {
+				errors.push({key: 'username', error: 'Username cannot be empty.'});
+				return Promise.reject({errorSet: errors});
+			}
+
 			let query = internal.query.getUserUsername();
 			query.where("u.username = ?", params.username);
 			return dbc.execute(query);
 		} else {
-			errors.push({key: 'username', error: 'Username cannot be empty.'});
-			return Promise.reject({ errorSet: errors });
+			return Promise.resolve();
 		}
 	}).then((result) => {
-		// If records returned then username already taken
-		if (result.length > 0) errors.push({key: 'username', error: 'Username has already been taken. Please enter another.'});
+		// Check for result (attempting to update)
+		if (result != null) {
+			// If records returned then username already taken
+			if (result.length > 0) errors.push({
+				key: 'username',
+				error: 'Username has already been taken. Please enter another.'
+			});
+		}
 
 		// Check if email is taken
 		if ( "email" in params ) {
+
+			// Only validate if attempting to update
+			if ( params.email == "") {
+				errors.push({key: 'email', error: 'Email cannot be empty.'});
+				return Promise.reject({errorSet: errors});
+			}
+
 			let query = internal.query.getUserEmail();
 			query.where("u.email = ?", params.email);
 			return dbc.execute(query);
 		} else {
-			errors.push({key: 'email', error: 'Email cannot be empty.'});
-			return Promise.reject({ errorSet: errors });
+			return Promise.resolve();
 		}
 	}).then((result) => {
-		// If records returned then email already taken
-		if (result.length > 0) errors.push({key: 'email', error: 'Email has already been used.'});
-
+		// Check for result (attempting to update)
+		if (result != null) {
+			// If records returned then email already taken
+			if (result.length > 0) errors.push({key: 'email', error: 'Email has already been used.'});
+		}
 		// Reject if any errors exist
 		if (errors.length > 0) {
 			return Promise.reject({ errorSet: errors });
@@ -406,14 +426,13 @@ users.update = function(params) {
 				return dbc.execute(query);
 			}).then(() => {
 				let genres = [];
-				params.genre.split(",").map((gnr) => {
+
+				params.genres.map((gnr) => {
 					let genre = {}
 					genre.profile_id = params.user.profile_id;
 					genre.genre_id = gnr;
 					genres.push(genre);
 				});
-
-				profile.genres = genres;
 
 				let query = dbc.sql.insert().into("ebdb.profile_genre_map").setFieldsRows(genres);
 				return dbc.execute(query);
@@ -428,14 +447,12 @@ users.update = function(params) {
 				return dbc.execute(query);
 			}).then(() => {
 				let instruments = [];
-				params.instruments.split(",").map((instr) => {
+				params.instruments.map((instr) => {
 					let instrument = {};
 					instrument.profile_id = params.user.profile_id;
 					instrument.instrument_id = instr;
 					instruments.push(instrument);
 				});
-
-				profile.instruments = instruments;
 
 				let query = dbc.sql.insert().into("ebdb.profile_instrument_map").setFieldsRows(instruments);
 				return dbc.execute(query);

@@ -80,13 +80,16 @@ appPage.editSave = function($this) {
 	var data = {}, errors = [];
 	$(".editable." + target + ".edit").find("input, select").each(function() {
 		var isEmpty = ( $(this).val() == "" || $(this).val() == null) ? true : false;
-		if ( !isEmpty ) {
-			data[ $(this).prop("id") ] = $(this).val();
-		} else if ( $(this).hasClass("allowEmpty") ) {
-			data[ $(this).prop("id") ] = "";
-		} else {
-			errors.push($(this).prop("id"));
-			$(this).addError();
+		if (!$(this).hasClass("select2-search__field"))
+		{
+			if ( !isEmpty ) {
+				data[ $(this).prop("id") ] = $(this).val();
+			} else if ( $(this).hasClass("allowEmpty") ) {
+				data[ $(this).prop("id") ] = "";
+			} else {
+				errors.push($(this).prop("id"));
+				$(this).addError();
+			}
 		}
 	});
 
