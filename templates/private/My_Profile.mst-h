@@ -165,7 +165,7 @@
                     <div class="row">
                         <div class="col-4 my-auto">Instrument/s Played</div>
                         <div class="col">
-                            <div class="form-group bmd-form-group">
+                            <div class="form-group bmd-form-group pt-0">
                                 <select class="select2-instrument-view js-states form-control" id="instrument-view"
                                         multiple="multiple">
                                     {{#each this.profile.instruments}}
@@ -276,7 +276,7 @@
                     <div class="row">
                         <div class="col-4 my-auto">Genres Played</div>
                         <div class="col">
-                            <div class="form-group bmd-form-group">
+                            <div class="form-group bmd-form-group pb-0">
                                 <select class="select2-genre-edit js-states form-control" id="genres" multiple="multiple">
                                     {{#each this.profile.genres}}
                                         <option value="{{this.genre_id}}" selected>{{this.name}}</option>
@@ -289,7 +289,7 @@
                         <div class="row">
                             <div class="col-4 my-auto">Instrument/s Played</div>
                             <div class="col">
-                                <div class="form-group bmd-form-group">
+                                <div class="form-group bmd-form-group pt-0">
                                     <select class="select2-instrument-edit js-states form-control" id="instruments"
                                             multiple="multiple">
                                         {{#each this.profile.instruments}}
