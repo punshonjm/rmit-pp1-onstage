@@ -139,7 +139,8 @@ appPage.editSave = function($this) {
 			if ( Object.keys(res.profile).length > 0 ) {
 				Object.keys(res.profile).map(function(key) {
 					if ( key == "genres" || key == "instruments" ) {
-						$("#" + key + "-data").val($("#" + key).val());
+						$("#" + key + "-data").val([]);
+						$("#" + key + "-data").val( data[key] );
 						$("#" + key + "-data").change();
 					} else {
 						$("#" + key + "-data").text(res.profile[key]);

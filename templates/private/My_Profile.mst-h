@@ -157,6 +157,9 @@
                                     {{#each this.profile.genres}}
                                         <option value="{{this.genre_id}}" selected>{{this.name}}</option>
                                     {{/each}}
+									{{#each this.criteria.genres}}
+										<option value="{{this.id}}">{{this.name}}</option>
+									{{/each}}
                                 </select>
                             </div>
                         </div>
@@ -171,6 +174,9 @@
                                     {{#each this.profile.instruments}}
                                         <option value="{{this.instrument_id}}" selected>{{this.name}}</option>
                                     {{/each}}
+									{{#each this.criteria.instruments}}
+										<option value="{{this.id}}">{{this.name}}</option>
+									{{/each}}
                                 </select>
                             </div>
                         </div>
@@ -445,6 +451,9 @@
                                         {{#each this.profile.instruments}}
                                             <option value="{{this.instrument_id}}" selected>{{this.name}}</option>
                                         {{/each}}
+										{{#each this.criteria.instruments}}
+	                                        <option value="{{this.id}}">{{this.name}}</option>
+	                                    {{/each}}
                                     </select>
                                 </div>
                             </div>

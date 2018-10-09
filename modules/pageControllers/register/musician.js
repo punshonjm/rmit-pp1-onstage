@@ -8,6 +8,12 @@ module.exports = function(req) {
 		return models.list.status.query();
 	}).then((items) => {
 		data.criteria.status = items;
+		return models.list.instrument.query();
+	}).then((items) => {
+		data.criteria.instruments = items;
+		return models.list.genre.query();
+	}).then((items) => {
+		data.criteria.genres = items;
 		return models.list.gig_frequency.query();
 	}).then((items) => {
 		data.criteria.gig_frequency = items;
