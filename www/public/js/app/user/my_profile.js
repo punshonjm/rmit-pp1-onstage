@@ -93,6 +93,8 @@ appPage.editSave = function($this) {
 				data[ $(this).prop("id") ] = $(this).val();
 			} else if ( $(this).hasClass("allowEmpty") && notSame ) {
 				data[ $(this).prop("id") ] = "";
+			} else if ( !notSame ) {
+				// No action
 			} else {
 				errors.push($(this).prop("id"));
 				$(this).addError();
@@ -117,6 +119,7 @@ appPage.editSave = function($this) {
 		$header.append("<span class='has-danger'>You haven't made any changes.</span>");
 		$this.prop("disabled", false);
 	} else if ( errors.length > 0 ) {
+		console.log(errors);
 		$header.append("<span class='has-danger'>Please address the errors before saving again.</span>");
 		$this.prop("disabled", false);
 	} else {
@@ -136,8 +139,8 @@ appPage.editSave = function($this) {
 			if ( Object.keys(res.profile).length > 0 ) {
 				Object.keys(res.profile).map(function(key) {
 					if ( key == "genres" || key == "instruments" ) {
-						$("#" + id + "-data").val($("#" + key).val());
-						$("#" + id + "-data").change();
+						$("#" + key + "-data").val($("#" + key).val());
+						$("#" + key + "-data").change();
 					} else {
 						$("#" + key + "-data").text(res.profile[key]);
 						$("#" + key + "-data").data().id = res.profile[key];
