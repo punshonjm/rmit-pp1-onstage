@@ -147,6 +147,8 @@ appPage.editSave = function($this) {
 					}
 				});
 			}
+
+			$this.closest(".editable").find("[data-controls='view']").click();
 		}).fail(function(error) {
 			$this.prop("disabled", false);
 
