@@ -113,7 +113,10 @@ appPage.editSave = function($this) {
 		}
 	}
 
-	if ( errors.length > 0 ) {
+	if ( Object.keys(data).length == 0 ) {
+		$header.append("<span class='has-danger'>You haven't made any changes.</span>");
+		$this.prop("disabled", false);
+	} else if ( errors.length > 0 ) {
 		$header.append("<span class='has-danger'>Please address the errors before saving again.</span>");
 		$this.prop("disabled", false);
 	} else {
