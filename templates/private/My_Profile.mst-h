@@ -277,7 +277,7 @@
                         <div class="col-4 my-auto">Genres Played</div>
                         <div class="col">
                             <div class="form-group bmd-form-group pb-0">
-                                <select class="select2-genre-edit js-states form-control" id="genres" multiple="multiple" data-id="[{{#each this.profile.genres}}"{{this.genre_id}}",{{/each}}]">
+                                <select class="select2-genre-edit js-states form-control" id="genres" multiple="multiple">
                                     {{#each this.profile.genres}}
                                         <option value="{{this.genre_id}}" selected>{{this.name}}</option>
                                     {{/each}}
