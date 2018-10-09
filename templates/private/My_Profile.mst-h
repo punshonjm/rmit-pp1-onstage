@@ -153,7 +153,7 @@
                         <div class="col-4 my-auto">Genres Played</div>
                         <div class="col">
                             <div class="form-group bmd-form-group">
-                                <select class="select2-genre-view js-states form-control" id="genre-data" multiple="multiple">
+                                <select class="select2-genre-view js-states form-control" id="genres-data" multiple="multiple">
                                     {{#each this.profile.genres}}
                                         <option value="{{this.genre_id}}" selected>{{this.name}}</option>
                                     {{/each}}
@@ -166,7 +166,7 @@
                         <div class="col-4 my-auto">Instrument/s Played</div>
                         <div class="col">
                             <div class="form-group bmd-form-group pt-0">
-                                <select class="select2-instrument-view js-states form-control" id="instrument-view"
+                                <select class="select2-instrument-view js-states form-control" id="instrument-data"
                                         multiple="multiple">
                                     {{#each this.profile.instruments}}
                                         <option value="{{this.instrument_id}}" selected>{{this.name}}</option>
@@ -277,7 +277,7 @@
                         <div class="col-4 my-auto">Genres Played</div>
                         <div class="col">
                             <div class="form-group bmd-form-group pb-0">
-                                <select class="select2-genre-edit js-states form-control" id="genres" multiple="multiple">
+                                <select class="select2-genre-edit js-states form-control" id="genres" multiple="multiple" data-id="[{{#each this.profile.genres}}"{{this.genre_id}}",{{/each}}]">
                                     {{#each this.profile.genres}}
                                         <option value="{{this.genre_id}}" selected>{{this.name}}</option>
                                     {{/each}}
@@ -440,7 +440,7 @@
                             <div class="col-4 my-auto">Instrument/s Required</div>
                             <div class="col">
                                 <div class="form-group bmd-form-group">
-                                    <select class="select2-instrument-view js-states form-control" id="instrument-view"
+                                    <select class="select2-instrument-view js-states form-control" id="instrument-data"
                                             multiple="multiple">
                                         {{#each this.profile.instruments}}
                                             <option value="{{this.instrument_id}}" selected>{{this.name}}</option>

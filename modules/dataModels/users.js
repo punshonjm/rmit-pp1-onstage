@@ -284,12 +284,19 @@ users.update = function(params) {
 
 	return Promise.resolve().then(() => {
 		if ( "username" in params ) {
-			user.username = params.username;
+			if ( params.user.username != params.username ) {
+				user.username = params.username;
+			} else {
+				delete params.username;
+			}
 		}
 
 		if ( "email" in params ) {
-			// send new verificaiton email
-			user.email = params.email;
+			if ( params.user.email != params.email ) {
+				user.email = params.email;
+			} else {
+				delete params.email;
+			}
 		}
 
 		// if ( "display_name" in params ) {
@@ -413,6 +420,7 @@ users.update = function(params) {
 			// If records returned then email already taken
 			if (result.length > 0) errors.push({key: 'email', error: 'Email has already been used.'});
 		}
+
 		// Reject if any errors exist
 		if (errors.length > 0) {
 			return Promise.reject({ errorSet: errors });
@@ -434,6 +442,8 @@ users.update = function(params) {
 					genres.push(genre);
 				});
 
+				params.genres = genres;
+
 				let query = dbc.sql.insert().into("ebdb.profile_genre_map").setFieldsRows(genres);
 				return dbc.execute(query);
 			});
@@ -453,6 +463,8 @@ users.update = function(params) {
 					instrument.instrument_id = instr;
 					instruments.push(instrument);
 				});
+
+				params.instruments = instruments;
 
 				let query = dbc.sql.insert().into("ebdb.profile_instrument_map").setFieldsRows(instruments);
 				return dbc.execute(query);
@@ -481,7 +493,18 @@ users.update = function(params) {
 			return Promise.resolve();
 		}
 	}).then((res) => {
-		return Promise.resolve({ message: "Successfully updated your profile!", user: user, profile: profile });
+		if ( "instruments" in params ) {
+			profile.instruments = params.instruments;
+		}
+		if ( "genres" in params ) {
+			profile.genres = params.genres;
+		}
+
+		return Promise.resolve({
+			message: "Successfully updated your profile!",
+			user: user,
+			profile: profile
+		});
 	});
 }
 

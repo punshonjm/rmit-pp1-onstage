@@ -80,11 +80,13 @@ appPage.editSave = function($this) {
 	var data = {}, errors = [];
 	$(".editable." + target + ".edit").find("input, select").each(function() {
 		var isEmpty = ( $(this).val() == "" || $(this).val() == null) ? true : false;
-		if (!$(this).hasClass("select2-search__field"))
-		{
-			if ( !isEmpty ) {
+
+		// var notSame = ( $(this).val() != $("#" + $(this).prop("id") + "-data").data().id ) ? true : false;
+		var notSame = true; // select2 causing issue, due to varied implementation. To fix
+		if ( !$(this).hasClass("select2-search__field") ) {
+			if ( !isEmpty && notSame ) {
 				data[ $(this).prop("id") ] = $(this).val();
-			} else if ( $(this).hasClass("allowEmpty") ) {
+			} else if ( $(this).hasClass("allowEmpty") && notSame ) {
 				data[ $(this).prop("id") ] = "";
 			} else {
 				errors.push($(this).prop("id"));
