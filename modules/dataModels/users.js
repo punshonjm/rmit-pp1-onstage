@@ -367,8 +367,8 @@ users.update = function(params) {
 			profile.preference_age_bracket_id = (params.preference_age_bracket_id == '') ? null : params.preference_age_bracket_id;
 		}
 
-		if ( "required_music_experience" in params ) {
-			profile.required_music_experience = params.required_music_experience;
+		if ( "required_music_experience_id" in params ) {
+			profile.required_music_experience_id = params.required_music_experience_id;
 		}
 		if ( "required_past_gig_id" in params ) {
 			profile.required_past_gig_id = params.required_past_gig_id;
