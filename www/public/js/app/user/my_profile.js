@@ -225,8 +225,9 @@ appPage.updateImage = function($this) {
 		if ( type == "picture" ) {
 			$(".image-" + type).prop("src", resp.profile[type]);
 		}
+
 		if ( type == "background" ) {
-			$(".image-" + type).css("background-image", "url('" + resp.profile[type] + "')");
+			$(".image-" + type).css("background-image", "url('" + resp.profile[type] + "?_=" + moment().format("x") + "')");
 		}
 
 	}).fail(function(error) {

@@ -7,7 +7,17 @@ $(document).ready(function() {
 });
 
 appPage.initialise = function() {
+	$('.select2-instrument-view').select2({
+		theme: "material",
+		disabled: true
+	});
 
+	$('.select2-genre-view').select2({
+		theme: "material",
+		disabled: true
+	});
+
+	$(".select2-selection__arrow").addClass("material-icons").html("arrow_drop_down");
 };
 
 appPage.report = function($this) {

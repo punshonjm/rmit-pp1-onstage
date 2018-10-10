@@ -103,6 +103,10 @@
 					<i class="material-icons">edit</i>
 					<div class="ripple-container"></div>
 				</button>
+				<a href="/user/{{this.profile.user_id}}" target="_blank" class="btn btn-fab btn-success btn-round" rel="tooltip" title="" data-original-title="View what other users will see">
+					<i class="material-icons">face</i>
+					<div class="ripple-container"></div>
+				</a>
 			</div>
             <div class="container">
 
