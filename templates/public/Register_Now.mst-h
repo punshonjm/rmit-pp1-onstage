@@ -14,7 +14,7 @@
 									<div class='row pb-4'>
 										<div class="col-md-5">
 											<span style="min-width:150px;">
-												<a href="/register/musician" class="btn btn-success btn-raised btn-lg w-100">Musician</a>
+												<a href="/register/musician" class="btn btn-success btn-raised btn-lg btn-round w-100">Musician</a>
 											</span>
 										</div>
 										<div class="col-md-2 d-flex align-items-center text-center my-2">
@@ -22,7 +22,7 @@
 										</div>
 										<div class="col-md-5">
 											<span style="min-width:150px;">
-												<a href="/register/band" class="btn btn-success btn-raised btn-lg w-100">Band</a>
+												<a href="/register/band" class="btn btn-success btn-raised btn-lg btn-round w-100">Band</a>
 											</span>
 										</div>
 									</div>

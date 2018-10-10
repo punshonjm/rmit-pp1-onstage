@@ -53,7 +53,7 @@
 			</div>
 			<div class="row">
 				<div class="col-md-12 d-flex justify-content-end">
-					<button class='btn btn-warning' data-toggle="modal" data-target="#reportUser"><i class="material-icons">report</i> Report User</button>
+					<button class='btn btn-warning btn-round' data-toggle="modal" data-target="#reportUser"><i class="material-icons">report</i> Report User</button>
 				</div>
 			</div>
 		</div>
@@ -92,7 +92,7 @@
 				</div>
 			</div>
 			<div class="modal-footer d-flex justify-content-end">
-				<button type="button" class="btn btn-warning reportUser" data-id="{{this.profile.user_id}}">Report</button>
+				<button type="button" class="btn btn-warning btn-round reportUser" data-id="{{this.profile.user_id}}">Report</button>
 			</div>
 		</div>
 	</div>

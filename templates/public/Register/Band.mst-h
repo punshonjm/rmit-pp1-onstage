@@ -320,7 +320,7 @@
 							<p class="form-status"></p>
 						</div>
 						<div class="col-md-3 d-flex justify-content-center">
-							<button class="btn btn-primary btn-raised btn-lg" id="submit">Join On Stage Now</button>
+							<button class="btn btn-primary btn-round btn-raised btn-lg" id="submit">Join On Stage Now</button>
 						</div>
 					</div>
 				</form>
