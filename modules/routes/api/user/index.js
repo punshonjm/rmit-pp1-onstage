@@ -49,8 +49,9 @@ router.post("/register", uploader.fields([ { name: "background", maxCount: 1 }, 
 	}).catch((error) => app.handleError(error, req, res));
 });
 
-router.post("/update", (req, res) => {
+router.post("/update", uploader.fields([ { name: "background", maxCount: 1 }, { name: "profile", maxCount: 1 } ]), (req, res) => {
 	Promise.resolve().then(() => {
+		req.body.files = req.files;
 		req.body.user = req.user;
 		return models.users.update(req.body);
 	}).then((msg) => {

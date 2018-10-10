@@ -60,6 +60,9 @@ appPage.initialise = function() {
 	});
 
 	$(".select2-selection__arrow").addClass("material-icons").html("arrow_drop_down");
+
+	// Fix hover to match image
+	$(".mask .layer").height($(".image-picture").height());
 };
 
 appPage.editToggle = function($this) {
@@ -176,7 +179,41 @@ appPage.editSave = function($this) {
 };
 
 appPage.updateImage = function($this) {
+	$this.closest(".modal").find("button").prop("disabled", true);
+	$this.closest(".modal").find(".response").empty();
 	var type = $this.data().id;
+
+	var formData = new FormData( $this.closest(".modal").find("form")[0] );
+	$(".loading-indicator").find(".loading-status").text("Uploading the shots...");
+	$(".loading-indicator").show();
+
+	$.ajax({
+		type: "POST",
+		url: "/api/user/update",
+		enctype: 'multipart/form-data',
+		cache: false,
+		contentType: false,
+		processData: false,
+		data: formData
+	}).done(function(resp) {
+		$this.closest(".modal").find("button").prop("disabled", false);
+		$(".loading-indicator").find(".loading-status").text("");
+		$(".loading-indicator").hide();
+
+		if ( type == "picture" ) {
+			$(".image-" + type).prop("src", resp.profile[type]);
+		}
+		if ( type == "background" ) {
+			$(".image-" + type).css("background-image", "url('" + resp.profile[type] + "')");
+		}
+
+	}).fail(function(error) {
+		$(".loading-indicator").find(".loading-status").text("");
+		$(".loading-indicator").hide();
+
+		$this.closest(".modal").find("button").prop("disabled", false);
+		$this.closest(".modal").find(".response").append("<p class='d-block text-danger'>" + error.responseJSON.message + "</p>");
+	});
 };
 appPage.removeImage = function($this) {
 	$this.closest(".modal").find("button").prop("disabled", true);
@@ -196,8 +233,6 @@ appPage.removeImage = function($this) {
 		if ( type == "background" ) {
 			$(".image-" + type).css("background-image", "url('" + $this.data().remove + "')");
 		}
-
-		$this.closest(".modal").find(".fileinput").fileinput("reset");
 	}).fail(function(error) {
 		$this.closest(".modal").find("button").prop("disabled", false);
 		$this.closest(".modal").find(".response").append("<p class='d-block text-danger'>" + error.responseJSON.message + "</p>");

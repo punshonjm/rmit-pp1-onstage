@@ -280,9 +280,19 @@ users.register = function(params) {
 };
 
 users.update = function(params) {
-	let user = {}, profile = {}, errors = [];
+	let user = {}, profile = {}, errors = [], files = [];
+	let allowedTypes = [ "image/png", "image/jpeg" ];
 
 	return Promise.resolve().then(() => {
+		if ( ("profile" in params.files) ) {
+			files.push(params.files.profile[0].path);
+			profile.picture = "/";
+		}
+		if ( ("background" in params.files) ) {
+			files.push(params.files.background[0].path);
+			profile.background = "/";
+		}
+
 		if ( "username" in params ) {
 			if ( params.user.username != params.username ) {
 				user.username = params.username;
@@ -371,7 +381,7 @@ users.update = function(params) {
 		if ( "remove_picture" in params ) {
 			profile.picture = null;
 		}
-		
+
 		if ( "remove_background" in params ) {
 			profile.background = null;
 		}
@@ -483,6 +493,61 @@ users.update = function(params) {
 			return Promise.resolve();
 		}
 	}).then(() => {
+		if ( ("profile" in params.files) ) {
+			let img = params.files.profile[0];
+
+			if ( allowedTypes.includes(img.mimetype) ) {
+				return new Promise(function(resolve, reject) {
+					fs.readFile(img.path, (error, file) => {
+						if ( error ) {
+							reject(error);
+						}
+
+						let imgName = CryptoJS.MD5(params.username + "_pp").toString();
+						imgName += (img.mimetype == "image/png") ? ".png" : ".jpg";
+						resolve( internal.images.upload(imgName, file) );
+					});
+				});
+			} else {
+				return Promise.reject({ message: "Profile image must be a JPEG or PNG." });
+			}
+		} else {
+			return Promise.resolve(null);
+		}
+
+	}).then((profileLoc) => {
+		if ( profileLoc != null ) {
+			profile.picture = profileLoc;
+		}
+
+		if ( ("background" in params.files) ) {
+			let img = params.files.background[0];
+
+			if ( allowedTypes.includes(img.mimetype) ) {
+				return new Promise(function(resolve, reject) {
+					fs.readFile(img.path, (error, file) => {
+						if ( error ) {
+							reject(error);
+						}
+
+						let imgName = CryptoJS.MD5(params.username + "_bg").toString();
+						imgName += (img.mimetype == "image/png") ? ".png" : ".jpg";
+						resolve( internal.images.upload(imgName, file) );
+					});
+				});
+			} else {
+				return Promise.reject({ message: "Background image must be a JPEG or PNG." });
+			}
+		} else {
+			return Promise.resolve(null);
+		}
+
+		return Promise.resolve();
+	}).then((bgLoc) => {
+		if ( bgLoc != null ) {
+			profile.background = bgLoc;
+		}
+
 		if ( Object.keys(user).length > 0) {
 			let query = dbc.sql.update().table("ebdb.user").setFields(user).where("id = ?", params.user.user_id);
 			return dbc.execute(query);
@@ -503,6 +568,9 @@ users.update = function(params) {
 			return Promise.resolve();
 		}
 	}).then((res) => {
+		if ( files.length > 0 ) files.map((file)  => fs.unlinkSync(file) );
+		files = [];
+
 		if ( "instruments" in params ) {
 			profile.instruments = params.instruments;
 		}
@@ -515,7 +583,13 @@ users.update = function(params) {
 			user: user,
 			profile: profile
 		});
-	});
+	}).catch((error) => {
+		if ( files.length > 0 ) {
+			files.map((file)  => fs.unlinkSync(file) );
+		}
+
+		return Promise.reject(error);
+	})
 }
 
 users.new_verification = function(user) {
