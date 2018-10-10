@@ -24,9 +24,9 @@
 								</span>
 								<small class='d-block'>{{this.profile.user_type}}</small>
 								{{#compare this.profile.status "Searching"}}
-								<span class="btn btn-success btn-round">{{this.profile.status}}</span>
+								<span class="btn btn-success btn-round" id="status-data" data-id="{{this.profile.status_id}}">{{this.profile.status}}</span>
 								{{else}}
-								<span class="btn btn-rose btn-round">{{this.profile.status}}</span>
+								<span class="btn btn-rose btn-round" id="status-data" data-id="{{this.profile.status_id}}">{{this.profile.status}}</span>
 								{{/compare}}
 							</h3>
 						</div>
@@ -58,11 +58,19 @@
 									<small class="form-text text-danger"></small>
 								</div>
 								<small class='d-block'>{{this.profile.user_type}}</small>
-								{{#compare this.profile.status "Searching"}}
-								<span class="btn btn-success btn-round">{{this.profile.status}}</span>
-								{{else}}
-								<span class="btn btn-rose btn-round">{{this.profile.status}}</span>
-								{{/compare}}
+								<div class="form-group bmd-form-group">
+									<label class="d-block font-weight-bold text-left">Current Status *:</label>
+									{{#each this.criteria.status}}
+									<div class="form-check form-check-radio form-check-inline">
+										<label class="form-check-label" for="status_{{this.id}}">
+											<input class="form-check-input" type="radio" name="status" id="status_{{this.id}}" value="{{this.id}}" {{#compare this.id @root.profile.status_id}} checked {{/compare}}> {{this.name}}
+											<span class="circle">
+												<span class="check"></span>
+											</span>
+										</label>
+									</div>
+									{{/each}}
+								</div>
 							</h3>
 						</div>
 					</div>

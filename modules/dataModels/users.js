@@ -317,9 +317,9 @@ users.update = function(params) {
 			profile.gender_id = params.gender;
 		}
 
-		// if ( "status_id" in params ) {
-		// 	profile.status_id = params.status;
-		// }
+		if ( "status" in params ) {
+			profile.status_id = params.status;
+		}
 
 		if ( "postcode" in params ) {
 			profile.postcode = params.postcode;

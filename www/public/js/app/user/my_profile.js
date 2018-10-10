@@ -117,6 +117,9 @@ appPage.editSave = function($this) {
 	if ( $("[name='gender']:checked").is(":visible") &&  $("[name='gender']:checked").val() != $("#gender-data").data().id ) {
 		data.gender = $("[name='gender']:checked").val();
 	}
+	if ( $("[name='status']:checked").is(":visible") &&  $("[name='status']:checked").val() != $("#status-data").data().id ) {
+		data.status = $("[name='status']:checked").val();
+	}
 
 	if ( $("#genres").is(":visible") ) {
 		var currentGenres = $("#genres-data").val();
@@ -154,7 +157,19 @@ appPage.editSave = function($this) {
 			// res.profile
 			if ( Object.keys(res.profile).length > 0 ) {
 				Object.keys(res.profile).map(function(key) {
-					if ( key == "gender_id" ) {
+					if ( key == "status_id" ) {
+						$("#status-data").text( $("[name='status']:checked").closest("label").text().trim() );
+						$("#status-data").data().id = res.profile.status_id;
+						$("#status-data").removeClass("btn-success btn-rose");
+
+						if ( $("#status-data").text() == "Searching" ) {
+							$("#status-data").addClass("btn-success");
+						}
+						if ( $("#status-data").text() == "Not Searching" ) {
+							$("#status-data").addClass("btn-rose");
+						}
+
+					} else if ( key == "gender_id" ) {
 						$("#gender-data").text( $("[name='gender']:checked").closest("label").text().trim() );
 						$("#gender-data").data().id = res.profile.gender_id;
 					} else if ( key == "genres" || key == "instruments" ) {
