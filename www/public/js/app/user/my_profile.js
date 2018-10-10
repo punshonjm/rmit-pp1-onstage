@@ -63,6 +63,9 @@ appPage.initialise = function() {
 
 	// Fix hover to match image
 	$(".mask .layer").height($(".image-picture").height());
+	$(".mask .layer").width($(".image-picture").width());
+	$(".mask .layer").css("max-width", $(".image-picture").width());
+	$(".mask .layer").css("max-height", $(".image-picture").height());
 };
 
 appPage.editToggle = function($this) {
