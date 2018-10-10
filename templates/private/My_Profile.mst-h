@@ -1,5 +1,5 @@
 {{#*inline "header_block"}}
-    <div class="page-header header-filter" style="background-image: url('{{#if this.profile.background}}{{this.profile.background}}{{else}}{{this.headerImage}}{{/if}}'); min-height:250px; max-height: 400px;"></div>
+    <div class="page-header header-filter image-background" style="background-image: url('{{#if this.profile.background}}{{this.profile.background}}{{else}}{{this.headerImage}}{{/if}}'); min-height:250px; max-height: 400px;"></div>
 {{/inline}}
 
 <div class="section text-left pt-0 profile-page">
@@ -7,10 +7,10 @@
         <div class="col-lg-4 col-md-12">
 			<div class="profile">
 				<div class="avatar">
-					<img src="{{#if this.profile.picture}}{{this.profile.picture}}{{else}}https://epicattorneymarketing.com/wp-content/uploads/2016/07/Headshot-Placeholder-1.png{{/if}}" alt="Circle Image" class="img-raised rounded-circle img-fluid">
+					<img class="img-raised rounded-circle img-fluid image-picture" src="{{#if this.profile.picture}}{{this.profile.picture}}{{else}}https://epicattorneymarketing.com/wp-content/uploads/2016/07/Headshot-Placeholder-1.png{{/if}}" alt="Circle Image">
 					<div class="mask d-flex align-items-center">
 						<span class="layer img-raised rounded-circle img-fluid text-center d-flex align-items-center">
-							<h3 class="w-100 text-white"><i class="material-icons">edit</i> Edit</h3>
+							<a class="h3 w-100 text-white" data-toggle="modal" href="#pictureEdit"><i class="material-icons">edit</i> Edit</a>
 						</span>
 					</div>
 				</div>
@@ -91,7 +91,7 @@
 
         <div class="col-lg-8 py-4">
 			<div class='follow'>
-				<button class="btn btn-fab btn-success btn-round" rel="tooltip" title="" data-original-title="Edit your profile background">
+				<button data-toggle="modal" data-target="#backgroundEdit" class="btn btn-fab btn-success btn-round" rel="tooltip" title="" data-original-title="Edit your profile background">
 					<i class="material-icons">edit</i>
 					<div class="ripple-container"></div>
 				</button>
@@ -374,8 +374,6 @@
                     {{/compare}}
                 </div>
 
-
-
                 <!-- ##### Begin social media ##### -->
                 <div class="row">
                     <div class="col my-profile-header">
@@ -613,6 +611,103 @@
         </div>
     </div>
 </div>
+</div>
+
+<div class="modal fade image-edit" tabindex="-1" role="dialog" id="pictureEdit">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Change Your Profile Picture</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class='container'>
+                    <div class='row'>
+						<div class="col-md-12 d-flex justify-content-center">
+							<form enctype="multipart/form-data">
+								<div class="form-group bmd-form-group">
+									<div class="fileinput fileinput-new text-center" data-provides="fileinput">
+										<div class="fileinput-new thumbnail img-raised">
+											<img src="{{#if this.profile.picture}}{{this.profile.picture}}{{else}}https://epicattorneymarketing.com/wp-content/uploads/2016/07/Headshot-Placeholder-1.png{{/if}}" alt="Default profile image">
+										</div>
+										<div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
+										<div>
+											<span class="btn btn-raised btn-round btn-default btn-file">
+												<span class="fileinput-new" data-trigger="fileinput">Select image</span>
+												<span class="fileinput-exists" data-trigger="fileinput">Change</span>
+												<input type="file" name="profile" id="profile" accept="image/*" />
+											</span>
+											<a href="#" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+										</div>
+									</div>
+								</div>
+							</form>
+                        </div>
+                    </div>
+					<div class='row'>
+						<div class="col-md-12">
+							<p class="response"></p>
+						</div>
+					</div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-end">
+				<button class="btn btn-round btn-warning mx-2" data-dismiss="modal">Cancel</button>
+				<button class="btn btn-round btn-danger mx-2 remove-image" data-id="picture" data-remove="https://epicattorneymarketing.com/wp-content/uploads/2016/07/Headshot-Placeholder-1.png">Remove</button>
+				<button class="btn btn-round btn-success save-image" data-id="picture">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade image-edit" tabindex="-1" role="dialog" id="backgroundEdit">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Change Your Profile Background</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class='container'>
+                    <div class='row'>
+						<div class="col-md-12 d-flex justify-content-center">
+							<form enctype="multipart/form-data">
+								<div class="form-group bmd-form-group">
+									<div class="fileinput fileinput-new text-center" data-provides="fileinput">
+										<div class="fileinput-new thumbnail img-raised">
+											<img src="{{#if this.profile.background}}{{this.profile.background}}{{else}}{{this.headerImage}}{{/if}}" alt="Default profile background">
+										</div>
+										<div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
+										<div>
+											<span class="btn btn-raised btn-round btn-default btn-file">
+												<span class="fileinput-new" data-trigger="fileinput">Select image</span>
+												<span class="fileinput-exists" data-trigger="fileinput">Change</span>
+												<input type="file" name="background" id="background" accept="image/*" />
+											</span>
+											<a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+										</div>
+									</div>
+								</div>
+							</form>
+                        </div>
+                    </div>
+					<div class='row'>
+						<div class="col-md-12">
+							<p class="response"></p>
+						</div>
+					</div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-end">
+				<button class="btn btn-round btn-warning mx-2" data-dismiss="modal">Cancel</button>
+				<button class="btn btn-round btn-danger mx-2 remove-image" data-id="background" data-remove="{{this.headerImage}}">Remove</button>
+				<button class="btn btn-round btn-success save-image" data-id="background">Save</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="modal fade" tabindex="-1" role="dialog" id="newRegister">

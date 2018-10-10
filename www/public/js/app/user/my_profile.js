@@ -6,6 +6,15 @@ $(document).ready(function() {
 	appPage.editToggle($(this));
 }).on("click", ".edit-save", function() {
 	appPage.editSave($(this));
+}).on("submit", "form", function(e) {
+	e.preventDefault;
+	return false;
+}).on("hidden.bs.modal", ".image-edit", function() {
+	$(this).find(".fileinput").fileinput("reset");
+}).on("click", ".save-image", function() {
+	appPage.updateImage($(this));
+}).on("click", ".remove-image", function() {
+	appPage.removeImage($(this));
 })
 
 appPage.initialise = function() {
@@ -164,4 +173,33 @@ appPage.editSave = function($this) {
 			}
 		});
 	}
+};
+
+appPage.updateImage = function($this) {
+	var type = $this.data().id;
+};
+appPage.removeImage = function($this) {
+	$this.closest(".modal").find("button").prop("disabled", true);
+	var type = $this.data().id;
+
+	var data = {};
+	data["remove_" + type] = "remove";
+
+	$.post("/api/user/update", data, function(res) {
+		$this.closest(".modal").find("button").prop("disabled", false);
+		$this.closest(".modal").modal("hide");
+
+		$this.closest(".modal").find(".fileinput .fileinput-new img").prop("src", $this.data().remove);
+		if ( type == "picture" ) {
+			$(".image-" + type).prop("src", $this.data().remove);
+		}
+		if ( type == "background" ) {
+			$(".image-" + type).css("background-image", "url('" + $this.data().remove + "')");
+		}
+
+		$this.closest(".modal").find(".fileinput").fileinput("reset");
+	}).fail(function(error) {
+		$this.closest(".modal").find("button").prop("disabled", false);
+		$this.closest(".modal").find(".response").append("<p class='d-block text-danger'>" + error.responseJSON.message + "</p>");
+	});
 };

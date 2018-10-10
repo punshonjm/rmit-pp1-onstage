@@ -368,6 +368,14 @@ users.update = function(params) {
 			profile.required_gig_frequency_id = (params.required_gig_frequency_id == '') ? null : params.required_gig_frequency_id;
 		}
 
+		if ( "remove_picture" in params ) {
+			profile.picture = null;
+		}
+		
+		if ( "remove_background" in params ) {
+			profile.background = null;
+		}
+
 		if ( errors.length > 0 ) {
 			return Promise.reject({ errorSet: errors });
 		} else if ( Object.keys(user).length == 0 && Object.keys(profile).length == 0 ) {

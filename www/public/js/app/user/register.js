@@ -295,10 +295,9 @@ appPage.email = function($this) {
 };
  appPage.postcode = function () {
 	 $(".postcode-status").text("");
-	 if ($("#postcode").val().length > 4 || isNaN($("#postcode").val()) ) {
+	 if ( $("#postcode").val().length > 4 || isNaN($("#postcode").val()) ) {
 		 $(".postcode-status").append("<span class='d-block text-danger'>A postcode consists of 4 numbers.</span>");
-	 }
-	 else {
+	 } else {
 	 	return true;
 	 }
  }
