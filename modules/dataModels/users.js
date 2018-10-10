@@ -299,9 +299,9 @@ users.update = function(params) {
 			}
 		}
 
-		// if ( "display_name" in params ) {
-		// 	user.display_name = params.display_name;
-		// }
+		if ( "display_name" in params ) {
+			user.display_name = params.display_name;
+		}
 		// if ( "gender_id" in params ) {
 		// 	profile.gender_id = params.gender;
 		// }
@@ -370,6 +370,8 @@ users.update = function(params) {
 
 		if ( errors.length > 0 ) {
 			return Promise.reject({ errorSet: errors });
+		} else if ( Object.keys(user).length == 0 && Object.keys(profile).length == 0 ) {
+			return Promise.reject({ message: "Nothing to update!" });
 		} else {
 			return Promise.resolve();
 		}

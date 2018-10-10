@@ -4,37 +4,98 @@
 
 <div class="section text-left pt-0 profile-page">
     <div class="row">
-        <div class="col-lg-4 col-md-12 col-sm-12">
-            <div class="row">
-                <div class="col-md-11 ml-auto mr-auto">
-                    <div class="profile">
-                        <div class="avatar">
-							<img src="{{#if this.profile.picture}}{{this.profile.picture}}{{else}}https://epicattorneymarketing.com/wp-content/uploads/2016/07/Headshot-Placeholder-1.png{{/if}}" alt="Circle Image" class="img-raised rounded-circle img-fluid">
-							<div class="mask d-flex align-items-center">
-								<span class="layer img-raised rounded-circle img-fluid text-center d-flex align-items-center">
-									<h3 class="w-100 text-white"><i class="material-icons">edit</i> Edit</h3>
+        <div class="col-lg-4 col-md-12">
+			<div class="profile">
+				<div class="avatar">
+					<img src="{{#if this.profile.picture}}{{this.profile.picture}}{{else}}https://epicattorneymarketing.com/wp-content/uploads/2016/07/Headshot-Placeholder-1.png{{/if}}" alt="Circle Image" class="img-raised rounded-circle img-fluid">
+					<div class="mask d-flex align-items-center">
+						<span class="layer img-raised rounded-circle img-fluid text-center d-flex align-items-center">
+							<h3 class="w-100 text-white"><i class="material-icons">edit</i> Edit</h3>
+						</span>
+					</div>
+				</div>
+
+				<div class="name editable basics view">
+					<div class='row'>
+						<div class='col-md-12'>
+							<h3 class="title">
+								<span id="display_name-data" data-id="{{this.profile.display_name}}">
+									{{this.profile.display_name}}
 								</span>
+								<small class='d-block'>{{this.profile.user_type}}</small>
+								{{#compare this.profile.status "Searching"}}
+								<span class="btn btn-success btn-round">{{this.profile.status}}</span>
+								{{else}}
+								<span class="btn btn-rose btn-round">{{this.profile.status}}</span>
+								{{/compare}}
+							</h3>
+						</div>
+					</div>
+					<div class='row'>
+						<div class='col-md-12'>
+							<div class="description text-left">
+								<h6>About {{#compare this.profile.user_type "Musician"}}Me{{else}}Our Band{{/compare}}</h6>
+								<p id="about-data" data-id="{{this.profile.about}}">{{this.profile.about}}</p>
 							</div>
 						</div>
-                        <div class="name">
-                            <h3 class="title">{{this.profile.display_name}}</h3>
-                            <h6>{{this.profile.user_type}}</h6>
-                            {{#compare this.profile.status "Searching"}}
-                                <label class="badge badge-success">{{this.profile.status}}</label>
-                            {{else}}
-                                <label class="badge badge-rose">{{this.profile.status}}</label>
-                            {{/compare}}
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="description text-center">
-                <p>{{this.profile.about}}</p>
-            </div>
+					</div>
+					<div class='row'>
+						<div class="col-md-8 my-profile-header"></div>
+						<div class="col d-flex justify-content-end">
+						   	 <button class="btn btn-sm btn-fab btn-primary btn-round editable-toggle" data-target="basics" data-controls='edit' rel="tooltip" title="Edit the basics">
+						   		 <i class="material-icons">edit</i>
+						   	 </button>
+					    </div>
+					</div>
+				</div>
+				<div class="name editable basics edit" style="display: none;">
+					<div class='row'>
+						<div class='col-md-12'>
+							<h3 class="title">
+								<div class="form-group bmd-form-group">
+									<label class="bmd-label-floating">Display Name</label>
+									<input id="display_name" type="text" value="{{this.profile.display_name}}" class="form-control" required="">
+									<small class="form-text text-danger"></small>
+								</div>
+								<small class='d-block'>{{this.profile.user_type}}</small>
+								{{#compare this.profile.status "Searching"}}
+								<span class="btn btn-success btn-round">{{this.profile.status}}</span>
+								{{else}}
+								<span class="btn btn-rose btn-round">{{this.profile.status}}</span>
+								{{/compare}}
+							</h3>
+						</div>
+					</div>
+					<div class='row'>
+						<div class='col-md-12'>
+							<div class="description text-left">
+								<h6>About {{#compare this.profile.user_type "Musician"}}Me{{else}}Our Band{{/compare}}</h6>
+								<textarea id="about" class='form-control' rows='5'>{{this.profile.about}}</textarea>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-8 my-profile-header"></div>
+	                    <div class="col d-flex justify-content-end">
+	                        <button class="btn btn-sm btn-fab btn-success btn-round edit-save" data-target="basics" rel="tooltip" title="Save">
+	                            <i class="material-icons">check</i>
+	                        </button>
+	                        <button class="btn btn-sm btn-fab btn-danger btn-round editable-toggle" data-target="basics" data-controls='view' rel="tooltip" title="Cancel">
+	                            <i class="material-icons">close</i>
+	                        </button>
+	                    </div>
+	                </div>
+				</div>
+			</div>
         </div>
-        <div class="col-lg-8 col-md-12 col-sm-12 py-4">
+
+        <div class="col-lg-8 py-4">
+			<div class='follow'>
+				<button class="btn btn-fab btn-success btn-round" rel="tooltip" title="" data-original-title="Edit your profile background">
+					<i class="material-icons">edit</i>
+					<div class="ripple-container"></div>
+				</button>
+			</div>
             <div class="container">
 
                 <!-- ##### Begin Account section ###### -->

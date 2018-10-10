@@ -84,7 +84,7 @@ appPage.editSave = function($this) {
 	$header.find("span").remove();
 
 	var data = {}, errors = [];
-	$(".editable." + target + ".edit").find("input, select").not(".js-states, .select2-search__field").each(function() {
+	$(".editable." + target + ".edit").find("input, select, textarea").not(".js-states, .select2-search__field").each(function() {
 		var isEmpty = ( $(this).val() == "" || $(this).val() == null) ? true : false;
 		var notSame = ( $(this).val() != $("#" + $(this).prop("id") + "-data").data().id ) ? true : false;
 
@@ -154,13 +154,13 @@ appPage.editSave = function($this) {
 			$this.prop("disabled", false);
 
 			if ( ("errorSet" in error.responseJSON) ) {
-				$header.append("<span class='has-danger'>Please address the errors before saving again.</span>");
+				$header.append("<p class='has-danger'>Please address the errors before saving again.</p>");
 
 				error.responseJSON.errorSet.map(function(err) {
 					if ( $("#" + err.key).length > 0 ) $("#" + err.key).addError("has-warning", err.error);
 				});
 			} else {
-				$header.append("<span class='d-block text-danger'>" + error.responseJSON.message + "</span>");
+				$header.append("<p class='d-block text-danger'>" + error.responseJSON.message + "</p>");
 			}
 		});
 	}
