@@ -103,7 +103,12 @@ aaa.sessionManagement = function( req, res, next ) {
 			} else if ( req.user.email_verified == 1 ) {
 				next();
 			} else {
-				let unverifiedPaths = [ "/green_room", "/my_profile", "/user/verify/.*", "/logout", "/api/user/new_verification", "/api/user/set_password" ];
+				let unverifiedPaths = [
+					"/green_room", "/my_profile", "/user/verify/.*",
+					"/logout", "/api/user/new_verification", "/api/user/set_password",
+					"/api/user/update"
+				];
+
 				let allowedView = false;
 				unverifiedPaths.map((path) => {
 					let pathTest = new RegExp( path.replace("/", "\\/") );
