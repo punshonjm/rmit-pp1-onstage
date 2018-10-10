@@ -175,7 +175,7 @@
                     {{#compare this.profile.user_type "Musician"}}
                         <div class="row">
                             <div class="col-4">Gender</div>
-                            <div class="col">{{this.profile.gender}}</div>
+                            <div class="col" id="gender-data" data-id="{{this.profile.gender_id}}">{{this.profile.gender}}</div>
                         </div>
                     {{/compare}}
                     <div class="row">
@@ -198,20 +198,15 @@
                     {{/compare}}
                     <div class="row">
                         <div class="col-4">Age Bracket</div>
-                        <div class="col"id="age_bracket_id-data"
-                             data-id="{{this.profile.age_bracket_id}}">{{this.profile.age_bracket}}</div>
+                        <div class="col"id="age_bracket_id-data" data-id="{{this.profile.age_bracket_id}}">{{this.profile.age_bracket}}</div>
                     </div>
-
-
                     <div class="row">
                         <div class="col-4">Commitment Level</div>
-                        <div class="col" id="commitment_level_id-data"
-                             data-id="{{this.profile.commitment_level_id}}">{{this.profile.commitment_level}}</div>
+                        <div class="col" id="commitment_level_id-data" data-id="{{this.profile.commitment_level_id}}">{{this.profile.commitment_level}}</div>
                     </div>
                     <div class="row">
                         <div class="col-4">Gig Frequency</div>
-                        <div class="col" id="gig_frequency_id-data"
-                             data-id="{{this.profile.gig_frequency_id}}">{{this.profile.gig_frequency}}</div>
+                        <div class="col" id="gig_frequency_id-data" data-id="{{this.profile.gig_frequency_id}}">{{this.profile.gig_frequency}}</div>
                     </div>
 
 
@@ -255,10 +250,18 @@
                         <div class="row">
                             <div class="col-4 my-auto">Gender</div>
                             <div class="col">
-                                <div class="form-group bmd-form-group m-1 p-1">
-                                    <input id="gender" type="text" class="form-control" required="">
-                                    <small class="form-text text-danger"></small>
-                                </div>
+								<div class="form-group bmd-form-group">
+									{{#each this.criteria.gender}}
+									<div class="form-check form-check-radio">
+										<label class="form-check-label" for="gender_{{this.id}}">
+											<input class="form-check-input" type="radio" name="gender" id="gender_{{this.id}}" value="{{this.id}}" {{#compare this.name @root.profile.gender}} checked {{/compare}}> {{this.name}}
+											<span class="circle">
+												<span class="check"></span>
+											</span>
+										</label>
+									</div>
+									{{/each}}
+								</div>
                             </div>
                         </div>
                     {{/compare}}
@@ -505,7 +508,10 @@
                             <div class="col-4">Preferred Age Bracket</div>
                             <div class="col" id="preference_age_bracket_id-data" data-id="{{this.profile.preference_age_bracket_id}}">{{#if this.profile.preferred_age_bracket}}{{this.profile.preferred_age_bracket}}{{else}}Not set{{/if}}</div>
                         </div>
-
+						<div class="row">
+                            <div class="col-4">Preferred Gender</div>
+                            <div class="col" id='gender-data' data-id="{{this.profile.gender_id}}">{{this.profile.gender}}</div>
+                        </div>
                         <div class="row">
                             <div class="col-4 my-auto">Instrument/s Required</div>
                             <div class="col">
@@ -590,6 +596,23 @@
                                         {{/each}}
                                     </select>
                                 </div>
+                            </div>
+                        </div>
+						<div class="row">
+                            <div class="col-4 my-auto">Prefered Gender</div>
+                            <div class="col">
+								<div class="form-group bmd-form-group">
+									{{#each this.criteria.gender}}
+									<div class="form-check form-check-radio">
+										<label class="form-check-label" for="gender_{{this.id}}">
+											<input class="form-check-input" type="radio" name="gender" id="gender_{{this.id}}" value="{{this.id}}" {{#compare this.name @root.profile.gender}} checked {{/compare}}> {{this.name}}
+											<span class="circle">
+												<span class="check"></span>
+											</span>
+										</label>
+									</div>
+									{{/each}}
+								</div>
                             </div>
                         </div>
                         <div class="row">

@@ -33,6 +33,11 @@ router.post("/register", uploader.fields([ { name: "background", maxCount: 1 }, 
 	Promise.resolve().then(() => {
 		// Adds the uploaded profile & background photos to the body that is passed
 		req.body.files = req.files;
+
+		if ( typeof req.body.files == typeof undefined ) {
+			delete req.body.files;
+		}
+		
 		return models.users.register(req.body);
 	}).then((stagePass) => {
 		// if we want to check something before responding here
@@ -53,6 +58,11 @@ router.post("/update", uploader.fields([ { name: "background", maxCount: 1 }, { 
 	Promise.resolve().then(() => {
 		req.body.files = req.files;
 		req.body.user = req.user;
+
+		if ( typeof req.body.files == typeof undefined ) {
+			delete req.body.files;
+		}
+
 		return models.users.update(req.body);
 	}).then((msg) => {
 		// if we want to check something before responding here

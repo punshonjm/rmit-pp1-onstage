@@ -93,10 +93,10 @@ appPage.editSave = function($this) {
 	$this.prop("disabled", true);
 
 	var $header = $this.closest(".row").find(".my-profile-header");
-	$header.find("span").remove();
+	$header.find("p").remove();
 
 	var data = {}, errors = [];
-	$(".editable." + target + ".edit").find("input, select, textarea").not(".js-states, .select2-search__field").each(function() {
+	$(".editable." + target + ".edit").find("input.form-control, select, textarea").not(".js-states, .select2-search__field").each(function() {
 		var isEmpty = ( $(this).val() == "" || $(this).val() == null) ? true : false;
 		var notSame = ( $(this).val() != $("#" + $(this).prop("id") + "-data").data().id ) ? true : false;
 
@@ -113,6 +113,10 @@ appPage.editSave = function($this) {
 			}
 		}
 	});
+
+	if ( $("[name='gender']:checked").is(":visible") &&  $("[name='gender']:checked").val() != $("#gender-data").data().id ) {
+		data.gender = $("[name='gender']:checked").val();
+	}
 
 	if ( $("#genres").is(":visible") ) {
 		var currentGenres = $("#genres-data").val();
@@ -150,7 +154,10 @@ appPage.editSave = function($this) {
 			// res.profile
 			if ( Object.keys(res.profile).length > 0 ) {
 				Object.keys(res.profile).map(function(key) {
-					if ( key == "genres" || key == "instruments" ) {
+					if ( key == "gender_id" ) {
+						$("#gender-data").text( $("[name='gender']:checked").closest("label").text().trim() );
+						$("#gender-data").data().id = res.profile.gender_id;
+					} else if ( key == "genres" || key == "instruments" ) {
 						$("#" + key + "-data").val([]);
 						$("#" + key + "-data").val( data[key] );
 						$("#" + key + "-data").change();

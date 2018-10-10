@@ -69,10 +69,10 @@ users.register = function(params) {
 	let allowedTypes = [ "image/png", "image/jpeg" ];
 
 	return Promise.resolve().then(() => {
-		if ( ("profile" in params.files) ) {
+		if ( ("files" in params) && ("profile" in params.files) ) {
 			files.push(params.files.profile[0].path);
 		}
-		if ( ("background" in params.files) ) {
+		if ( ("files" in params) && ("background" in params.files) ) {
 			files.push(params.files.background[0].path);
 		}
 
@@ -125,7 +125,7 @@ users.register = function(params) {
 			return Promise.resolve();
 		}
 	}).then(() => {
-		if ( ("profile" in params.files) ) {
+		if ( ("files" in params) && ("profile" in params.files) ) {
 			let img = params.files.profile[0];
 
 			if ( allowedTypes.includes(img.mimetype) ) {
@@ -152,7 +152,7 @@ users.register = function(params) {
 			profile.picture = profileLoc;
 		}
 
-		if ( ("background" in params.files) ) {
+		if ( ("files" in params) && ("background" in params.files) ) {
 			let img = params.files.background[0];
 
 			if ( allowedTypes.includes(img.mimetype) ) {
@@ -284,11 +284,11 @@ users.update = function(params) {
 	let allowedTypes = [ "image/png", "image/jpeg" ];
 
 	return Promise.resolve().then(() => {
-		if ( ("profile" in params.files) ) {
+		if ( ("files" in params) && ("profile" in params.files) ) {
 			files.push(params.files.profile[0].path);
 			profile.picture = "/";
 		}
-		if ( ("background" in params.files) ) {
+		if ( ("files" in params) && ("background" in params.files) ) {
 			files.push(params.files.background[0].path);
 			profile.background = "/";
 		}
@@ -312,9 +312,11 @@ users.update = function(params) {
 		if ( "display_name" in params ) {
 			user.display_name = params.display_name;
 		}
-		// if ( "gender_id" in params ) {
-		// 	profile.gender_id = params.gender;
-		// }
+
+		if ( "gender" in params ) {
+			profile.gender_id = params.gender;
+		}
+
 		// if ( "status_id" in params ) {
 		// 	profile.status_id = params.status;
 		// }
@@ -493,7 +495,7 @@ users.update = function(params) {
 			return Promise.resolve();
 		}
 	}).then(() => {
-		if ( ("profile" in params.files) ) {
+		if ( ("files" in params) && ("profile" in params.files) ) {
 			let img = params.files.profile[0];
 
 			if ( allowedTypes.includes(img.mimetype) ) {
@@ -520,7 +522,7 @@ users.update = function(params) {
 			profile.picture = profileLoc;
 		}
 
-		if ( ("background" in params.files) ) {
+		if ( ("files" in params) && ("background" in params.files) ) {
 			let img = params.files.background[0];
 
 			if ( allowedTypes.includes(img.mimetype) ) {
