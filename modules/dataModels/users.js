@@ -197,8 +197,8 @@ users.register = function(params) {
 		profile.about = params.aboutMe;
 		profile.age_bracket_id = params.age_bracket;
 
-		profile.past_gigs = params.past_gigs;
-		profile.music_experience = params.music_experience;
+		profile.past_gig_id = params.past_gigs;
+		profile.music_experience_id = params.music_experience;
 		profile.commitment_level_id = params.commitment_level;
 		profile.gig_frequency_id = params.gig_frequency;
 		profile.status_id = params.status;
@@ -209,8 +209,8 @@ users.register = function(params) {
 			profile.members_needed = params.members_needed;
 			profile.preference_age_bracket_id = params.preferred_age_bracket;
 
-			profile.required_music_experience = params.required_music_experience;
-			profile.required_past_gigs = params.required_past_gigs;
+			profile.required_music_experience_id = params.required_music_experience;
+			profile.required_past_gig_id = params.required_past_gigs;
 			profile.required_commitment_level_id = params.required_commitment_level;
 			profile.required_gig_frequency_id = params.required_gig_frequency;
 		}
@@ -331,11 +331,11 @@ users.update = function(params) {
 			profile.age_bracket_id = params.age_bracket_id;
 		}
 
-		if ( "past_gigs" in params ) {
-			profile.past_gigs = params.past_gigs;
+		if ( "past_gig_id" in params ) {
+			profile.past_gig_id = params.past_gig_id;
 		}
-		if ( "music_experience" in params ) {
-			profile.music_experience = params.music_experience;
+		if ( "music_experience_id" in params ) {
+			profile.music_experience_id = params.music_experience_id;
 		}
 		if ( "commitment_level_id" in params ) {
 			profile.commitment_level_id = params.commitment_level_id;
@@ -370,8 +370,8 @@ users.update = function(params) {
 		if ( "required_music_experience" in params ) {
 			profile.required_music_experience = params.required_music_experience;
 		}
-		if ( "required_past_gigs" in params ) {
-			profile.required_past_gigs = params.required_past_gigs;
+		if ( "required_past_gig_id" in params ) {
+			profile.required_past_gig_id = params.required_past_gig_id;
 		}
 		if ( "required_commitment_level_id" in params ) {
 			profile.required_commitment_level_id = (params.required_commitment_level_id == '') ? null : params.required_commitment_level_id;
@@ -794,11 +794,7 @@ internal.query.user = function() {
 		"p.picture",
 		"p.background",
 		"p.about",
-		"p.past_gigs",
-		"p.music_experience",
 		"p.band_size",
-		"p.required_music_experience",
-		"p.required_past_gigs",
 		"p.members_needed",
 		"p.instagram_user",
 		"p.twitter_user",
@@ -814,6 +810,10 @@ internal.query.user = function() {
 		"rf.name": "required_gig_frequency",
 		"s.name": "status",
 		"t.type_name": "user_type",
+		"me.name": "music_experience",
+		"pg.name": "past_gig",
+		"rme.name": "required_music_experience",
+		"rpg.name": "required_past_gig",
 		"p.id": "profile_id",
 		"u.id": "user_id",
 	}).fields([
@@ -825,6 +825,10 @@ internal.query.user = function() {
 		"p.gender_id",
 		"p.gig_frequency_id",
 		"p.required_gig_frequency_id",
+		"p.past_gig_id",
+		"p.required_past_gig_id",
+		"p.music_experience_id",
+		"p.required_music_experience_id",
 		"p.status_id",
 		"u.type_id",
 
@@ -856,6 +860,18 @@ internal.query.user = function() {
 	).left_join(
 		"ebdb.gig_frequency", "rf",
 		"p.required_gig_frequency_id = rf.id"
+	).left_join(
+		"ebdb.music_experience", "me",
+		"p.music_experience_id = me.id"
+	).left_join(
+		"ebdb.music_experience", "rme",
+		"p.required_music_experience_id = rme.id"
+	).left_join(
+		"ebdb.past_gig", "pg",
+		"p.past_gig_id = pg.id"
+	).left_join(
+		"ebdb.past_gig", "rpg",
+		"p.required_past_gig_id = rpg.id"
 	).left_join(
 		"ebdb.status", "s",
 		"p.status_id = s.id"

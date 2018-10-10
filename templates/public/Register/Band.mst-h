@@ -106,12 +106,10 @@
 							<div class="form-group bmd-form-group">
 								<label>Band's Music Experience:</label>
 								<select id="music_experience" class='form-control'>
-									<option value="">Choose...</option>
-									<option value="1">1 year</option>
-									<option value="2">2 years</option>
-									<option value="5">5 years</option>
-									<option value="10">10 years</option>
-									<option value="20">20+ years</option>
+                                    <option value="">Choose...</option>
+                                    {{#each this.criteria.music_experience}}
+                                        <option value="{{this.id}}">{{this.name}}</option>
+                                    {{/each}}
 								</select>
 							</div>
 						</div>
@@ -119,13 +117,10 @@
 							<div class="form-group bmd-form-group">
 								<label>Past Gigs:</label>
 								<select id="past_gigs" class='form-control'>
-									<option value="">Choose...</option>
-									<option value="10">10 or under</option>
-									<option value="20">20</option>
-									<option value="30">30</option>
-									<option value="40">40</option>
-									<option value="50">50</option>
-									<option value="60">60+</option>
+                                    <option value="">Choose...</option>
+                                    {{#each this.criteria.past_gig}}
+                                        <option value="{{this.id}}">{{this.name}}</option>
+                                    {{/each}}
 								</select>
 							</div>
 						</div>

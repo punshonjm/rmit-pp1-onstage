@@ -39,6 +39,12 @@ module.exports = function(req) {
 		return models.list.age_bracket.query();
 	}).then((items) => {
 		data.criteria.age_bracket = items;
+		return models.list.past_gig.query();
+	}).then((items) => {
+		data.criteria.past_gig = items;
+		return models.list.music_experience.query();
+	}).then((items) => {
+		data.criteria.music_experience = items;
 
 		return Promise.resolve(data);
 	});

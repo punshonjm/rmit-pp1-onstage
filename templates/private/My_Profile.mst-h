@@ -192,11 +192,11 @@
                     </div>
                     <div class="row">
                         <div class="col-4">Past Gigs</div>
-                        <div class="col" id="past_gigs-data" data-id="{{this.profile.past_gigs}}">{{this.profile.past_gigs}}</div>
+                        <div class="col" id="past_gig_id-data" data-id="{{this.profile.past_gig_id}}">{{this.profile.past_gig}}</div>
                     </div>
                     <div class="row">
-                        <div class="col-4">Music Experience (Years)</div>
-                        <div class="col" id="music_experience-data" data-id="{{this.profile.music_experience}}">{{this.profile.music_experience}}</div>
+                        <div class="col-4">Music Experience</div>
+                        <div class="col" id="music_experience_id-data" data-id="{{this.profile.music_experience_id}}">{{this.profile.music_experience}}</div>
                     </div>
                     {{#compare this.profile.user_type "Band"}}
                         <div class="row">
@@ -285,18 +285,28 @@
                     <div class="row">
                         <div class="col-4 my-auto">Past Gigs</div>
                         <div class="col">
-                            <div class="form-group bmd-form-group m-1 p-1">
-                                <input id="past_gigs" type="text" class="form-control" required="">
-                                <small class="form-text text-danger"></small>
+                            <div class="form-group bmd-form-group">
+                                <select id="past_gig_id" class='form-control selectpicker'
+                                        data-style="btn btn-link">
+                                    <option value="">Choose...</option>
+                                    {{#each this.criteria.past_gig}}
+                                        <option value="{{this.id}}">{{this.name}}</option>
+                                    {{/each}}
+                                </select>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-4 my-auto">Music Experience (Years)</div>
+                        <div class="col-4 my-auto">Music Experience</div>
                         <div class="col">
-                            <div class="form-group bmd-form-group m-1 p-1">
-                                <input id="music_experience" type="text" class="form-control" required="">
-                                <small class="form-text text-danger"></small>
+                            <div class="form-group bmd-form-group">
+                                <select id="music_experience_id" class='form-control selectpicker'
+                                        data-style="btn btn-link">
+                                    <option value="">Choose...</option>
+                                    {{#each this.criteria.music_experience}}
+                                        <option value="{{this.id}}">{{this.name}}</option>
+                                    {{/each}}
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -498,15 +508,15 @@
                         </div>
                         <div class="row">
                             <div class="col-4">Required Commitment Level</div>
-                            <div class="col" id="required_commitment_level_id-data" data-id="{{required_commitment_level_id}}">{{#if this.profile.required_commitment_level}}{{this.profile.required_commitment_level}}{{else}}Not set{{/if}}</div>
+                            <div class="col" id="required_commitment_level_id-data" data-id="{{this.profile.required_commitment_level_id}}">{{#if this.profile.required_commitment_level}}{{this.profile.required_commitment_level}}{{else}}Not set{{/if}}</div>
                         </div>
                         <div class="row">
-                            <div class="col-4">Required Music Experience (Years)</div>
-                            <div class="col" id="required_music_experience-data" data-id="{{required_music_experience}}">{{#if this.profile.required_music_experience}}{{this.profile.required_music_experience}}{{else}}Not set{{/if}}</div>
+                            <div class="col-4">Required Music Experience</div>
+                            <div class="col" id="required_music_experience_id-data" data-id="{{this.profile.required_music_experience_id}}">{{#if this.profile.required_music_experience}}{{this.profile.required_music_experience}}{{else}}Not set{{/if}}</div>
                         </div>
                         <div class="row">
                             <div class="col-4">Required Past Gigs</div>
-                            <div class="col" id="required_past_gigs-data" data-id="{{this.profile.required_past_gigs}}">{{#if this.profile.required_past_gigs}}{{this.profile.required_past_gigs}}{{else}}Not set{{/if}}</div>
+                            <div class="col" id="required_past_gig_id-data" data-id="{{this.profile.required_past_gig_id}}">{{#if this.profile.required_past_gig}}{{this.profile.required_past_gig}}{{else}}Not set{{/if}}</div>
                         </div>
                         <div class="row">
                             <div class="col-4">Required Gig Frequency</div>
@@ -562,20 +572,28 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-4 my-auto">Required Music Experience (Years)</div>
+                            <div class="col-4 my-auto">Required Music Experience</div>
                             <div class="col">
-                                <div class="form-group bmd-form-group m-1 p-1">
-                                    <input id="required_music_experience" type="text" class="form-control allowEmpty" required="">
-                                    <small class="form-text text-danger"></small>
+                                <div class="form-group bmd-form-group">
+                                    <select id="required_music_experience_id" class='form-control allowEmpty'>
+                                        <option value="">Choose...</option>
+                                        {{#each this.criteria.music_experience}}
+                                            <option value="{{this.id}}">{{this.name}}</option>
+                                        {{/each}}
+                                    </select>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-4 my-auto">Required Past Gigs</div>
                             <div class="col">
-                                <div class="form-group bmd-form-group m-1 p-1">
-                                    <input id="required_past_gigs" type="text" class="form-control allowEmpty" required="">
-                                    <small class="form-text text-danger"></small>
+                                <div class="form-group bmd-form-group">
+                                    <select id="required_past_gig_id" class='form-control allowEmpty'>
+                                        <option value="">Choose...</option>
+                                        {{#each this.criteria.past_gig}}
+                                            <option value="{{this.id}}">{{this.name}}</option>
+                                        {{/each}}
+                                    </select>
                                 </div>
                             </div>
                         </div>
