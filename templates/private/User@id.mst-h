@@ -92,7 +92,7 @@
 				</div>
 			</div>
 			<div class="modal-footer d-flex justify-content-end">
-				<button type="button" class="btn btn-outline-warning reportUser" data-id="{{this.profile.user_id}}">Report</button>
+				<button type="button" class="btn btn-warning reportUser" data-id="{{this.profile.user_id}}">Report</button>
 			</div>
 		</div>
 	</div>
