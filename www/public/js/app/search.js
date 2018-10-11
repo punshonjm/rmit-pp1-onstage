@@ -18,4 +18,4 @@ appPage.initialise = function() {
 
 $(document).ready(function() {
 	appPage.initialise();
-}
+})
