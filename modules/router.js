@@ -178,6 +178,23 @@ router.get("/whoops", (req, res) => {
     }).catch((err) => app.handleError(err, req, res));
 });
 
+router.get("/search", (req, res) => {
+	// Present 'Search' page
+    Promise.resolve().then(() => {
+		var data = { pageName: "search" };
+		data.user = req.user;
+
+		if ( ("error" in req.session) ) {
+			data.error = req.session.error;
+			delete req.session.error;
+		}
+
+        return templating.compile("search", data);
+    }).then((html) => {
+        res.send(html).end();
+    }).catch((err) => app.handleError(err, req, res));
+});
+
 router.get("/no_access", (req, res) => {
 	// Present 'no_access' page
     Promise.resolve().then(() => {
