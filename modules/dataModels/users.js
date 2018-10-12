@@ -781,6 +781,101 @@ users.verifyEmail = function(key) {
 	});
 };
 
+users.search = function(params) {
+	let ids = {};
+
+	return Promise.resolve().then(() => {
+		if ( ("instrument" in params) && (typeof params.instrument == typeof "String") ) params.instruments = params.instruments.split(",");
+		if ( ("genre" in params) && (typeof params.genre == typeof "String") ) params.genre = params.genre.split(",");
+
+		ids.st = ( ("searchType" in params) ) ? params.searchType : "and";
+
+		if ( ("genre" in params) && params.genre.length > 0 ) {
+			let query = internal.query.userGenres();
+			query.where("genre_id IN ?", params.genre);
+
+			return dbc.execute(query);
+		} else {
+			return Promise.resolve([]);
+		}
+	}).then((genreUsers) => {
+		if ( genreUsers.length > 0 ) {
+			ids.genre = genreUsers.map(g => g.user_id);
+		}
+
+		if ( ("instrument" in params) && params.instrument.length > 0 ) {
+			let query = internal.query.userInstruments();
+			query.where("instrument_id IN ?", params.instrument);
+
+			return dbc.execute(query);
+		} else {
+			return Promise.resolve([]);
+		}
+	}).then((instrumentUsers) => {
+		if ( instrumentUsers.length > 0 ) {
+			ids.instrument = instrumentUsers.map(i => i.user_id);
+		}
+
+		let query = internal.query.user();
+		let expr = dbc.sql.expr();
+		if ( ("instrument" in ids) ) {
+			expr[ids.st]("u.id IN ?", ids.instrument);
+		}
+		if ( ("genre" in ids) ) {
+			expr[ids.st]("u.id IN ?", ids.genre);
+		}
+
+		if ( ("user" in params) ) {
+			expr[ids.st]("u.type_id <> ?", params.user.type_id);
+			query.where("u.id <> ?", params.user.user_id);
+		}
+
+		if ( ("age_bracket_id" in params) ) {
+			expr[ids.st]("p.age_bracket_id = ?", params.age_bracket_id);
+		}
+		if ( ("preference_age_bracket_id" in params) ) {
+			expr[ids.st]("p.preference_age_bracket_id = ?", params.preference_age_bracket_id);
+		}
+		if ( ("commitment_level_id" in params) ) {
+			expr[ids.st]("p.commitment_level_id = ?", params.commitment_level_id);
+		}
+		if ( ("required_commitment_level_id" in params) ) {
+			expr[ids.st]("p.required_commitment_level_id = ?", params.required_commitment_level_id);
+		}
+		if ( ("gender_id" in params) ) {
+			expr[ids.st]("p.gender_id = ?", params.gender_id);
+		}
+		if ( ("gig_frequency_id" in params) ) {
+			expr[ids.st]("p.gig_frequency_id = ?", params.gig_frequency_id);
+		}
+		if ( ("required_gig_frequency_id" in params) ) {
+			expr[ids.st]("p.required_gig_frequency_id = ?", params.required_gig_frequency_id);
+		}
+		if ( ("past_gig_id" in params) ) {
+			expr[ids.st]("p.past_gig_id = ?", params.past_gig_id);
+		}
+		if ( ("required_past_gig_id" in params) ) {
+			expr[ids.st]("p.required_past_gig_id = ?", params.required_past_gig_id);
+		}
+		if ( ("music_experience_id" in params) ) {
+			expr[ids.st]("p.music_experience_id = ?", params.music_experience_id);
+		}
+		if ( ("required_music_experience_id" in params) ) {
+			expr[ids.st]("p.required_music_experience_id = ?", params.required_music_experience_id);
+		}
+
+		// Only find users who are searching
+		query.where("u.status_id = ?", 1);
+
+		// Add searched parameters
+		query.where(expr);
+
+		return dbc.execute(query);
+	}).then((rows) => {
+		return Promise.resolve({ "users": rows });
+	});
+};
+
 module.exports = users;
 
 let internal = {};
@@ -830,7 +925,6 @@ internal.query.user = function() {
 		"p.music_experience_id",
 		"p.required_music_experience_id",
 		"p.status_id",
-		"u.type_id",
 
 		"u.account_locked",
 		"u.email_verified",
@@ -904,12 +998,16 @@ internal.query.userGenres = function() {
 	let query = dbc.sql.select().fields([
 		"m.profile_id",
 		"m.genre_id",
-		"g.name"
+		"g.name",
+		"p.user_id"
 	]).from(
 		"ebdb.profile_genre_map", "m"
 	).left_join(
 		"ebdb.genre", "g",
 		"m.genre_id = g.id"
+	).left_join(
+		"ebdb.profile", "p",
+		"m.profile_id = p.id"
 	)
 
 	return query;
@@ -918,12 +1016,16 @@ internal.query.userInstruments = function() {
 	let query = dbc.sql.select().fields([
 		"m.profile_id",
 		"m.instrument_id",
-		"i.name"
+		"i.name",
+		"p.user_id"
 	]).from(
 		"ebdb.profile_instrument_map", "m"
 	).left_join(
 		"ebdb.instrument", "i",
 		"m.instrument_id = i.id"
+	).left_join(
+		"ebdb.profile", "p",
+		"m.profile_id = p.id"
 	)
 
 	return query;

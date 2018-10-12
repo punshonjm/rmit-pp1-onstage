@@ -1,6 +1,5 @@
 const dbc = require("@modules/dbc");
 
-
 let list = {};
 
 list.instrument = {};
