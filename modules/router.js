@@ -132,7 +132,7 @@ folders.map((folder) => {
 		}
 
 		app[folder + "Paths"].push(url);
-		// console.log(controllers);
+
 		router.get(url, (req, res) => {
 			Promise.resolve().then((html) => {
 				if ( (controlUrl in controllers) ) {
@@ -173,40 +173,6 @@ router.get("/whoops", (req, res) => {
 		}
 
         return templating.compile("whoops", data);
-    }).then((html) => {
-        res.send(html).end();
-    }).catch((err) => app.handleError(err, req, res));
-});
-
-router.get("/searchBand", (req, res) => {
-	// Present 'Search' page
-    Promise.resolve().then(() => {
-		var data = { pageName: "search" };
-		data.user = req.user;
-
-		if ( ("error" in req.session) ) {
-			data.error = req.session.error;
-			delete req.session.error;
-		}
-
-        return templating.compile("searchBand", data);
-    }).then((html) => {
-        res.send(html).end();
-    }).catch((err) => app.handleError(err, req, res));
-});
-
-router.get("/searchMusicians", (req, res) => {
-	// Present 'Search' page
-    Promise.resolve().then(() => {
-		var data = { pageName: "search" };
-		data.user = req.user;
-
-		if ( ("error" in req.session) ) {
-			data.error = req.session.error;
-			delete req.session.error;
-		}
-
-        return templating.compile("searchMusicians", data);
     }).then((html) => {
         res.send(html).end();
     }).catch((err) => app.handleError(err, req, res));
