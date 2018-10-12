@@ -6,12 +6,7 @@ module.exports = function(req) {
 
 	return Promise.resolve().then(() => {
 		data.criteria = {};
-		return models.users.details(req.user.user_id);
-	}).then((userDetails) => {
-		data.profile = userDetails;
-		data.pageName = userDetails.display_name;
-
-		return models.users.match(userDetails);
+		return models.users.match(req);
 	}).then((matchData) => {
 		// Limit to 10 matches for profile page
 		data.match_count = matchData.matches.length;
@@ -22,19 +17,10 @@ module.exports = function(req) {
 		data.criteria.status = items;
 		return models.list.instrument.query();
 	}).then((items) => {
-		let instruments = data.profile.instruments.map((i) => i.instrument_id);
-
-		data.criteria.instruments = items.filter((item) => {
-			return ( !instruments.includes(item.id) ) ? true : false;
-		});
-
+		data.criteria.instruments = items;
 		return models.list.genre.query();
 	}).then((items) => {
-		let genres = data.profile.genres.map((g) => g.genre_id);
-		data.criteria.genres = items.filter((item) => {
-			return ( !genres.includes(item.id) ) ? true : false;
-		});
-
+		data.criteria.genres = items;
 		return models.list.gig_frequency.query();
 	}).then((items) => {
 		data.criteria.gig_frequency = items;

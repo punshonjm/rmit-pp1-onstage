@@ -137,9 +137,11 @@
 						</div>
 					</a>
 					{{/each}}
+					{{#compare this.match_count "4" operator=">"}}
 					<div class='col-md-12 d-flex justify-content-end'>
 						<a class="btn btn-link" href="/my_matches" target="_blank">Show More...</a>
 					</div>
+					{{/compare}}
 				</div>
 				{{/compare}}
 
