@@ -865,20 +865,80 @@ users.search = function(params) {
 		}
 
 		// Only find users who are searching
-		query.where("u.status_id = ?", 1);
+		query.where("p.status_id = ?", 1);
 
 		// Add searched parameters
 		query.where(expr);
 
+		if ( ("limit" in params) ) {
+			query.limit(params.limit);
+		}
+
 		return dbc.execute(query);
 	}).then((rows) => {
+		return Promise.all(rows.map((row) => users.details(row.user_id)));
+	}).then((rows) => {
 		return Promise.resolve({ "users": rows });
+	});
+};
+
+
+users.match = function(params) {
+	let user = {};
+
+	return Promise.resolve().then(() => {
+		let searchId = ( ("user_id" in params) ) ? params.user_id : params.user.user_id;
+		return users.details(searchId);
+	}).then((userDetails) => {
+		userDetails.instrument = userDetails.instruments.map(i => i.instrument_id);
+		userDetails.genre = userDetails.genres.map(g => g.genre_id);
+		userDetails.searchType = "or";
+
+		if ( ("limit" in params) ) {
+			userDetails.limit = params.limit;
+		}
+
+		user = _.cloneDeep(userDetails);
+
+		return users.search(userDetails);
+	}).then((partMatches) => {
+		partMatches = partMatches.users.map((match) => {
+			match.count = 0;
+
+			internal.criteriaKeys.map((key) => {
+				if ( (key in match) && (key in user) && (user[key] != null) && (match[key] != null) && ( match[key] == user[key] ) ) match.count += 1;
+			});
+
+			match.percent = ( match.count / ( internal.criteriaKeys.length + 2 ) ) * 100;
+			match.percent = Math.round( match.percent );
+
+			return match;
+		});
+
+		partMatches = _.orderBy(partMatches, "percent", "desc");
+
+		return Promise.resolve({ "matches": partMatches });
 	});
 };
 
 module.exports = users;
 
 let internal = {};
+
+internal.criteriaKeys = [
+	"age_bracket_id",
+	"preference_age_bracket_id",
+	"commitment_level_id",
+	"required_commitment_level_id",
+	"gender_id",
+	"gig_frequency_id",
+	"required_gig_frequency_id",
+	"past_gig_id",
+	"required_past_gig_id",
+	"music_experience_id",
+	"required_music_experience_id",
+];
+
 internal.query = {};
 internal.query.user = function() {
 	let query = dbc.sql.select().fields([
@@ -913,6 +973,7 @@ internal.query.user = function() {
 		"u.id": "user_id",
 	}).fields([
 		"u.type_id",
+		"p.status_id",
 		"p.age_bracket_id",
 		"p.preference_age_bracket_id",
 		"p.commitment_level_id",
@@ -924,7 +985,6 @@ internal.query.user = function() {
 		"p.required_past_gig_id",
 		"p.music_experience_id",
 		"p.required_music_experience_id",
-		"p.status_id",
 
 		"u.account_locked",
 		"u.email_verified",

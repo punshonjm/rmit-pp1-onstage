@@ -8,6 +8,7 @@ module.exports = function(req) {
 	}).then((userDetails) => {
 		data.profile = userDetails;
 		data.pageName = userDetails.display_name;
+
 		return Promise.resolve(data);
 	});
 };

@@ -1,4 +1,5 @@
 const models = require("@modules/models");
+const _ = require("lodash");
 
 module.exports = function(req) {
 	var data = {};
@@ -9,6 +10,12 @@ module.exports = function(req) {
 	}).then((userDetails) => {
 		data.profile = userDetails;
 		data.pageName = userDetails.display_name;
+
+		return models.users.match(userDetails);
+	}).then((matchData) => {
+		// Limit to 10 matches for profile page
+		data.matches = _.slice(matchData.matches, 0, 4);
+
 		return models.list.status.query();
 	}).then((items) => {
 		data.criteria.status = items;
