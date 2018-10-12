@@ -178,7 +178,7 @@ router.get("/whoops", (req, res) => {
     }).catch((err) => app.handleError(err, req, res));
 });
 
-router.get("/search", (req, res) => {
+router.get("/searchBand", (req, res) => {
 	// Present 'Search' page
     Promise.resolve().then(() => {
 		var data = { pageName: "search" };
@@ -189,7 +189,24 @@ router.get("/search", (req, res) => {
 			delete req.session.error;
 		}
 
-        return templating.compile("search", data);
+        return templating.compile("searchBand", data);
+    }).then((html) => {
+        res.send(html).end();
+    }).catch((err) => app.handleError(err, req, res));
+});
+
+router.get("/searchMusicians", (req, res) => {
+	// Present 'Search' page
+    Promise.resolve().then(() => {
+		var data = { pageName: "search" };
+		data.user = req.user;
+
+		if ( ("error" in req.session) ) {
+			data.error = req.session.error;
+			delete req.session.error;
+		}
+
+        return templating.compile("searchMusicians", data);
     }).then((html) => {
         res.send(html).end();
     }).catch((err) => app.handleError(err, req, res));
