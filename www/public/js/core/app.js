@@ -2,6 +2,22 @@ var pageApp = {};
 window.app = {};
 window.app.data = {};
 
+window.app.templates = {};
+window.app.templates.load = function(template) {
+	$.get("/public/templates/" + template.path + ".mustache", function(templateSrc) {
+		var compile = Handlebars.compile(templateSrc);
+		window.app.templates[template.name] = function(data = {}) {
+			var html = compile(data);
+			return html;
+		};
+	});
+}
+window.app.templates.loadArray = function(templateArray) {
+	templateArray.map(function(template) {
+		window.app.templates.load(template);
+	});
+}
+
 pageApp.resendVerification = function() {
 	$("#resendVerification").prop("disabled", true);
 	$(".verify_link").html("<span>Sending <i class='fa fa-spinner fa-spin'></i></span>");

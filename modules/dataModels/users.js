@@ -826,6 +826,7 @@ users.search = function(params) {
 		}
 
 		if ( ("user" in params) ) {
+			console.log(params.user);
 			expr[ids.st]("u.type_id <> ?", params.user.type_id);
 			query.where("u.id <> ?", params.user.user_id);
 		}
@@ -899,6 +900,7 @@ users.match = function(params) {
 		}
 
 		user = _.cloneDeep(userDetails);
+		userDetails.user = params.user;
 
 		return users.search(userDetails);
 	}).then((partMatches) => {

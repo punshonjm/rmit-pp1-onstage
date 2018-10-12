@@ -37,7 +37,7 @@ router.post("/register", uploader.fields([ { name: "background", maxCount: 1 }, 
 		if ( typeof req.body.files == typeof undefined ) {
 			delete req.body.files;
 		}
-		
+
 		return models.users.register(req.body);
 	}).then((stagePass) => {
 		// if we want to check something before responding here
@@ -122,6 +122,14 @@ router.post("/password_reset", (req, res) => {
 	}).then(() => {
 		res.status(200).json({ message: "Processed!" }).end();
 	}).catch((error) => app.handleError(error, req, res));
+});
+
+router.post("/search", (req, res) => {
+	Promise.resolve().then(() => {
+		return models.users.search(req.body);
+	}).then((data) => {
+		res.status(200).json({ results: data }).end();
+	}).catch((err) => app.handleError(err, req, res));
 });
 
 router.param("id", (req, res, next, id) => {
