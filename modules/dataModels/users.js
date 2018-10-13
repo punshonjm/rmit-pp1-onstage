@@ -60,6 +60,7 @@ users.details = function(user_id) {
 			user.instruments = rows;
 		}
 
+		user.__class = "userObject";
 		return Promise.resolve(user);
 	});
 }
@@ -826,7 +827,6 @@ users.search = function(params) {
 		}
 
 		if ( ("user" in params) ) {
-			console.log(params.user);
 			expr[ids.st]("u.type_id <> ?", params.user.type_id);
 			query.where("u.id <> ?", params.user.user_id);
 		}
@@ -888,8 +888,12 @@ users.match = function(params) {
 	let user = {};
 
 	return Promise.resolve().then(() => {
-		let searchId = ( ("user_id" in params) ) ? params.user_id : params.user.user_id;
-		return users.details(searchId);
+		if ( ("__class" in params) && params.__class == "userObject" ) {
+			return Promise.resolve(params);
+		} else {
+			let searchId = ( ("user_id" in params) ) ? params.user_id : params.user.user_id;
+			return users.details(searchId);
+		}
 	}).then((userDetails) => {
 		userDetails.instrument = userDetails.instruments.map(i => i.instrument_id);
 		userDetails.genre = userDetails.genres.map(g => g.genre_id);
@@ -900,7 +904,7 @@ users.match = function(params) {
 		}
 
 		user = _.cloneDeep(userDetails);
-		userDetails.user = params.user;
+		userDetails.user = _.cloneDeep(user);
 
 		return users.search(userDetails);
 	}).then((partMatches) => {
