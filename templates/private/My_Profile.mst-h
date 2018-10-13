@@ -226,8 +226,8 @@
                         </div>
                     {{/compare}}
                     <div class="row">
-                        <div class="col-4">Postcode</div>
-                        <div class="col" id="postcode-data" data-id="{{this.profile.postcode}}">{{this.profile.postcode}}</div>
+                        <div class="col-4">Location</div>
+                        <div class="col" id="postcode_id-data" data-id="{{this.profile.postcode_id}}">{{this.profile.postcode}}</div>
                     </div>
                     <div class="row">
                         <div class="col-4">Past Gigs</div>
@@ -313,11 +313,12 @@
                         </div>
                     {{/compare}}
                     <div class="row">
-                        <div class="col-4 my-auto">Postcode</div>
+                        <div class="col-4 my-auto">Location</div>
                         <div class="col">
-                            <div class="form-group bmd-form-group m-1 p-1">
-                                <input id="postcode" type="text" class="form-control" required="">
-                                <small class="form-text text-danger"></small>
+                            <div class="form-group bmd-form-group pb-0">
+                                <select class="select2-postcode-edit js-states form-control" id="postcode_id">
+                                        <option value="{{this.profile.postcode_id}}" selected>{{this.profile.postcode}}</option>
+                                </select>
                             </div>
                         </div>
                     </div>

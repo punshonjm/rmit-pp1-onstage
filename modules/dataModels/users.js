@@ -322,8 +322,8 @@ users.update = function(params) {
 			profile.status_id = params.status;
 		}
 
-		if ( "postcode" in params ) {
-			profile.postcode = params.postcode;
+		if ( "postcode_id" in params ) {
+			profile.postcode_id = params.postcode_id;
 		}
 		if ( "about" in params ) {
 			profile.about = params.about;
@@ -951,7 +951,6 @@ internal.query.user = function() {
 		"u.username",
 		"u.email",
 		"u.display_name",
-		"p.postcode",
 		"p.picture",
 		"p.background",
 		"p.about",
@@ -963,6 +962,7 @@ internal.query.user = function() {
 		"p.youtube_user"
 	]).fields({
 		"a.name": "age_bracket",
+		"CONCAT(pc.suburb,\' \', pc.postcode, \', \', st.state_short)": "postcode",
 		"abp.name": "preferred_age_bracket",
 		"c.name": "commitment_level",
 		"rc.name": "required_commitment_level",
@@ -980,6 +980,7 @@ internal.query.user = function() {
 	}).fields([
 		"u.type_id",
 		"p.status_id",
+		"p.postcode_id",
 		"p.age_bracket_id",
 		"p.preference_age_bracket_id",
 		"p.commitment_level_id",
@@ -999,6 +1000,12 @@ internal.query.user = function() {
 	).left_join(
 		"ebdb.profile", "p",
 		"u.id = p.user_id"
+	).left_join(
+		"ebdb.postcode", "pc",
+		"p.postcode_id = pc.id"
+	).left_join(
+		"ebdb.aus_state", "st",
+		"pc.aus_state_id = st.id"
 	).left_join(
 		"ebdb.age_bracket", "a",
 		"p.age_bracket_id = a.id"

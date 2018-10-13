@@ -31,6 +31,21 @@ appPage.initialise = function() {
 		disabled: true
 	});
 
+	$('.select2-postcode-edit').select2({
+		minimumInputLength: 2,
+		placeholder: "Choose Location...",
+		ajax: {
+			url: '/api/postcode/',
+			data: function (params) {
+				var query = {
+					search: params.term
+				};
+				return query;
+			}
+		},
+		theme: "material"
+	});
+
 	$('.select2-instrument-edit').select2({
 		placeholder: "Choose instruments...",
 		ajax: {
@@ -122,6 +137,13 @@ appPage.editSave = function($this) {
 	}
 	if ( $("[name='status']:checked").is(":visible") &&  $("[name='status']:checked").val() != $("#status-data").data().id ) {
 		data.status = $("[name='status']:checked").val();
+	}
+
+	if ( $("#postcode_id").is(":visible") ) {
+		var current_postcode_id = $("#postcode_id-data").data().id;
+		if ( JSON.stringify(current_postcode_id) != JSON.stringify( $("#postcode").val() ) ) {
+			data.postcode_id = $("#postcode_id").val();
+		}
 	}
 
 	if ( $("#genres").is(":visible") ) {

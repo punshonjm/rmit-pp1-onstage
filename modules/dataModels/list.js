@@ -176,10 +176,39 @@ list.genre.query = function(search_query) {
     });
 };
 
+list.postcode = {};
+list.postcode.query = function(search_query) {
+	return Promise.resolve().then(() => {
+
+		let query = internal.query.postcode_display();
+		if ( search_query != null ) {
+			query.where("p.postcode like ? OR p.suburb like ?", search_query+"%", search_query+"%");
+		}
+		return dbc.execute(query);
+
+	}).then((rows) => {
+		if ( rows ) {
+			return Promise.resolve(rows);
+		} else {
+			return Promise.resolve(false);
+		}
+	});
+};
+
 module.exports = list;
 
 let internal = {};
 internal.query = {};
+internal.query.postcode_display = function() {
+	return dbc.sql.select().fields([
+		"p.id",
+		"CONCAT(p.suburb,' ', p.postcode, ', ', s.state_short) as name"
+	]).from(
+		"ebdb.postcode", "p"
+	).left_join("ebdb.aus_state", "s", "s.id = p.aus_state_id"
+	).limit(25);
+};
+
 internal.query.genres = function() {
     return dbc.sql.select().fields([
         "g.id",
