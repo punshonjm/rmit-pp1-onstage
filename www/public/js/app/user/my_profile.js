@@ -33,7 +33,7 @@ appPage.initialise = function() {
 
 	$('.select2-postcode-edit').select2({
 		minimumInputLength: 2,
-		placeholder: "Choose Location...",
+		placeholder: "Enter postcode or suburb...",
 		ajax: {
 			url: '/api/postcode/',
 			data: function (params) {

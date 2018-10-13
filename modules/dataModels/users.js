@@ -193,7 +193,7 @@ users.register = function(params) {
 		return dbc.execute(query);
 	}).then((res) => {
 		profile.user_id = res.insertId;
-		profile.postcode = params.postcode;
+		profile.postcode_id = params.postcode;
 		profile.gender_id = params.gender;
 		profile.about = params.aboutMe;
 		profile.age_bracket_id = params.age_bracket;

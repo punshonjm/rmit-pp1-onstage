@@ -1,6 +1,23 @@
 var appPage = {};
 
 appPage.initialise = function() {
+
+	$('.select2-postcode').select2({
+		minimumInputLength: 2,
+		placeholder: "Enter postcode or suburb...",
+		ajax: {
+			url: '/api/postcode/',
+			data: function (params) {
+				var query = {
+					search: params.term
+				};
+				return query;
+			}
+		},
+		theme: "material"
+	});
+
+
 	$('.select2-instrument').select2({
 		placeholder: "Choose instruments...",
 		ajax: {
@@ -293,14 +310,14 @@ appPage.email = function($this) {
 		}
 	});
 };
- appPage.postcode = function () {
+ /*appPage.postcode = function () {
 	 $(".postcode-status").text("");
 	 if ( $("#postcode").val().length > 4 || isNaN($("#postcode").val()) ) {
 		 $(".postcode-status").append("<span class='d-block text-danger'>A postcode consists of 4 numbers.</span>");
 	 } else {
 	 	return true;
 	 }
- }
+ }*/
 $(document).ready(function() {
 	appPage.initialise();
 }).on("submit", ".register-form", function(e) {

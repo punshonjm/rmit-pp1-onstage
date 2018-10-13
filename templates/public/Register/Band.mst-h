@@ -50,14 +50,12 @@
 							</div>
 							<p class="password-status"></p>
 						</div>
-						<div class="col-md-12">
-							<div class="form-group bmd-form-group">
-								<label class="bmd-label-floating">Postcode *:</label>
-								<input id="postcode" type="text" class="form-control" required>
-								<small class="form-text text-danger"></small>
-							</div>
-              				<p class="postcode-status"></p>
-						</div>
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                <label for="postcode">Location *:</label>
+                                <select class="select2-postcode js-states form-control" id="postcode" required></select>
+                            </div>
+                        </div>
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label class="bmd-label-floating">Band Size:</label>
