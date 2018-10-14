@@ -42,24 +42,36 @@ pageApp.changePassword = function() {
 	data.password = $("#password_new").val();
 	data.passwordConfirm = $("#password_confirm_new").val();
 
-	if ( !pageApp.changePassword.confirm() ) {
+	if ( data.current == "" || data.current == null ) {
+		$(".change_password").prop("disabled", false);
+		$("#current_password").addError("has-danger", "You must provide your current password!");
+
+		$(".change_password").prop("disabled", false);
+		$(".change_password_buttons").show();
+		$(".change_password_pending").hide();
+	} else if ( !pageApp.changePassword.confirm() ) {
 		$(".change_password").prop("disabled", false);
 		$("#password_confirm_new").addError("has-danger", "Passwords must match!");
+
+		$(".change_password").prop("disabled", false);
+		$(".change_password_buttons").show();
+		$(".change_password_pending").hide();
 	} else if ( !pageApp.changePassword.strength() ) {
 		$(".change_password").prop("disabled", false);
 		$("#password_new").addError("has-danger", "Make sure your new password is strong enough!");
-	} else if ( data.current == "" || data.current == null ) {
+
 		$(".change_password").prop("disabled", false);
-		$("#current_password").addError("has-danger", "You must provide your current password!");
+		$(".change_password_buttons").show();
+		$(".change_password_pending").hide();
 	} else {
 		$.post("/api/user/change_password", data, function(res) {
-			$("#current_password").val("");
-			$("#password_new").val("");
-			$("#password_confirm_new").val("");
+			$("#current_password, #password_new, #password_confirm_new").val("");
+			$("#change_password_modal .modal-body .container").hide();
 
-			$(".change_password_status").append("<span class='d-block text-success'>" + res.message + "</span>");
+			$("#change_password_modal .modal-body").append("<p class='post-save-text'><span class='d-block text-success'>" + res.message + "</span></p>");
 		}).fail(function(error) {
 			$(".change_password").prop("disabled", false);
+			$(".change_password_buttons").show();
 
 			if ( ("errorSet" in error.responseJSON) ) {
 				error.responseJSON.errorSet.map(function(err) {
@@ -69,7 +81,6 @@ pageApp.changePassword = function() {
 				$(".change_password_status").append("<span class='d-block text-danger'>" + error.responseJSON.message + "</span>");
 			}
 		}).always(function() {
-			$(".change_password_buttons").show();
 			$(".change_password_pending").hide();
 		});
 	}
@@ -94,6 +105,7 @@ pageApp.changePassword.confirm = function() {
 pageApp.changePassword.strength = function() {
 	$("#password_new").clearError();
 	var strength = zxcvbn($("#password_new").val());
+	var $pwdNew = $("#password_new").closest(".form-group").find(".form-text");
 
 	// show password strength: strength.score
 	$(".password-meter").empty();
@@ -102,24 +114,36 @@ pageApp.changePassword.strength = function() {
 
 	if ( strength.score < 3 ) {
 		$("#password_new").addError();
-		$("#password_new .form-text").append("<span class='d-block text-danger'>Please choose a stronger password.</span>");
+		$pwdNew.append("<span class='d-block text-danger'>Please choose a stronger password.</span>");
 
 		if ( strength.feedback.warning != null ) {
-			$("#password_new .form-text").append("<span class='d-block text-danger'>"+strength.feedback.warning+"</span>");
+			$pwdNew.append("<span class='d-block text-danger'>"+strength.feedback.warning+"</span>");
 		}
 
 		if ( strength.feedback.suggestions.length > 0 ) {
 			strength.feedback.suggestions.map(function(suggestion) {
-				$("#password_new .form-text").append("<span class='d-block text-warning'>"+suggestion+"</span>");
+				$pwdNew.append("<span class='d-block text-warning'>"+suggestion+"</span>");
 			});
 		}
 
 		return false;
 	} else {
-		$("#password_new .form-text").append("<span class='d-block text-success'>Good choice!</span>");
+		$pwdNew.append("<span class='d-block text-success'>Good choice!</span>");
 		return true;
 	}
 };
+pageApp.changePassword.resetModal = function() {
+	console.log('reset');
+	$("#change_password_modal .post-save-text").remove();
+	$("#current_password, #password_new, #password_confirm_new").val("");
+	$("#current_password, #password_new, #password_confirm_new").clearError();
+	$(".password-meter").empty();
+
+	$("#change_password_modal .modal-body .container").show();
+
+	$("#change_password_modal .change_password_buttons").show();
+	$("#change_password_modal .change_password_pending").hide();
+}
 
 pageApp.logout = function() {
 	$.get("/logout").always(function() {
@@ -143,7 +167,9 @@ $(document).ready(function() {
 	pageApp.changePassword.strength();
 }).on("keyup focusout", "#password_new, #password_confirm_new", function() {
 	pageApp.changePassword.confirm();
-});
+}).on("hidden.bs.modal", "#change_password_modal", function() {
+	pageApp.changePassword.resetModal();
+})
 
 // Add additional global functions
 if (!String.isNullOrEmpty) {
