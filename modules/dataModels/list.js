@@ -203,9 +203,9 @@ list.postcode.match = function(postcode_id, radius) {
 		return dbc.execute(query);
 
 	}).then((rows) => {
-		let postcode_list;
 		if (rows) {
-			postcode_list = rows.map(row => row.postcode_id)
+			let postcode_list = rows.map(row => row.postcode_id);
+			postcode_list.push(postcode_id);
 			return Promise.resolve(postcode_list);
 		} else {
 			return Promise.resolve(false);

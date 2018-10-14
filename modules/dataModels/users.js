@@ -788,7 +788,6 @@ users.search = function(params) {
 	let ids = {};
 
 	return Promise.resolve().then(() => {
-
 		if ( ("postcode_id" in params) && ("postcode_radius" in params) ) {
 			return model_list.postcode.match(params.postcode_id, params.postcode_radius);
 		} else {
@@ -798,8 +797,12 @@ users.search = function(params) {
 		if (postcode_list.length > 0) {
 			params.postcode_list = postcode_list;
 		}
+
 		if ( ("instruments" in params) && (typeof params.instruments == typeof "String") ) params.instruments = params.instruments.split(",");
 		if ( ("genres" in params) && (typeof params.genres == typeof "String") ) params.genres = params.genres.split(",");
+
+		if ( ("instruments" in params) && (typeof params.instruments[0] == typeof {}) ) params.instruments = params.instruments.map(i => i.instrument_id);
+		if ( ("genres" in params) && (typeof params.genres[0] == typeof {}) ) params.genres = params.genres.map(g => g.genre_id);
 
 		ids.st = ( ("searchType" in params) ) ? params.searchType : "and";
 
@@ -829,7 +832,7 @@ users.search = function(params) {
 			if ( ("postcode_list" in params) ) {
 				query.where("p.postcode_id IN ?", params.postcode_list);
 			}
-			console.log(query.toString());
+
 			return dbc.execute(query);
 		} else {
 			return Promise.resolve([]);
@@ -1091,7 +1094,8 @@ internal.query.getUserUsername = function() {
         "u.username"
     ]).from(
         "ebdb.user", "u"
-    )
+    );
+
     return query;
 };
 internal.query.getUserEmail = function() {
@@ -1099,7 +1103,8 @@ internal.query.getUserEmail = function() {
         "u.email"
     ]).from(
         "ebdb.user", "u"
-    )
+    );
+
     return query;
 };
 internal.query.userGenres = function() {
@@ -1116,7 +1121,7 @@ internal.query.userGenres = function() {
 	).left_join(
 		"ebdb.profile", "p",
 		"m.profile_id = p.id"
-	)
+	);
 
 	return query;
 };
@@ -1134,7 +1139,7 @@ internal.query.userInstruments = function() {
 	).left_join(
 		"ebdb.profile", "p",
 		"m.profile_id = p.id"
-	)
+	);
 
 	return query;
 };

@@ -103,6 +103,6 @@ appPage.search = function($this) {
 
 $(document).ready(function() {
 	appPage.initialise();
-}).on("click", "#search", function() {
+}).on("click", ".search-button", function() {
 	appPage.search($(this));
 })
