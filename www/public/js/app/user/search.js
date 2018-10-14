@@ -52,6 +52,7 @@ appPage.initialise = function() {
 
 appPage.search = function($this) {
 	$this.prop("disabled", true);
+	$("#search-results").empty();
 
 	var data = {};
 
@@ -84,7 +85,7 @@ appPage.search = function($this) {
 
 			resp.results.users.map(function(user) {
 				let html = window.app.templates.row(user);
-				$("#search-results").html(html);
+				$("#search-results").append(html);
 			});
 		}).fail(function(error) {
 			console.log(error.responseJSON);
