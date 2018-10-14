@@ -603,6 +603,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="editable band edit" style="display: none;">
                         <div class="row">
                             <div class="col-4 my-auto">Number of Members Needed</div>

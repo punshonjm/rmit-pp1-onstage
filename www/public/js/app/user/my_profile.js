@@ -201,6 +201,9 @@ appPage.editSave = function($this) {
 						$("#" + key + "-data").val([]);
 						$("#" + key + "-data").val( data[key] );
 						$("#" + key + "-data").change();
+					} else if ( $("#" + key).prop("type") == "select-one" ) {
+						$("#" + key + "-data").text( $("#" + key).find("option[value='"+$("#" + key).val()+"']").text() );
+						$("#" + key + "-data").data().id = res.profile[key];
 					} else {
 						$("#" + key + "-data").text(res.profile[key]);
 						$("#" + key + "-data").data().id = res.profile[key];
