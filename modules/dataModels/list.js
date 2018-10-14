@@ -177,6 +177,7 @@ list.genre.query = function(search_query) {
 };
 
 list.postcode = {};
+// Find matching locations based off starting suburb or postcode
 list.postcode.query = function(search_query) {
 	return Promise.resolve().then(() => {
 
@@ -194,11 +195,44 @@ list.postcode.query = function(search_query) {
 		}
 	});
 };
+// Find matching postcode_id's based off postcode_id and a search radius
+list.postcode.match = function(postcode_id, radius) {
+	return Promise.resolve().then(() => {
+
+		let query = internal.query.postcode_list(parseInt(postcode_id),parseInt(radius));
+		return dbc.execute(query);
+
+	}).then((rows) => {
+		let postcode_list;
+		if (rows) {
+			postcode_list = rows.map(row => row.postcode_id)
+			return Promise.resolve(postcode_list);
+		} else {
+			return Promise.resolve(false);
+		}
+	});
+};
 
 module.exports = list;
 
 let internal = {};
 internal.query = {};
+internal.query.postcode_list = function(postcode_id,radius) {
+	return dbc.sql.select().fields([
+			"p.postcode_a_id as postcode_id"
+		]).from(
+		"ebdb.postcode_cache", "p"
+		).where("p.postcode_b_id = ? and radius <= ?", postcode_id, radius
+		)
+	.union(
+		dbc.sql.select().fields([
+			"p.postcode_b_id as postcode_id"
+		]).from(
+			"ebdb.postcode_cache", "p"
+		).where("p.postcode_a_id = ? and radius <= ?", postcode_id, radius
+		)
+	);
+};
 internal.query.postcode_display = function() {
 	return dbc.sql.select().fields([
 		"p.id",
@@ -208,6 +242,7 @@ internal.query.postcode_display = function() {
 	).left_join("ebdb.aus_state", "s", "s.id = p.aus_state_id"
 	).limit(25);
 };
+
 
 internal.query.genres = function() {
     return dbc.sql.select().fields([
