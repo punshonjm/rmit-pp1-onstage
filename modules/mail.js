@@ -33,7 +33,27 @@ mail.send.registration = function(to, name, verificationKey) {
 	}).then((html) => {
 		let details = {
 			"to": to,
-			"subject": "On Stage - Email Verification",
+			"subject": "On Stage - Account Verification",
+			"message": html
+		};
+
+		return internal.sendMail(details);
+	});
+};
+
+//function to send email update
+mail.send.newEmail = function(to, name, verificationKey) {
+	return Promise.resolve().then(() => {
+		var data = {
+			display_name: name,
+			verification_link: `${verificationKey}`
+		};
+
+		return templating.build(path.join(__dirname, "../templates/emails", "newEmail.html"), data);
+	}).then((html) => {
+		let details = {
+			"to": to,
+			"subject": "On Stage - Updated Email Verification",
 			"message": html
 		};
 

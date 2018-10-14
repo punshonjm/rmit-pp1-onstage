@@ -54,6 +54,52 @@
 				</button>
 			</div>
             <div class="container">
+				<div class="row mt-5">
+					{{#if this.profile.instagram_user}}
+					<div class="col-md-3">
+						<a class="w-100 d-flex flex-column text-center justify-content-middle align-items-center" href="https://instragram.com/{{this.profile.instagram_user}}" target="_blank">
+							<span class='d-block w-100' style="color: #d6249f;">
+								<i class="fa fa-instagram fa-3x"></i>
+							</span>
+							<span class='d-block w-100' style="color: #d6249f;">
+								Instragram
+							</span>
+						</a>
+					</div>
+					{{/if}}
+					{{#if this.profile.twitter_user}}
+					<div class="col-md-3">
+						<a class="w-100 d-flex flex-column text-center justify-content-middle align-items-center" href="https://twitter.com/{{this.profile.instagram_user}}" target="_blank">
+							<span class='d-block w-100 text-info'>
+								<i class="fa fa-twitter fa-3x"></i>
+							</span>
+							<span class='d-block w-100 text-info'>
+								Twitter
+							</span>
+						</a>
+					</div>
+					{{/if}}
+					{{#if this.profile.facebook_user}}
+					<div class="col-md-3">
+						<a class="w-100 d-flex flex-column text-center align-items-center" href="https://facebook.com/{{this.profile.facebook_user}}" target="_blank">
+							<span class='d-block w-100'>
+								<i class="fa fa-facebook fa-3x"></i>
+							</span>
+							<span class='d-block w-100'>Facebook</span>
+						</a>
+					</div>
+					{{/if}}
+					{{#if this.profile.youtube_user}}
+					<div class="col-md-3">
+						<a class="w-100 d-flex flex-column text-center align-items-center" href="https://youtube.com/channel/{{this.profile.youtube_user}}" target="_blank">
+							<span class='d-block w-100 text-danger'>
+								<i class="fa fa-youtube fa-3x"></i>
+							</span>
+							<span class='d-block w-100 text-danger'>YouTube</span>
+						</a>
+					</div>
+					{{/if}}
+				</div>
 
                 <!-- ##### Begin Account section ###### -->
                 <div class="row">
@@ -143,29 +189,6 @@
 					</div>
 				</div>
 				{{/compare}}
-
-                <!-- ##### Begin social media ##### -->
-                <div class="row">
-                    <div class="col my-profile-header">
-						<h4 class="title border-bottom">Social Media Links</h4>
-					</div>
-                </div>
-                <div class="row">
-                    <div class="col-4"><i class="fa fa-instagram"></i> Instragram</div>
-                    <div class="col my-auto" id="instagram_user-data" data-id="{{this.profile.instagram_user}}">{{#if this.profile.instagram_user}}{{this.profile.instagram_user}}{{else}}Not set{{/if}}</div>
-                </div>
-                <div class="row">
-                    <div class="col-4"><i class="fa fa-twitter"></i> Twitter</div>
-                    <div class="col my-auto" id="twitter_user-data" data-id="{{this.profile.twitter_user}}">{{#if this.profile.twitter_user}}{{this.profile.twitter_user}}{{else}}Not set{{/if}}</div>
-                </div>
-                <div class="row">
-                    <div class="col-4"><i class="fa fa-facebook"></i> Facebook</div>
-                    <div class="col my-auto" id="facebook_user-data" data-id="{{this.profile.facebook_user}}">{{#if this.profile.facebook_user}}{{this.profile.facebook_user}}{{else}}Not set{{/if}}</div>
-                </div>
-                <div class="row">
-                    <div class="col-4"><i class="fa fa-youtube"></i> Youtube</div>
-                    <div class="col my-auto" id="youtube_user-data" data-id="{{this.profile.youtube_user}}">{{#if this.profile.youtube_user}}{{this.profile.youtube_user}}{{else}}Not set{{/if}}</div>
-                </div>
 
                 <!-- Begin band requirements -->
                 {{#compare this.profile.user_type "Band"}}

@@ -459,23 +459,27 @@
                 <div class="editable social-media view">
                     <div class="row">
                         <div class="col-4"><i class="fa fa-instagram"></i> Instragram</div>
-                        <div class="col my-auto" id="instagram_user-data" data-id="{{this.profile.instagram_user}}">{{#if
-                                this.profile.instagram_user}}{{this.profile.instagram_user}}{{else}}Not set{{/if}}</div>
+                        <div class="col my-auto" id="instagram_user-data" data-id="{{this.profile.instagram_user}}">
+							{{#if this.profile.instagram_user}}{{this.profile.instagram_user}}{{else}}Not set{{/if}}
+						</div>
                     </div>
                     <div class="row">
                         <div class="col-4"><i class="fa fa-twitter"></i> Twitter</div>
-                        <div class="col my-auto" id="twitter_user-data" data-id="{{this.profile.twitter_user}}">{{#if
-                                this.profile.twitter_user}}{{this.profile.twitter_user}}{{else}}Not set{{/if}}</div>
+                        <div class="col my-auto" id="twitter_user-data" data-id="{{this.profile.twitter_user}}">
+							{{#if this.profile.twitter_user}}{{this.profile.twitter_user}}{{else}}Not set{{/if}}
+						</div>
                     </div>
                     <div class="row">
                         <div class="col-4"><i class="fa fa-facebook"></i> Facebook</div>
-                        <div class="col my-auto" id="facebook_user-data" data-id="{{this.profile.facebook_user}}">{{#if
-                                this.profile.facebook_user}}{{this.profile.facebook_user}}{{else}}Not set{{/if}}</div>
+                        <div class="col my-auto" id="facebook_user-data" data-id="{{this.profile.facebook_user}}">
+							{{#if this.profile.facebook_user}}{{this.profile.facebook_user}}{{else}}Not set{{/if}}
+						</div>
                     </div>
                     <div class="row">
                         <div class="col-4"><i class="fa fa-youtube"></i> Youtube</div>
-                        <div class="col my-auto" id="youtube_user-data" data-id="{{this.profile.youtube_user}}">{{#if
-                                this.profile.youtube_user}}{{this.profile.youtube_user}}{{else}}Not set{{/if}}</div>
+                        <div class="col my-auto" id="youtube_user-data" data-id="{{this.profile.youtube_user}}">
+							{{#if this.profile.youtube_user}}{{this.profile.youtube_user}}{{else}}Not set{{/if}}
+						</div>
                     </div>
                 </div>
                 <div class="editable social-media edit" style="display: none;">
@@ -483,7 +487,10 @@
                         <div class="col-4 my-auto"><i class="fa fa-instagram"></i> Instagram</div>
                         <div class="col">
                             <div class="form-group bmd-form-group m-1 p-1">
-                                <input id="instagram_user" type="text" class="form-control allowEmpty" required="">
+								<div class="input-group d-flex align-items-center">
+									<span class="input-group-addon pr-2">instragram.com/</span>
+									<input id="instagram_user" type="text" class="form-control allowEmpty" required="">
+								</div>
                                 <small class="form-text text-danger"></small>
                             </div>
                         </div>
@@ -492,7 +499,10 @@
                         <div class="col-4 my-auto"><i class="fa fa-twitter"></i> Twitter</div>
                         <div class="col">
                             <div class="form-group bmd-form-group m-1 p-1">
-                                <input id="twitter_user" type="text" class="form-control allowEmpty" required="">
+								<div class="input-group d-flex align-items-center">
+									<span class="input-group-addon pr-2">twitter.com/</span>
+									<input id="twitter_user" type="text" class="form-control allowEmpty" required="">
+								</div>
                                 <small class="form-text text-danger"></small>
                             </div>
                         </div>
@@ -501,7 +511,10 @@
                         <div class="col-4 my-auto"><i class="fa fa-facebook"></i> Facebook</div>
                         <div class="col">
                             <div class="form-group bmd-form-group m-1 p-1">
-                                <input id="facebook_user" type="text" class="form-control allowEmpty" required="">
+								<div class="input-group d-flex align-items-center">
+									<span class="input-group-addon pr-2">facebook.com/</span>
+									<input id="facebook_user" type="text" class="form-control allowEmpty" required="">
+								</div>
                                 <small class="form-text text-danger"></small>
                             </div>
                         </div>
@@ -510,7 +523,10 @@
                         <div class="col-4 my-auto"><i class="fa fa-youtube"></i> Youtube</div>
                         <div class="col">
                             <div class="form-group bmd-form-group m-1 p-1">
-                                <input id="youtube_user" type="text" class="form-control allowEmpty" required="">
+								<div class="input-group d-flex align-items-center">
+									<span class="input-group-addon pr-2">youtube.com/channel/</span>
+									<input id="youtube_user" type="text" class="form-control allowEmpty" required="">
+								</div>
                                 <small class="form-text text-danger"></small>
                             </div>
                         </div>

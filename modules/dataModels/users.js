@@ -566,7 +566,7 @@ users.update = function(params) {
 		}
 	}).then(() => {
 		if ( ("email" in params) && params.user.email != params.email ) {
-			return internal.verificationEmail( params.user.user_id, params.email, params.user.display_name );
+			return internal.verificationEmail( params.user.user_id, params.email, params.user.display_name, "newEmail" );
 		} else {
 			return Promise.resolve();
 		}
@@ -883,7 +883,6 @@ users.search = function(params) {
 	});
 };
 
-
 users.match = function(params) {
 	let user = {};
 
@@ -1131,7 +1130,7 @@ internal.images.upload = function(user, image) {
 	});
 };
 
-internal.verificationEmail = function( user_id, email, display_name ) {
+internal.verificationEmail = function( user_id, email, display_name, type = "registration" ) {
 	let verify = {};
 
 	return Promise.resolve().then(() => {
@@ -1139,7 +1138,7 @@ internal.verificationEmail = function( user_id, email, display_name ) {
 		verify.verification_key = crypto.randomBytes(Math.ceil(24 / 2)).toString('hex').slice(0, 24);
 		verify.expires = moment().add(1, "day").format("YYYY-MM-DD HH:mm:ss");
 
-		return mail.send.registration(email, display_name, verify.verification_key);
+		return mail.send[type](email, display_name, verify.verification_key);
 	}).then((eml) => {
 		let query = dbc.sql.insert().into("ebdb.email_verification").setFields(verify);
 		return dbc.execute(query);
