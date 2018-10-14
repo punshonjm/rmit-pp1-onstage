@@ -181,7 +181,7 @@ list.postcode = {};
 list.postcode.query = function(search_query) {
 	return Promise.resolve().then(() => {
 
-		let query = internal.query.postcode_display();
+		let query = internal.query.postcode();
 		if ( search_query != null ) {
 			query.where("p.postcode like ? OR p.suburb like ?", search_query+"%", search_query+"%");
 		}

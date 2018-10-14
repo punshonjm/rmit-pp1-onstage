@@ -849,8 +849,14 @@ users.search = function(params) {
 		}
 
 		if ( ("user" in params) ) {
+			// For matches ignore same user type
 			expr[ids.st]("u.type_id <> ?", params.user.type_id);
 			query.where("u.id <> ?", params.user.user_id);
+		} else if ( ("type_id" in params) ) {
+			// Normal search criteria
+			if (params.type_id == 2 || params.type_id == 3) {
+				query.where("u.type_id = ?", params.type_id);
+			}
 		}
 
 		if ( ("age_bracket_id" in params) ) {

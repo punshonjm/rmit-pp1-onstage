@@ -54,6 +54,8 @@ appPage.search = function($this) {
 	$this.prop("disabled", true);
 
 	var data = {};
+
+	data.type_id = $("#type_id").val();
 	data.postcode_id = $("#postcode_id").val();
 	data.postcode_radius = $("#postcode_radius").val();
 	data.instruments = $("#instruments").val();
@@ -82,7 +84,7 @@ appPage.search = function($this) {
 
 			resp.results.users.map(function(user) {
 				let html = window.app.templates.row(user);
-				$("#search-results").append(html);
+				$("#search-results").html(html);
 			});
 		}).fail(function(error) {
 			console.log(error.responseJSON);

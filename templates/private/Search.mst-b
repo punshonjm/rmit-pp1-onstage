@@ -1,6 +1,31 @@
 <div class="row">
-    <div class="col-md-12 text-center">
-        <h3>{{this.profile.user_type}}
+    <div class="col-md-12">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2 col-sm-5 text-md-right text-sm-left my-auto">I'm looking for a</div>
+                <div class="col-lg-3 col-sm-7"><select id="type_id" class='form-control'>
+                    <option value="2" {{#compare this.profile.user_type "Musician"}}selected{{/compare}}>Band</option>
+                    <option value="3" {{#compare this.profile.user_type "Band"}}selected{{/compare}}>Musician</option>
+                </select></div>
+
+                <div class="col-lg-1 col-sm-2 text-md-right text-sm-left my-auto">within</div>
+                <div class="col-lg-1 col-sm-2 my-auto"><select id="postcode_radius" class='form-control'>
+                    <option value="10">10 km</option>
+                    <option value="25" selected>25 km</option>
+                    <option value="50">50 km</option>
+                    <option value="100">100 km</option>
+                </select></div>
+                <div class="col-lg-1 col-sm-1 my-auto text-md-right text-sm-left">of</div>
+                <div class="col-lg-4 col-sm-7 my-auto text-md-right text-sm-left">
+                    <select class="select2-postcode_id js-states form-control" id="postcode_id">
+                        <option value="{{this.profile.postcode_id}}" selected>{{this.profile.postcode}}</option>
+                    </select>
+                </div></div>
+            </div>
+        </div>
+        <h3>
+
+
             {{#compare this.profile.user_type "Band"}}
                 Let us know what type of Musicians you want to join your Band and we will do the looking for you!
             {{else}}
@@ -10,25 +35,7 @@
     </div>
     <div class="col-md-12" id="search-form">
         <div class="row">
-            <div class="col-md-6">
-                <div class="form-group bmd-form-group">
-                    <label for="instruments">Location:</label>
-                    <select class="select2-postcode_id js-states form-control" id="postcode_id">
-                        <option value="{{this.profile.postcode_id}}" selected>{{this.profile.postcode}}</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group bmd-form-group">
-                    <label>Located within:</label>
-                    <select id="postcode_radius" class='form-control'>
-                        <option value="10">10 km</option>
-                        <option value="25" selected>25 km</option>
-                        <option value="50">50 km</option>
-                        <option value="100">100 km</option>
-                    </select>
-                </div>
-            </div>
+
 
             <div class="col-md-4">
                 {{#compare this.profile.user_type "Band"}}
