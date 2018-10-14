@@ -11,6 +11,8 @@ const dbc = require("@modules/dbc");
 const aaa = require("@modules/aaa");
 const mail = require("@modules/mail");
 
+const model_list = require("@modules/dataModels/list");
+
 var users = {};
 
 users.details = function(user_id) {
@@ -786,14 +788,29 @@ users.search = function(params) {
 	let ids = {};
 
 	return Promise.resolve().then(() => {
-		if ( ("instrument" in params) && (typeof params.instrument == typeof "String") ) params.instruments = params.instruments.split(",");
-		if ( ("genre" in params) && (typeof params.genre == typeof "String") ) params.genre = params.genre.split(",");
+
+		if ( ("postcode" in params) && ("postcode_radius" in params) ) {
+			return model_list.postcode.match(params.postcode, params.postcode_radius);
+		} else {
+			return Promise.resolve([]);
+		}
+	}).then((postcode_list) => {
+		if (postcode_list.length > 0) {
+			params.postcode_list = postcode_list;
+		}
+		if ( ("instruments" in params) && (typeof params.instruments == typeof "String") ) params.instruments = params.instruments.split(",");
+		if ( ("genres" in params) && (typeof params.genres == typeof "String") ) params.genres = params.genres.split(",");
 
 		ids.st = ( ("searchType" in params) ) ? params.searchType : "and";
 
-		if ( ("genre" in params) && params.genre.length > 0 ) {
+		if ( ("genres" in params) && params.genres.length > 0 ) {
 			let query = internal.query.userGenres();
-			query.where("genre_id IN ?", params.genre);
+			query.where("genre_id IN ?", params.genres);
+
+			// Limit based on postcode list if exists
+			if ( ("postcode_list" in params) ) {
+				query.where("p.postcode_id IN ?", params.postcode_list);
+			}
 
 			return dbc.execute(query);
 		} else {
@@ -804,10 +821,15 @@ users.search = function(params) {
 			ids.genre = genreUsers.map(g => g.user_id);
 		}
 
-		if ( ("instrument" in params) && params.instrument.length > 0 ) {
+		if ( ("instruments" in params) && params.instruments.length > 0 ) {
 			let query = internal.query.userInstruments();
-			query.where("instrument_id IN ?", params.instrument);
+			query.where("instrument_id IN ?", params.instruments);
 
+			// Limit based on postcode list if exists
+			if ( ("postcode_list" in params) ) {
+				query.where("p.postcode_id IN ?", params.postcode_list);
+			}
+			console.log(query.toString());
 			return dbc.execute(query);
 		} else {
 			return Promise.resolve([]);
@@ -863,6 +885,11 @@ users.search = function(params) {
 		}
 		if ( ("required_music_experience_id" in params) ) {
 			expr[ids.st]("p.required_music_experience_id = ?", params.required_music_experience_id);
+		}
+
+		// Limit based on postcode list if exists
+		if ( ("postcode_list" in params) ) {
+			query.where("p.postcode_id IN ?", params.postcode_list);
 		}
 
 		// Only find users who are searching
@@ -1065,7 +1092,6 @@ internal.query.getUserEmail = function() {
     )
     return query;
 };
-
 internal.query.userGenres = function() {
 	let query = dbc.sql.select().fields([
 		"m.profile_id",

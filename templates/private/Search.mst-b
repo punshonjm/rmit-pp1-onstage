@@ -1,89 +1,109 @@
 <div class="row">
-	<div class="col-md-12 text-center">
-		<h3>
-			{{#compare this.profile.user_type "Band"}}
-			Let us know what type of Musicians you want to join your Band and we will do the looking for you!
-			{{else}}
-			Let us know what type of band you want to join for and we will do the looking for you!
-			{{/compare}}
-		</h3>
-	</div>
-	<div class="col-md-12" id="search-form">
-		<div class="row">
-			<div class="col-md-4">
-				{{#compare this.profile.user_type "Band"}}
-				<div class="form-group bmd-form-group">
-					<label for="instruments">Instrument/s Played *: (You may choose more than one)</label>
-					<select class="select2-instrument js-states form-control" id="instruments" multiple="multiple"></select>
-				</div>
-				{{else}}
-				<div class="form-group bmd-form-group">
-					<label for="id_genre_multiple">Genres</label>
-					<select class="select2-genre js-states form-control" id="genre" multiple="multiple"></select>
-				</div>
-				{{/compare}}
-			</div>
-			<div class="col-md-4">
-				<div class="form-group bmd-form-group">
-					<label>Preferred Age Bracket:</label>
-					<select id="preferred_age_bracket" class='form-control'>
-						<option value="">Choose...</option>
-						{{#each this.criteria.age_bracket}}
-						<option value="{{this.id}}">{{this.name}}</option>
-						{{/each}}
-					</select>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="form-group bmd-form-group">
-					<label>{{#compare this.profile.user_type "Musicians"}}Band's Music Experience{{else}}Required Music Experience{{/compare}}:</label>
-					<select id="music_experience" class='form-control'>
-						<option value="">Choose...</option>
-						{{#each this.criteria.music_experience}}
-						<option value="{{this.id}}">{{this.name}}</option>
-						{{/each}}
-					</select>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="form-group bmd-form-group">
-					<label>Past Gigs:</label>
-					<select id="past_gigs" class='form-control'>
-						<option value="">Choose...</option>
-						{{#each this.criteria.past_gig}}
-						<option value="{{this.id}}">{{this.name}}</option>
-						{{/each}}
-					</select>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="form-group bmd-form-group">
-					<label>{{#compare this.profile.user_type "Band"}}Gig Availability:{{else}}Gig Frequency{{/compare}}:</label>
-					<select id="required_gig_frequency" class='form-control selectpicker' data-style="btn btn-link">
-						<option value="">Choose...</option>
-						{{#each this.criteria.gig_frequency}}
-						<option value="{{this.id}}">{{this.name}}</option>
-						{{/each}}
-					</select>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="form-group bmd-form-group">
-					<label>Commitment Level:</label>
-					<select id="required_commitment_level" class='form-control selectpicker' data-style="btn btn-link">
-						<option value="">Choose...</option>
-						{{#each this.criteria.commitment_level}}
-						<option value="{{this.id}}">{{this.name}}</option>
-						{{/each}}
-					</select>
-				</div>
-			</div>
-			<div class="col-md-12 d-flex justify-content-end">
-				<button class="btn btn-primary btn-round btn-raised btn-lg" id="search">Search</button>
-			</div>
-		</div>
-	</div>
-	<div class="col-md-12" id="search-results"></div>
+    <div class="col-md-12 text-center">
+        <h3>{{this.profile.user_type}}
+            {{#compare this.profile.user_type "Band"}}
+                Let us know what type of Musicians you want to join your Band and we will do the looking for you!
+            {{else}}
+                Let us know what type of band you want to join for and we will do the looking for you!
+            {{/compare}}
+        </h3>
+    </div>
+    <div class="col-md-12" id="search-form">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group bmd-form-group">
+                    <label for="instruments">Location:</label>
+                    <select class="select2-postcode js-states form-control" id="postcode">
+                        <option value="{{this.profile.postcode_id}}" selected>{{this.profile.postcode}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group bmd-form-group">
+                    <label>Located within:</label>
+                    <select id="postcode_radius" class='form-control'>
+                        <option value="10">10 km</option>
+                        <option value="25" selected>25 km</option>
+                        <option value="50">50 km</option>
+                        <option value="100">100 km</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                {{#compare this.profile.user_type "Band"}}
+                    <div class="form-group bmd-form-group">
+                        <label for="instruments">Instrument/s Played *: (You may choose more than one)</label>
+                        <select class="select2-instrument js-states form-control" id="instruments" multiple="multiple"></select>
+                    </div>
+                {{else}}
+                    <div class="form-group bmd-form-group">
+                        <label for="id_genre_multiple">Genres</label>
+                        <select class="select2-genre js-states form-control" id="genre" multiple="multiple"></select>
+                    </div>
+                {{/compare}}
+            </div>
+            <div class="col-md-4">
+                <div class="form-group bmd-form-group">
+                    <label>Preferred Age Bracket:</label>
+                    <select id="preferred_age_bracket" class='form-control'>
+                        <option value="">Choose...</option>
+                        {{#each this.criteria.age_bracket}}
+                            <option value="{{this.id}}">{{this.name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group bmd-form-group">
+                    <label>{{#compare this.profile.user_type "Musicians"}}Band's Music Experience{{else}}Required Music Experience{{/compare}}:</label>
+                    <select id="music_experience" class='form-control'>
+                        <option value="">Choose...</option>
+                        {{#each this.criteria.music_experience}}
+                            <option value="{{this.id}}">{{this.name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group bmd-form-group">
+                    <label>Past Gigs:</label>
+                    <select id="past_gigs" class='form-control'>
+                        <option value="">Choose...</option>
+                        {{#each this.criteria.past_gig}}
+                            <option value="{{this.id}}">{{this.name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group bmd-form-group">
+                    <label>{{#compare this.profile.user_type "Band"}}Gig Availability:{{else}}Gig Frequency{{/compare}}:</label>
+                    <select id="required_gig_frequency" class='form-control selectpicker' data-style="btn btn-link">
+                        <option value="">Choose...</option>
+                        {{#each this.criteria.gig_frequency}}
+                            <option value="{{this.id}}">{{this.name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group bmd-form-group">
+                    <label>Commitment Level:</label>
+                    <select id="required_commitment_level" class='form-control selectpicker' data-style="btn btn-link">
+                        <option value="">Choose...</option>
+                        {{#each this.criteria.commitment_level}}
+                            <option value="{{this.id}}">{{this.name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-12 d-flex justify-content-end">
+                <button class="btn btn-primary btn-round btn-raised btn-lg" id="search">Search</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12" id="search-results"></div>
 </div>
 
 <script src="/public/js/app/user/search.js" type="text/javascript"></script>

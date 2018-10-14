@@ -233,7 +233,7 @@ internal.query.postcode_list = function(postcode_id,radius) {
 		)
 	);
 };
-internal.query.postcode_display = function() {
+internal.query.postcode = function() {
 	return dbc.sql.select().fields([
 		"p.id",
 		"CONCAT(p.suburb,' ', p.postcode, ', ', s.state_short) as name"

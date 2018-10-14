@@ -15,6 +15,21 @@ appPage.initialise = function() {
 		theme: "material"
 	});
 
+	$('.select2-postcode').select2({
+		minimumInputLength: 2,
+		placeholder: "Enter postcode or suburb...",
+		ajax: {
+			url: '/api/postcode/',
+			data: function (params) {
+				var query = {
+					search: params.term
+				};
+				return query;
+			}
+		},
+		theme: "material"
+	});
+
 	$('.select2-genre').select2({
 		placeholder: "Choose genres...",
 		ajax: {
@@ -38,6 +53,8 @@ appPage.search = function($this) {
 	$this.prop("disabled", true);
 
 	var data = {};
+	data.postcode = $("#postcode").val();
+	data.postcode_radius = $("#postcode_radius").val();
 	data.instruments = $("#instruments").val();
 	data.genre = $("#genre").val();
 	data.preferred_age_bracket_id = $("#preferred_age_bracket").val();
@@ -45,6 +62,7 @@ appPage.search = function($this) {
 	data.past_gigs_id = $("#past_gigs").val();
 	data.required_gig_frequency_id = $("#required_gig_frequency").val();
 	data.required_commitment_level_id = $("#required_commitment_level").val();
+
 
 	Object.keys(data).map(function(key) {
 		if ( (typeof data[key] == typeof undefined) || (data[key] == null) || (data[key] == "") ) delete data[key];

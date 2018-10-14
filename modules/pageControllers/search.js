@@ -5,6 +5,10 @@ module.exports = function(req) {
 
 	return Promise.resolve(data).then(() => {
 		data.criteria = {};
+		return models.users.details(req.user.user_id);
+	}).then((userDetails) => {
+		data.profile = userDetails;
+		data.pageName = userDetails.display_name;
 		return models.list.status.query();
 	}).then((items) => {
 		data.criteria.status = items;
