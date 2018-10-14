@@ -13,7 +13,7 @@
             <div class="col-md-6">
                 <div class="form-group bmd-form-group">
                     <label for="instruments">Location:</label>
-                    <select class="select2-postcode js-states form-control" id="postcode">
+                    <select class="select2-postcode_id js-states form-control" id="postcode_id">
                         <option value="{{this.profile.postcode_id}}" selected>{{this.profile.postcode}}</option>
                     </select>
                 </div>

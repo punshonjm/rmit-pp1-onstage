@@ -789,8 +789,8 @@ users.search = function(params) {
 
 	return Promise.resolve().then(() => {
 
-		if ( ("postcode" in params) && ("postcode_radius" in params) ) {
-			return model_list.postcode.match(params.postcode, params.postcode_radius);
+		if ( ("postcode_id" in params) && ("postcode_radius" in params) ) {
+			return model_list.postcode.match(params.postcode_id, params.postcode_radius);
 		} else {
 			return Promise.resolve([]);
 		}
@@ -921,6 +921,10 @@ users.match = function(params) {
 			return users.details(searchId);
 		}
 	}).then((userDetails) => {
+
+		// Based on users location, search within 100km
+		userDetails.postcode_radius = 100;
+
 		userDetails.instrument = userDetails.instruments.map(i => i.instrument_id);
 		userDetails.genre = userDetails.genres.map(g => g.genre_id);
 		userDetails.searchType = "or";

@@ -1,10 +1,12 @@
 var appPage = {};
 
 appPage.initialise = function() {
-	$('.select2-instrument').select2({
-		placeholder: "Choose instruments...",
+
+	$('.select2-postcode_id').select2({
+		minimumInputLength: 2,
+		placeholder: "Enter postcode or suburb...",
 		ajax: {
-			url: '/api/instrument/',
+			url: '/api/postcode/',
 			data: function (params) {
 				var query = {
 					search: params.term
@@ -15,11 +17,10 @@ appPage.initialise = function() {
 		theme: "material"
 	});
 
-	$('.select2-postcode').select2({
-		minimumInputLength: 2,
-		placeholder: "Enter postcode or suburb...",
+	$('.select2-instrument').select2({
+		placeholder: "Choose instruments...",
 		ajax: {
-			url: '/api/postcode/',
+			url: '/api/instrument/',
 			data: function (params) {
 				var query = {
 					search: params.term
