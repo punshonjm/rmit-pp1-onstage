@@ -54,7 +54,7 @@ appPage.search = function($this) {
 	$this.prop("disabled", true);
 
 	var data = {};
-	data.postcode = $("#postcode").val();
+	data.postcode_id = $("#postcode_id").val();
 	data.postcode_radius = $("#postcode_radius").val();
 	data.instruments = $("#instruments").val();
 	data.genre = $("#genre").val();
