@@ -25,6 +25,7 @@ users.details = function(user_id) {
 			query.where(dbc.sql.expr()
 				.or("u.id = ?", user_id)
 				.or("u.username = ?", user_id)
+				.or("p.profile_id = ?", user_id)
 			);
 
 			return dbc.getRow(query);
@@ -497,6 +498,14 @@ users.update = function(params) {
 		} else {
 			return Promise.resolve();
 		}
+	}).then(() => {
+		return user.details(params.user.profile_id);
+	}).then((userDetails) => {
+		if ( !("username" in params) ) {
+			params.username = userDetails.username;
+		}
+
+		return Promise.resolve();
 	}).then(() => {
 		if ( ("files" in params) && ("profile" in params.files) ) {
 			let img = params.files.profile[0];
@@ -1152,15 +1161,11 @@ internal.s3 = new AWS.S3({
 internal.images = {};
 internal.images.upload = function(user, image) {
 	return Promise.resolve().then(() => {
-		var params = {
-			 'Key': user,
-			 'Body': image
-		};
-
+		var params = { 'Key': user, 'Body': image };
 		return Promise.resolve(params);
 	}).then((params) => {
 		return new Promise(function(resolve, reject) {
-			internal.s3.upload(params, function(s3Err, data) {
+			internal.s3.upload(params, (s3Err, data) => {
 				if (s3Err) {
 					reject(s3Err);
 				} else {

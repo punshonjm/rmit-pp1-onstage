@@ -130,7 +130,7 @@
 					{{#each this.matches}}
 					<a class='d-block col-md-3' href="/user/{{this.user_id}}" target="_blank">
 						<div class='w-100 d-flex justify-content-center'>
-							<img class="img-raised rounded-circle img-fluid image-picture" style="min-height: 150px; min-width: 150px; max-height: 150px; max-width: 150px;" src="{{#if this.picture}}{{this.picture}}{{else}}https://epicattorneymarketing.com/wp-content/uploads/2016/07/Headshot-Placeholder-1.png{{/if}}" alt="{{this.display_name}}">
+							<img class="img-raised rounded-circle img-fluid" style="min-height: 150px; min-width: 150px; max-height: 150px; max-width: 150px;" src="{{#if this.picture}}{{this.picture}}{{else}}https://epicattorneymarketing.com/wp-content/uploads/2016/07/Headshot-Placeholder-1.png{{/if}}" alt="{{this.display_name}}">
 						</div>
 						<div class='w-100 text-center text-truncate'>
 							<p>{{this.display_name}}</p>
