@@ -499,7 +499,7 @@ users.update = function(params) {
 			return Promise.resolve();
 		}
 	}).then(() => {
-		return user.details(params.user.profile_id);
+		return users.details(params.user.profile_id);
 	}).then((userDetails) => {
 		if ( !("username" in params) ) {
 			params.username = userDetails.username;
