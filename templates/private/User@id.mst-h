@@ -57,7 +57,7 @@
 				<div class="row mt-5">
 					{{#if this.profile.instagram_user}}
 					<div class="col-md-3">
-						<a class="w-100 d-flex flex-column text-center justify-content-middle align-items-center" href="https://instragram.com/{{this.profile.instagram_user}}" target="_blank">
+						<a class="w-100 d-flex flex-column text-center justify-content-middle align-items-center" href="http://instragram.com/{{this.profile.instagram_user}}" target="_blank">
 							<span class='d-block w-100' style="color: #d6249f;">
 								<i class="fa fa-instagram fa-3x"></i>
 							</span>

@@ -57,8 +57,7 @@
 					             {{#compare this.profile.user_type "Band"}}
 					                 <div class="form-group bmd-form-group">
 					                     <label for="instruments">Instrument/s Played *: (You may choose more than one)</label>
-					                     <select class="select2-instrument js-states form-control" id="instruments"
-					                             multiple="multiple"></select>
+					                     <select class="select2-instrument js-states form-control" id="instruments" multiple="multiple"></select>
 					                 </div>
 					             {{else}}
 					                 <div class="form-group bmd-form-group">
@@ -103,8 +102,7 @@
 					         </div>
 					         <div class="col-md-4">
 					             <div class="form-group bmd-form-group">
-					                 <label>{{#compare this.profile.user_type "Band"}}
-					                     Gig Availability:{{else}}Gig Frequency{{/compare}}:</label>
+					                 <label>{{#compare this.profile.user_type "Band"}}Gig Availability:{{else}}Gig Frequency{{/compare}}:</label>
 					                 <select id="required_gig_frequency" class='form-control selectpicker' data-style="btn btn-link">
 					                     <option value="">Choose...</option>
 					                     {{#each this.criteria.gig_frequency}}
