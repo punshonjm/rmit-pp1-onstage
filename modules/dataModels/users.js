@@ -25,7 +25,7 @@ users.details = function(user_id) {
 			query.where(dbc.sql.expr()
 				.or("u.id = ?", user_id)
 				.or("u.username = ?", user_id)
-				.or("p.profile_id = ?", user_id)
+				.or("p.id = ?", user_id)
 			);
 
 			return dbc.getRow(query);
