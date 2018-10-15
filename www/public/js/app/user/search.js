@@ -87,6 +87,8 @@ appPage.search = function($this) {
 				let html = window.app.templates.row(user);
 				$("#search-results").append(html);
 			});
+
+			appPage.toggleStyle($(".toggle-style"), false);
 		}).fail(function(error) {
 			console.log(error.responseJSON);
 			$(".loading-indicator").find(".loading-status").text(error.responseJSON.message);
@@ -102,8 +104,37 @@ appPage.search = function($this) {
 	}
 };
 
+appPage.toggleStyle = function($this, toggle = true) {
+	// Update button
+	var style = null;
+	if ( toggle ) {
+		style = ($this.data().style == "lines") ? "grid" : "lines";
+		$this.find("i").hide();
+		$this.find("i.view-" + style).show();
+		$this.data("style", style);
+	} else {
+		style = $this.data().style;
+	}
+
+	if ( style == "grid" ) {
+		$("#search-results").find(".match").each(function() {
+			$(this).addClass("col-md-3").removeClass("col-md-12");
+			$(this).find(".description").hide();
+			$(this).find(".grid-item").show();
+		});
+	} else if ( style == "lines" ) {
+		$("#search-results").find(".match").each(function() {
+			$(this).removeClass("col-md-3").addClass("col-md-12");
+			$(this).find(".description").show();
+			$(this).find(".grid-item").hide();
+		});
+	}
+};
+
 $(document).ready(function() {
 	appPage.initialise();
 }).on("click", ".search-button", function() {
 	appPage.search($(this));
+}).on("click", ".toggle-style", function() {
+	appPage.toggleStyle($(this));
 })

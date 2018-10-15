@@ -1,13 +1,41 @@
-<a class="w-100 d-block my-3" href="/user/{{this.user_id}}" target="_blank">
-	<div class="row border-bottom border-top py-2">
-		<div class='col'>
-			<div class='w-100 d-flex justify-content-center'>
-				<img class="img-raised rounded-circle img-fluid" style="min-height: 150px; min-width: 150px; max-height: 150px; max-width: 150px;" src="{{#if this.picture}}{{this.picture}}{{else}}https://epicattorneymarketing.com/wp-content/uploads/2016/07/Headshot-Placeholder-1.png{{/if}}" alt="{{this.display_name}}">
+<div class="match col-md-12">
+	<a class="d-block my-3 text-dark unselectable" href="/user/{{this.user_id}}" target="_blank">
+		<div class="row border rounded py-3 m-0" style="box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;">
+			<div class='col d-flex align-items-center'>
+				<div class='w-100 d-flex justify-content-center'>
+					<img class="img-raised rounded-circle img-fluid image-picture" style="min-height: 150px; min-width: 150px; max-height: 150px; max-width: 150px;" src="{{#if this.picture}}{{this.picture}}{{else}}https://epicattorneymarketing.com/wp-content/uploads/2016/07/Headshot-Placeholder-1.png{{/if}}" alt="{{this.display_name}}">
+				</div>
+				<div class='w-100 text-center grid-item' style='display:none;'>
+					<h4 class='text-primary'>{{this.display_name}}</h4>
+				</div>
+			</div>
+			<div class='description col-md-9'>
+				<div class='row'>
+					<div class='col-md-12'>
+						<h4 class='text-primary'>
+							{{this.display_name}}
+							<small> <i class="material-icons">place</i> {{this.postcode}}</small>
+						</h4>
+					</div>
+					<div class='col-md-4'>
+						<p>{{this.percent}}% Match</p>
+						<h5 class='mb-0'>About</h5>
+						<p>{{this.about}}</p>
+					</div>
+					<div class='col-md-4 border-left'>
+						<h5>Instruments</h5>
+						<ul>
+							{{#each this.instruments}}<li>{{this.name}}</li>{{/each}}
+						</ul>
+					</div>
+					<div class='col-md-4 border-left'>
+						<h5>Genres</h5>
+						<ul>
+							{{#each this.genres}}<li>{{this.name}}</li>{{/each}}
+						</ul>
+					</div>
+				</div>
 			</div>
 		</div>
-		<div class='col-md-9' style="display: none;">
-			<h4>{{this.display_name}}</h4>
-			<p>{{this.about}}</p>
-		</div>
-	</div>
-</a>
+	</a>
+</div>

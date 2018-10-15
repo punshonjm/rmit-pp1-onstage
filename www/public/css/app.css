@@ -19,6 +19,19 @@ body, wrapper {
 	max-width: 300px;
 }
 
+*.unselectable {
+   -moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+
+   /*
+     Introduced in IE 10.
+     See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
+   */
+   -ms-user-select: none;
+   user-select: none;
+}
+
 /* Password Strength Meter */
 .password-meter {
 	padding: 2px 0;
