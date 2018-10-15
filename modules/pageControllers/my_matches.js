@@ -6,10 +6,8 @@ module.exports = function(req) {
 
 	return Promise.resolve().then(() => {
 		data.criteria = {};
-		console.log(req.user);
 		return models.users.match(req);
 	}).then((matchData) => {
-		// Limit to 10 matches for profile page
 		data.match_count = matchData.matches.length;
 		data.matches = matchData.matches;
 

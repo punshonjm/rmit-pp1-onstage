@@ -592,11 +592,7 @@ users.update = function(params) {
 			profile.genres = params.genres;
 		}
 
-		return Promise.resolve({
-			message: "Successfully updated your profile!",
-			user: user,
-			profile: profile
-		});
+		return Promise.resolve({ message: "Successfully updated your profile!", user: user, profile: profile });
 	}).catch((error) => {
 		if ( files.length > 0 ) {
 			files.map((file)  => fs.unlinkSync(file) );
