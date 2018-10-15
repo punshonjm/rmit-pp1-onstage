@@ -43,6 +43,9 @@
 					</div>
 					<div class='row'>
 						<div class='col-md-12'>
+							{{#each this.profile.instruments}}
+								<span data-id="{{this.instrument_id}}">{{this.name}}</span>
+							{{/each}}
 							<div class="description text-left">
 								<h6>About {{#compare this.profile.user_type "Musician"}}Me{{else}}Our Band{{/compare}}</h6>
 								<p id="about-data" data-id="{{this.profile.about}}">{{this.profile.about}}</p>

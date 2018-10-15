@@ -8,7 +8,7 @@ module.exports = function(req) {
 		data.criteria = {};
 		return models.users.details(req.user.user_id);
 	}).then((userDetails) => {
-		data.profile = userDetails;
+		data.profile = _.cloneDeep(userDetails);
 		data.pageName = userDetails.display_name;
 
 		return models.users.match(userDetails);
