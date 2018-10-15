@@ -20,12 +20,15 @@
 	<div class="match col-md-12">
 		<a class="d-block my-3 text-dark unselectable" href="/user/{{this.user_id}}" target="_blank">
 			<div class="row border rounded py-3 m-0" style="box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;">
-				<div class='col d-flex align-items-center'>
+				<div class='col d-flex flex-column align-items-center'>
 					<div class='w-100 d-flex justify-content-center'>
 						<img class="img-raised rounded-circle img-fluid image-picture" style="min-height: 150px; min-width: 150px; max-height: 150px; max-width: 150px;" src="{{#if this.picture}}{{this.picture}}{{else}}https://epicattorneymarketing.com/wp-content/uploads/2016/07/Headshot-Placeholder-1.png{{/if}}" alt="{{this.display_name}}">
 					</div>
 					<div class='w-100 text-center grid-item' style='display:none;'>
-						<h4 class='text-primary'>{{this.display_name}}</h4>
+						<h4 class='text-primary'>
+							{{this.display_name}}
+							<small class='d-block'> <i class="material-icons">place</i> {{this.postcode}}</small>
+						</h4>
 					</div>
 				</div>
 				<div class='description col-md-9'>
