@@ -15,12 +15,12 @@ const model_list = require("@modules/dataModels/list");
 
 var users = {};
 
-users.details = function(user_id) {
+users.details = function (user_id) {
 	// Get Details for specific user
 	var user = {};
 
 	return Promise.resolve().then(() => {
-		if ( user_id != null ) {
+		if (user_id != null) {
 			let query = internal.query.user();
 			query.where(dbc.sql.expr()
 				.or("u.id = ?", user_id)
@@ -30,13 +30,13 @@ users.details = function(user_id) {
 
 			return dbc.getRow(query);
 		} else {
-			return Promise.reject({ message: "Provided an invalid ID or username." });
+			return Promise.reject({message: "Provided an invalid ID or username."});
 		}
 	}).then((row) => {
-		if ( row ) {
+		if (row) {
 			user = _.cloneDeep(row);
 
-			if ( user.profile_id != null ) {
+			if (user.profile_id != null) {
 				let query = internal.query.userGenres();
 				query.where("m.profile_id = ?", user.profile_id);
 				return dbc.execute(query);
@@ -44,14 +44,14 @@ users.details = function(user_id) {
 				return Promise.resolve(false);
 			}
 		} else {
-			return Promise.reject({ message: "Failed to find user." });
+			return Promise.reject({message: "Failed to find user."});
 		}
 	}).then((rows) => {
-		if ( rows ) {
+		if (rows) {
 			user.genres = rows;
 		}
 
-		if ( user.profile_id != null ) {
+		if (user.profile_id != null) {
 			let query = internal.query.userInstruments();
 			query.where("m.profile_id = ?", user.profile_id);
 			return dbc.execute(query);
@@ -59,7 +59,7 @@ users.details = function(user_id) {
 			return Promise.resolve(false);
 		}
 	}).then((rows) => {
-		if ( rows ) {
+		if (rows) {
 			user.instruments = rows;
 		}
 
@@ -68,111 +68,125 @@ users.details = function(user_id) {
 	});
 }
 
-users.register = function(params) {
+users.register = function (params) {
 	let row = {}, profile = {}, pwd = {}, verify = {}, errors = [], files = [];
-	let allowedTypes = [ "image/png", "image/jpeg" ];
+	let allowedTypes = ["image/png", "image/jpeg"];
 
 	return Promise.resolve().then(() => {
-		if ( ("files" in params) && ("profile" in params.files) ) {
+		if (("files" in params) && ("profile" in params.files)) {
 			files.push(params.files.profile[0].path);
 		}
-		if ( ("files" in params) && ("background" in params.files) ) {
+		if (("files" in params) && ("background" in params.files)) {
 			files.push(params.files.background[0].path);
 		}
 
-    	// Begin server side validation
-        if (!("username" in params)) errors.push({key: 'username', error: 'Username must not be empty.'});
-        if (!("password" in params)) errors.push({key: 'password', error: 'Password must not be empty.'});
-        if (!("passwordConfirm" in params)) errors.push({key: 'passwordConfirm', error: 'Password confirm must not be empty.'});
-        if (!("email" in params)) errors.push({key: 'email', error: 'Email must not be empty.'});
-        if (!("agree" in params)) errors.push({key: 'agree', error: 'You must agree to the terms and conditions.'});
+		// Begin server side validation
+		if (!("username" in params)) errors.push({key: 'username', error: 'Username must not be empty.'});
+		if (!("password" in params)) errors.push({key: 'password', error: 'Password must not be empty.'});
+		if (!("passwordConfirm" in params)) errors.push({
+			key: 'passwordConfirm',
+			error: 'Password confirm must not be empty.'
+		});
+		if (!("email" in params)) errors.push({key: 'email', error: 'Email must not be empty.'});
+		if (!("agree" in params)) errors.push({key: 'agree', error: 'You must agree to the terms and conditions.'});
 
-		if ( !/^[a-zA-Z0-9]+[a-zA-Z0-9_.-]*$/.test(params.username) ) {
+		if (!/^[a-zA-Z0-9]+[a-zA-Z0-9_.-]*$/.test(params.username)) {
 			errors.push({key: 'username', error: 'Username contains invalid characters.'});
 		}
 
-        // Don't continue if there are already errors
-        if ( errors.length > 0 ) return Promise.reject({ errorSet: errors });
+		// Don't continue if there are already errors
+		if (errors.length > 0) return Promise.reject({errorSet: errors});
 
-		if ( params.password !== params.passwordConfirm ) errors.push({key: 'passwordConfirm', error: 'Passwords do not match.'});
+		if (params.password !== params.passwordConfirm) errors.push({
+			key: 'passwordConfirm',
+			error: 'Passwords do not match.'
+		});
 
 		// Check if username is taken
-        if ( params.username !== '' ) {
-        	let query = internal.query.getUserUsername();
-            query.where("u.username = ?", params.username);
-            return dbc.execute(query);
-        } else {
-            errors.push({key: 'username', error: 'Username cannot be empty.'});
-            return Promise.reject({ errorSet: errors });
+		if (params.username !== '') {
+			let query = internal.query.getUserUsername();
+			query.where("u.username = ?", params.username);
+			return dbc.execute(query);
+		} else {
+			errors.push({key: 'username', error: 'Username cannot be empty.'});
+			return Promise.reject({errorSet: errors});
 		}
-    }).then((result) => {
-    	// If records returned then username already taken
-    	if (result.length > 0) errors.push({key: 'username', error: 'Username has already been taken. Please enter another.'});
+	}).then((result) => {
+		// If records returned then username already taken
+		if (result.length > 0) errors.push({
+			key: 'username',
+			error: 'Username has already been taken. Please enter another.'
+		});
 
-        // Check if email is taken
-        if ( params.email !== '' ) {
-            let query = internal.query.getUserEmail();
-            query.where("u.email = ?", params.email);
-            return dbc.execute(query);
-        } else {
-            errors.push({key: 'email', error: 'Email cannot be empty.'});
-            return Promise.reject({ errorSet: errors });
-        }
-    }).then((result) => {
-        // If records returned then email already taken
-        if (result.length > 0) errors.push({key: 'email', error: 'Email has already been used.'});
+		// Check if email is taken
+		if (params.email !== '') {
+			let query = internal.query.getUserEmail();
+			query.where("u.email = ?", params.email);
+			return dbc.execute(query);
+		} else {
+			errors.push({key: 'email', error: 'Email cannot be empty.'});
+			return Promise.reject({errorSet: errors});
+		}
+	}).then((result) => {
+		// If records returned then email already taken
+		if (result.length > 0) errors.push({key: 'email', error: 'Email has already been used.'});
 
-        // Reject if any errors exist
-    	if (errors.length > 0) {
-			return Promise.reject({ errorSet: errors });
+		// Reject if any errors exist
+		if (errors.length > 0) {
+			return Promise.reject({errorSet: errors});
 		} else {
 			return Promise.resolve();
 		}
 	}).then(() => {
-		if ( ("files" in params) && ("profile" in params.files) ) {
+		if (("files" in params) && ("profile" in params.files)) {
 			let img = params.files.profile[0];
 
-			if ( allowedTypes.includes(img.mimetype) ) {
-				return new Promise(function(resolve, reject) {
+			if (allowedTypes.includes(img.mimetype)) {
+				return new Promise(function (resolve, reject) {
 					fs.readFile(img.path, (error, file) => {
-						if ( error ) {
+						if (error) {
 							reject(error);
 						}
 
 						let imgName = CryptoJS.MD5(params.username + "_pp").toString();
 						imgName += (img.mimetype == "image/png") ? ".png" : ".jpg";
-						resolve( internal.images.upload(imgName, file) );
+						resolve(internal.images.upload(imgName, file));
 					});
 				});
 			} else {
-				return Promise.reject({ errorSet: [{ key: "profile", message: "Profile image must be a JPEG or PNG." }] });
+				return Promise.reject({errorSet: [{key: "profile", message: "Profile image must be a JPEG or PNG."}]});
 			}
 		} else {
 			return Promise.resolve(null);
 		}
 
 	}).then((profileLoc) => {
-		if ( profileLoc != null ) {
+		if (profileLoc != null) {
 			profile.picture = profileLoc;
 		}
 
-		if ( ("files" in params) && ("background" in params.files) ) {
+		if (("files" in params) && ("background" in params.files)) {
 			let img = params.files.background[0];
 
-			if ( allowedTypes.includes(img.mimetype) ) {
-				return new Promise(function(resolve, reject) {
+			if (allowedTypes.includes(img.mimetype)) {
+				return new Promise(function (resolve, reject) {
 					fs.readFile(img.path, (error, file) => {
-						if ( error ) {
+						if (error) {
 							reject(error);
 						}
 
 						let imgName = CryptoJS.MD5(params.username + "_bg").toString();
 						imgName += (img.mimetype == "image/png") ? ".png" : ".jpg";
-						resolve( internal.images.upload(imgName, file) );
+						resolve(internal.images.upload(imgName, file));
 					});
 				});
 			} else {
-				return Promise.reject({ errorSet: [{ key: "background", message: "Background image must be a JPEG or PNG." }] });
+				return Promise.reject({
+					errorSet: [{
+						key: "background",
+						message: "Background image must be a JPEG or PNG."
+					}]
+				});
 			}
 		} else {
 			return Promise.resolve(null);
@@ -180,7 +194,7 @@ users.register = function(params) {
 
 		return Promise.resolve();
 	}).then((bgLoc) => {
-		if ( bgLoc != null ) {
+		if (bgLoc != null) {
 			profile.background = bgLoc;
 		}
 
@@ -208,7 +222,7 @@ users.register = function(params) {
 		profile.status_id = params.status;
 		profile.sql_updated_by = res.insertId;
 
-		if ( params.type == "band" ) {
+		if (params.type == "band") {
 			profile.band_size = params.band_size;
 			profile.members_needed = params.members_needed;
 			profile.preference_age_bracket_id = params.preferred_age_bracket;
@@ -226,8 +240,8 @@ users.register = function(params) {
 		pwd.user_id = profile.user_id;
 
 		// Need to self-param query due to password field being stored blob
-		let query = { text: "INSERT INTO ebdb.password SET ?", values: pwd };
- 		return dbc.execute(query);
+		let query = {text: "INSERT INTO ebdb.password SET ?", values: pwd};
+		return dbc.execute(query);
 	}).then((res) => {
 		let genres = [];
 		params.genre.split(",").map((gnr) => {
@@ -251,7 +265,7 @@ users.register = function(params) {
 		let query = dbc.sql.insert().into("ebdb.profile_instrument_map").setFieldsRows(instruments);
 		return dbc.execute(query);
 	}).then((res) => {
-		return internal.verificationEmail( profile.user_id, row.email, row.display_name );
+		return internal.verificationEmail(profile.user_id, row.email, row.display_name);
 	}).then((res) => {
 		let details = {
 			username: params.username,
@@ -260,7 +274,7 @@ users.register = function(params) {
 
 		return aaa.login(details);
 	}).then((user) => {
-		if ( files.length > 0 ) files.map((file)  => fs.unlinkSync(file) );
+		if (files.length > 0) files.map((file) => fs.unlinkSync(file));
 		files = [];
 
 		let stagePass = {
@@ -270,11 +284,11 @@ users.register = function(params) {
 
 		return Promise.resolve(stagePass);
 	}).catch((error) => {
-		if ( files.length > 0 ) {
-			files.map((file)  => fs.unlinkSync(file) );
+		if (files.length > 0) {
+			files.map((file) => fs.unlinkSync(file));
 		}
 
-		if ( ("user_id" in profile) ) {
+		if (("user_id" in profile)) {
 			let query = dbc.sql.delete().from("ebdb.user").where("id = ?", profile.user_id);
 			dbc.execute(query);
 		}
@@ -283,128 +297,128 @@ users.register = function(params) {
 	});
 };
 
-users.update = function(params) {
+users.update = function (params) {
 	let user = {}, profile = {}, errors = [], files = [];
-	let allowedTypes = [ "image/png", "image/jpeg" ];
+	let allowedTypes = ["image/png", "image/jpeg"];
 
 	return Promise.resolve().then(() => {
-		if ( ("files" in params) && ("profile" in params.files) ) {
+		if (("files" in params) && ("profile" in params.files)) {
 			files.push(params.files.profile[0].path);
 			profile.picture = "/";
 		}
-		if ( ("files" in params) && ("background" in params.files) ) {
+		if (("files" in params) && ("background" in params.files)) {
 			files.push(params.files.background[0].path);
 			profile.background = "/";
 		}
 
-		if ( "username" in params ) {
-			if ( params.user.username != params.username ) {
+		if ("username" in params) {
+			if (params.user.username != params.username) {
 				user.username = params.username;
 			} else {
 				delete params.username;
 			}
 		}
 
-		if ( "email" in params ) {
-			if ( params.user.email != params.email ) {
+		if ("email" in params) {
+			if (params.user.email != params.email) {
 				user.email = params.email;
 			} else {
 				delete params.email;
 			}
 		}
 
-		if ( "display_name" in params ) {
+		if ("display_name" in params) {
 			user.display_name = params.display_name;
 		}
 
-		if ( "gender" in params ) {
+		if ("gender" in params) {
 			profile.gender_id = params.gender;
 		}
 
-		if ( "status" in params ) {
+		if ("status" in params) {
 			profile.status_id = params.status;
 		}
 
-		if ( "postcode_id" in params ) {
+		if ("postcode_id" in params) {
 			profile.postcode_id = params.postcode_id;
 		}
-		if ( "about" in params ) {
+		if ("about" in params) {
 			profile.about = params.about;
 		}
-		if ( "age_bracket_id" in params ) {
+		if ("age_bracket_id" in params) {
 			profile.age_bracket_id = params.age_bracket_id;
 		}
 
-		if ( "past_gig_id" in params ) {
+		if ("past_gig_id" in params) {
 			profile.past_gig_id = params.past_gig_id;
 		}
-		if ( "music_experience_id" in params ) {
+		if ("music_experience_id" in params) {
 			profile.music_experience_id = params.music_experience_id;
 		}
-		if ( "commitment_level_id" in params ) {
+		if ("commitment_level_id" in params) {
 			profile.commitment_level_id = params.commitment_level_id;
 		}
-		if ( "gig_frequency_id" in params ) {
+		if ("gig_frequency_id" in params) {
 			profile.gig_frequency_id = params.gig_frequency_id;
 		}
 
-		if ( "instagram_user" in params ) {
+		if ("instagram_user" in params) {
 			profile.instagram_user = params.instagram_user;
 		}
-		if ( "facebook_user" in params ) {
+		if ("facebook_user" in params) {
 			profile.facebook_user = params.facebook_user;
 		}
-		if ( "twitter_user" in params ) {
+		if ("twitter_user" in params) {
 			profile.twitter_user = params.twitter_user;
 		}
-		if ( "youtube_user" in params ) {
+		if ("youtube_user" in params) {
 			profile.youtube_user = params.youtube_user;
 		}
 
-		if ( "band_size" in params ) {
+		if ("band_size" in params) {
 			profile.band_size = params.band_size;
 		}
-		if ( "members_needed" in params ) {
+		if ("members_needed" in params) {
 			profile.members_needed = params.members_needed;
 		}
-		if ( "preference_age_bracket_id" in params ) {
+		if ("preference_age_bracket_id" in params) {
 			profile.preference_age_bracket_id = (params.preference_age_bracket_id == '') ? null : params.preference_age_bracket_id;
 		}
 
-		if ( "required_music_experience_id" in params ) {
+		if ("required_music_experience_id" in params) {
 			profile.required_music_experience_id = params.required_music_experience_id;
 		}
-		if ( "required_past_gig_id" in params ) {
+		if ("required_past_gig_id" in params) {
 			profile.required_past_gig_id = params.required_past_gig_id;
 		}
-		if ( "required_commitment_level_id" in params ) {
+		if ("required_commitment_level_id" in params) {
 			profile.required_commitment_level_id = (params.required_commitment_level_id == '') ? null : params.required_commitment_level_id;
 		}
-		if ( "required_gig_frequency_id" in params ) {
+		if ("required_gig_frequency_id" in params) {
 			profile.required_gig_frequency_id = (params.required_gig_frequency_id == '') ? null : params.required_gig_frequency_id;
 		}
 
-		if ( "remove_picture" in params ) {
+		if ("remove_picture" in params) {
 			profile.picture = null;
 		}
 
-		if ( "remove_background" in params ) {
+		if ("remove_background" in params) {
 			profile.background = null;
 		}
 
-		if ( errors.length > 0 ) {
-			return Promise.reject({ errorSet: errors });
-		} else if ( Object.keys(user).length == 0 && Object.keys(profile).length == 0 ) {
-			return Promise.reject({ message: "Nothing to update!" });
+		if (errors.length > 0) {
+			return Promise.reject({errorSet: errors});
+		} else if (Object.keys(user).length == 0 && Object.keys(profile).length == 0 && Object.keys(params.instruments).length == 0 && Object.keys(params.genres).length == 0) {
+			return Promise.reject({message: "Nothing to update!"});
 		} else {
 			return Promise.resolve();
 		}
 	}).then(() => {
 		// Check if username is taken
-		if ( "username" in params ) {
+		if ("username" in params) {
 
 			// Only validate if attempting to update
-			if ( params.username == "") {
+			if (params.username == "") {
 				errors.push({key: 'username', error: 'Username cannot be empty.'});
 				return Promise.reject({errorSet: errors});
 			}
@@ -426,10 +440,10 @@ users.update = function(params) {
 		}
 
 		// Check if email is taken
-		if ( "email" in params ) {
+		if ("email" in params) {
 
 			// Only validate if attempting to update
-			if ( params.email == "") {
+			if (params.email == "") {
 				errors.push({key: 'email', error: 'Email cannot be empty.'});
 				return Promise.reject({errorSet: errors});
 			}
@@ -449,12 +463,12 @@ users.update = function(params) {
 
 		// Reject if any errors exist
 		if (errors.length > 0) {
-			return Promise.reject({ errorSet: errors });
+			return Promise.reject({errorSet: errors});
 		} else {
 			return Promise.resolve();
 		}
 	}).then(() => {
-		if ( "genres" in params ) {
+		if ("genres" in params) {
 			return Promise.resolve().then(() => {
 				let query = dbc.sql.delete().from("ebdb.profile_genre_map").where("profile_id = ?", params.user.profile_id);
 				return dbc.execute(query);
@@ -477,7 +491,7 @@ users.update = function(params) {
 			return Promise.resolve();
 		}
 	}).then((res) => {
-		if ( "instruments" in params ) {
+		if ("instruments" in params) {
 			return Promise.resolve().then(() => {
 				let query = dbc.sql.delete().from("ebdb.profile_instrument_map").where("profile_id = ?", params.user.profile_id);
 				return dbc.execute(query);
@@ -501,56 +515,56 @@ users.update = function(params) {
 	}).then(() => {
 		return users.details(params.user.profile_id);
 	}).then((userDetails) => {
-		if ( !("username" in params) ) {
+		if (!("username" in params)) {
 			params.username = userDetails.username;
 		}
 
 		return Promise.resolve();
 	}).then(() => {
-		if ( ("files" in params) && ("profile" in params.files) ) {
+		if (("files" in params) && ("profile" in params.files)) {
 			let img = params.files.profile[0];
 
-			if ( allowedTypes.includes(img.mimetype) ) {
-				return new Promise(function(resolve, reject) {
+			if (allowedTypes.includes(img.mimetype)) {
+				return new Promise(function (resolve, reject) {
 					fs.readFile(img.path, (error, file) => {
-						if ( error ) {
+						if (error) {
 							reject(error);
 						}
 
 						let imgName = CryptoJS.MD5(params.username + "_pp").toString();
 						imgName += (img.mimetype == "image/png") ? ".png" : ".jpg";
-						resolve( internal.images.upload(imgName, file) );
+						resolve(internal.images.upload(imgName, file));
 					});
 				});
 			} else {
-				return Promise.reject({ message: "Profile image must be a JPEG or PNG." });
+				return Promise.reject({message: "Profile image must be a JPEG or PNG."});
 			}
 		} else {
 			return Promise.resolve(null);
 		}
 
 	}).then((profileLoc) => {
-		if ( profileLoc != null ) {
+		if (profileLoc != null) {
 			profile.picture = profileLoc;
 		}
 
-		if ( ("files" in params) && ("background" in params.files) ) {
+		if (("files" in params) && ("background" in params.files)) {
 			let img = params.files.background[0];
 
-			if ( allowedTypes.includes(img.mimetype) ) {
-				return new Promise(function(resolve, reject) {
+			if (allowedTypes.includes(img.mimetype)) {
+				return new Promise(function (resolve, reject) {
 					fs.readFile(img.path, (error, file) => {
-						if ( error ) {
+						if (error) {
 							reject(error);
 						}
 
 						let imgName = CryptoJS.MD5(params.username + "_bg").toString();
 						imgName += (img.mimetype == "image/png") ? ".png" : ".jpg";
-						resolve( internal.images.upload(imgName, file) );
+						resolve(internal.images.upload(imgName, file));
 					});
 				});
 			} else {
-				return Promise.reject({ message: "Background image must be a JPEG or PNG." });
+				return Promise.reject({message: "Background image must be a JPEG or PNG."});
 			}
 		} else {
 			return Promise.resolve(null);
@@ -558,51 +572,51 @@ users.update = function(params) {
 
 		return Promise.resolve();
 	}).then((bgLoc) => {
-		if ( bgLoc != null ) {
+		if (bgLoc != null) {
 			profile.background = bgLoc;
 		}
 
-		if ( Object.keys(user).length > 0) {
+		if (Object.keys(user).length > 0) {
 			let query = dbc.sql.update().table("ebdb.user").setFields(user).where("id = ?", params.user.user_id);
 			return dbc.execute(query);
 		} else {
 			return Promise.resolve();
 		}
 	}).then(() => {
-		if ( Object.keys(profile).length > 0) {
+		if (Object.keys(profile).length > 0) {
 			let query = dbc.sql.update().table("ebdb.profile").setFields(profile).where("user_id = ?", params.user.user_id);
 			return dbc.execute(query);
 		} else {
 			return Promise.resolve();
 		}
 	}).then(() => {
-		if ( ("email" in params) && params.user.email != params.email ) {
-			return internal.verificationEmail( params.user.user_id, params.email, params.user.display_name, "newEmail" );
+		if (("email" in params) && params.user.email != params.email) {
+			return internal.verificationEmail(params.user.user_id, params.email, params.user.display_name, "newEmail");
 		} else {
 			return Promise.resolve();
 		}
 	}).then((res) => {
-		if ( files.length > 0 ) files.map((file)  => fs.unlinkSync(file) );
+		if (files.length > 0) files.map((file) => fs.unlinkSync(file));
 		files = [];
 
-		if ( "instruments" in params ) {
+		if ("instruments" in params) {
 			profile.instruments = params.instruments;
 		}
-		if ( "genres" in params ) {
+		if ("genres" in params) {
 			profile.genres = params.genres;
 		}
 
-		return Promise.resolve({ message: "Successfully updated your profile!", user: user, profile: profile });
+		return Promise.resolve({message: "Successfully updated your profile!", user: user, profile: profile});
 	}).catch((error) => {
-		if ( files.length > 0 ) {
-			files.map((file)  => fs.unlinkSync(file) );
+		if (files.length > 0) {
+			files.map((file) => fs.unlinkSync(file));
 		}
 
 		return Promise.reject(error);
 	})
 }
 
-users.new_verification = function(user) {
+users.new_verification = function (user) {
 	let verify = {};
 
 	return Promise.resolve().then(() => {
@@ -624,24 +638,33 @@ users.new_verification = function(user) {
 	});
 };
 
-users.change_password = function(params) {
+users.change_password = function (params) {
 	return Promise.resolve().then(() => {
 		var errors = [];
 
-		if ( params.current == "" ) errors.push({ key: 'current_password', error: 'Current password must not be empty.'});
-        if ( params.password == "" ) errors.push({ key: 'password_new', error: 'New password must not be empty.'});
-        if ( params.passwordConfirm == "" ) errors.push({ key: 'password_confirm_new', error: 'New password confirm retyped must not be empty.'});
+		if (params.current == "") errors.push({key: 'current_password', error: 'Current password must not be empty.'});
+		if (params.password == "") errors.push({key: 'password_new', error: 'New password must not be empty.'});
+		if (params.passwordConfirm == "") errors.push({
+			key: 'password_confirm_new',
+			error: 'New password confirm retyped must not be empty.'
+		});
 
-		if ( params.password !== params.passwordConfirm ) errors.push({ key: 'password_confirm_new', error: 'Passwords do not match.'});
-		if ( params.password == params.current ) errors.push({ key: 'password_new', error: "You can't use the same password." });
+		if (params.password !== params.passwordConfirm) errors.push({
+			key: 'password_confirm_new',
+			error: 'Passwords do not match.'
+		});
+		if (params.password == params.current) errors.push({
+			key: 'password_new',
+			error: "You can't use the same password."
+		});
 
-		if ( errors.length > 0 ) {
-			return Promise.reject({ errorSet: errors });
+		if (errors.length > 0) {
+			return Promise.reject({errorSet: errors});
 		} else {
 			return Promise.resolve();
 		}
 	}).then(() => {
-		return aaa.login({ username: params.user.username, password: params.current });
+		return aaa.login({username: params.user.username, password: params.current});
 	}).then(() => {
 		return aaa.hashPassword(params.password);
 	}).then((pwdHash) => {
@@ -650,7 +673,7 @@ users.change_password = function(params) {
 		pwd.user_id = params.user.user_id;
 
 		// Need to self-param query due to password field being stored blob
-		let query = { text: "INSERT INTO ebdb.password SET ?", values: pwd };
+		let query = {text: "INSERT INTO ebdb.password SET ?", values: pwd};
 		return dbc.execute(query);
 	}).then((res) => {
 		let query = dbc.sql.update().table("ebdb.password").setFields({
@@ -662,31 +685,40 @@ users.change_password = function(params) {
 
 		return dbc.execute(query);
 	}).then((res) => {
-		return Promise.resolve({ message: "Successfully update password!" });
+		return Promise.resolve({message: "Successfully update password!"});
 	}).catch((error) => {
-		if ( "authenticationError" in error ) {
-			error.errorSet = [ { key: "current_password", message: "Please enter your current password correctly" } ];
+		if ("authenticationError" in error) {
+			error.errorSet = [{key: "current_password", message: "Please enter your current password correctly"}];
 		}
 
 		return Promise.reject(error);
 	});
 };
 
-users.set_password = function(params) {
+users.set_password = function (params) {
 	let row = {};
 
 	return Promise.resolve().then(() => {
 		var errors = [];
 
-		if ( params.current == "" ) errors.push({ key: 'current_password', error: 'Current password must not be empty.'});
-        if ( params.password == "" ) errors.push({ key: 'password_new', error: 'New password must not be empty.'});
-        if ( params.passwordConfirm == "" ) errors.push({ key: 'password_confirm_new', error: 'New password confirm retyped must not be empty.'});
+		if (params.current == "") errors.push({key: 'current_password', error: 'Current password must not be empty.'});
+		if (params.password == "") errors.push({key: 'password_new', error: 'New password must not be empty.'});
+		if (params.passwordConfirm == "") errors.push({
+			key: 'password_confirm_new',
+			error: 'New password confirm retyped must not be empty.'
+		});
 
-		if ( params.password !== params.passwordConfirm ) errors.push({ key: 'password_confirm_new', error: 'Passwords do not match.'});
-		if ( params.password == params.current ) errors.push({ key: 'password_new', error: "You can't use the same password." });
+		if (params.password !== params.passwordConfirm) errors.push({
+			key: 'password_confirm_new',
+			error: 'Passwords do not match.'
+		});
+		if (params.password == params.current) errors.push({
+			key: 'password_new',
+			error: "You can't use the same password."
+		});
 
-		if ( errors.length > 0 ) {
-			return Promise.reject({ errorSet: errors });
+		if (errors.length > 0) {
+			return Promise.reject({errorSet: errors});
 		} else {
 			return Promise.resolve();
 		}
@@ -698,22 +730,22 @@ users.set_password = function(params) {
 		).where(dbc.sql.expr()
 			.and("user_id = ?", params.user.user_id)
 			.and("reset_used = 1")
-			.and("reset_expires > ?", moment().subtract(10, "minutes").format("YYYY-MM-DD HH:mm:ss") )
+			.and("reset_expires > ?", moment().subtract(10, "minutes").format("YYYY-MM-DD HH:mm:ss"))
 		);
 
 		return dbc.getRow(query);
 	}).then((user) => {
-		if ( !user ) {
-			return Promise.reject({ failed: true, message: "Invalid request" });
+		if (!user) {
+			return Promise.reject({failed: true, message: "Invalid request"});
 		} else {
 			row.reset_id = user.id;
 			return aaa.checkPassword(params.current, user.reset_token);
 		}
 	}).then((pwdVerified) => {
-		if ( pwdVerified ) {
+		if (pwdVerified) {
 			return aaa.hashPassword(params.password);
 		} else {
-			return Promise.reject({ failed: true, message: "Invalid token" });
+			return Promise.reject({failed: true, message: "Invalid token"});
 		}
 	}).then((pwdHash) => {
 		let pwd = {};
@@ -721,7 +753,7 @@ users.set_password = function(params) {
 		pwd.user_id = params.user.user_id;
 
 		// Need to self-param query due to password field being stored blob
-		let query = { text: "INSERT INTO ebdb.password SET ?", values: pwd };
+		let query = {text: "INSERT INTO ebdb.password SET ?", values: pwd};
 		return dbc.execute(query);
 	}).then((res) => {
 		let query = dbc.sql.update().table("ebdb.password").setFields({
@@ -736,20 +768,20 @@ users.set_password = function(params) {
 		let query = dbc.sql.update().table("ebdb.password_reset").set("reset_used = 2").where("id = ?", row.reset_id);
 		return dbc.execute(query);
 	}).then((res) => {
-		return Promise.resolve({ message: "Successfully set password!" });
+		return Promise.resolve({message: "Successfully set password!"});
 	}).catch((error) => {
-		if ( "authenticationError" in error ) {
-			error.errorSet = [ { key: "current_password", message: "Please enter your current password correctly" } ];
+		if ("authenticationError" in error) {
+			error.errorSet = [{key: "current_password", message: "Please enter your current password correctly"}];
 		}
 
 		return Promise.reject(error);
 	});
 };
 
-users.verifyEmail = function(key) {
+users.verifyEmail = function (key) {
 	let verifyRow = {};
 	return Promise.resolve().then(() => {
-		if ( key != null && key != "" ) {
+		if (key != null && key != "") {
 			let query = dbc.sql.select().from(
 				"ebdb.email_verification",
 				"e"
@@ -757,18 +789,18 @@ users.verifyEmail = function(key) {
 
 			return dbc.getRow(query);
 		} else {
-			return Promise.reject({ message: "That doesn't seem to be for anything. Are you sure you copied the link correctly?" });
+			return Promise.reject({message: "That doesn't seem to be for anything. Are you sure you copied the link correctly?"});
 		}
 	}).then((row) => {
-		if ( row ) {
-			if ( moment(row.expires, "YYYY-MM-DD HH:mm:ss").isAfter( moment() ) ) {
+		if (row) {
+			if (moment(row.expires, "YYYY-MM-DD HH:mm:ss").isAfter(moment())) {
 				verifyRow = _.cloneDeep(row);
 				return Promise.resolve();
 			} else {
-				return Promise.reject({ message: "Sorry that link has expired! You can send a new one from your profile page." });
+				return Promise.reject({message: "Sorry that link has expired! You can send a new one from your profile page."});
 			}
 		} else {
-			return Promise.reject({ message: "That doesn't seem to be for anything. Are you sure you copied the link correctly?" });
+			return Promise.reject({message: "That doesn't seem to be for anything. Are you sure you copied the link correctly?"});
 		}
 	}).then(() => {
 		let query = dbc.sql.update().table(
@@ -785,15 +817,15 @@ users.verifyEmail = function(key) {
 
 		return dbc.execute(query);
 	}).then((res) => {
-		return Promise.resolve({ message: "Successfully verified your email. Enjoy On Stage!" });
+		return Promise.resolve({message: "Successfully verified your email. Enjoy On Stage!"});
 	});
 };
 
-users.search = function(params) {
+users.search = function (params) {
 	let ids = {};
 
 	return Promise.resolve().then(() => {
-		if ( ("postcode_id" in params) && ("postcode_radius" in params) ) {
+		if (("postcode_id" in params) && ("postcode_radius" in params)) {
 			return model_list.postcode.match(params.postcode_id, params.postcode_radius);
 		} else {
 			return Promise.resolve([]);
@@ -803,20 +835,20 @@ users.search = function(params) {
 			params.postcode_list = postcode_list;
 		}
 
-		if ( ("instruments" in params) && (typeof params.instruments == typeof "String") ) params.instruments = params.instruments.split(",");
-		if ( ("genres" in params) && (typeof params.genres == typeof "String") ) params.genres = params.genres.split(",");
+		if (("instruments" in params) && (typeof params.instruments == typeof "String")) params.instruments = params.instruments.split(",");
+		if (("genres" in params) && (typeof params.genres == typeof "String")) params.genres = params.genres.split(",");
 
-		if ( ("instruments" in params) && (typeof params.instruments[0] == typeof {}) ) params.instruments = params.instruments.map(i => i.instrument_id);
-		if ( ("genres" in params) && (typeof params.genres[0] == typeof {}) ) params.genres = params.genres.map(g => g.genre_id);
+		if (("instruments" in params) && (typeof params.instruments[0] == typeof {})) params.instruments = params.instruments.map(i => i.instrument_id);
+		if (("genres" in params) && (typeof params.genres[0] == typeof {})) params.genres = params.genres.map(g => g.genre_id);
 
-		ids.st = ( ("searchType" in params) ) ? params.searchType : "and";
+		ids.st = (("searchType" in params)) ? params.searchType : "and";
 
-		if ( ("genres" in params) && params.genres.length > 0 ) {
+		if (("genres" in params) && params.genres.length > 0) {
 			let query = internal.query.userGenres();
 			query.where("genre_id IN ?", params.genres);
 
 			// Limit based on postcode list if exists
-			if ( ("postcode_list" in params) ) {
+			if (("postcode_list" in params)) {
 				query.where("p.postcode_id IN ?", params.postcode_list);
 			}
 
@@ -825,16 +857,16 @@ users.search = function(params) {
 			return Promise.resolve([]);
 		}
 	}).then((genreUsers) => {
-		if ( genreUsers.length > 0 ) {
+		if (genreUsers.length > 0) {
 			ids.genre = genreUsers.map(g => g.user_id);
 		}
 
-		if ( ("instruments" in params) && params.instruments.length > 0 ) {
+		if (("instruments" in params) && params.instruments.length > 0) {
 			let query = internal.query.userInstruments();
 			query.where("instrument_id IN ?", params.instruments);
 
 			// Limit based on postcode list if exists
-			if ( ("postcode_list" in params) ) {
+			if (("postcode_list" in params)) {
 				query.where("p.postcode_id IN ?", params.postcode_list);
 			}
 
@@ -843,66 +875,66 @@ users.search = function(params) {
 			return Promise.resolve([]);
 		}
 	}).then((instrumentUsers) => {
-		if ( instrumentUsers.length > 0 ) {
+		if (instrumentUsers.length > 0) {
 			ids.instrument = instrumentUsers.map(i => i.user_id);
 		}
 
 		let query = internal.query.user();
 		let expr = dbc.sql.expr();
-		if ( ("instrument" in ids) ) {
+		if (("instrument" in ids)) {
 			expr[ids.st]("u.id IN ?", ids.instrument);
 		}
-		if ( ("genre" in ids) ) {
+		if (("genre" in ids)) {
 			expr[ids.st]("u.id IN ?", ids.genre);
 		}
 
-		if ( ("user" in params) ) {
+		if (("user" in params)) {
 			// For matches ignore same user type
 			query.where("u.type_id <> ?", params.user.type_id);
 			query.where("u.id <> ?", params.user.user_id);
-		} else if ( ("type_id" in params) ) {
+		} else if (("type_id" in params)) {
 			// Normal search criteria
 			if (params.type_id == 2 || params.type_id == 3) {
 				query.where("u.type_id = ?", params.type_id);
 			}
 		}
 
-		if ( ("age_bracket_id" in params) ) {
+		if (("age_bracket_id" in params)) {
 			expr[ids.st]("p.age_bracket_id = ?", params.age_bracket_id);
 		}
-		if ( ("preference_age_bracket_id" in params) ) {
+		if (("preference_age_bracket_id" in params)) {
 			expr[ids.st]("p.preference_age_bracket_id = ?", params.preference_age_bracket_id);
 		}
-		if ( ("commitment_level_id" in params) ) {
+		if (("commitment_level_id" in params)) {
 			expr[ids.st]("p.commitment_level_id = ?", params.commitment_level_id);
 		}
-		if ( ("required_commitment_level_id" in params) ) {
+		if (("required_commitment_level_id" in params)) {
 			expr[ids.st]("p.required_commitment_level_id = ?", params.required_commitment_level_id);
 		}
-		if ( ("gender_id" in params) ) {
+		if (("gender_id" in params)) {
 			expr[ids.st]("p.gender_id = ?", params.gender_id);
 		}
-		if ( ("gig_frequency_id" in params) ) {
+		if (("gig_frequency_id" in params)) {
 			expr[ids.st]("p.gig_frequency_id = ?", params.gig_frequency_id);
 		}
-		if ( ("required_gig_frequency_id" in params) ) {
+		if (("required_gig_frequency_id" in params)) {
 			expr[ids.st]("p.required_gig_frequency_id = ?", params.required_gig_frequency_id);
 		}
-		if ( ("past_gig_id" in params) ) {
+		if (("past_gig_id" in params)) {
 			expr[ids.st]("p.past_gig_id = ?", params.past_gig_id);
 		}
-		if ( ("required_past_gig_id" in params) ) {
+		if (("required_past_gig_id" in params)) {
 			expr[ids.st]("p.required_past_gig_id = ?", params.required_past_gig_id);
 		}
-		if ( ("music_experience_id" in params) ) {
+		if (("music_experience_id" in params)) {
 			expr[ids.st]("p.music_experience_id = ?", params.music_experience_id);
 		}
-		if ( ("required_music_experience_id" in params) ) {
+		if (("required_music_experience_id" in params)) {
 			expr[ids.st]("p.required_music_experience_id = ?", params.required_music_experience_id);
 		}
 
 		// Limit based on postcode list if exists
-		if ( ("postcode_list" in params) ) {
+		if (("postcode_list" in params)) {
 			query.where("p.postcode_id IN ?", params.postcode_list);
 		}
 
@@ -912,26 +944,25 @@ users.search = function(params) {
 		// Add searched parameters
 		query.where(expr);
 
-		if ( ("limit" in params) ) {
+		if (("limit" in params)) {
 			query.limit(params.limit);
 		}
-
 		return dbc.execute(query);
 	}).then((rows) => {
 		return Promise.all(rows.map((row) => users.details(row.user_id)));
 	}).then((rows) => {
-		return Promise.resolve({ "users": rows });
+		return Promise.resolve({"users": rows});
 	});
 };
 
-users.match = function(params) {
+users.match = function (params) {
 	let user = {};
 
 	return Promise.resolve().then(() => {
-		if ( ("__class" in params) && params.__class == "userObject" ) {
+		if (("__class" in params) && params.__class == "userObject") {
 			return Promise.resolve(params);
 		} else {
-			let searchId = ( ("user_id" in params) ) ? params.user_id : params.user.user_id;
+			let searchId = (("user_id" in params)) ? params.user_id : params.user.user_id;
 			return users.details(searchId);
 		}
 	}).then((userDetails) => {
@@ -943,7 +974,7 @@ users.match = function(params) {
 		userDetails.genre = userDetails.genres.map(g => g.genre_id);
 		userDetails.searchType = "or";
 
-		if ( ("limit" in params) ) {
+		if (("limit" in params)) {
 			userDetails.limit = params.limit;
 		}
 
@@ -956,18 +987,32 @@ users.match = function(params) {
 			match.count = 0;
 
 			internal.criteriaKeys.map((key) => {
-				if ( (key in match) && (key in user) && (user[key] != null) && (match[key] != null) && ( match[key] == user[key] ) ) match.count += 1;
+				if ((key in match) && (key in user) && (user[key] != null) && (match[key] != null) && (match[key] == user[key])) match.count += 1;
 			});
 
-			match.percent = ( match.count / ( internal.criteriaKeys.length + 2 ) ) * 100;
-			match.percent = Math.round( match.percent );
+			let instrumentCount = 0;
+			match.instruments.map((item) => {
+				if (user.instrument.includes(item.instrument_id)) {
+					instrumentCount = 3;
+				}
+			});
+
+			let genreCount = 0;
+			match.genres.map((item) => {
+				if (user.genre.includes(item.genre_id)) {
+					genreCount = 2;
+				}
+			});
+
+			match.percent = ( (instrumentCount + genreCount + match.count) / (internal.criteriaKeys.length + 5)) * 100;
+			match.percent = Math.round(match.percent);
 
 			return match;
 		});
 
 		partMatches = _.orderBy(partMatches, "percent", "desc");
 
-		return Promise.resolve({ "matches": partMatches });
+		return Promise.resolve({"matches": partMatches});
 	});
 };
 
@@ -990,7 +1035,7 @@ internal.criteriaKeys = [
 ];
 
 internal.query = {};
-internal.query.user = function() {
+internal.query.user = function () {
 	let query = dbc.sql.select().fields([
 		"u.username",
 		"u.email",
@@ -1094,25 +1139,25 @@ internal.query.user = function() {
 	return query;
 };
 
-internal.query.getUserUsername = function() {
-    let query = dbc.sql.select().fields([
-        "u.username"
-    ]).from(
-        "ebdb.user", "u"
-    );
+internal.query.getUserUsername = function () {
+	let query = dbc.sql.select().fields([
+		"u.username"
+	]).from(
+		"ebdb.user", "u"
+	);
 
-    return query;
+	return query;
 };
-internal.query.getUserEmail = function() {
-    let query = dbc.sql.select().fields([
-        "u.email"
-    ]).from(
-        "ebdb.user", "u"
-    );
+internal.query.getUserEmail = function () {
+	let query = dbc.sql.select().fields([
+		"u.email"
+	]).from(
+		"ebdb.user", "u"
+	);
 
-    return query;
+	return query;
 };
-internal.query.userGenres = function() {
+internal.query.userGenres = function () {
 	let query = dbc.sql.select().fields([
 		"m.profile_id",
 		"m.genre_id",
@@ -1130,7 +1175,7 @@ internal.query.userGenres = function() {
 
 	return query;
 };
-internal.query.userInstruments = function() {
+internal.query.userInstruments = function () {
 	let query = dbc.sql.select().fields([
 		"m.profile_id",
 		"m.instrument_id",
@@ -1149,18 +1194,18 @@ internal.query.userInstruments = function() {
 	return query;
 };
 
-AWS.config.update({ region: "ap-southeast-2" });
+AWS.config.update({region: "ap-southeast-2"});
 internal.s3 = new AWS.S3({
-	params: { Bucket: 'onstage-storage' }
+	params: {Bucket: 'onstage-storage'}
 });
 
 internal.images = {};
-internal.images.upload = function(user, image) {
+internal.images.upload = function (user, image) {
 	return Promise.resolve().then(() => {
-		var params = { 'Key': user, 'Body': image };
+		var params = {'Key': user, 'Body': image};
 		return Promise.resolve(params);
 	}).then((params) => {
-		return new Promise(function(resolve, reject) {
+		return new Promise(function (resolve, reject) {
 			internal.s3.upload(params, (s3Err, data) => {
 				if (s3Err) {
 					reject(s3Err);
@@ -1172,7 +1217,7 @@ internal.images.upload = function(user, image) {
 	});
 };
 
-internal.verificationEmail = function( user_id, email, display_name, type = "registration" ) {
+internal.verificationEmail = function (user_id, email, display_name, type = "registration") {
 	let verify = {};
 
 	return Promise.resolve().then(() => {
