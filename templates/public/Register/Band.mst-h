@@ -85,11 +85,11 @@
 						</div>
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
-								<label for="id_genre_multiple">Genres Played (You may choose more than one)</label>
+								<label for="id_genre_multiple">Genres Played*: (You may choose more than one)</label>
 								<select class="select2-genre js-states form-control" id="genre" multiple="multiple"></select>
 							</div>
 						</div>
-						<div class="col-md-12">
+						<!--<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label>Age Bracket:</label>
 								<select id="age_bracket" class='form-control'>
@@ -99,10 +99,10 @@
 									{{/each}}
 								</select>
 							</div>
-						</div>
+						</div>-->
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
-								<label>Band's Music Experience:</label>
+								<label>Band's Music Experience*:</label>
 								<select id="music_experience" class='form-control'>
                                     <option value="">Choose...</option>
                                     {{#each this.criteria.music_experience}}
@@ -113,7 +113,7 @@
 						</div>
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
-								<label>Past Gigs:</label>
+								<label>Band's Past Gigs*:</label>
 								<select id="past_gigs" class='form-control'>
                                     <option value="">Choose...</option>
                                     {{#each this.criteria.past_gig}}
@@ -124,7 +124,7 @@
 						</div>
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
-								<label>Gig Frequency:</label>
+								<label>Band's Gig Frequency*:</label>
 								<select id="gig_frequency" class='form-control selectpicker' data-style="btn btn-link">
 									<option value="">Choose...</option>
 									{{#each this.criteria.gig_frequency}}
@@ -135,7 +135,7 @@
 						</div>
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
-								<label>Band's Commitment Level:</label>
+								<label>Band's Commitment Level*:</label>
 								<select id="commitment_level" class='form-control selectpicker' data-style="btn btn-link">
 									<option value="">Choose...</option>
 									{{#each this.criteria.commitment_level}}
@@ -204,14 +204,26 @@
 							<div class="form-group bmd-form-group">
 								<label class="d-block">Preferred Gender:</label>
 								{{#each this.criteria.gender}}
-								<div class="form-check form-check-radio form-check-inline">
-									<label class="form-check-label" for="gender_{{this.id}}">
-										<input class="form-check-input" type="radio" name="gender" id="gender_{{this.id}}" value="{{this.id}}"> {{this.name}}
-										<span class="circle">
+                                    {{#if @last}}
+                                        <div class="form-check form-check-radio form-check-inline">
+                                            <label class="form-check-label" for="gender_{{this.id}}">
+                                                <input class="form-check-input" type="radio" name="gender" id="gender_{{this.id}}" value="{{this.id}}" checked> Not set
+                                                <span class="circle">
 											<span class="check"></span>
 										</span>
-									</label>
-								</div>
+                                            </label>
+                                        </div>
+                                    {{else}}
+
+                                    <div class="form-check form-check-radio form-check-inline">
+                                        <label class="form-check-label" for="gender_{{this.id}}">
+                                            <input class="form-check-input" type="radio" name="gender" id="gender_{{this.id}}" value="{{this.id}}"> {{this.name}}
+                                            <span class="circle">
+											<span class="check"></span>
+										</span>
+                                        </label>
+                                    </div>
+                                    {{/if}}
 								{{/each}}
 							</div>
 						</div>
@@ -231,7 +243,7 @@
 						</div>
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
-								<label for="id_instrument_multiple">Instrument/s Required (You may choose more than one)</label>
+								<label for="id_instrument_multiple">Instrument/s Required*: (You may choose more than one)</label>
 								<select class="select2-instrument js-states form-control" id="instruments" multiple="multiple"></select>
 							</div>
 						</div>
@@ -241,7 +253,10 @@
 								<select id="preferred_age_bracket" class='form-control'>
 									<option value="">Choose...</option>
 									{{#each this.criteria.age_bracket}}
-									<option value="{{this.id}}">{{this.name}}</option>
+                                        {{#if @last}}
+                                        {{else}}
+                                            <option value="{{this.id}}">{{this.name}}</option>
+                                        {{/if}}
 									{{/each}}
 								</select>
 							</div>
@@ -251,11 +266,9 @@
 								<label>Required Music Experience:</label>
 								<select id="required_music_experience" class='form-control'>
 									<option value="">Choose...</option>
-									<option value="1">1 year or less</option>
-									<option value="2">2 years</option>
-									<option value="5">5 years</option>
-									<option value="10">10 years</option>
-									<option value="20">20+ years</option>
+                                    {{#each this.criteria.music_experience}}
+                                        <option value="{{this.id}}">{{this.name}}</option>
+                                    {{/each}}
 								</select>
 							</div>
 						</div>
@@ -264,12 +277,9 @@
 								<label>Past Gigs:</label>
 								<select id="required_past_gigs" class='form-control'>
 									<option value="">Choose...</option>
-									<option value="10">10 or under</option>
-									<option value="20">20</option>
-									<option value="30">30</option>
-									<option value="40">40</option>
-									<option value="50">50</option>
-									<option value="60">60+</option>
+                                    {{#each this.criteria.past_gig}}
+                                        <option value="{{this.id}}">{{this.name}}</option>
+                                    {{/each}}
 								</select>
 							</div>
 						</div>
