@@ -25,6 +25,7 @@
 				<div class="col-md-12">
 					<form class="search-form">
 						<div class='row'>
+							{{^if this.user}}
 							<div class="col-md-12">
 								<div class="form-group bmd-form-group">
                                     <label class="bmd-label-floating">Your Name:</label>
@@ -37,6 +38,7 @@
                                     <input id="email" type="text" class="form-control" required>
                                 </div>
 							</div>
+							{{/if}}
 							<div class="col-md-12">
 								<div class="form-group bmd-form-group">
                                     <label class="bmd-label-floating">Subject:</label>

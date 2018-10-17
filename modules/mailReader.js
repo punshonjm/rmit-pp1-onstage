@@ -89,9 +89,7 @@ mailReader.importEmail = function(file) {
 		return dbc.execute(query);
    	}).then((res) => {
 		return Promise.resolve();
-	})
-
-   .catch((err) => console.log(err) );
+	});
 };
 
 mailReader.job = new CronJob('0 */10 * * * *', function() {
