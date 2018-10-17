@@ -374,7 +374,6 @@ users.update = function (params) {
 		if ("youtube_user" in params) {
 			profile.youtube_user = params.youtube_user;
 		}
-
 		if ("band_size" in params) {
 			profile.band_size = params.band_size;
 		}
@@ -384,12 +383,11 @@ users.update = function (params) {
 		if ("preference_age_bracket_id" in params) {
 			profile.preference_age_bracket_id = (params.preference_age_bracket_id == '') ? null : params.preference_age_bracket_id;
 		}
-
 		if ("required_music_experience_id" in params) {
-			profile.required_music_experience_id = params.required_music_experience_id;
+			profile.required_music_experience_id = (params.required_music_experience_id == '') ? null : params.required_music_experience_id;
 		}
 		if ("required_past_gig_id" in params) {
-			profile.required_past_gig_id = params.required_past_gig_id;
+			profile.required_past_gig_id = (params.required_past_gig_id == '') ? null : params.required_past_gig_id;
 		}
 		if ("required_commitment_level_id" in params) {
 			profile.required_commitment_level_id = (params.required_commitment_level_id == '') ? null : params.required_commitment_level_id;
@@ -984,27 +982,54 @@ users.match = function (params) {
 		return users.search(userDetails);
 	}).then((partMatches) => {
 		partMatches = partMatches.users.map((match) => {
-			match.count = 0;
+
+			// Total matching points between 2 users
+			match.total = 0;
+			// The amount of available points for the match depending on the band's requirement/preference
+			match.points = 0;
 
 			internal.criteriaKeys.map((key) => {
-				if ((key in match) && (key in user) && (user[key] != null) && (match[key] != null) && (match[key] == user[key])) match.count += 1;
+				// type_id - Band: 2, Musician: 3
+				// Check to see if band has set a preference
+				if ( (match.type_id == 2 && match[key] != null) || (user.type_id == 2 && user[key] != null) ) {
+					// preference has been set by the band
+					match.points += 1;
+
+					// Check to see if the preference matches
+					if ( key == 'gender_id')
+					{
+						// Need to handle differently as 'Prefer Not Say' (4) set for band is no preference
+						if ( (match.type_id == 2 && match[key] != 4) || (user.type_id == 2 && user[key] != 4) ) {
+							if (match[key] == user[key]) match.total += 1;
+						}
+					}
+					// Standard match criteria
+					else if ( (user[key] != null) && (match[key] != null) && (match[key] == user[key]) ) match.total += 1;
+				}
 			});
 
-			let instrumentCount = 0;
+			// Instruments are required
+			let instrumentPoints = 0;
 			match.instruments.map((item) => {
 				if (user.instrument.includes(item.instrument_id)) {
-					instrumentCount = 3;
+					instrumentPoints = 4;
 				}
 			});
+			match.points += 4;
+			match.total += instrumentPoints;
 
-			let genreCount = 0;
+			// Genre is required
+			let genrePoints = 0;
 			match.genres.map((item) => {
 				if (user.genre.includes(item.genre_id)) {
-					genreCount = 2;
+					genrePoints = 2;
 				}
 			});
+			match.points += 3;
+			match.total += genrePoints;
 
-			match.percent = ( (instrumentCount + genreCount + match.count) / (internal.criteriaKeys.length + 5)) * 100;
+			// Calculate totals
+			match.percent = ( match.total / match.points) * 100;
 			match.percent = Math.round(match.percent);
 
 			return match;
@@ -1021,17 +1046,12 @@ module.exports = users;
 let internal = {};
 
 internal.criteriaKeys = [
-	"age_bracket_id",
-	"preference_age_bracket_id",
-	"commitment_level_id",
 	"required_commitment_level_id",
-	"gender_id",
-	"gig_frequency_id",
-	"required_gig_frequency_id",
-	"past_gig_id",
-	"required_past_gig_id",
-	"music_experience_id",
 	"required_music_experience_id",
+	"required_past_gig_id",
+	"required_gig_frequency_id",
+	"preference_age_bracket_id",
+	"gender_id"
 ];
 
 internal.query = {};

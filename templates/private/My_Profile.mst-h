@@ -331,7 +331,6 @@
                             <div class="form-group bmd-form-group">
                                 <select id="past_gig_id" class='form-control selectpicker'
                                         data-style="btn btn-link">
-                                    <option value="">Choose...</option>
                                     {{#each this.criteria.past_gig}}
                                         <option value="{{this.id}}">{{this.name}}</option>
                                     {{/each}}
@@ -345,7 +344,6 @@
                             <div class="form-group bmd-form-group">
                                 <select id="music_experience_id" class='form-control selectpicker'
                                         data-style="btn btn-link">
-                                    <option value="">Choose...</option>
                                     {{#each this.criteria.music_experience}}
                                         <option value="{{this.id}}">{{this.name}}</option>
                                     {{/each}}
@@ -370,7 +368,6 @@
                         <div class="col">
                             <div class="form-group bmd-form-group">
                                 <select id="age_bracket_id" class='form-control'>
-                                    <option value="">Choose...</option>
                                     {{#each this.criteria.age_bracket}}
                                         <option value="{{this.id}}">{{this.name}}</option>
                                     {{/each}}
@@ -385,7 +382,6 @@
                             <div class="form-group bmd-form-group">
                                 <select id="commitment_level_id" class='form-control selectpicker'
                                         data-style="btn btn-link">
-                                    <option value="">Choose...</option>
                                     {{#each this.criteria.commitment_level}}
                                         <option value="{{this.id}}">{{this.name}}</option>
                                     {{/each}}
@@ -400,7 +396,6 @@
                             <div class="form-group bmd-form-group">
                                 <select id="gig_frequency_id" class='form-control selectpicker'
                                         data-style="btn btn-link">
-                                    <option value="">Choose...</option>
                                     {{#each this.criteria.gig_frequency}}
                                         <option value="{{this.id}}">{{this.name}}</option>
                                     {{/each}}
@@ -587,7 +582,7 @@
                         </div>
 						<div class="row">
                             <div class="col-4">Preferred Gender</div>
-                            <div class="col" id='gender-data' data-id="{{this.profile.gender_id}}">{{this.profile.gender}}</div>
+                            <div class="col" id='gender-data' data-id="{{this.profile.gender_id}}">{{#compare this.profile.gender_id 4}}Not set{{else}}{{this.profile.gender}}{{/compare}}</div>
                         </div>
                         <div class="row">
                             <div class="col-4 my-auto">Instrument/s Required</div>
@@ -623,7 +618,7 @@
                                 <div class="form-group bmd-form-group">
                                     <select id="required_commitment_level_id" class='form-control selectpicker allowEmpty'
                                             data-style="btn btn-link">
-                                        <option value="">Choose...</option>
+                                        <option value="">Not set</option>
                                         {{#each this.criteria.commitment_level}}
                                             <option value="{{this.id}}">{{this.name}}</option>
                                         {{/each}}
@@ -636,7 +631,7 @@
                             <div class="col">
                                 <div class="form-group bmd-form-group">
                                     <select id="required_music_experience_id" class='form-control allowEmpty'>
-                                        <option value="">Choose...</option>
+                                        <option value="">Not set</option>
                                         {{#each this.criteria.music_experience}}
                                             <option value="{{this.id}}">{{this.name}}</option>
                                         {{/each}}
@@ -649,7 +644,7 @@
                             <div class="col">
                                 <div class="form-group bmd-form-group">
                                     <select id="required_past_gig_id" class='form-control allowEmpty'>
-                                        <option value="">Choose...</option>
+                                        <option value="">Not set</option>
                                         {{#each this.criteria.past_gig}}
                                             <option value="{{this.id}}">{{this.name}}</option>
                                         {{/each}}
@@ -663,7 +658,7 @@
                                 <div class="form-group bmd-form-group">
                                     <select id="required_gig_frequency_id" class='form-control selectpicker allowEmpty'
                                             data-style="btn btn-link">
-                                        <option value="">Choose...</option>
+                                        <option value="">Not set</option>
                                         {{#each this.criteria.gig_frequency}}
                                             <option value="{{this.id}}">{{this.name}}</option>
                                         {{/each}}
@@ -676,7 +671,7 @@
                             <div class="col">
                                 <div class="form-group bmd-form-group">
                                     <select id="preference_age_bracket_id" class='form-control allowEmpty'>
-                                        <option value="">Choose...</option>
+                                        <option value="">Not set</option>
                                         {{#each this.criteria.age_bracket}}
                                             <option value="{{this.id}}">{{this.name}}</option>
                                         {{/each}}
@@ -689,14 +684,26 @@
                             <div class="col">
 								<div class="form-group bmd-form-group">
 									{{#each this.criteria.gender}}
+                                        {{#if @last}}
 									<div class="form-check form-check-radio">
 										<label class="form-check-label" for="gender_{{this.id}}">
-											<input class="form-check-input" type="radio" name="gender" id="gender_{{this.id}}" value="{{this.id}}" {{#compare this.name @root.profile.gender}} checked {{/compare}}> {{this.name}}
+											<input class="form-check-input" type="radio" name="gender" id="gender_{{this.id}}" value="{{this.id}}" {{#compare this.name @root.profile.gender}} checked {{/compare}}> Not set
 											<span class="circle">
 												<span class="check"></span>
 											</span>
 										</label>
 									</div>
+
+                                        {{else}}
+                                            <div class="form-check form-check-radio">
+                                                <label class="form-check-label" for="gender_{{this.id}}">
+                                                    <input class="form-check-input" type="radio" name="gender" id="gender_{{this.id}}" value="{{this.id}}" {{#compare this.name @root.profile.gender}} checked {{/compare}}> {{this.name}}
+                                                    <span class="circle">
+												<span class="check"></span>
+											</span>
+                                                </label>
+                                            </div>
+                                        {{/if}}
 									{{/each}}
 								</div>
                             </div>
