@@ -1,6 +1,7 @@
 const AWS = require("aws-sdk");
 const dbc = require("@modules/dbc");
 
+const CronJob = require('cron').CronJob;
 const simpleParser = require('mailparser').simpleParser;
 const htmlToText = require('html-to-text');
 
@@ -72,10 +73,11 @@ mailReader.importEmail = function(file) {
 		return simpleParser(obj.Body);
    }).then((data) => {
 		var row = {};
-		row.etag = file.ETag;
+		row.etag = file.ETag.replace(/"/g, "");
 		row.subject = data.subject;
-		row.from = data.from;
-		row.messageId = data.messageId;
+		row.from_email = data.from.value[0].address;
+		row.from_name = data.from.value[0].name;
+		row.message_id = data.messageId;
 
 		if ( ("text" in data) && (typeof data.text != typeof undefined) ) {
 			row.content = data.text;
@@ -83,14 +85,26 @@ mailReader.importEmail = function(file) {
 			row.content = htmlToText.fromString(data.html);
 		}
 
-
-
-
-   })
+		let query = dbc.sql.insert().into("ebdb.email_import").setFields(row);
+		return dbc.execute(query);
+   	}).then((res) => {
+		return Promise.resolve();
+	})
 
    .catch((err) => console.log(err) );
 };
 
+mailReader.job = new CronJob('0 */10 * * * *', function() {
+	Promise.resolve().then(() => {
+		return mailReader.process();
+	}).catch((error) => {
+		console.error("Mail.Import.Error", error);
+	});
+});
+
 module.exports = mailReader;
 
-mailReader.process();
+(function() {
+	mailReader.process();
+	mailReader.job.start();
+});
