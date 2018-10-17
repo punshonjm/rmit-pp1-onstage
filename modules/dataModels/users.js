@@ -991,20 +991,33 @@ users.match = function (params) {
 			internal.criteriaKeys.map((key) => {
 				// type_id - Band: 2, Musician: 3
 				// Check to see if band has set a preference
-				if ( (match.type_id == 2 && match[key] != null) || (user.type_id == 2 && user[key] != null) ) {
+				let band_preference, musician_preference;
+				if ((match.user_type === 'Band' && match[key] != null) || (user.user_type === 'Band' && user[key] != null)) {
 					// preference has been set by the band
 					match.points += 1;
 
+					// Define band preference vs musician info
+					band_preference = (match.user_type === 'Band') ? match[key] : user[key];
+					musician_preference = (match.user_type === 'Musician') ? match[key.replace('required_', '').replace('preference_', '')] : user[key.replace('required_', '').replace('preference_', '')];
+
 					// Check to see if the preference matches
-					if ( key == 'gender_id')
-					{
-						// Need to handle differently as 'Prefer Not Say' (4) set for band is no preference
-						if ( (match.type_id == 2 && match[key] != 4) || (user.type_id == 2 && user[key] != 4) ) {
-							if (match[key] == user[key]) match.total += 1;
+					if (key === 'gender_id') {
+						// Need to handle gender differently as 'Prefer Not Say' set for band is no preference
+						if ((match.user_type === 'Band' && match.gender !== 'Prefer Not Say') ||
+							(user.user_type === 'Band' && user.gender !== 'Prefer Not Say')) {
+
+							if (band_preference === musician_preference) {
+								match.total += 1;
+							}
+						} else {
+							// Not a valid preference
+							match.points += -1;
 						}
 					}
 					// Standard match criteria
-					else if ( (user[key] != null) && (match[key] != null) && (match[key] == user[key]) ) match.total += 1;
+					else if (band_preference === musician_preference) {
+						match.total += 1;
+					}
 				}
 			});
 
@@ -1025,11 +1038,11 @@ users.match = function (params) {
 					genrePoints = 2;
 				}
 			});
-			match.points += 3;
+			match.points += 2;
 			match.total += genrePoints;
 
 			// Calculate totals
-			match.percent = ( match.total / match.points) * 100;
+			match.percent = (match.total / match.points) * 100;
 			match.percent = Math.round(match.percent);
 
 			return match;
