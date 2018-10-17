@@ -226,7 +226,6 @@ users.register = function (params) {
 			profile.band_size = params.band_size;
 			profile.members_needed = params.members_needed;
 			profile.preference_age_bracket_id = params.preferred_age_bracket;
-
 			profile.required_music_experience_id = params.required_music_experience;
 			profile.required_past_gig_id = params.required_past_gigs;
 			profile.required_commitment_level_id = params.required_commitment_level;

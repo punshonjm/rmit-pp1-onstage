@@ -103,7 +103,7 @@
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label>Band's Music Experience*:</label>
-								<select id="music_experience" class='form-control'>
+								<select id="music_experience_id" class='form-control'>
                                     <option value="">Choose...</option>
                                     {{#each this.criteria.music_experience}}
                                         <option value="{{this.id}}">{{this.name}}</option>
@@ -114,7 +114,7 @@
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label>Band's Past Gigs*:</label>
-								<select id="past_gigs" class='form-control'>
+								<select id="past_gig_id" class='form-control'>
                                     <option value="">Choose...</option>
                                     {{#each this.criteria.past_gig}}
                                         <option value="{{this.id}}">{{this.name}}</option>
@@ -125,7 +125,7 @@
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label>Band's Gig Frequency*:</label>
-								<select id="gig_frequency" class='form-control selectpicker' data-style="btn btn-link">
+								<select id="gig_frequency_id" class='form-control selectpicker' data-style="btn btn-link">
 									<option value="">Choose...</option>
 									{{#each this.criteria.gig_frequency}}
 									<option value="{{this.id}}">{{this.name}}</option>
@@ -136,7 +136,7 @@
 						<div class="col-md-12">
 							<div class="form-group bmd-form-group">
 								<label>Band's Commitment Level*:</label>
-								<select id="commitment_level" class='form-control selectpicker' data-style="btn btn-link">
+								<select id="commitment_level_id" class='form-control selectpicker' data-style="btn btn-link">
 									<option value="">Choose...</option>
 									{{#each this.criteria.commitment_level}}
 									<option value="{{this.id}}">{{this.name}}</option>
