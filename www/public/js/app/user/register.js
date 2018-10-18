@@ -240,7 +240,7 @@ appPage.register = function($this) {
 				error.responseJSON.errorSet.map(function(err) {
 					if ( $("#" + err.key).length > 0 ) {
 						$("#" + err.key).addError("has-warning", err.error);
-						$("#" + err.key).scrollTo();
+						$("#" + err.key).get(0).scrollIntoView();;
 					} else {
 						$(".form-status").append("<span class='d-block'>" + err.error + "</span>");
 					}
