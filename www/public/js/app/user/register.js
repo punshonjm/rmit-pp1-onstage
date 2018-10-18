@@ -234,7 +234,10 @@ appPage.register = function($this) {
 			$(".loading-indicator").find(".loading-status").text("");
 			$(".loading-indicator").hide();
 
-			if ( error.status == 400 && ("errorSet" in error.responseJSON) ) {
+			if ( error.status == 413 ) {
+				$(".form-status").addClass("text-danger").append("<span class='d-block'>The images you are trying to upload are too large, please upload smaller images.</span>");
+			}
+			else if ( error.status == 400 && ("errorSet" in error.responseJSON) ) {
 				$(".form-status").addClass("text-danger");
 
 				error.responseJSON.errorSet.map(function(err) {
