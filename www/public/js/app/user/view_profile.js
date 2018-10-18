@@ -23,7 +23,8 @@ appPage.initialise = function() {
 appPage.report = function($this) {
 	var data = {};
 	data.user_id = $this.data().id;
-	data.reportReason = $("#reportUser").find("#reportReason").val().trim();
+	data.reportReason =($("#reportUser").find("#tag_reportReason").val()) + ($("#reportUser").find("#reportReason").val().trim());
+
 
 	$("#reportReason").closest(".row").hide();
 	$(".reportStatus").closest(".row").show();

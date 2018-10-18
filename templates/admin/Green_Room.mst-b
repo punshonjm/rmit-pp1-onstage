@@ -1,1 +1,5 @@
 <h1>Green Room</h1>
+
+<li class="nav-item">
+	<a class="nav-link" href="/User_Reports">User_Reports</a>
+</li>

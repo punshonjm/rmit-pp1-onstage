@@ -40,7 +40,19 @@
 							</h4>
 						</div>
 						<div class='col-md-4'>
-							<p>{{this.percent}}% Match</p>
+
+							<div class='col-md-5'>
+							 <div class="progress" style="height: 1%;">
+								 {{#compare this.percent "100"}}
+							<div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="{{this.percent}}" aria-valuemin="0" aria-valuemax="100" style="width:{{this.percent}}%">
+								{{else}}
+								<div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{this.percent}}" aria-valuemin="0" aria-valuemax="100" style="width:{{this.percent}}%">
+									{{/compare}}
+							{{this.percent}}%
+							</div>
+						</div>
+					</div>
+
 							<h5 class='mb-0'>About</h5>
 							<p>{{this.about}}</p>
 						</div>
