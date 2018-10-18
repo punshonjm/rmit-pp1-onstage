@@ -268,6 +268,18 @@
 					</div>
 					<div class="col-md-12">
 						<div class="form-group bmd-form-group">
+							<label>Reaseon for reporting</label>
+							<select id="tag_reportReason" class='form-control'>
+								<option value="">Choose...</option>
+								<option value="Harrassment: ">Harrassment</option>
+								<option value="Violence: ">Violence</option>
+								<option value="Fruad or Scam: ">Fruad or Scam</option>
+								<option value="Nudity: ">Nudity</option>
+								<option value="Hate Speech: ">Hate Speech</option>
+								<option value="Other: ">Other</option>
+							</select>
+						</div>
+							<div class="form-group bmd-form-group">
 							<label class="bmd-label-floating">Tell us in a few words why:</label>
 							<textarea id="reportReason" class="form-control" rows="4"></textarea>
 						</div>
@@ -280,7 +292,7 @@
 				</div>
 			</div>
 			<div class="modal-footer d-flex justify-content-end">
-				<button type="button" class="btn btn-warning btn-round reportUser" data-id="{{this.profile.user_id}}">Report</button>
+				<button type="button" id="submitReport" class="btn btn-warning btn-round reportUser" data-id="{{this.profile.user_id}}">Report</button>
 			</div>
 		</div>
 	</div>
