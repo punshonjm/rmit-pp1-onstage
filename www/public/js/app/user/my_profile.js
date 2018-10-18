@@ -80,7 +80,11 @@ appPage.initialise = function() {
 	$(".mask .layer").css("max-height", $(".image-picture").height());
 
 	let newRegister = (new URLSearchParams( document.location.search.substring(1) ).get("newRegister") == "yes") ? true : false;
-	if ( newRegister ) $("#newRegister").modal("show");
+	if ( newRegister ) {
+		setTimeout(function() {
+			$("#newRegister").modal("show");
+		}, 500);
+	}
 };
 
 appPage.editToggle = function($this) {

@@ -22,11 +22,10 @@ aaa.sessionManagement = function( req, res, next ) {
 
 	let publicPaths = _.cloneDeep(app.publicPaths);
 	publicPaths.push(
-		"/login", "/public", "/favicon.ico", "/whoops", "/searchBand",
-		"/searchMusicians",
+		"/login", "/public", "/favicon.ico", "/whoops",
 		"/api/user/password_reset", "/user/password_reset/.*/.*",
 		"/user/verify/.*", "/user/register",
-		"/api/instrument", "/api/genre", "/api/postcode"
+		"/api/instrument", "/api/genre", "/api/postcode", "/api/contact"
 	);
 
 	if (publicPaths.includes(req.url) || req.url == "/") {

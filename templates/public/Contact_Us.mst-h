@@ -23,7 +23,7 @@
 					<h2 class="title" >Contact Us</h2>
 				</div>
 				<div class="col-md-12">
-					<form class="search-form">
+					<form class="contact-form">
 						<div class='row'>
 							{{^if this.user}}
 							<div class="col-md-12">
@@ -51,8 +51,9 @@
                                     <textarea id="message" class="form-control" rows="4"></textarea>
                                 </div>
 							</div>
-							<div class="col-md-12 d-flex justify-content-end">
-								<button class="btn btn-primary btn-round btn-raised btn-lg">Send</button>
+							<div class="col-md-12 d-flex justify-content-between">
+								<span id="contact_status"></span>
+								<button class="btn btn-primary btn-round btn-raised btn-lg" id="send">Send</button>
 							</div>
 						</div>
 		            </form>
@@ -61,3 +62,5 @@
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript" src="/public/js/app/contact.js"></script>

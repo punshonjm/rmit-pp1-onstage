@@ -41,7 +41,11 @@ mailReader.process = function(continuationToken = false) {
 		} else {
 			return Promise.resolve();
 		}
-	});
+	}).then(() => {
+		// TODO: Process read email into messages if part of messages  
+
+		return Promise.resolve();
+	})
 };
 
 mailReader.getEmails = function(filesArray) {
