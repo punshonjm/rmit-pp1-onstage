@@ -18,9 +18,6 @@ $(document).ready(function() {
 })
 
 appPage.initialise = function() {
-	let newRegister = (new URLSearchParams( document.location.search.substring(1) ).get("newRegister") == "yes") ? true : false;
-	if ( newRegister ) $("#newRegister").modal("show");
-
 	$('.select2-instrument-view').select2({
 		theme: "material",
 		disabled: true
@@ -81,6 +78,9 @@ appPage.initialise = function() {
 	$(".mask .layer").width($(".image-picture").width());
 	$(".mask .layer").css("max-width", $(".image-picture").width());
 	$(".mask .layer").css("max-height", $(".image-picture").height());
+
+	let newRegister = (new URLSearchParams( document.location.search.substring(1) ).get("newRegister") == "yes") ? true : false;
+	if ( newRegister ) $("#newRegister").modal("show");
 };
 
 appPage.editToggle = function($this) {
