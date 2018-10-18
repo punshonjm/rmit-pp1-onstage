@@ -135,7 +135,7 @@ appPage.register = function($this) {
 	}
 
 	// add post code check
-	if ( ("postcode" in data) && !/[0-9]{4}/.test(data.postcode) ) {
+	if ( ("postcode" in data) && !/^[0-9]+$/.test(data.postcode) ) {
 		$('#postcode').addError("has-danger", "A postcode consists of 4 numbers.");
 		errors.push("postcode");
 	}
