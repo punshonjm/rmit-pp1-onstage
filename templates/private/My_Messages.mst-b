@@ -1,0 +1,48 @@
+<div class="row">
+	<div class="col-lg-12 col-xl-3 border-right">
+		<div class="row">
+			<div class="col-md-12">
+				<h3>My Messages</h3>
+			</div>
+			<div class="col-md-12">
+
+			</div>
+			<div class="col-md-12">
+				{{#each this.threads}}
+				<div class="message d-block w-100 d-flex justify-content-between my-3 p-2 rounded" data-thread="{{this.thread_id}}">
+					<div class='d-inline-block w-25 text-center'>
+						<span class="d-block ml-auto mr-auto" style="max-width: 200px !important;">
+							<img class="img-raised rounded-circle img-fluid"
+								style="height: auto; min-width: 100%; max-width: 100% !important;"
+								src="{{#if this.user.picture}}{{this.user.picture}}{{else}}https://s3-ap-southeast-2.amazonaws.com/onstage-storage/placeholder.png{{/if}}"
+								alt="{{this.user.display_name}}"
+							>
+						</span>
+					</div>
+					<div class="d-inline-block w-75 px-3">
+						<span class='w-100 d-flex justify-content-between'>
+							<h4 class="mt-0 mb-2">{{this.user.display_name}}</h4>
+							<span>
+								{{#if this.unread}}
+								<span class="badge badge-pill badge-primary">
+									<i class="fa fa-envelope"></i>
+								</span>
+								{{/if}}
+							</span>
+						</span>
+						<div class="w-100">
+							<small>{{this.date}}</small>
+						</div>
+						<p class="text-truncate" style="max-width: 85%;">{{this.message.content}}</p>
+					</div>
+				</div>
+				{{/each}}
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-12 col-xl-9">
+
+	</div>
+</div>
+
+<script type="text/javascript" src="/public/js/app/user/my_messages.js"></script>

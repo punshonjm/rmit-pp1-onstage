@@ -312,3 +312,16 @@ body, wrapper {
 	background-color: rgba(33, 150, 243, .7);
 	border-radius: 50% !important;
 }
+
+
+.message:hover {
+	color: white;
+	background: #4ca9f6;
+}
+.message:hover small {
+	color: white;
+}
+
+.message.active {
+	background: #2196f3;
+}

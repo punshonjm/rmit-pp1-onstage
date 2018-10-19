@@ -21,7 +21,7 @@
             <div class="profile">
                 <div class="avatar">
                     <img class="img-raised rounded-circle img-fluid image-picture" src="{{#if
-                            this.profile.picture}}{{this.profile.picture}}{{else}}https://epicattorneymarketing.com/wp-content/uploads/2016/07/Headshot-Placeholder-1.png{{/if}}"
+                            this.profile.picture}}{{this.profile.picture}}{{else}}https://s3-ap-southeast-2.amazonaws.com/onstage-storage/placeholder.png{{/if}}"
                          alt="Circle Image">
                     <div class="mask d-flex align-items-center">
 						<span class="layer img-raised rounded-circle img-fluid text-center d-flex align-items-center">
@@ -152,7 +152,7 @@
                                     <img class="img-raised rounded-circle img-fluid"
                                          style="min-height: 150px; min-width: 150px; max-height: 150px; max-width: 150px;"
                                          src="{{#if
-                                                 this.picture}}{{this.picture}}{{else}}https://epicattorneymarketing.com/wp-content/uploads/2016/07/Headshot-Placeholder-1.png{{/if}}"
+                                                 this.picture}}{{this.picture}}{{else}}https://s3-ap-southeast-2.amazonaws.com/onstage-storage/placeholder.png{{/if}}"
                                          alt="{{this.display_name}}">
                                 </div>
                                 <div class='w-100 text-center text-truncate'>
@@ -823,7 +823,7 @@
                                     <div class="fileinput fileinput-new text-center" data-provides="fileinput">
                                         <div class="fileinput-new thumbnail img-raised">
                                             <img src="{{#if
-                                                    this.profile.picture}}{{this.profile.picture}}{{else}}https://epicattorneymarketing.com/wp-content/uploads/2016/07/Headshot-Placeholder-1.png{{/if}}"
+                                                    this.profile.picture}}{{this.profile.picture}}{{else}}https://s3-ap-southeast-2.amazonaws.com/onstage-storage/placeholder.png{{/if}}"
                                                  alt="Default profile image">
                                         </div>
                                         <div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
@@ -851,7 +851,7 @@
             <div class="modal-footer d-flex justify-content-end">
                 <button class="btn btn-round btn-warning mx-2" data-dismiss="modal">Cancel</button>
                 <button class="btn btn-round btn-danger mx-2 remove-image" data-id="picture"
-                        data-remove="https://epicattorneymarketing.com/wp-content/uploads/2016/07/Headshot-Placeholder-1.png">
+                        data-remove="https://s3-ap-southeast-2.amazonaws.com/onstage-storage/placeholder.png">
                     Remove
                 </button>
                 <button class="btn btn-round btn-success save-image" data-id="picture">Save</button>

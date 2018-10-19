@@ -100,7 +100,7 @@
 								<label class="d-block w-100">Profile Picture:</label>
 								<div class="fileinput fileinput-new text-center" data-provides="fileinput">
 									<div class="fileinput-new thumbnail img-raised">
-										<img src="https://epicattorneymarketing.com/wp-content/uploads/2016/07/Headshot-Placeholder-1.png" alt="Default profile image">
+										<img src="https://s3-ap-southeast-2.amazonaws.com/onstage-storage/placeholder.png" alt="Default profile image">
 									</div>
 									<div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
 									<div>
