@@ -1,5 +1,36 @@
-<h1>Green Room</h1>
-
-<li class="nav-item">
-	<a class="nav-link" href="/User_Reports">User_Reports</a>
-</li>
+<div class="col-md-12">
+    <h3>Green Room</h3>
+                        <!-- Tabs on Plain Card -->
+                        <div class="card card-nav-tabs card-plain">
+                            <div class="card-header card-header-primary">
+                                <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
+                                <div class="nav-tabs-navigation">
+                                    <div class="nav-tabs-wrapper">
+                                        <ul class="nav nav-tabs" data-tabs="tabs">
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#messages" data-toggle="tab">Messages</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link active show" href="#user_reports" data-toggle="tab">User Reports<div class="ripple-container"></div></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#Suspend" data-toggle="tab">Suspend/Resume</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div><div class="card-body ">
+                                <div class="tab-content text-center">
+                                    <div class="tab-pane" id="messages">
+                                        <p>Display Messages.</p>
+                                    </div>
+                                    <div class="tab-pane active show" id="user_reports">
+                                        <p> Show User Reports </p>
+                                    </div>
+                                    <div class="tab-pane" id="Suspend">
+                                        <p>Show suspend resume functionality</p>
+                                    </div>
+                                </div>
+                            </div></div>
+                        <!-- End Tabs on plain Card -->
+                    </div>
