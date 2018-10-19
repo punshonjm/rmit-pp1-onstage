@@ -271,12 +271,12 @@
 							<label>Reaseon for reporting</label>
 							<select id="tag_reportReason" class='form-control'>
 								<option value="">Choose...</option>
-								<option value="Harrassment: ">Harrassment</option>
-								<option value="Violence: ">Violence</option>
-								<option value="Fruad or Scam: ">Fruad or Scam</option>
-								<option value="Nudity: ">Nudity</option>
-								<option value="Hate Speech: ">Hate Speech</option>
-								<option value="Other: ">Other</option>
+								<option value="Harrassment">Harrassment</option>
+								<option value="Violence">Violence</option>
+								<option value="Fruad or Scam">Fruad or Scam</option>
+								<option value="Nudity">Nudity</option>
+								<option value="Hate Speech">Hate Speech</option>
+								<option value="Other">Other</option>
 							</select>
 						</div>
 							<div class="form-group bmd-form-group">

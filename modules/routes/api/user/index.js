@@ -146,6 +146,7 @@ router.post("/:id/report", (req, res) => {
 		let row = {};
 		row.user_id = req.profile.user_id;
 		row.req_ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+		row.tag_report = req.body.tag_report;
 		row.reason = req.body.reportReason;
 
 		if ( req.user ) {
