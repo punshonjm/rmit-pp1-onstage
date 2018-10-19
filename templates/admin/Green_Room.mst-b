@@ -2,7 +2,7 @@
     <h3>Green Room</h3>
                         <!-- Tabs on Plain Card -->
                         <div class="card card-nav-tabs card-plain">
-                            <div class="card-header card-header-primary">
+                            <div class="card-header card-header-success">
                                 <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
                                 <div class="nav-tabs-navigation">
                                     <div class="nav-tabs-wrapper">
