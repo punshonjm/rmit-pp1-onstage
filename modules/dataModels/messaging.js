@@ -170,16 +170,26 @@ messaging.getThread = function(params) {
 			return Promise.reject({ message: "You don't have access to this message thread." });
 		}
 	}).then((users) => {
-		thread.users = users.map((user) => {
+		thread.users = _.keyBy(users.map((user) => {
 			if ( user.message_with == 1 ) user.display_name = "Unassigned";
 			if ( user.messager_name != null ) user.display_name = user.messager_name;
+			user.user_id = user.message_with;
 			return user;
-		});
+		}), "user_id");
 
 		let query = dbc.sql.select().from("ebdb.message").where("thread_id = ?", params.thread_id);
 		return dbc.execute(query);
 	}).then((messages) => {
-		thread.messages = messages;
+		thread.messages = messages.map((message) => {
+			message.user = thread.users[message.user_id];
+			message.own = ( message.user.user_id == params.user.user_id ) ? true : false;
+
+			if ( (!message.own || message.user.message_with == 1) && !("thread_with" in thread) ) thread.thread_with = thread.users[message.user_id];
+
+			message.date = moment(message.sql_date_added).format("YYYY/MM/DD h:mm a");
+			return message;
+		});
+
 		console.log(thread);
 		return Promise.resolve({ thread: thread });
 	});
