@@ -1,301 +1,397 @@
 {{#*inline "header_block"}}
-<div class="page-header header-filter" data-parallax="true" style="background-image: url('{{#if this.profile.background}}{{this.profile.background}}{{else}}{{this.headerImage}}{{/if}}')">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6">
-				<h1>{{this.profile.display_name}}</h1>
-			</div>
-		</div>
-	</div>
-</div>
+    <div class="page-header header-filter" data-parallax="true" style="background-image: url('{{#if
+            this.profile.background}}{{this.profile.background}}{{else}}{{this.headerImage}}{{/if}}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1>{{this.profile.display_name}}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
 {{/inline}}
 <div class="section text-left pt-0 profile-page">
-	<div class="row">
+    <div class='follow mr-5 d-none d-md-block'>
+        <button class='btn btn-rose btn-fab btn-round' data-toggle="modal" data-target="#messageUser" rel="tooltip"
+                title="" data-original-title="Reach Out (Message)">
+            <i class="material-icons">message</i>
+        </button>
+        <button class='btn btn-warning btn-fab btn-round' data-toggle="modal" data-target="#reportUser" rel="tooltip"
+                title="" data-original-title="Report User">
+            <i class="material-icons">report</i>
+        </button>
+    </div>
+    <div class="row">
         <div class="col-lg-4 col-md-12">
-			<div class="profile">
-				<div class="avatar">
-					<img class="img-raised rounded-circle img-fluid image-picture" src="{{#if this.profile.picture}}{{this.profile.picture}}{{else}}https://s3-ap-southeast-2.amazonaws.com/onstage-storage/placeholder.png{{/if}}" alt="Circle Image">
-				</div>
-				<div class="name">
-					<div class='row'>
-						<div class='col-md-12'>
-							<h2 class="title mt-2">
+            <div class="profile">
+                <div class="avatar">
+                    <img class="img-raised rounded-circle img-fluid image-picture" src="{{#if
+                            this.profile.picture}}{{this.profile.picture}}{{else}}https://s3-ap-southeast-2.amazonaws.com/onstage-storage/placeholder.png{{/if}}"
+                         alt="Circle Image">
+                </div>
+                <div class="name">
+                    <div class='row'>
+                        <div class='col-md-12'>
+                            <h2 class="title mt-2">
 								<span id="display_name-data" data-id="{{this.profile.display_name}}">
-									{{this.profile.display_name}}
-								</span>
-								<span class='h3 d-block p-0 m-0' id="username-data" data-id="{{this.profile.username}}">
+                                    {{this.profile.display_name}}
+                                </span>
+                                <span class='h3 d-block p-0 m-0' id="username-data" data-id="{{this.profile.username}}">
 									@{{this.profile.username}}
 								</span>
-								<small class='d-block'>{{this.profile.user_type}}</small>
-								{{#compare this.profile.status "Searching"}}
-								<span class="btn btn-success btn-round" id="status-data" data-id="{{this.profile.status_id}}">{{this.profile.status}}</span>
-								{{else}}
-								<span class="btn btn-rose btn-round" id="status-data" data-id="{{this.profile.status_id}}">{{this.profile.status}}</span>
-								{{/compare}}
-							</h2>
-						</div>
-					</div>
-					<div class='row'>
-						<div class='col-md-12'>
-							<div class="description text-left">
-								<h6>About {{#compare this.profile.user_type "Musician"}}Them{{else}}Our Band{{/compare}}</h6>
-								<p id="about-data" data-id="{{this.profile.about}}">{{this.profile.about}}</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+                                <small class='d-block'>{{this.profile.user_type}}</small>
+                                {{#compare this.profile.status "Searching"}}
+                                    <span class="btn btn-success btn-round" id="status-data"
+                                          data-id="{{this.profile.status_id}}">{{this.profile.status}}</span>
+                                {{else}}
+                                    <span class="btn btn-rose btn-round" id="status-data"
+                                          data-id="{{this.profile.status_id}}">{{this.profile.status}}</span>
+                                {{/compare}}
+                            </h2>
+                        </div>
+                    </div>
+                    <div class='row'>
+                        <div class='col-md-12'>
+                            <div class="description text-left">
+                                <h6>About {{#compare this.profile.user_type "Musician"}}
+                                    Them{{else}}Our Band{{/compare}}</h6>
+                                <p id="about-data" data-id="{{this.profile.about}}">{{this.profile.about}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="col-lg-8 py-4">
-			<div class='follow'>
-				<button class='btn btn-warning btn-fab btn-round' data-toggle="modal" data-target="#reportUser" rel="tooltip" title="" data-original-title="Report User">
-					<i class="material-icons">report</i>
-				</button>
-			</div>
             <div class="container">
-				<div class="row mt-5">
-					{{#if this.profile.instagram_user}}
-					<div class="col-md-3">
-						<a class="w-100 d-flex flex-column text-center justify-content-middle align-items-center" href="http://instragram.com/{{this.profile.instagram_user}}" target="_blank">
+                <div class="row mt-5">
+                    {{#if this.profile.instagram_user}}
+                        <div class="col-md-3">
+                            <a class="w-100 d-flex flex-column text-center justify-content-middle align-items-center"
+                               href="http://instragram.com/{{this.profile.instagram_user}}" target="_blank">
 							<span class='d-block w-100' style="color: #d6249f;">
 								<i class="fa fa-instagram fa-3x"></i>
 							</span>
-							<span class='d-block w-100' style="color: #d6249f;">
+                                <span class='d-block w-100' style="color: #d6249f;">
 								Instragram
 							</span>
-						</a>
-					</div>
-					{{/if}}
-					{{#if this.profile.twitter_user}}
-					<div class="col-md-3">
-						<a class="w-100 d-flex flex-column text-center justify-content-middle align-items-center" href="https://twitter.com/{{this.profile.instagram_user}}" target="_blank">
+                            </a>
+                        </div>
+                    {{/if}}
+                    {{#if this.profile.twitter_user}}
+                        <div class="col-md-3">
+                            <a class="w-100 d-flex flex-column text-center justify-content-middle align-items-center"
+                               href="https://twitter.com/{{this.profile.instagram_user}}" target="_blank">
 							<span class='d-block w-100 text-info'>
 								<i class="fa fa-twitter fa-3x"></i>
 							</span>
-							<span class='d-block w-100 text-info'>
+                                <span class='d-block w-100 text-info'>
 								Twitter
 							</span>
-						</a>
-					</div>
-					{{/if}}
-					{{#if this.profile.facebook_user}}
-					<div class="col-md-3">
-						<a class="w-100 d-flex flex-column text-center align-items-center" href="https://facebook.com/{{this.profile.facebook_user}}" target="_blank">
+                            </a>
+                        </div>
+                    {{/if}}
+                    {{#if this.profile.facebook_user}}
+                        <div class="col-md-3">
+                            <a class="w-100 d-flex flex-column text-center align-items-center"
+                               href="https://facebook.com/{{this.profile.facebook_user}}" target="_blank">
 							<span class='d-block w-100'>
 								<i class="fa fa-facebook fa-3x"></i>
 							</span>
-							<span class='d-block w-100'>Facebook</span>
-						</a>
-					</div>
-					{{/if}}
-					{{#if this.profile.youtube_user}}
-					<div class="col-md-3">
-						<a class="w-100 d-flex flex-column text-center align-items-center" href="https://youtube.com/channel/{{this.profile.youtube_user}}" target="_blank">
+                                <span class='d-block w-100'>Facebook</span>
+                            </a>
+                        </div>
+                    {{/if}}
+                    {{#if this.profile.youtube_user}}
+                        <div class="col-md-3">
+                            <a class="w-100 d-flex flex-column text-center align-items-center"
+                               href="https://youtube.com/channel/{{this.profile.youtube_user}}" target="_blank">
 							<span class='d-block w-100 text-danger'>
 								<i class="fa fa-youtube fa-3x"></i>
 							</span>
-							<span class='d-block w-100 text-danger'>YouTube</span>
-						</a>
-					</div>
-					{{/if}}
-				</div>
+                                <span class='d-block w-100 text-danger'>YouTube</span>
+                            </a>
+                        </div>
+                    {{/if}}
+                </div>
 
                 <!-- ##### Begin Account section ###### -->
                 <div class="row">
                     <div class="col my-profile-header">
-						<h4 class="title border-bottom">Account</h4>
-					</div>
+                        <h4 class="title border-bottom">Account</h4>
+                    </div>
                 </div>
-				<div class="row">
-					<div class="col-4">Username</div>
-					<div class="col" id="username-data" data-id="{{this.profile.username}}">{{this.profile.username}}</div>
-				</div>
+                <div class="row">
+                    <div class="col-4">Username</div>
+                    <div class="col" id="username-data"
+                         data-id="{{this.profile.username}}">{{this.profile.username}}</div>
+                </div>
 
                 <!-- ##### Begin profile information ##### -->
                 <div class="row">
                     <div class="col my-profile-header">
-						<h4 class="title border-bottom">Profile Information</h4>
-					</div>
+                        <h4 class="title border-bottom">Profile Information</h4>
+                    </div>
                 </div>
-				{{#compare this.profile.user_type "Musician"}}
-					<div class="row">
-						<div class="col-4">Gender</div>
-						<div class="col" id="gender-data" data-id="{{this.profile.gender_id}}">{{this.profile.gender}}</div>
-					</div>
-				{{/compare}}
-				<div class="row">
-					<div class="col-4">Postcode</div>
-					<div class="col" id="postcode-data" data-id="{{this.profile.postcode}}">{{this.profile.postcode}}</div>
-				</div>
-				<div class="row">
-					<div class="col-4">Past Gigs</div>
-					<div class="col" id="past_gigs-data" data-id="{{this.profile.past_gigs}}">{{this.profile.past_gigs}}</div>
-				</div>
-				<div class="row">
-					<div class="col-4">Music Experience (Years)</div>
-					<div class="col" id="music_experience-data" data-id="{{this.profile.music_experience}}">{{this.profile.music_experience}}</div>
-				</div>
-				{{#compare this.profile.user_type "Band"}}
-				<div class="row">
-					<div class="col-4">Band Size</div>
-					<div class="col" id="band_size-data" data-id="{{this.profile.band_size}}">{{this.profile.band_size}}</div>
-				</div>
-				{{/compare}}
-				<div class="row">
-					<div class="col-4">Age Bracket</div>
-					<div class="col"id="age_bracket_id-data" data-id="{{this.profile.age_bracket_id}}">{{this.profile.age_bracket}}</div>
-				</div>
-				<div class="row">
-					<div class="col-4">Commitment Level</div>
-					<div class="col" id="commitment_level_id-data" data-id="{{this.profile.commitment_level_id}}">{{this.profile.commitment_level}}</div>
-				</div>
-				<div class="row">
-					<div class="col-4">Gig Frequency</div>
-					<div class="col" id="gig_frequency_id-data" data-id="{{this.profile.gig_frequency_id}}">{{this.profile.gig_frequency}}</div>
-				</div>
+                {{#compare this.profile.user_type "Musician"}}
+                    <div class="row">
+                        <div class="col-4">Gender</div>
+                        <div class="col" id="gender-data"
+                             data-id="{{this.profile.gender_id}}">{{this.profile.gender}}</div>
+                    </div>
+                {{/compare}}
+                <div class="row">
+                    <div class="col-4">Postcode</div>
+                    <div class="col" id="postcode-data"
+                         data-id="{{this.profile.postcode}}">{{this.profile.postcode}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-4">Past Gigs</div>
+                    <div class="col" id="past_gigs-data"
+                         data-id="{{this.profile.past_gigs}}">{{this.profile.past_gigs}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-4">Music Experience (Years)</div>
+                    <div class="col" id="music_experience-data"
+                         data-id="{{this.profile.music_experience}}">{{this.profile.music_experience}}</div>
+                </div>
+                {{#compare this.profile.user_type "Band"}}
+                    <div class="row">
+                        <div class="col-4">Band Size</div>
+                        <div class="col" id="band_size-data"
+                             data-id="{{this.profile.band_size}}">{{this.profile.band_size}}</div>
+                    </div>
+                {{/compare}}
+                <div class="row">
+                    <div class="col-4">Age Bracket</div>
+                    <div class="col" id="age_bracket_id-data"
+                         data-id="{{this.profile.age_bracket_id}}">{{this.profile.age_bracket}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-4">Commitment Level</div>
+                    <div class="col" id="commitment_level_id-data"
+                         data-id="{{this.profile.commitment_level_id}}">{{this.profile.commitment_level}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-4">Gig Frequency</div>
+                    <div class="col" id="gig_frequency_id-data"
+                         data-id="{{this.profile.gig_frequency_id}}">{{this.profile.gig_frequency}}</div>
+                </div>
 
 
-				<div class="row">
-					<div class="col-4 my-auto">Genres Played</div>
-					<div class="col">
-						<div class="form-group bmd-form-group">
-							<select class="select2-genre-view js-states form-control" id="genres-data" multiple="multiple">
-								{{#each this.profile.genres}}
-									<option value="{{this.genre_id}}" selected>{{this.name}}</option>
-								{{/each}}
-								{{#each this.criteria.genres}}
-									<option value="{{this.id}}">{{this.name}}</option>
-								{{/each}}
-							</select>
-						</div>
-					</div>
-				</div>
-				{{#compare this.profile.user_type "Musician"}}
-				<div class="row">
-					<div class="col-4 my-auto">Instrument/s Played</div>
-					<div class="col">
-						<div class="form-group bmd-form-group pt-0">
-							<select class="select2-instrument-view js-states form-control" id="instruments-data"
-									multiple="multiple">
-								{{#each this.profile.instruments}}
-									<option value="{{this.instrument_id}}" selected>{{this.name}}</option>
-								{{/each}}
-								{{#each this.criteria.instruments}}
-									<option value="{{this.id}}">{{this.name}}</option>
-								{{/each}}
-							</select>
-						</div>
-					</div>
-				</div>
-				{{/compare}}
+                <div class="row">
+                    <div class="col-4 my-auto">Genres Played</div>
+                    <div class="col">
+                        <div class="form-group bmd-form-group">
+                            <select class="select2-genre-view js-states form-control" id="genres-data"
+                                    multiple="multiple">
+                                {{#each this.profile.genres}}
+                                    <option value="{{this.genre_id}}" selected>{{this.name}}</option>
+                                {{/each}}
+                                {{#each this.criteria.genres}}
+                                    <option value="{{this.id}}">{{this.name}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                {{#compare this.profile.user_type "Musician"}}
+                    <div class="row">
+                        <div class="col-4 my-auto">Instrument/s Played</div>
+                        <div class="col">
+                            <div class="form-group bmd-form-group pt-0">
+                                <select class="select2-instrument-view js-states form-control" id="instruments-data"
+                                        multiple="multiple">
+                                    {{#each this.profile.instruments}}
+                                        <option value="{{this.instrument_id}}" selected>{{this.name}}</option>
+                                    {{/each}}
+                                    {{#each this.criteria.instruments}}
+                                        <option value="{{this.id}}">{{this.name}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                {{/compare}}
 
                 <!-- Begin band requirements -->
                 {{#compare this.profile.user_type "Band"}}
-                <div class="row">
-                    <div class="col my-profile-header">
-						<h4 class="title border-bottom">New Band Member/s Requirements</h4>
-					</div>
-                </div>
-				<div class="row">
-					<div class="col-4">Number of Members Needed</div>
-					<div class="col" id="members_needed-data" data-id="{{this.profile.members_needed}}">{{#if this.profile.members_needed}}{{this.profile.members_needed}}{{else}}Not set{{/if}}</div>
-				</div>
-				<div class="row">
-					<div class="col-4">Required Commitment Level</div>
-					<div class="col" id="required_commitment_level_id-data" data-id="{{required_commitment_level_id}}">{{#if this.profile.required_commitment_level}}{{this.profile.required_commitment_level}}{{else}}Not set{{/if}}</div>
-				</div>
-				<div class="row">
-					<div class="col-4">Required Music Experience (Years)</div>
-					<div class="col" id="required_music_experience-data" data-id="{{required_music_experience}}">{{#if this.profile.required_music_experience}}{{this.profile.required_music_experience}}{{else}}Not set{{/if}}</div>
-				</div>
-				<div class="row">
-					<div class="col-4">Required Past Gigs</div>
-					<div class="col" id="required_past_gigs-data" data-id="{{this.profile.required_past_gigs}}">{{#if this.profile.required_past_gigs}}{{this.profile.required_past_gigs}}{{else}}Not set{{/if}}</div>
-				</div>
-				<div class="row">
-					<div class="col-4">Required Gig Frequency</div>
-					<div class="col" id="required_gig_frequency_id-data" data-id="{{this.profile.required_gig_frequency_id}}">{{#if this.profile.required_gig_frequency}}{{this.profile.required_gig_frequency}}{{else}}Not set{{/if}}</div>
-				</div>
-				<div class="row">
-					<div class="col-4">Preferred Age Bracket</div>
-					<div class="col" id="preference_age_bracket_id-data" data-id="{{this.profile.preference_age_bracket_id}}">{{#if this.profile.preferred_age_bracket}}{{this.profile.preferred_age_bracket}}{{else}}Not set{{/if}}</div>
-				</div>
-				<div class="row">
-					<div class="col-4">Preferred Gender</div>
-					<div class="col" id='gender-data' data-id="{{this.profile.gender_id}}">{{this.profile.gender}}</div>
-				</div>
-				<div class="row">
-					<div class="col-4 my-auto">Instrument/s Required</div>
-					<div class="col">
-						<div class="form-group bmd-form-group">
-							<select class="select2-instrument-view js-states form-control" id="instruments-data" multiple="multiple">
-								{{#each this.profile.instruments}}<option value="{{this.instrument_id}}" selected>{{this.name}}</option>{{/each}}
-							</select>
-						</div>
-					</div>
-				</div>
+                    <div class="row">
+                        <div class="col my-profile-header">
+                            <h4 class="title border-bottom">New Band Member/s Requirements</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Number of Members Needed</div>
+                        <div class="col" id="members_needed-data" data-id="{{this.profile.members_needed}}">{{#if
+                                this.profile.members_needed}}{{this.profile.members_needed}}{{else}}Not set{{/if}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Required Commitment Level</div>
+                        <div class="col" id="required_commitment_level_id-data"
+                             data-id="{{required_commitment_level_id}}">{{#if
+                                this.profile.required_commitment_level}}{{this.profile.required_commitment_level}}{{else}}
+                            Not set{{/if}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Required Music Experience (Years)</div>
+                        <div class="col" id="required_music_experience-data"
+                             data-id="{{required_music_experience}}">{{#if
+                                this.profile.required_music_experience}}{{this.profile.required_music_experience}}{{else}}
+                            Not set{{/if}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Required Past Gigs</div>
+                        <div class="col" id="required_past_gigs-data"
+                             data-id="{{this.profile.required_past_gigs}}">{{#if
+                                this.profile.required_past_gigs}}{{this.profile.required_past_gigs}}{{else}}
+                            Not set{{/if}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Required Gig Frequency</div>
+                        <div class="col" id="required_gig_frequency_id-data"
+                             data-id="{{this.profile.required_gig_frequency_id}}">{{#if
+                                this.profile.required_gig_frequency}}{{this.profile.required_gig_frequency}}{{else}}
+                            Not set{{/if}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Preferred Age Bracket</div>
+                        <div class="col" id="preference_age_bracket_id-data"
+                             data-id="{{this.profile.preference_age_bracket_id}}">{{#if
+                                this.profile.preferred_age_bracket}}{{this.profile.preferred_age_bracket}}{{else}}
+                            Not set{{/if}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Preferred Gender</div>
+                        <div class="col" id='gender-data'
+                             data-id="{{this.profile.gender_id}}">{{this.profile.gender}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 my-auto">Instrument/s Required</div>
+                        <div class="col">
+                            <div class="form-group bmd-form-group">
+                                <select class="select2-instrument-view js-states form-control" id="instruments-data"
+                                        multiple="multiple">
+                                    {{#each this.profile.instruments}}
+                                        <option value="{{this.instrument_id}}" selected>{{this.name}}</option>{{/each}}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 {{/compare}}
             </div>
         </div>
     </div>
 
 
-	<div class="row">
-		<div class="col-md-12 d-flex justify-content-end">
-			<button class='btn btn-warning btn-round' data-toggle="modal" data-target="#reportUser"><i class="material-icons">report</i> Report User</button>
-		</div>
-	</div>
+    <div class="row d-block d-md-none">
+        <div class="col-12 text-center align-items-center">
+            <button data-toggle="modal" data-target="#messageUser" class="btn btn-rose btn-round" rel="tooltip">
+                <i class="material-icons">message</i> Reach Out
+            </button>
+
+            <button class='btn btn-warning btn-round' data-toggle="modal" data-target="#reportUser"><i
+                    class="material-icons">report</i> Report User
+            </button>
+
+        </div>
+    </div>
+
+
 </div>
 
+<div class="modal fade" id="messageUser" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-login" role="document">
+        <div class="modal-content">
+            <div class="card card-signup card-plain">
+                <div class="modal-header">
+                    <div class="card-header card-header-rose w-100">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i
+                                class="material-icons">clear</i></button>
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="pr-2">
+                                <h4><i class="material-icons pt-1">message</i></h4>
+                            </div>
+                            <div class="">
+                                <h4>Reach Out to {{this.profile.display_name}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group bmd-form-group">
+                        <label class="bmd-label-floating">Message:</label>
+                        <textarea id="reportReason" class="form-control" rows="6"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" id="submitReport" class="btn btn-default btn-round messageUser"
+                            data-dismiss="modal">Cancel
+                    </button>
+                    <button type="button" id="submitReport" class="btn btn-rose btn-round messageUser"
+                            data-id="{{this.profile.user_id}}"><i class="material-icons">send</i> Send
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="modal fade" tabindex="-1" role="dialog" id="reportUser">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title">Report User</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class='row'>
-					<div class="col-md-12">
-						<p>
-							You are about to report {{this.profile.display_name}}.
-							<br />They will not be able to see the report or who reported them.
-							<br />An admin will assess the report and decide if any action is needed.
-						</p>
-					</div>
-					<div class="col-md-12">
-						<div class="form-group bmd-form-group">
-							<label>Reaseon for reporting</label>
-							<select id="tag_reportReason" class='form-control'>
-								<option value="">Choose...</option>
-								<option value="Harrassment">Harrassment</option>
-								<option value="Violence">Violence</option>
-								<option value="Fruad or Scam">Fruad or Scam</option>
-								<option value="Nudity">Nudity</option>
-								<option value="Hate Speech">Hate Speech</option>
-								<option value="Other">Other</option>
-							</select>
-						</div>
-							<div class="form-group bmd-form-group">
-							<label class="bmd-label-floating">Tell us in a few words why:</label>
-							<textarea id="reportReason" class="form-control" rows="4"></textarea>
-						</div>
-					</div>
-				</div>
-				<div class="row" style="display:none;">
-					<div class="col-md-12">
-						<p class="reportStatus"></p>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer d-flex justify-content-end">
-				<button type="button" id="submitReport" class="btn btn-warning btn-round reportUser" data-id="{{this.profile.user_id}}">Report</button>
-			</div>
-		</div>
-	</div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Report User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class='row'>
+                    <div class="col-md-12">
+                        <p>
+                            You are about to report <b>{{this.profile.display_name}}</b>.
+                        </p>
+                        <p>
+                            They will not be able to see the report or who reported them.
+                            <br/>An admin will assess the report and decide if any action is needed.
+                        </p>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group bmd-form-group">
+                            <label>Reason for reporting:</label>
+                            <select id="tag_reportReason" class='form-control'>
+                                <option value="">Choose...</option>
+                                <option value="Harrassment">Harrassment</option>
+                                <option value="Violence">Violence</option>
+                                <option value="Fruad or Scam">Fruad or Scam</option>
+                                <option value="Nudity">Nudity</option>
+                                <option value="Hate Speech">Hate Speech</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group bmd-form-group">
+                            <label class="bmd-label-floating">Tell us in a few words why:</label>
+                            <textarea id="reportReason" class="form-control" rows="4"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="display:none;">
+                    <div class="col-md-12">
+                        <p class="reportStatus"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-end">
+                <button type="button" id="submitReport" class="btn btn-warning btn-round reportUser"
+                        data-id="{{this.profile.user_id}}">Report
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="/public/js/app/user/view_profile.js" type="text/javascript"></script>
