@@ -16,7 +16,10 @@ messaging.new = function(params) {
 		userRow_a.thread_id = res.insertId;
 		userRow_a.user_id = params.user_id;
 
-		if ( ("contact_id" in params) ) userRow_a.contact_id = params.contact_id;
+		if ( ("contact_id" in params) ) {
+			userRow_a.contact_id = params.contact_id;
+			userRow_b.contact_id = null;
+		}
 
 		userRow_b.thread_id = res.insertId;
 		userRow_b.user_id = params.message_to;
