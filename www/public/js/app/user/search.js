@@ -104,7 +104,7 @@ appPage.search = function($this) {
 	} else {
 		$(".loading-indicator").find(".loading-status").text("Looking around...");
 		$(".loading-indicator").show();
-		$('#search-pagination').twbsPagination('destroy');
+		$('.pagination-search').twbsPagination('destroy');
 
 		$.post("/api/user/search", data, function(resp) {
 			$(".loading-indicator").find(".loading-status").text("Lets see who we've found!");
@@ -121,7 +121,7 @@ appPage.search = function($this) {
 
 				$("#results").html(resp.results.total).removeClass('d-none');
 
-				$('#search-pagination').twbsPagination({
+				$('.pagination-search').twbsPagination({
 					totalPages: Math.ceil(resp.results.total / resp.results.per_page),
 					visiblePages: 5,
 					initiateStartPageClick: false,

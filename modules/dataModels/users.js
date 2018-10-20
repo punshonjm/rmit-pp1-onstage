@@ -825,7 +825,7 @@ users.search = function (params) {
 	// Pagination settings
 	if (!("user" in params)) {
 		if (!("page" in params) || (params["page"] > 200 || params["per_page"] < 1)) params.page = 1;
-		if (!("per_page" in params) || (params["per_page"] > 100 || params["per_page"] < 1)) params.per_page = 5;
+		if (!("per_page" in params) || (params["per_page"] > 100 || params["per_page"] < 1)) params.per_page = 8;
 	}
 
 	return Promise.resolve().then(() => {
