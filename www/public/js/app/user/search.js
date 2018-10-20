@@ -78,6 +78,7 @@ appPage.search = function($this) {
 	data = {};
 
 	data.page = 1;
+	data.per_page = $("#per_page").val();
 	data.type_id = $("#type_id").val();
 	data.postcode_id = $("#postcode_id").val();
 	data.postcode_radius = $("#postcode_radius").val();
@@ -93,7 +94,7 @@ appPage.search = function($this) {
 		if ( (typeof data[key] == typeof undefined) || (data[key] == null) || (data[key] == "") ) delete data[key];
 	});
 
-	let total_advanced_options = Object.keys(data).length - 4;
+	let total_advanced_options = Object.keys(data).length - 5;
 	$("#option-count").html(total_advanced_options);
 	(total_advanced_options > 0) ? $("#option-count").removeClass('d-none') : $("#option-count").addClass('d-none');
 
