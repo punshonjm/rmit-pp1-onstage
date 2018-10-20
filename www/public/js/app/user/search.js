@@ -76,23 +76,26 @@ appPage.search = function($this) {
 	$("#search-results").empty();
 
 	data = {};
-	data.page = 1;
 
+	data.page = 1;
 	data.type_id = $("#type_id").val();
 	data.postcode_id = $("#postcode_id").val();
 	data.postcode_radius = $("#postcode_radius").val();
 	data.instruments = $("#instruments").val();
-	data.genre = $("#genre").val();
+	data.genres = $("#genre").val();
 	data.preferred_age_bracket_id = $("#preferred_age_bracket").val();
 	data.music_experience_id = $("#music_experience").val();
 	data.past_gigs_id = $("#past_gigs").val();
 	data.required_gig_frequency_id = $("#required_gig_frequency").val();
 	data.required_commitment_level_id = $("#required_commitment_level").val();
 
-
 	Object.keys(data).map(function(key) {
 		if ( (typeof data[key] == typeof undefined) || (data[key] == null) || (data[key] == "") ) delete data[key];
 	});
+
+	let total_advanced_options = Object.keys(data).length - 4;
+	$("#option-count").html(total_advanced_options);
+	(total_advanced_options > 0) ? $("#option-count").removeClass('d-none') : $("#option-count").addClass('d-none');
 
 	if ( Object.keys(data).length == 0 ) {
 		$this.prop("disabled", false);
