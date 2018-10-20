@@ -15,7 +15,8 @@ messaging.new = function(params) {
 	}).then((res) => {
 		userRow_a.thread_id = res.insertId;
 		userRow_a.user_id = params.user_id;
-		userRow_a.read_message_id
+
+		if ( ("contact_id" in params) ) userRow_a.contact_id = params.contact_id;
 
 		userRow_b.thread_id = res.insertId;
 		userRow_b.user_id = params.message_to;

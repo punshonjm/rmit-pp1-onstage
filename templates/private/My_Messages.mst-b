@@ -34,6 +34,9 @@
 							<small>{{this.date}}</small>
 						</div>
 						<p class="text-truncate" style="max-width: 85%;">{{this.message.content}}</p>
+						{{#if this.unassigned}}
+						<small>Currently Unassigned</small>
+						{{/if}}
 					</div>
 				</div>
 				{{/each}}
@@ -41,7 +44,7 @@
 		</div>
 	</div>
 	<div class="col-lg-12 col-xl-9" id="messages-panel">
-		
+
 	</div>
 </div>
 
