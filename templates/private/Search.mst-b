@@ -86,7 +86,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group bmd-form-group">
-                                        <label>Music Experience:</label>
+                                    <label>Music Experience:</label>
                                     <select id="music_experience" class='form-control'>
                                         <option value="">Choose...</option>
                                         {{#each this.criteria.music_experience}}
@@ -138,7 +138,19 @@
             <div class="card-footer border-top pb-0 p-2 d-flex justify-content-between">
                 <button class="btn btn-link" data-toggle="collapse" data-target="#advanced-options">Advanced
                     Search <span class="badge badge-pill badge-default d-none" id="option-count">0</span></button>
+
+                <form class="form-inline" role="form">
+                    <div class="form-group">
+                        <select id="per_page" class='form-control selectpicker mr-lg-3 mr-md-2'
+                                data-style="btn btn-link">
+                            <option value="3">3 results/page</option>
+                            <option value="5" selected>5 results/page</option>
+                            <option value="10">10 results/page</option>
+                            <option value="15">15 results per page</option>
+                        </select>
+                    </div>
                     <button class="btn btn-primary btn-round btn-raised search-button">Search</button>
+                </form>
             </div>
         </div>
     </div>
