@@ -39,6 +39,7 @@ router.post("/", (req, res) => {
 	}).then((output) => {
 		if ( output != null ) {
 			row.user_id = 0;
+			row.contact_id = output.insertId;
 		} else {
 			row.user_id = req.user.user_id;
 		}

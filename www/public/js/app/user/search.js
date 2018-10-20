@@ -62,7 +62,8 @@ appPage.search_page = function($page) {
 			let html = window.app.templates.row(user);
 			$("#search-results").append(html);
 		});
-		if ($('.toggle-style').data().style == "grid") {
+
+		if ( $('.toggle-style').data().style == "grid" ) {
 			appPage.setResultStyle($('.toggle-style').data().style);
 		}
 
