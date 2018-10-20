@@ -88,7 +88,11 @@ messaging.listThreads = function(user) {
 			"ebdb.message"
 		).where("id IN ?", idQuery);
 
-		return dbc.execute(query);
+		if ( threadIds.length > 0) {
+			return dbc.execute(query);
+		} else {
+			return Promise.reject({ noMessages: true });
+		}
 	}).then((messages) => {
 		messages.map((message) => {
 			data[message.thread_id].message = message;
@@ -118,6 +122,12 @@ messaging.listThreads = function(user) {
 		});
 
 		return Promise.resolve(data);
+	}).catch((error) => {
+		if ( ("noMessages" in error) ) {
+			return Promise.resolve([]);
+		} else {
+			return Promise.reject(error);
+		}
 	});
 };
 
@@ -136,13 +146,35 @@ messaging.getThread = function(params) {
 		return dbc.getRow(query);
 	}).then((row) => {
 		if ( row ) {
-			let query = dbc.sql.select().from("ebdb.thread_user").where("thread_id = ?", params.thread_id);
+			let query = dbc.sql.select().fields([
+				"t.user_id AS message_with",
+				"cf.name AS messager_name",
+				"u.display_name",
+				"p.picture"
+			]).from(
+				"ebdb.thread_user",
+				"t"
+			).left_join(
+				"ebdb.contact_form",
+				"cf", "t.contact_id = cf.id"
+			).left_join(
+				"ebdb.user",
+				"u", "t.user_id = u.id"
+			).left_join(
+				"ebdb.profile",
+				"p", "p.user_id = u.id"
+			).where("thread_id = ?", params.thread_id);
+
 			return dbc.execute(query);
 		} else {
 			return Promise.reject({ message: "You don't have access to this message thread." });
 		}
 	}).then((users) => {
-		thread.users = users;
+		thread.users = users.map((user) => {
+			if ( user.message_with == 1 ) user.display_name = "Unassigned";
+			if ( user.messager_name != null ) user.display_name = user.messager_name;
+			return user;
+		});
 
 		let query = dbc.sql.select().from("ebdb.message").where("thread_id = ?", params.thread_id);
 		return dbc.execute(query);
