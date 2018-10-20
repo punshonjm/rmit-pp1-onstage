@@ -823,8 +823,10 @@ users.search = function (params) {
 	let total = 0;
 
 	// Pagination settings
-	if (!("page" in params) || (params["page"] > 200 || params["per_page"] < 1)) params.page = 1;
-	if (!("per_page" in params) || (params["per_page"] > 100 || params["per_page"] < 1) ) params.per_page = 3;
+	if (!("user" in params)) {
+		if (!("page" in params) || (params["page"] > 200 || params["per_page"] < 1)) params.page = 1;
+		if (!("per_page" in params) || (params["per_page"] > 100 || params["per_page"] < 1)) params.per_page = 5;
+	}
 
 	return Promise.resolve().then(() => {
 		// Get list of postcodes within search radius
@@ -956,13 +958,15 @@ users.search = function (params) {
 	}).then((rows) => {
 
 		// ***** Pagination *****
-		// Total number of records
-		total = rows.length;
-		if (rows.length > 0) {
-			// Get record offset
-			let offset = params.per_page * (params.page - 1);
-			// Get subset of rows based on pagination
-			rows = rows.slice(offset, (offset + params.per_page));
+		if ( ("page" in params) && ("per_page" in params) ) {
+			// Total number of records
+			total = rows.length;
+			if (rows.length > 0) {
+				// Get record offset
+				let offset = params.per_page * (params.page - 1);
+				// Get subset of rows based on pagination
+				rows = rows.slice(offset, (offset + params.per_page));
+			}
 		}
 
 		return Promise.all(rows.map((row) => users.details(row.user_id)));

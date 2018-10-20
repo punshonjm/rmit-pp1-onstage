@@ -116,6 +116,8 @@ appPage.search = function($this) {
 					$("#search-results").append(html);
 				});
 
+				$("#results").html(resp.results.total).removeClass('d-none');
+
 				$('#search-pagination').twbsPagination({
 					totalPages: Math.ceil(resp.results.total / resp.results.per_page),
 					visiblePages: 5,
