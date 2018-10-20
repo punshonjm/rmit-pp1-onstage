@@ -66,7 +66,7 @@ users.details = function (user_id) {
 		user.__class = "userObject";
 		return Promise.resolve(user);
 	});
-}
+};
 
 users.register = function (params) {
 	let row = {}, profile = {}, pwd = {}, verify = {}, errors = [], files = [];
@@ -820,8 +820,14 @@ users.verifyEmail = function (key) {
 
 users.search = function (params) {
 	let ids = {};
+	let total = 0;
+
+	// Pagination settings
+	if (!("page" in params) || (params["page"] > 200 || params["per_page"] < 1)) params.page = 1;
+	if (!("per_page" in params) || (params["per_page"] > 100 || params["per_page"] < 1) ) params.per_page = 3;
 
 	return Promise.resolve().then(() => {
+		// Get list of postcodes within search radius
 		if (("postcode_id" in params) && ("postcode_radius" in params)) {
 			return model_list.postcode.match(params.postcode_id, params.postcode_radius);
 		} else {
@@ -941,14 +947,27 @@ users.search = function (params) {
 		// Add searched parameters
 		query.where(expr);
 
+
 		if (("limit" in params)) {
 			query.limit(params.limit);
 		}
+
 		return dbc.execute(query);
 	}).then((rows) => {
+
+		// ***** Pagination *****
+		// Total number of records
+		total = rows.length;
+		if (rows.length > 0) {
+			// Get record offset
+			let offset = params.per_page * (params.page - 1);
+			// Get subset of rows based on pagination
+			rows = rows.slice(offset, (offset + params.per_page));
+		}
+
 		return Promise.all(rows.map((row) => users.details(row.user_id)));
 	}).then((rows) => {
-		return Promise.resolve({"users": rows});
+		return Promise.resolve({"users": rows, "page": params.page, "per_page": params.per_page, "total": total});
 	});
 };
 

@@ -1,168 +1,183 @@
-			</div>
-		</div>
-		<footer class="footer">
-			<div class="container">
+</div>
+</div>
+<footer class="footer">
+    <div class="container">
 
-				<nav class="float-left">
- 					<ul>
-						<li>
- 							<a href="/terms_and_conditions">T&Cs</a>
- 						</li>
-						<li>
- 							<a href="/privacy_policy">Privacy Policy</a>
- 						</li>
-						<li>
- 							<a href="/contact_us">Contact Us</a>
- 						</li>
-						{{#if this.user.golden_ticket}}
-						<li>
- 							<a href="#ticketModal" data-toggle="modal"><i class="fa fa-ticket"></i> Ticket</a>
- 						</li>
-						{{/if}}
- 					</ul>
- 				</nav>
-                <div class="copyright float-right">
-                    &copy; <script>
-                        document.write(new Date().getFullYear())
-                    </script>, On Stage. Developed by The Musketeers
+        <nav class="float-left">
+            <ul>
+                <li>
+                    <a href="/terms_and_conditions">T&Cs</a>
+                </li>
+                <li>
+                    <a href="/privacy_policy">Privacy Policy</a>
+                </li>
+                <li>
+                    <a href="/contact_us">Contact Us</a>
+                </li>
+                {{#if this.user.golden_ticket}}
+                    <li>
+                        <a href="#ticketModal" data-toggle="modal"><i class="fa fa-ticket"></i> Ticket</a>
+                    </li>
+                {{/if}}
+            </ul>
+        </nav>
+        <div class="copyright float-right">
+            &copy;
+            <script>
+                document.write(new Date().getFullYear())
+            </script>
+            , On Stage. Developed by The Musketeers
+        </div>
+    </div>
+</footer>
+</wrapper>
+
+{{#if this.user.golden_ticket}}
+    <div class="modal fade" tabindex="-1" role="dialog" id="ticketModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">You found a golden ticket!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-			</div>
-		</footer>
-	</wrapper>
+                <div class="modal-body">
+                    <p>Press a button below to change the type of user you are. You are currently role
+                        is {{this.user.type_name}}</p>
+                </div>
+                <div class="modal-footer">
+                    {{^compare this.user.type_id 1}}
+                        <button type="button" class="btn btn-primary btn-round mx-2 changeUserType" data-type="1">
+                            Admin
+                        </button>{{/compare}}
+                    {{^compare this.user.type_id 2}}
+                        <button type="button" class="btn btn-primary btn-round mx-2 changeUserType" data-type="2">Band
+                        </button>{{/compare}}
+                    {{^compare this.user.type_id 3}}
+                        <button type="button" class="btn btn-primary btn-round mx-2 changeUserType" data-type="3">
+                            Musician
+                        </button>{{/compare}}
+                </div>
+            </div>
+        </div>
+    </div>
+{{/if}}
 
-	{{#if this.user.golden_ticket}}
-	<div class="modal fade" tabindex="-1" role="dialog" id="ticketModal">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">You found a golden ticket!</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<p>Press a button below to change the type of user you are. You are currently role is {{this.user.type_name}}</p>
-				</div>
-				<div class="modal-footer">
-					{{^compare this.user.type_id 1}}<button type="button" class="btn btn-primary btn-round mx-2 changeUserType" data-type="1">Admin</button>{{/compare}}
-					{{^compare this.user.type_id 2}}<button type="button" class="btn btn-primary btn-round mx-2 changeUserType" data-type="2">Band</button>{{/compare}}
-					{{^compare this.user.type_id 3}}<button type="button" class="btn btn-primary btn-round mx-2 changeUserType" data-type="3">Musician</button>{{/compare}}
-				</div>
-			</div>
-		</div>
-	</div>
-	{{/if}}
-
-	<div class="modal fade" tabindex="-1" role="dialog" id="change_password_modal">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">Change Password</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div class="container">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="form-group bmd-form-group">
-									<label class="bmd-label-floating">Current Password *:</label>
-									<input id="current_password" type="password" class="form-control" required>
-									<small class="form-text text-danger"></small>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-12">
-								<div class="form-group bmd-form-group">
-									<label class="bmd-label-floating">New Password *:</label>
-									<input id="password_new" type="password" class="form-control password" required>
-									<div class="password-meter"></div>
-									<small class="form-text text-danger"></small>
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="form-group bmd-form-group">
-									<label class="bmd-label-floating">Confirm New Password *:</label>
-									<input id="password_confirm_new" type="password" class="form-control password" required>
-									<small class="form-text text-danger"></small>
-								</div>
-							</div>
-							<div class="col-md-12">
-								<p class="change_password_status text-center"></p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<div class='row w-100'>
-						<div class='col-md-12 change_password_buttons'>
-							<div class='w-100 d-flex justify-content-between'>
-								<button type="button" class="btn btn-warning btn-round mx-2" data-dismiss="modal">Cancel</button>
-								<button type="button" class="btn btn-primary btn-round mx-2 change_password">Change</button>
-							</div>
-						</div>
-						<div class='col-md-12 change_password_pending' style="display: none !important;">
+<div class="modal fade" tabindex="-1" role="dialog" id="change_password_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Change Password</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Current Password *:</label>
+                                <input id="current_password" type="password" class="form-control" required>
+                                <small class="form-text text-danger"></small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">New Password *:</label>
+                                <input id="password_new" type="password" class="form-control password" required>
+                                <div class="password-meter"></div>
+                                <small class="form-text text-danger"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Confirm New Password *:</label>
+                                <input id="password_confirm_new" type="password" class="form-control password" required>
+                                <small class="form-text text-danger"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <p class="change_password_status text-center"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class='row w-100'>
+                    <div class='col-md-12 change_password_buttons'>
+                        <div class='w-100 d-flex justify-content-between'>
+                            <button type="button" class="btn btn-warning btn-round mx-2" data-dismiss="modal">Cancel
+                            </button>
+                            <button type="button" class="btn btn-primary btn-round mx-2 change_password">Change</button>
+                        </div>
+                    </div>
+                    <div class='col-md-12 change_password_pending' style="display: none !important;">
 							<span class='d-flex align-items-center justify-content-center w-100'>
 								<span class='d-inline-block mr-3'>Changing your password </span>
 								<i class="fa fa-cog fa-spin fa-2x"></i>
 							</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-	<div class="loading-indicator flex-fill">
-		<div class="d-flex align-items-center h-100">
-			<div class="container">
-				<div class="spinner">
-				  <div class="rect1"></div>
-				  <div class="rect2"></div>
-				  <div class="rect3"></div>
-				  <div class="rect4"></div>
-				  <div class="rect5"></div>
-				</div>
-				<h3 class="loading-status"></h3>
-			</div>
-		</div>
-	</div>
+<div class="loading-indicator flex-fill">
+    <div class="d-flex align-items-center h-100">
+        <div class="container">
+            <div class="spinner">
+                <div class="rect1"></div>
+                <div class="rect2"></div>
+                <div class="rect3"></div>
+                <div class="rect4"></div>
+                <div class="rect5"></div>
+            </div>
+            <h3 class="loading-status"></h3>
+        </div>
+    </div>
+</div>
 
-	<!--   Core JS Files   -->
-	<script src="/public/js/core/popper.min.js" type="text/javascript"></script>
-	<script src="/public/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
-	<script src="/public/js/core/handlebars.js" type="text/javascript"></script>
-	<script src="/public/js/plugins/moment.min.js"></script>
-	<!--	Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker -->
-	<script src="/public/js/plugins/bootstrap-datetimepicker.js" type="text/javascript"></script>
-	<!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
-	<script src="/public/js/plugins/nouislider.min.js" type="text/javascript"></script>
-	<script src="/public/js/plugins/zxcvbn.js" type="text/javascript"></script>
-	<script src="/public/js/plugins/jasny-bootstrap.js" type="text/javascript"></script>
-	<!--	Plugin for Sharrre btn -->
-	<script src="/public/js/plugins/jquery.sharrre.js" type="text/javascript"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-	<!-- Control Center for Material Kit-->
-	<script src="/public/js/core/material-kit.js?v=2.0.4" type="text/javascript"></script>
-	<script src="/public/js/core/app.js" type="text/javascript"></script>
+<!--   Core JS Files   -->
+<script src="/public/js/core/popper.min.js" type="text/javascript"></script>
+<script src="/public/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
+<script src="/public/js/core/handlebars.js" type="text/javascript"></script>
+<script src="/public/js/plugins/moment.min.js"></script>
+<!--	Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker -->
+<script src="/public/js/plugins/bootstrap-datetimepicker.js" type="text/javascript"></script>
+<!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+<script src="/public/js/plugins/nouislider.min.js" type="text/javascript"></script>
+<script src="/public/js/plugins/zxcvbn.js" type="text/javascript"></script>
+<script src="/public/js/plugins/jasny-bootstrap.js" type="text/javascript"></script>
+<!--	Plugin for Sharrre btn -->
+<script src="/public/js/plugins/jquery.sharrre.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<!-- Control Center for Material Kit -->
+<script src="/public/js/core/material-kit.js?v=2.0.4" type="text/javascript"></script>
+<script src="/public/js/core/app.js" type="text/javascript"></script>
+<!-- Query Twbs Pagination -->
+<script src="/public/js/plugins/jquery.twbsPagination.min.js" type="text/javascript"></script>
 
-	{{#if this.user.golden_ticket}}
-	<script>
-		$(document).ready(function() {} ).on("click", ".changeUserType", function() {
-			window.app.swapType( $(this) );
-		});
+{{#if this.user.golden_ticket}}
+    <script>
+        $(document).ready(function () {
+        }).on("click", ".changeUserType", function () {
+            window.app.swapType($(this));
+        });
 
-		window.app.swapType = function($this) {
-			$(".changeUserType").prop("disabled", true);
-			$.post("/api/user/golden_ticket/" + $this.data().type, function() {
-				window.location.reload();
-			}).fail(function() {
-				$(".changeUser").prop("disabled", false);
-			});
-		};
-	</script>
-	{{/if}}
+        window.app.swapType = function ($this) {
+            $(".changeUserType").prop("disabled", true);
+            $.post("/api/user/golden_ticket/" + $this.data().type, function () {
+                window.location.reload();
+            }).fail(function () {
+                $(".changeUser").prop("disabled", false);
+            });
+        };
+    </script>
+{{/if}}
 </body>
 </html>

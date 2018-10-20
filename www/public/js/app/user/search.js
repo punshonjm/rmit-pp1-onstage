@@ -50,11 +50,33 @@ appPage.initialise = function() {
 	window.app.templates.load({ path: "user/searchRow", name: "row" });
 };
 
+let data = {};
+
+appPage.search_page = function($page) {
+	data.page = $page;
+
+
+	$.post("/api/user/search", data, function(resp) {
+		$("#search-results").empty();
+		resp.results.users.map(function(user) {
+			let html = window.app.templates.row(user);
+			$("#search-results").append(html);
+		});
+		if ($('.toggle-style').data().style == "grid") {
+			appPage.setResultStyle($('.toggle-style').data().style);
+		}
+
+	}).fail(function(error) {
+		console.log(error.responseJSON);
+	})
+};
+
 appPage.search = function($this) {
 	$this.prop("disabled", true);
 	$("#search-results").empty();
 
-	var data = {};
+	data = {};
+	data.page = 1;
 
 	data.type_id = $("#type_id").val();
 	data.postcode_id = $("#postcode_id").val();
@@ -79,15 +101,30 @@ appPage.search = function($this) {
 	} else {
 		$(".loading-indicator").find(".loading-status").text("Looking around...");
 		$(".loading-indicator").show();
+		$('#search-pagination').twbsPagination('destroy');
 
 		$.post("/api/user/search", data, function(resp) {
 			$(".loading-indicator").find(".loading-status").text("Lets see who we've found!");
 
-			resp.results.users.map(function(user) {
-				let html = window.app.templates.row(user);
-				$("#search-results").append(html);
-			});
+			// If results are returned then setup
+			if (resp.results.users.length > 0) {
 
+				$('#advanced-options').collapse('hide');
+
+				resp.results.users.map(function(user) {
+					let html = window.app.templates.row(user);
+					$("#search-results").append(html);
+				});
+
+				$('#search-pagination').twbsPagination({
+					totalPages: Math.ceil(resp.results.total / resp.results.per_page),
+					visiblePages: 5,
+					initiateStartPageClick: false,
+					onPageClick: function (event, page) {
+						appPage.search_page(page);
+					}
+				});
+			}
 			appPage.toggleStyle($(".toggle-style"), false);
 		}).fail(function(error) {
 			console.log(error.responseJSON);
@@ -104,6 +141,22 @@ appPage.search = function($this) {
 	}
 };
 
+appPage.setResultStyle = function($style) {
+	if ( $style === "grid" ) {
+		$("#search-results").find(".match").each(function() {
+			$(this).addClass("col-md-3").removeClass("col-md-12");
+			$(this).find(".description").hide();
+			$(this).find(".grid-item").show();
+		});
+	} else if ( $style === "lines" ) {
+		$("#search-results").find(".match").each(function() {
+			$(this).removeClass("col-md-3").addClass("col-md-12");
+			$(this).find(".description").show();
+			$(this).find(".grid-item").hide();
+		});
+	}
+}
+
 appPage.toggleStyle = function($this, toggle = true) {
 	// Update button
 	var style = null;
@@ -116,19 +169,8 @@ appPage.toggleStyle = function($this, toggle = true) {
 		style = $this.data().style;
 	}
 
-	if ( style == "grid" ) {
-		$("#search-results").find(".match").each(function() {
-			$(this).addClass("col-md-3").removeClass("col-md-12");
-			$(this).find(".description").hide();
-			$(this).find(".grid-item").show();
-		});
-	} else if ( style == "lines" ) {
-		$("#search-results").find(".match").each(function() {
-			$(this).removeClass("col-md-3").addClass("col-md-12");
-			$(this).find(".description").show();
-			$(this).find(".grid-item").hide();
-		});
-	}
+	appPage.setResultStyle(style);
+
 };
 
 $(document).ready(function() {
