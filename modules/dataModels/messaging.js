@@ -6,13 +6,31 @@ const moment = require("moment");
 
 var messaging = {};
 
+
 messaging.new = function(params) {
 	let userRow_a = {}, userRow_b = {}, message = {};
 
 	return Promise.resolve().then(() => {
-		let query = dbc.sql.insert().into("ebdb.thread").setFields({ sql_last_update: dbc.sql.rstr("NOW()") });
-		return dbc.execute(query);
+		// Check for existing user to user thread
+		if (! ("contact_id" in params) && ("user_id" in params) && ("message_to" in params)  ) {
+			// Is user to user message, lookup thread
+			return messaging.getLatestThread(params.user_id, params.message_to);
+		} else {
+			// Contact form, no existing thread exists
+			return null;
+		}
+	}).then((thread_id) => {
+		// Use existing thread if exists otherwise create new thread
+		if (thread_id != null) {
+			// User had existing thread, return id
+			return {"insertId": thread_id};
+		} else {
+			// Thread does not exist, create
+			let query = dbc.sql.insert().into("ebdb.thread").setFields({ sql_last_update: dbc.sql.rstr("NOW()") });
+			return dbc.execute(query);
+		}
 	}).then((res) => {
+		// Process message with thread
 		userRow_a.thread_id = res.insertId;
 		userRow_a.user_id = params.user_id;
 
@@ -37,6 +55,37 @@ messaging.new = function(params) {
 		return dbc.execute(query);
 	}).then((res) => {
 		return Promise.resolve({ message: "Successfully sent message!" });
+	});
+};
+
+messaging.getLatestThread = function(user_a,user_b) {
+	// Find the latest thread id between 2 parties that are still active. Return id or null.
+	let thread = {};
+	return Promise.resolve().then(() => {
+		let query = dbc.sql.select().fields([
+			"t.id",
+		]).from(
+			"ebdb.thread",
+			"t"
+		).left_join(
+			"ebdb.thread_user",
+			"u1", "t.id = u1.thread_id"
+		).left_join(
+			"ebdb.thread_user",
+			"u2", "t.id = u2.thread_id"
+		).where("(u1.user_id = ? AND u2.user_id = ?) OR (u1.user_id = ? AND u2.user_id = ?)",user_a, user_b, user_b, user_a
+		).where("u1.is_active = 1 and u2.is_active = 1"
+		).order("t.sql_date_added", false
+		).distinct("t.id")
+			.limit(1);
+
+		return dbc.execute(query);
+	}).then((result) => {
+		if (result.length > 0) {
+			return Promise.resolve(result[0].id);
+		} else {
+			return Promise.resolve(null);
+		}
 	});
 };
 
