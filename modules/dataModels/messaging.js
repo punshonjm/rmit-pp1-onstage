@@ -8,7 +8,7 @@ var messaging = {};
 
 
 messaging.new = function(params) {
-	let userRow_a = {}, userRow_b = {}, message = {};
+	let userRow_a = {}, userRow_b = {}, message = {}, is_existing_thread = false;
 
 	return Promise.resolve().then(() => {
 		// Check for existing user to user thread
@@ -23,7 +23,9 @@ messaging.new = function(params) {
 		// Use existing thread if exists otherwise create new thread
 		if (thread_id != null) {
 			// User had existing thread, return id
+			is_existing_thread = true;
 			return {"insertId": thread_id};
+
 		} else {
 			// Thread does not exist, create
 			let query = dbc.sql.insert().into("ebdb.thread").setFields({ sql_last_update: dbc.sql.rstr("NOW()") });
@@ -48,8 +50,12 @@ messaging.new = function(params) {
 
 		if ( ("subject" in params) ) message.content = params.subject + "\n" + message.content;
 
-		let query = dbc.sql.insert().into("ebdb.thread_user").setFieldsRows([ userRow_a, userRow_b ]);
-		return dbc.execute(query);
+		if (!is_existing_thread) {
+			let query = dbc.sql.insert().into("ebdb.thread_user").setFieldsRows([ userRow_a, userRow_b ]);
+			return dbc.execute(query);
+		} else {
+			return null;
+		}
 	}).then((res) => {
 		let query = dbc.sql.insert().into("ebdb.message").setFields(message);
 		return dbc.execute(query);
@@ -237,15 +243,33 @@ messaging.getThread = function(params) {
 		let query = dbc.sql.select().from("ebdb.message").where("thread_id = ?", params.thread_id);
 		return dbc.execute(query);
 	}).then((messages) => {
+
+		let last_read = null;
+
 		thread.messages = messages.map((message) => {
 			message.user = thread.users[message.user_id];
 			message.own = ( message.user.user_id == params.user.user_id ) ? true : false;
-
-			//if ( (!message.own || message.user.message_with == 1) && !("thread_with" in thread) ) thread.thread_with = thread.users[message.user_id];
-
+			if (!message.own) {
+				// Set last message id from other user as read message id
+				last_read = message.id;
+			}
 			message.date = moment(message.sql_date_added).format("YYYY/MM/DD h:mm a");
 			return message;
 		});
+
+		// If last_read exists then update the read_message_id from database
+		if (last_read != null) {
+			let query = dbc.sql.update()
+				.table("ebdb.thread_user")
+				.set("read_message_id",last_read)
+				.where("thread_id = ?", params.thread_id)
+				.where("user_id = ?", params.user.user_id);
+			return dbc.execute(query);
+		} else {
+			return null;
+		}
+
+	}).then((result) => {
 
 		console.log(thread);
 		return Promise.resolve({ thread: thread });
