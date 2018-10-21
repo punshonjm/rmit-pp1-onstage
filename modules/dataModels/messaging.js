@@ -217,7 +217,7 @@ messaging.getThread = function(params) {
 				"ebdb.profile",
 				"p", "p.user_id = u.id"
 			).where("thread_id = ?", params.thread_id);
-
+			
 			return dbc.execute(query);
 		} else {
 			return Promise.reject({ message: "You don't have access to this message thread." });
@@ -227,6 +227,10 @@ messaging.getThread = function(params) {
 			if ( user.message_with == 1 ) user.display_name = "Unassigned";
 			if ( user.messager_name != null ) user.display_name = user.messager_name;
 			user.user_id = user.message_with;
+
+			// Set other user as thread_with
+			if (user.user_id !== params.user.user_id) thread.thread_with = user;
+
 			return user;
 		}), "user_id");
 
@@ -237,7 +241,7 @@ messaging.getThread = function(params) {
 			message.user = thread.users[message.user_id];
 			message.own = ( message.user.user_id == params.user.user_id ) ? true : false;
 
-			if ( (!message.own || message.user.message_with == 1) && !("thread_with" in thread) ) thread.thread_with = thread.users[message.user_id];
+			//if ( (!message.own || message.user.message_with == 1) && !("thread_with" in thread) ) thread.thread_with = thread.users[message.user_id];
 
 			message.date = moment(message.sql_date_added).format("YYYY/MM/DD h:mm a");
 			return message;
