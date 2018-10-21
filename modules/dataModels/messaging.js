@@ -14,7 +14,7 @@ messaging.new = function(params) {
 		// Check for existing user to user thread
 		if (! ("contact_id" in params) && ("user_id" in params) && ("message_to" in params)  ) {
 			// Is user to user message, lookup thread
-			return messaging.getLatestThread(params.user_id, params.message_to);
+			return messaging.getLatestThreadId(params.user_id, params.message_to);
 		} else {
 			// Contact form, no existing thread exists
 			return null;
@@ -58,7 +58,7 @@ messaging.new = function(params) {
 	});
 };
 
-messaging.getLatestThread = function(user_a,user_b) {
+messaging.getLatestThreadId = function(user_a,user_b) {
 	// Find the latest thread id between 2 parties that are still active. Return id or null.
 	let thread = {};
 	return Promise.resolve().then(() => {

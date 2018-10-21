@@ -27,7 +27,6 @@ router.post("/send", (req, res) => {
 		data.message_to = req.body.message_to;
 		data.message = req.body.message;
 
-
 		return models.messaging.new(data);
 	}).then((result) => {
 		res.status(200).json(result).end();
