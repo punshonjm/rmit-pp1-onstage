@@ -18,4 +18,20 @@ router.get("/thread", (req, res) => {
 	}).catch((error) => app.handleError(error, req, res));
 });
 
+router.post("/send", (req, res) => {
+	Promise.resolve().then(() => {
+		req.body.user = req.user;
+		return models.messaging.send(req.body);
+	}).then((thread) => {
+		res.status(200).json({ message: "Sent message successfully" }).end();
+	}).catch((error) => {
+		// additional register specific error handling if you want to here
+		if ( ("errorSet" in error) ) {
+			res.status(400).json(error).end();
+		} else {
+			return Promise.reject(error)
+		};
+	}).catch((error) => app.handleError(error, req, res));
+});
+
 module.exports = router;

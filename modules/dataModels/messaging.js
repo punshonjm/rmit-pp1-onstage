@@ -40,6 +40,33 @@ messaging.new = function(params) {
 	});
 };
 
+messaging.send = function(params) {
+	return Promise.resolve().then(() => {
+		let query = dbc.sql.update().table("ebdb.thread").set("sql_last_update", dbc.sql.rstr("NOW()")).where("id = ?", params.thread_id);
+		return dbc.execute(query);
+	}).then(() => {
+		let message = {};
+		message.thread_id = params.thread_id;
+		message.user_id = params.user.user_id;
+		message.content = params.content;
+
+		let query = dbc.sql.insert().into("ebdb.message").setFields(message);
+		return dbc.execute(query);
+	}).then((res) => {
+		let query = dbc.sql.update().table("ebdb.thread_user").setFields({
+			sql_last_updated: dbc.sql.rstr("NOW()"),
+			read_message_id: res.insertId
+		}).where(dbc.sql.expr()
+			.and("user_id = ?", params.user.user_id)
+			.and("thread_id = ?", params.thread_id)
+		);
+
+		return dbc.execute(query);
+	}).then(() => {
+		return Promise.resolve({ message: "Successfully sent message" });
+	});
+};
+
 messaging.listThreads = function(user) {
 	var data = [];
 

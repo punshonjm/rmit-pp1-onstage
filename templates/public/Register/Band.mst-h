@@ -332,6 +332,7 @@
 	</div>
 </div>
 
+{{#*inline "load_files"}}
 <script src="/public/js/plugins/zxcvbn.js" type="text/javascript"></script>
 <script src="/public/js/plugins/mailcheck.min.js" type="text/javascript"></script>
 <script src="/public/js/app/user/register.js" type="text/javascript"></script>
@@ -340,3 +341,4 @@
 		window.app.data.formType = "band";
 	});
 </script>
+{{/inline}}

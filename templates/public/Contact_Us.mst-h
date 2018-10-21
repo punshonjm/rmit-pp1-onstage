@@ -63,4 +63,6 @@
 	</div>
 </div>
 
+{{#*inline "load_files"}}
 <script type="text/javascript" src="/public/js/app/contact.js"></script>
+{{/inline}}
