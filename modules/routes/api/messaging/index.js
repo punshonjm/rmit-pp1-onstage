@@ -21,9 +21,14 @@ router.get("/thread", (req, res) => {
 router.post("/send", (req, res) => {
 	Promise.resolve().then(() => {
 		req.body.user = req.user;
-		return models.messaging.send(req.body);
-	}).then((thread) => {
-		res.status(200).json({ message: "Sent message successfully" }).end();
+		if ( ("message_to" in req.body) && ("message" in req.body) ) {
+			req.body.user_id = req.user.user_id;
+			return models.messaging.new(req.body);
+		} else {
+			return models.messaging.send(req.body);
+		}
+	}).then((result) => {
+		res.status(200).json(result).end();
 	}).catch((error) => {
 		// additional register specific error handling if you want to here
 		if ( ("errorSet" in error) ) {

@@ -4060,6 +4060,8 @@ button.close {
   height: 50px;
   overflow: scroll; }
 
+
+
 @media (min-width: 576px) {
   .modal-dialog {
     max-width: 500px;
@@ -10716,12 +10718,19 @@ h2.title {
 .modal .modal-dialog {
   margin-top: 130px; }
 
+
+
 .modal .modal-header .close {
   color: #999; }
   .modal .modal-header .close:hover, .modal .modal-header .close:focus {
     opacity: 1; }
   .modal .modal-header .close i {
     font-size: 16px; }
+
+.modal-login .modal-header .close {
+    color: #fff;
+    text-shadow: none; }
+
 
 .show:not(.modal) .dropdown-toggle:after {
   -webkit-transform: rotate(180deg);

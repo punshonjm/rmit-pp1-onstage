@@ -2,8 +2,12 @@ var appPage = {};
 
 $(document).ready(function() {
 	appPage.initialise();
-}).on("click", ".reportUser", function() {
+}).on("click", "#reportUser", function() {
 	appPage.report($(this));
+}).on("click", "#sendMessage", function() {
+	appPage.send($(this));
+}).on("click", "#resetMessage", function() {
+	appPage.resetMessage($(this));
 });
 
 appPage.initialise = function() {
@@ -45,6 +49,60 @@ appPage.report = function($this) {
 			} else {
 				$(".reportStatus").append("<p class='text-danger'>Something went wrong! Please try again.</p>");
 			}
+		});
+	}
+};
+
+appPage.resetMessage = function($this) {
+	setTimeout(function() {
+		$(".messageContent").show();
+		$(".messageNotice").hide();
+		$('#messageContent').val('');
+		$('#sendMessage').prop("disabled", false);
+	}, 500);
+
+}
+
+appPage.send = function($this) {
+	var data = {};
+
+	data.message_to = $this.data().id;
+	data.message = ($("#messageUser").find("#messageContent").val().trim());
+
+
+	if ( data.message.length < 2 ) {
+		// No content
+	} else {
+
+		$(".messageNotice").show();
+		$(".messageContent").hide();
+
+		$this.prop("disabled", true);
+
+		$(".loading-indicator").find(".loading-status").text("Sending your message...");
+		$(".loading-indicator").show();
+
+		$.post("/api/messaging/send", data, function(resp) {
+			$(".loading-indicator").find(".loading-status").text("All done!");
+
+			$(".messageStatus").html("<h4>" + resp.message + "</h4>");
+
+		}, "json").fail(function(error) {
+			$this.prop("disabled", false);
+			$(".loading-indicator").find(".loading-status").text("Something went wrong!");
+
+			if ( ("responseJSON" in error) && ("errorSet" in error.responseJSON) ) {
+				error.responseJSON.errorSet.map(function(err) {
+					$("#" + err.key).addError("has-danger", err.message);
+				});
+			} else {
+				$("#messageStatus").append("<p class='text-danger'>" + error.responseJSON.message || "An error occured!" + "</p>")
+			}
+		}).always(function() {
+			setTimeout(function() {
+				$(".loading-indicator").find(".loading-status").text("");
+				$(".loading-indicator").hide();
+			}, 500);
 		});
 	}
 };
