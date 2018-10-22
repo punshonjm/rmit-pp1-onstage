@@ -48,5 +48,4 @@ server.listen(port, () => {
     console.log("The action is happening on Stage #" + port);
 });
 
-
-const mr = require('@modules/mailReader');
+const mr = require('@modules/mailReader').initialise();

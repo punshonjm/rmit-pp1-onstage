@@ -42,7 +42,7 @@ mailReader.process = function(continuationToken = false) {
 			return Promise.resolve();
 		}
 	}).then(() => {
-		// TODO: Process read email into messages if part of messages  
+		// TODO: Process read email into messages if part of messages
 
 		return Promise.resolve();
 	})
@@ -104,9 +104,9 @@ mailReader.job = new CronJob('0 */10 * * * *', function() {
 	});
 });
 
-module.exports = mailReader;
-
-(function() {
+mailReader.initialise = function() {
 	mailReader.process();
 	mailReader.job.start();
-});
+};
+
+module.exports = mailReader;
