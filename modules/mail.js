@@ -21,6 +21,26 @@ mail.send = function(to, name, subject, content) {
 	});
 };
 
+//function to send admin notification email
+mail.send.adminNotification = function(to, name, subject, text) {
+	return Promise.resolve().then(() => {
+		var data = {
+			display_name: name,
+			content: text
+		};
+
+		return templating.build(path.join(__dirname, "../templates/emails", "adminNotification.html"), data);
+	}).then((html) => {
+		let details = {
+			"to": to,
+			"subject": "RE: " + subject,
+			"message": html
+		};
+
+		return internal.sendMail(details);
+	});
+};
+
 //function to send registration email
 mail.send.registration = function(to, name, verificationKey) {
 	return Promise.resolve().then(() => {

@@ -1,5 +1,6 @@
 const app = require("@modules/app");
 const dbc = require("@modules/dbc");
+const mail = require("@modules/mail");
 
 const _ = require("lodash");
 const moment = require("moment");
@@ -63,6 +64,8 @@ messaging.new = function(params) {
 };
 
 messaging.send = function(params) {
+	let message = {};
+
 	return Promise.resolve().then(() => {
 		let query = dbc.sql.update().table("ebdb.thread").set("sql_last_update", dbc.sql.rstr("NOW()")).where("id = ?", params.thread_id);
 		return dbc.execute(query);
@@ -77,7 +80,6 @@ messaging.send = function(params) {
 			return Promise.resolve();
 		}
 	}).then(() => {
-		let message = {};
 		message.thread_id = params.thread_id;
 		message.user_id = params.user.user_id;
 		message.content = params.content;
@@ -95,7 +97,29 @@ messaging.send = function(params) {
 
 		return dbc.execute(query);
 	}).then(() => {
-		// if admin responding to contact form, send email here 
+		let query = dbc.sql.select().fields([
+			"email",
+			"name",
+			"subject"
+		]).from(
+			"ebdb.thread_user", "u"
+		).left_join(
+			"ebdb.contact_form",
+			"f", "u.contact_id = f.id"
+		).where(dbc.sql.expr()
+			.and("thread_id = ?", params.thread_id)
+			.and("user_id = 0")
+		).limit(1);
+
+		return dbc.getRow(query);
+	}).then((row) => {
+		if ( row ) {
+			return mail.send.adminNotification(row.email, row.name, row.subject, message.content);
+		} else {
+			return Promise.resolve();
+		}
+	}).then(() => {
+		// if admin responding to contact form, send email here
 		return Promise.resolve({ message: "Successfully sent message" });
 	});
 };
