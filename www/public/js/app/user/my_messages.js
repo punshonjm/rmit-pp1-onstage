@@ -13,21 +13,33 @@ appPage.openThread = function($this) {
 	var data = {};
 	data.thread_id = $this.data().thread;
 
-	appPage.currentThread = data.thread_id;
-
 	$.get("/api/messaging/thread", data, function(resp) {
+		$this.closest(".message").addClass("active");
 		console.log(resp);
 
-		$this.closest(".message").addClass("active");
-
 		appPage.currentCaller = $this;
+		appPage.currentThread = data.thread_id;
+
 		let html = window.app.templates.thread(resp.thread);
 		$("#messages-panel").html(html);
+
+		$("#thread-list").addClass("d-none");
+		$("#messages-panel").removeClass("d-none");
 	}).fail(function(error) {
 
 	}).always(function() {
 
 	});
+};
+
+appPage.goBack = function() {
+	$("#thread-list").removeClass("d-none");
+	$("#messages-panel").addClass("d-none");
+	$(".message.active").removeClass("active");
+
+	$("#messages-panel").empty();
+	appPage.currentCaller = null;
+	appPage.currentThread = null;
 };
 
 appPage.sendMessage = function($this) {
@@ -57,4 +69,6 @@ $(document).ready(function() {
 	appPage.openThread($(this));
 }).on("click", ".send-message", function() {
 	appPage.sendMessage($(this));
-});
+}).on("click", ".go-back", function() {
+	appPage.goBack();
+})
