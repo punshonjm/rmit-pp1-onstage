@@ -24,9 +24,9 @@ appPage.openThread = function($this) {
 		$("#messages-panel").html(html);
 
 		// When message thread is loaded, hide current new message notification
-		$("span").find(`[data-thread='${data.thread_id}']`).addClass("d-none");
+		$(".message").find(`.unread[data-thread='${data.thread_id}']`).addClass("d-none");
 
-		//$("#thread-list").addClass("d-none");
+		$("#thread-list").addClass("d-none");
 		$("#messages-panel").removeClass("d-none");
 	}).fail(function(error) {
 
