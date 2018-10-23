@@ -141,32 +141,30 @@
 
         <div class="col-lg-8 py-4">
             <div class="container">
-                {{#compare this.user.email_verified 1}}
-                    <div class='row'>
-                        <div class="col-md-12">
-                            <h4>Top Matches</h4>
-                        </div>
-                        {{#each this.matches}}
-                            <a class='d-block col-md-3' href="/user/{{this.user_id}}" target="_blank">
-                                <div class='w-100 d-flex justify-content-center'>
-                                    <img class="img-raised rounded-circle img-fluid"
-                                         style="min-height: 150px; min-width: 150px; max-height: 150px; max-width: 150px;"
-                                         src="{{#if
-                                                 this.picture}}{{this.picture}}{{else}}https://s3-ap-southeast-2.amazonaws.com/onstage-storage/placeholder.png{{/if}}"
-                                         alt="{{this.display_name}}">
-                                </div>
-                                <div class='w-100 text-center text-truncate'>
-                                    <p>{{this.display_name}}</p>
-                                </div>
-                            </a>
-                        {{/each}}
-                        {{#compare this.match_count "4" operator=">"}}
-                            <div class='col-md-12 d-flex justify-content-end'>
-                                <a class="btn btn-link" href="/my_matches" target="_blank">Show More...</a>
-                            </div>
-                        {{/compare}}
-                    </div>
-                {{/compare}}
+				<div class='row'>
+					<div class="col-md-12">
+						<h4>Top Matches</h4>
+					</div>
+					{{#each this.matches}}
+						<a class='d-block col-md-3' href="/user/{{this.user_id}}" target="_blank">
+							<div class='w-100 d-flex justify-content-center'>
+								<img class="img-raised rounded-circle img-fluid"
+									 style="min-height: 150px; min-width: 150px; max-height: 150px; max-width: 150px;"
+									 src="{{#if
+											 this.picture}}{{this.picture}}{{else}}https://s3-ap-southeast-2.amazonaws.com/onstage-storage/placeholder.png{{/if}}"
+									 alt="{{this.display_name}}">
+							</div>
+							<div class='w-100 text-center text-truncate'>
+								<p>{{this.display_name}}</p>
+							</div>
+						</a>
+					{{/each}}
+					{{#compare this.match_count "4" operator=">"}}
+						<div class='col-md-12 d-flex justify-content-end'>
+							<a class="btn btn-link" href="/my_matches" target="_blank">Show More...</a>
+						</div>
+					{{/compare}}
+				</div>
 
                 <!-- ##### Begin Account section ###### -->
                 <div class="row">

@@ -836,9 +836,7 @@ users.search = function (params) {
 			return Promise.resolve([]);
 		}
 	}).then((postcode_list) => {
-		if (postcode_list.length > 0) {
-			params.postcode_list = postcode_list;
-		}
+		if (postcode_list.length > 0) params.postcode_list = postcode_list;
 
 		if (("instruments" in params) && (typeof params.instruments == typeof "String")) params.instruments = params.instruments.split(",");
 		if (("genres" in params) && (typeof params.genres == typeof "String")) params.genres = params.genres.split(",");
@@ -944,11 +942,14 @@ users.search = function (params) {
 		}
 
 		// Only find users who are searching
-		query.where("p.status_id = ?", 1);
+		query.where(dbc.sql.expr()
+			.and("p.status_id = ?", 1)
+			.and("u.email_verified = ?", 1)
+			.and("u.account_locked = ?", 0)
+		);
 
 		// Add searched parameters
 		query.where(expr);
-
 
 		if (("limit" in params)) {
 			query.limit(params.limit);
@@ -963,9 +964,9 @@ users.search = function (params) {
 			total = rows.length;
 			if (rows.length > 0) {
 				// Get record offset
-				let offset = params.per_page * (params.page - 1);
+				let offset = params.per_page * ( params.page - 1 );
 				// Get subset of rows based on pagination
-				rows = rows.slice(offset, (offset + params.per_page));
+				rows = rows.slice(offset, ( offset + params.per_page ));
 			}
 		}
 
@@ -1254,9 +1255,7 @@ internal.query.userInstruments = function () {
 };
 
 AWS.config.update({region: "ap-southeast-2"});
-internal.s3 = new AWS.S3({
-	params: {Bucket: 'onstage-storage'}
-});
+internal.s3 = new AWS.S3({ params: { Bucket: 'onstage-storage' } });
 
 internal.images = {};
 internal.images.upload = function (user, image) {
