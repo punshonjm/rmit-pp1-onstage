@@ -933,8 +933,7 @@
                                     <i class="fa fa-lock"></i>
                                 </div>
                                 <h4 class="info-title">Keeping You Safe</h4>
-                                <p>To help keep On Stage safe, you need to verify your email before accessing the rest
-                                    of the On Stage.</p>
+                                <p>To help keep On Stage safe, you need to verify your email before you can be matched to other users or searched for.</p>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -943,7 +942,7 @@
                                     <i class="material-icons">chat</i>
                                 </div>
                                 <h4 class="info-title">This Includes Reach Out</h4>
-                                <p>You won't be able to message any artists or bands on the platform until its
+                                <p>You won't be able to message any artists or bands using On Stage until its
                                     verified.</p>
                             </div>
                         </div>
