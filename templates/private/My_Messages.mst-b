@@ -24,7 +24,7 @@
 							<h4 class="mt-0 mb-2">{{this.user.display_name}}</h4>
 							<span>
 								{{#if this.unread}}
-								<span class="badge badge-pill badge-primary">
+								<span class="badge badge-pill badge-primary" data-thread="{{this.thread_id}}">
 									<i class="fa fa-envelope"></i>
 								</span>
 								{{/if}}
