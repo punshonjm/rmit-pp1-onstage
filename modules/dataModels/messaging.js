@@ -213,14 +213,19 @@ messaging.listThreads = function(user) {
 			return Promise.reject({ noMessages: true });
 		}
 	}).then((messages) => {
+
+		let last_message = null;
 		messages.map((message) => {
 			data[message.thread_id].message = message;
+			if (message.user_id !== user.user_id) {
+				last_message = message.id;
+			}
 		});
 
 		data = Object.values(data).map((thread) => {
 			thread.user = {};
 			thread.date = moment(thread.message.sql_date_added).format("YYYY/MM/DD, h:mm a");
-			thread.unread = ( thread.read_message_id == thread.message.id ) ? false : true;
+			thread.unread = ( thread.read_message_id == last_message ) ? false : true;
 			thread.unassigned = ( thread.message_with == 1 ) ? true : false;
 
 			if ( thread.messager_name != null ) {

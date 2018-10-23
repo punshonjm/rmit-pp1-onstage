@@ -739,8 +739,7 @@
                                     <select id="preference_age_bracket_id" class='form-control allowEmpty'>
                                         <option value="">Not set</option>
                                         {{#each this.criteria.age_bracket}}
-                                            {{#if @last}}
-                                            {{else}}
+                                            {{^if @last}}
                                                 <option value="{{this.id}}">{{this.name}}</option>
                                             {{/if}}
                                         {{/each}}
@@ -765,7 +764,6 @@
 											</span>
                                                 </label>
                                             </div>
-
                                         {{else}}
                                             <div class="form-check form-check-radio">
                                                 <label class="form-check-label" for="gender_{{this.id}}">

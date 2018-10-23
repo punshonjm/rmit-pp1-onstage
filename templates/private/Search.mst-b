@@ -79,7 +79,9 @@
                                     <select id="preferred_age_bracket" class='form-control'>
                                         <option value="">Choose...</option>
                                         {{#each this.criteria.age_bracket}}
+                                            {{^if @last}}
                                             <option value="{{this.id}}">{{this.name}}</option>
+                                            {{/if}}
                                         {{/each}}
                                     </select>
                                 </div>

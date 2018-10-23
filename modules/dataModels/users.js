@@ -977,6 +977,8 @@ users.search = function (params) {
 
 users.match = function (params) {
 	let user = {};
+	let minimum_percentage = 20;
+	let max_results = 15;
 
 	return Promise.resolve().then(() => {
 		if (("__class" in params) && params.__class == "userObject") {
@@ -1068,9 +1070,11 @@ users.match = function (params) {
 			match.percent = Math.round(match.percent);
 
 			return match;
+
 		});
 
-		partMatches = _.orderBy(partMatches, "percent", "desc");
+		// Sort and apply minimum percentage and limit results
+		partMatches = _.orderBy(partMatches, "percent", "desc").filter(match => match.percent > minimum_percentage).slice(0,max_results);
 
 		return Promise.resolve({"matches": partMatches});
 	});
