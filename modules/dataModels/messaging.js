@@ -119,7 +119,6 @@ messaging.send = function(params) {
 			return Promise.resolve();
 		}
 	}).then(() => {
-		// if admin responding to contact form, send email here
 		return Promise.resolve({ message: "Successfully sent message" });
 	});
 };
@@ -255,6 +254,21 @@ messaging.listThreads = function(user) {
 	});
 };
 
+messaging.deleteThread = function(params) {
+	return Promise.resolve().then(() => {
+		let query = dbc.sql.update().table("ebdb.thread_user").setFields({
+			'is_active': 0
+		}).where(dbc.sql.expr()
+			.and("thread_id = ?", params.thread_id)
+			.and("user_id = ?", params.user.user_id)
+		);
+
+		return dbc.getRow(query);
+	}).then(() => {
+		return Promise.resolve({ message: "Successfully deleted thread." });
+	});
+};
+
 messaging.getThread = function(params) {
 	let thread = {};
 	return Promise.resolve().then(() => {
@@ -267,6 +281,7 @@ messaging.getThread = function(params) {
 			expr.and("user_id = ?", params.user.user_id);
 		}
 
+		query.where(expr);
 		return dbc.getRow(query);
 	}).then((row) => {
 		if ( row ) {

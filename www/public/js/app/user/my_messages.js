@@ -66,6 +66,24 @@ appPage.sendMessage = function($this) {
 	}
 };
 
+appPage.deleteThread = function($this) {
+	var data = {};
+	data.thread_id = $this.closest(".thread-message").data().thread;
+
+	$.post("/api/messaging/delete", data, function(resp) {
+		appPage.goBack();
+		$(".message[data-thread='"+data.thread_id+"']").remove();
+	}).fail(function(error) {
+		var html = $this.closest(".col-md-12").html();
+		$this.closest(".col-md-12").html("<p class='text-center text-danger'>" + error.responseJSON.message + "</p>");
+		setTimeout(function() {
+			$this.closest(".col-md-12").html(html);
+		}, 500);
+	}).always(function() {
+		$this.prop("disabled", false);
+	});
+};
+
 $(document).ready(function() {
 	appPage.initialise();
 }).on("click", ".message", function() {
@@ -74,4 +92,12 @@ $(document).ready(function() {
 	appPage.sendMessage($(this));
 }).on("click", ".go-back", function() {
 	appPage.goBack();
+}).on('click', ".delete-thread", function() {
+	$(this).hide();
+	$(".delete-confirm, .delete-cancel").show();
+}).on('click', ".delete-cancel", function() {
+	$(".delete-thread").show();
+	$(".delete-confirm, .delete-cancel").hide();
+}).on("click", ".delete-confirm", function() {
+	appPage.deleteThread($(this));
 })

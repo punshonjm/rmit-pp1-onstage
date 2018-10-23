@@ -39,4 +39,20 @@ router.post("/send", (req, res) => {
 	}).catch((error) => app.handleError(error, req, res));
 });
 
+router.post("/delete", (req, res) => {
+	Promise.resolve().then(() => {
+		req.body.user = req.user;
+		return models.messaging.deleteThread(req.body);
+	}).then((result) => {
+		res.status(200).json(result).end();
+	}).catch((error) => {
+		// additional register specific error handling if you want to here
+		if ( ("errorSet" in error) ) {
+			res.status(400).json(error).end();
+		} else {
+			return Promise.reject(error)
+		};
+	}).catch((error) => app.handleError(error, req, res));
+});
+
 module.exports = router;
