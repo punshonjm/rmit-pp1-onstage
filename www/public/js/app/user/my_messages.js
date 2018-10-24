@@ -22,6 +22,8 @@ appPage.openThread = function($this) {
 
 		let html = window.app.templates.thread(resp.thread);
 		$("#messages-panel").html(html);
+		// Move to bottom of messages window
+		$(".messages").scrollTop($(".messages")[0].scrollHeight);
 
 		// When message thread is loaded, hide current new message notification
 		$(".message").find(`.unread[data-thread='${data.thread_id}']`).addClass("d-none");

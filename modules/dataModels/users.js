@@ -1081,6 +1081,37 @@ users.match = function (params) {
 	});
 };
 
+users.admin_user_list = function (pagination_start,pagination_length) {
+
+	return Promise.resolve().then(() => {
+
+		let query = internal.query.admin_user_list();
+		query.offset(pagination_start);
+		query.limit(pagination_length);
+
+		return dbc.execute(query);
+
+	}).then((data) => {
+
+		return Promise.resolve(data);
+	});
+};
+
+users.count = function () {
+
+	return Promise.resolve().then(() => {
+
+		let query = internal.query.count();
+
+		return dbc.execute(query);
+
+	}).then((data) => {
+
+		return Promise.resolve(data[0].total);
+	});
+};
+
+
 module.exports = users;
 
 let internal = {};
@@ -1095,6 +1126,37 @@ internal.criteriaKeys = [
 ];
 
 internal.query = {};
+
+internal.query.count = function () {
+	let query = dbc.sql.select().fields({
+		"count(*)": "total"
+	}).from(
+		"ebdb.user", "u"
+	);
+
+	return query;
+};
+internal.query.admin_user_list = function () {
+	let query = dbc.sql.select().fields([
+		"u.id",
+		"u.username",
+		"u.display_name",
+		"u.type_id",
+		"u.account_locked",
+	]).fields({
+		"count(r.user_id)": "reports",
+	}).from(
+		"ebdb.user", "u"
+	).left_join(
+		"ebdb.user_report", "r",
+		"u.id = r.user_id"
+	).group(
+		"u.id"
+	);
+
+	return query;
+};
+
 internal.query.user = function () {
 	let query = dbc.sql.select().fields([
 		"u.username",

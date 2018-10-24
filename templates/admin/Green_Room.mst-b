@@ -1,79 +1,98 @@
 <div class="col-md-12">
     <h3>Green Room</h3>
-                        <!-- Tabs on Plain Card -->
-                        <div class="card card-nav-tabs card-plain">
-                            <div class="card-header card-header-success">
-                                <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
-                                <div class="nav-tabs-navigation">
-                                    <div class="nav-tabs-wrapper">
-                                        <ul class="nav nav-tabs" data-tabs="tabs">
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="#summary" data-toggle="tab">Summary</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link active show" href="#reports" data-toggle="tab">User Reports<div class="ripple-container"></div></a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="#users" data-toggle="tab">User List</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="tab-content text-center">
-                                    <div class="tab-pane" id="summary">
-                                        <p>Display Summary.</p>
-                                    </div>
-                                    <div class="tab-pane active show" id="reports">
-                                            <table class="table">
-                                                <thead class=" text-primary">
-                                                    <tr>
-                                                    <th width="12%">
-                                                        Report ID
-                                                    </th>
-                                                    <th width="14%">
-                                                        User Reported
-                                                    </th>
-                                                    <th width="14%">
-                                                        Reason
-                                                    </th>
-                                                    <th width="32%">
-                                                        Details
-                                                    </th>
-                                                    <th width="14%">
-                                                        Reported by
-                                                    </th>
-                                                    <th width="14%">
-                                                        Functions
-                                                    </th>
-                                                </tr></thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td width="12%">
-                                                            1
-                                                        </td>
-                                                        <td width="14%">
-                                                            Sally
-                                                        </td>
-                                                        <td width="14%">
-                                                            Bullying
-                                                        </td>
-                                                        <td width="32%">
-                                                            Sally was mean to me
-                                                        </td>
-                                                        <td width="14%">
-                                                            Luke
-                                                        </td>
-                                                        <td width="14%">
-                                                            View <br> Suspend  Resume
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <div class="tab-pane" id="users">
-                                                <p>Display Users.</p>
-                                            </div>
-                        <!-- End Tabs on plain Card -->
-                    </div>
+    <!-- Tabs on Plain Card -->
+    <div class="card card-nav-tabs card-plain">
+        <div class="card-header card-header-success">
+            <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
+            <div class="nav-tabs-navigation">
+                <div class="nav-tabs-wrapper">
+                    <ul class="nav nav-tabs" data-tabs="tabs">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#summary" data-toggle="tab">Summary</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active show" href="#reports" data-toggle="tab">User Reports
+                                <div class="ripple-container"></div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#users" data-toggle="tab">User List</a>
+                        </li>
+                    </ul>
                 </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="tab-content text-center">
+                <div class="tab-pane" id="summary">
+                    <p>Display Summary.</p>
+                </div>
+                <div class="tab-pane active show" id="reports">
+                    <table class="table">
+                        <thead class=" text-primary">
+                        <tr>
+                            <th width="12%">
+                                Report ID
+                            </th>
+                            <th width="14%">
+                                User Reported
+                            </th>
+                            <th width="14%">
+                                Reason
+                            </th>
+                            <th width="32%">
+                                Details
+                            </th>
+                            <th width="14%">
+                                Reported by
+                            </th>
+                            <th width="14%">
+                                Functions
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td width="12%">
+                                1
+                            </td>
+                            <td width="14%">
+                                Sally
+                            </td>
+                            <td width="14%">
+                                Bullying
+                            </td>
+                            <td width="32%">
+                                Sally was mean to me
+                            </td>
+                            <td width="14%">
+                                Luke
+                            </td>
+                            <td width="14%">
+                                View <br> Suspend Resume
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" id="users">
+                    <table id="user_table" class="display" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Display Name</th>
+                            <th>Type</th>
+                            <th>Account Locked</th>
+                            <th>Reports</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+                <!-- End Tabs on plain Card -->
+            </div>
+        </div>
+    </div>
+</div>
+{{#*inline "load_files"}}
+    <script type="text/javascript" src="/public/js/app/admin/green_room.js"></script>
+{{/inline}}
