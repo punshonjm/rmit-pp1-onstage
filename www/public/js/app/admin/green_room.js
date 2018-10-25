@@ -13,7 +13,7 @@ appPage.initialise = function() {
 				{ "data": "username" },
 				{ "data": "email" },
 				{ "data": "display_name" },
-				{ "data": "type_id" },
+				{ "data": "user_type" },
 				{ "data": "account_locked" },
 				{ "data": "reports" },
 				{ "data": "options" }
@@ -38,18 +38,6 @@ appPage.initialise = function() {
 						}
 					},
 					"targets": 6
-				},
-				{
-					"render": function ( data, type, row ) {
-						if (data === 1) {
-							return 'Admin';
-						} else if (data === 2) {
-							return 'Band';
-						} else if (data === 3) {
-							return 'Musician';
-						}
-					},
-					"targets": 4
 				},
 				{
 					"targets": -1,

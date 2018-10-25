@@ -1170,11 +1170,15 @@ internal.query.admin_user_list = function () {
 		"u.account_locked",
 	]).fields({
 		"count(r.user_id)": "reports",
+		"t.type_name": "user_type"
 	}).from(
 		"ebdb.user", "u"
 	).left_join(
 		"ebdb.user_report", "r",
 		"u.id = r.user_id"
+	).left_join(
+		"ebdb.user_type", "t",
+		"u.type_id = t.id"
 	).group(
 		"u.id"
 	);
