@@ -54,7 +54,8 @@ appPage.initialise = function() {
 				{
 					"targets": -1,
 					"data": null,
-					"defaultContent": "<button type=\"button\" class=\"btn btn-primary btn-sm\"><i class=\"material-icons\">settings</i></button>"
+					"defaultContent": "<button type=\"button\" class=\"btn btn-primary btn-sm\"><i class=\"material-icons\">settings</i></button>",
+					"orderable": false
 				}
 			]
 		});

@@ -1081,7 +1081,7 @@ users.match = function (params) {
 	});
 };
 
-users.admin_user_list = function (pagination_start,pagination_length,search) {
+users.admin_user_list = function (pagination_start,pagination_length,search, order) {
 
 	return Promise.resolve().then(() => {
 
@@ -1089,10 +1089,32 @@ users.admin_user_list = function (pagination_start,pagination_length,search) {
 		query.offset(pagination_start);
 		query.limit(pagination_length);
 
+		// Add in search query if required
 		if (search !== '') {
 			search = '%' + search + '%';
 			query.where("u.username like ? OR u.display_name like ? or u.email like ?", search, search, search);
 		}
+
+		// Add table sorting
+		let order_column = '';
+		if (order.column === "1") {
+			order_column = 'u.username';
+		} else if (order.column === "2") {
+			order_column = 'u.email';
+		} else if (order.column === "3") {
+			order_column = 'u.display_name';
+		} else if (order.column === "4") {
+			order_column = 'u.type_id';
+		} else if (order.column === "5") {
+			order_column = 'u.account_locked';
+		} else if (order.column === "6") {
+			order_column = 'reports';
+		} else {
+			// Default or 0
+			order_column = 'u.id';
+		}
+		query.order(order_column, (order.dir === "asc") ? true : false )
+
 		return dbc.execute(query);
 	}).then((data) => {
 		return Promise.resolve(data);

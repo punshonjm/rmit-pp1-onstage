@@ -9,8 +9,8 @@ body, wrapper {
 
 table.dataTable tbody td {
     vertical-align: middle;
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
+    padding-top: 0.20rem;
+    padding-bottom: 0.20rem;
 }
 
 .unverified-email {
