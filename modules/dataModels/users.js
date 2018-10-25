@@ -1141,6 +1141,7 @@ internal.query.admin_user_list = function () {
 		"u.id",
 		"u.username",
 		"u.display_name",
+		"u.email",
 		"u.type_id",
 		"u.account_locked",
 	]).fields({

@@ -7,6 +7,11 @@ body, wrapper {
 	flex: 1 1 auto;
 }
 
+table.dataTable tbody td {
+    vertical-align: middle;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
 
 .unverified-email {
 	z-index:2000;
