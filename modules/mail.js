@@ -41,6 +41,26 @@ mail.send.adminNotification = function(to, name, subject, text) {
 	});
 };
 
+//function to send new match notification
+mail.send.newMatches = function(to, name, matches) {
+	return Promise.resolve().then(() => {
+		var data = {
+			display_name: name,
+			matches: matches
+		};
+
+		return templating.build(path.join(__dirname, "../templates/emails", "newMatches.html"), data);
+	}).then((html) => {
+		let details = {
+			"to": to,
+			"subject": "On Stage - New Matches!",
+			"message": html
+		};
+
+		return internal.sendMail(details);
+	});
+};
+
 //function to send registration email
 mail.send.registration = function(to, name, verificationKey) {
 	return Promise.resolve().then(() => {

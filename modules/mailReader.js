@@ -116,7 +116,8 @@ mailReader.importEmail = function(file) {
 	});
 };
 
-mailReader.job = new CronJob('0 */10 * * * *', function() {
+mailReader.job = new CronJob('0 */10 * * * *', () => {
+	// Job runs every 10 minutes
 	Promise.resolve().then(() => {
 		return mailReader.process();
 	}).catch((error) => {

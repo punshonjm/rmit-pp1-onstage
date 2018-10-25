@@ -49,3 +49,4 @@ server.listen(port, () => {
 });
 
 const mr = require('@modules/mailReader').initialise();
+const notify = require('@modules/notifications').initialise();

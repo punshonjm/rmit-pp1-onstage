@@ -1077,7 +1077,7 @@ users.match = function (params) {
 		// Sort and apply minimum percentage and limit results
 		partMatches = _.orderBy(partMatches, "percent", "desc").filter(match => match.percent > minimum_percentage).slice(0,max_results);
 
-		return Promise.resolve({"matches": partMatches});
+		return Promise.resolve({ "matches": partMatches });
 	});
 };
 
