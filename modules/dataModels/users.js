@@ -1081,7 +1081,7 @@ users.match = function (params) {
 	});
 };
 
-users.admin_user_list = function (pagination_start,pagination_length) {
+users.admin_user_list = function (pagination_start,pagination_length,search) {
 
 	return Promise.resolve().then(() => {
 
@@ -1089,10 +1089,12 @@ users.admin_user_list = function (pagination_start,pagination_length) {
 		query.offset(pagination_start);
 		query.limit(pagination_length);
 
+		if (search !== '') {
+			search = '%' + search + '%';
+			query.where("u.username like ? OR u.display_name like ? or u.email like ?", search, search, search);
+		}
 		return dbc.execute(query);
-
 	}).then((data) => {
-
 		return Promise.resolve(data);
 	});
 };

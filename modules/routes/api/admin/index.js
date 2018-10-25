@@ -19,11 +19,12 @@ router.get("/user/list", (req, res) => {
 
 		let pagination_start = req.query.start;
 		let pagination_length = req.query.length;
+		let search = req.query.search.value;
 
 		data.recordsTotal = total;
 		data.recordsFiltered = total;
 
-		return models.users.admin_user_list(pagination_start,pagination_length);
+		return models.users.admin_user_list(pagination_start,pagination_length, search);
 	}).then((records) => {
 
 		data.data = records;
