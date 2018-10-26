@@ -1,27 +1,24 @@
-// var assert = require("assert");
-var chaiAsPromised = require("chai-as-promised");
-var chai = require("chai").use(chaiAsPromised);;
 
-// const chai = require(`chai`);
+const chaiAsPromised = require("chai-as-promised");
+var chai = require("chai").use(chaiAsPromised);;
 const should = chai.should();
 
 const listModel = require("./../modules/models.js").list;
 
 describe('list.gig_frequency.query', function(){
-	context('Test function', function() {
-		it('should have a length of 4', function() {
-			return listModel.gig_frequency.query();
+	context('Test gig_frequency querying', function() {
+		it('when getting all, should have a length of 4', function() {
+			return listModel.gig_frequency.query().should.eventually.have.lengthOf(4);
 		});
 
-		it('should return results like what is searched', function() {
+		it('when searching for tou, should return 1 result with a name of "touring"', function() {
 			return listModel.gig_frequency.query("tou").then(function(res) {
 				res.should.have.lengthOf(1);
 				res[0].should.have.property("name").equal("touring")
-			})
-			// return listModel.gig_frequency.query("tou").should.eventually.have.property("name").equal("touring")
+			});
 		});
 
-		it('should return false lif nothing is found', function() {
+		it('when searching "ewxfasdf", should return empty array', function() {
 			return listModel.gig_frequency.query("ewxfasdf").should.eventually.have.lengthOf(0);
 		});
 	});
