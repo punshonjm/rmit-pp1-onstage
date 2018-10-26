@@ -8,6 +8,13 @@ const app = require("@modules/app");
 
 const models = require("@modules/models");
 
+router.use((req, res, next) => {
+	if ( !req.user || req.user.type_id != 1 ) {
+		res.status(402).json({ message: "You don't have access to that!" }).end();
+	} else {
+		next();
+	}
+});
 
 router.get("/user/list", (req, res) => {
 
