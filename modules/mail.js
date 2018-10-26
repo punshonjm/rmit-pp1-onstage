@@ -49,7 +49,7 @@ mail.send.newMatches = function(to, name, matches) {
 			matches: matches
 		};
 
-		return templating.build(path.join(__dirname, "../templates/emails", "newMatches.html"), data);
+		return templating.build(path.join(__dirname, "../templates/emails", "matchEmail.html"), data);
 	}).then((html) => {
 		let details = {
 			"to": to,

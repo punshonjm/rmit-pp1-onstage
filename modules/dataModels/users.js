@@ -44,7 +44,7 @@ users.details = function (user_id) {
 				return Promise.resolve(false);
 			}
 		} else {
-			return Promise.reject({message: "Failed to find user."});
+			return Promise.reject({ message: "Failed to find user." });
 		}
 	}).then((rows) => {
 		if (rows) {

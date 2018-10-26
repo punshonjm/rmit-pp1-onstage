@@ -1,5 +1,6 @@
 const CronJob = require('cron').CronJob;
 const dbc = require("@modules/dbc");
+const mail = require("@modules/mail");
 const _ = require("lodash");
 const users = require("@modules/dataModels/users");
 
@@ -12,6 +13,11 @@ notifications.process = function() {
 			"p.user_id"
 		]).from(
 			"ebdb.profile", "p"
+		).left_join(
+			"ebdb.user",
+			"u", "p.user_id = u.id"
+		).where(
+			"u.id IS NOT NULL"
 		).where(
 			"p.user_id NOT IN ?",
 			dbc.sql.select().field("user_id").from("ebdb.profile_match_cache_lookup").where("date = CURDATE()")
@@ -21,7 +27,7 @@ notifications.process = function() {
 	}).then((rows) => {
 		if ( rows.length > 0 ) {
 			return Promise.all(rows.map(row => {
-				return notification.process.matches(row);
+				return notifications.process.matches(row);
 			}));
 		} else {
 			return Promise.reject({ allProcessed: true });
@@ -56,7 +62,7 @@ notifications.process.matches = function(user) {
 			inserts.push(dbc.execute(query));
 		});
 
-		if ( insert.length > 0 ) {
+		if ( inserts.length > 0 ) {
 			return Promise.all(inserts);
 		} else {
 			return Promise.reject({ noMatches: true });
@@ -65,7 +71,7 @@ notifications.process.matches = function(user) {
 		let query = dbc.sql.select().fields([
 			"match_id"
 		]).from(
-			"profile_match_cache",
+			"ebdb.profile_match_cache",
 			"pmc"
 		).where(dbc.sql.expr()
 			.and("user_id = ?", user.user_id)
@@ -131,9 +137,9 @@ notifications.send = function() {
 		return dbc.execute(query);
 	}).then((users) => {
 		if ( users.length > 0 ) {
-			return Promise.all(rows.map(row => {
+			return Promise.all(users.map(row => {
 				row.matches = JSON.parse(row.matches);
-				return notification.send.matches(row);
+				return notifications.send.matches(row);
 			}));
 		} else {
 			return Promise.reject({ allProcessed: true });
