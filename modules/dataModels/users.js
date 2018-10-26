@@ -44,7 +44,7 @@ users.details = function (user_id) {
 				return Promise.resolve(false);
 			}
 		} else {
-			return Promise.reject({ message: "Failed to find user." });
+			return Promise.reject({message: "Failed to find user."});
 		}
 	}).then((rows) => {
 		if (rows) {
@@ -959,14 +959,14 @@ users.search = function (params) {
 	}).then((rows) => {
 
 		// ***** Pagination *****
-		if ( ("page" in params) && ("per_page" in params) ) {
+		if (("page" in params) && ("per_page" in params)) {
 			// Total number of records
 			total = rows.length;
 			if (rows.length > 0) {
 				// Get record offset
-				let offset = params.per_page * ( params.page - 1 );
+				let offset = params.per_page * (params.page - 1);
 				// Get subset of rows based on pagination
-				rows = rows.slice(offset, ( offset + params.per_page ));
+				rows = rows.slice(offset, (offset + params.per_page));
 			}
 		}
 
@@ -1075,13 +1075,13 @@ users.match = function (params) {
 		});
 
 		// Sort and apply minimum percentage and limit results
-		partMatches = _.orderBy(partMatches, "percent", "desc").filter(match => match.percent > minimum_percentage).slice(0,max_results);
+		partMatches = _.orderBy(partMatches, "percent", "desc").filter(match => match.percent > minimum_percentage).slice(0, max_results);
 
-		return Promise.resolve({ "matches": partMatches });
+		return Promise.resolve({"matches": partMatches});
 	});
 };
 
-users.admin_user_list = function (pagination_start,pagination_length,search, order) {
+users.admin_user_list = function (pagination_start, pagination_length, search, order, search_column) {
 
 	return Promise.resolve().then(() => {
 
@@ -1095,25 +1095,18 @@ users.admin_user_list = function (pagination_start,pagination_length,search, ord
 			query.where("u.username like ? OR u.display_name like ? or u.email like ?", search, search, search);
 		}
 
-		// Add table sorting
-		let order_column = '';
-		if (order.column === "1") {
-			order_column = 'u.username';
-		} else if (order.column === "2") {
-			order_column = 'u.email';
-		} else if (order.column === "3") {
-			order_column = 'u.display_name';
-		} else if (order.column === "4") {
-			order_column = 'u.type_id';
-		} else if (order.column === "5") {
-			order_column = 'u.account_locked';
-		} else if (order.column === "6") {
-			order_column = 'reports';
-		} else {
-			// Default or 0
-			order_column = 'u.id';
-		}
-		query.order(order_column, (order.dir === "asc") ? true : false )
+		let mapping = ["u.id", "u.username", "u.email", "u.display_name", "user_type", "u.account_locked", "reports", "active_reports"];
+
+		search_column.forEach(function (item) {
+			if (item.search.value !== '') {
+				query.where(item.data + " = ?", item.search.value);
+			}
+
+		});
+
+		order.forEach(function (item) {
+			query.order(mapping[item.column], (item.dir === "asc") ? true : false);
+		});
 
 		return dbc.execute(query);
 	}).then((data) => {
@@ -1160,6 +1153,7 @@ internal.query.count = function () {
 
 	return query;
 };
+
 internal.query.admin_user_list = function () {
 	let query = dbc.sql.select().fields([
 		"u.id",
@@ -1170,7 +1164,8 @@ internal.query.admin_user_list = function () {
 		"u.account_locked",
 	]).fields({
 		"count(r.user_id)": "reports",
-		"t.type_name": "user_type"
+		"t.type_name": "user_type",
+		"IFNULL(ar.active_reports,0)": "active_reports"
 	}).from(
 		"ebdb.user", "u"
 	).left_join(
@@ -1179,12 +1174,46 @@ internal.query.admin_user_list = function () {
 	).left_join(
 		"ebdb.user_type", "t",
 		"u.type_id = t.id"
+	).left_join(dbc.sql.select(
+
+		).field("r2.user_id"
+		).field("IF(count(r2.user_id)>0,1,0)", "active_reports"
+		).from("ebdb.user_report", "r2"
+		).where("r2.is_active = ?", 1
+		).group("r2.user_id"), "ar", "u.id = ar.user_id"
 	).group(
 		"u.id"
 	);
 
 	return query;
 };
+
+// internal.query.admin_user_list = function () {
+// 	let query = dbc.sql.select().fields([
+// 		"u.id",
+// 		"u.username",
+// 		"u.display_name",
+// 		"u.email",
+// 		"u.type_id",
+// 		"u.account_locked",
+// 	]).fields({
+// 		"count(r.user_id)": "reports",
+// 		"t.type_name": "user_type"
+// 	}).field(dbc.sql.select().field("IF(count(r2.user_id)>0,1,0)").from("ebdb.user_report", "r2").where("u.id = r2.user_id").where("r2.is_active = ?", 1), "active_reports"
+// 	).from(
+// 		"ebdb.user", "u"
+// 	).left_join(
+// 		"ebdb.user_report", "r",
+// 		"u.id = r.user_id"
+// 	).left_join(
+// 		"ebdb.user_type", "t",
+// 		"u.type_id = t.id"
+// 	).group(
+// 		"u.id"
+// 	);
+//
+// 	return query;
+// };
 
 internal.query.user = function () {
 	let query = dbc.sql.select().fields([
@@ -1346,7 +1375,7 @@ internal.query.userInstruments = function () {
 };
 
 AWS.config.update({region: "ap-southeast-2"});
-internal.s3 = new AWS.S3({ params: { Bucket: 'onstage-storage' } });
+internal.s3 = new AWS.S3({params: {Bucket: 'onstage-storage'}});
 
 internal.images = {};
 internal.images.upload = function (user, image) {
