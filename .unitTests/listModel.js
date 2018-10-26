@@ -1,12 +1,28 @@
-var assert = require("assert");
+// var assert = require("assert");
 var chaiAsPromised = require("chai-as-promised");
 var chai = require("chai").use(chaiAsPromised);;
-chai.should();
 
-var listModel = require("./../modules/dataModels/list");
+// const chai = require(`chai`);
+const should = chai.should();
 
-describe("list.gig_frequency.query", function() {
-	it("should return 4 options", function(done) {
-		return listModel.gig_frequency.query().should.eventually.equal(4)
-	})
+const listModel = require("./../modules/models.js").list;
+
+describe('list.gig_frequency.query', function(){
+	context('Test function', function() {
+		it('should have a length of 4', function() {
+			return listModel.gig_frequency.query();
+		});
+
+		it('should return results like what is searched', function() {
+			return listModel.gig_frequency.query("tou").then(function(res) {
+				res.should.have.lengthOf(1);
+				res[0].should.have.property("name").equal("touring")
+			})
+			// return listModel.gig_frequency.query("tou").should.eventually.have.property("name").equal("touring")
+		});
+
+		it('should return false lif nothing is found', function() {
+			return listModel.gig_frequency.query("ewxfasdf").should.eventually.have.lengthOf(0);
+		});
+	});
 });
