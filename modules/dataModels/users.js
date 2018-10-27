@@ -68,11 +68,17 @@ users.details = function (user_id) {
 	});
 };
 
-users.register = function (params) {
+users.register = function (params = {}) {
 	let row = {}, profile = {}, pwd = {}, verify = {}, errors = [], files = [];
 	let allowedTypes = ["image/png", "image/jpeg"];
 
 	return Promise.resolve().then(() => {
+		if ( Object.keys(params).length == 0) {
+			return Promise.reject({ message: "No registration values provided." });
+		} else {
+			return Promise.resolve();
+		}
+	}).then(() => {
 		if (("files" in params) && ("profile" in params.files)) {
 			files.push(params.files.profile[0].path);
 		}
@@ -220,7 +226,6 @@ users.register = function (params) {
 		profile.commitment_level_id = params.commitment_level;
 		profile.gig_frequency_id = params.gig_frequency;
 		profile.status_id = params.status;
-		profile.sql_updated_by = res.insertId;
 
 		if (params.type == "band") {
 			profile.band_size = params.band_size;

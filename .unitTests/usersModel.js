@@ -5,6 +5,20 @@ const should = chai.should();
 const users = require("./../modules/models.js").users;
 
 describe('Users Model Tests', function() {
+	before(function() {
+		return Promise.resolve().then(() => {
+			 let query = dbc.sql.delete().from("ebdb.user").where("username = ?", "MochaChaiTestUser");
+			 return dbc.execute(query);
+		}).catch((err) => console.log(err));
+	});
+
+	after(function() {
+		return Promise.resolve().then(() => {
+			 let query = dbc.sql.delete().from("ebdb.user").where("username = ?", "MochaChaiTestUser");
+			 return dbc.execute(query);
+		}).catch((err) => console.log(err));
+	});
+
 	context('users.details', function() {
 		it('when passing no id or username, should reject', function() {
 			return users.details().should.eventually.be.rejectedWith("Provided an invalid ID or username.");
@@ -104,6 +118,160 @@ describe('Users Model Tests', function() {
 			}).then(function(user) {
 				user.about.should.equal(params.about);
 			})
+		});
+	});
+
+	context("users.register", function() {
+
+		it("should fail to add a user without params", function() {
+			return users.register().should.eventually.be.rejectedWith("No registration values provided.");
+		});
+
+		it("should fail to add a user without an email", function() {
+			return users.register({
+				username: "test",
+				password: "pass",
+				passwordConfirm: "pass",
+				agree: "yes"
+			}).should.eventually.be.rejected.then(function(error) {
+				error.should.have.property("errorSet");
+				error.errorSet.should.have.lengthOf(1);
+				error.errorSet[0].error.should.equal('Email must not be empty.');
+			});
+		});
+
+		it("should fail to add a user with an in-use email", function() {
+			return users.register({
+				email: "punshon.jm@live.com.au",
+				username: "test",
+				password: "pass",
+				passwordConfirm: "pass",
+				agree: "yes"
+			}).should.eventually.be.rejected.then(function(error) {
+				error.should.have.property("errorSet");
+				error.errorSet.should.have.lengthOf(1);
+				error.errorSet[0].error.should.equal('Email has already been used.');
+			});
+		});
+
+		it("should fail to add a user without a password", function() {
+			return users.register({
+				username: "test",
+				email: "test",
+				passwordConfirm: "pass",
+				agree: "yes"
+			}).should.eventually.be.rejected.then(function(error) {
+				error.should.have.property("errorSet");
+				error.errorSet.should.have.lengthOf(1);
+				error.errorSet[0].error.should.equal('Password must not be empty.');
+			});
+		});
+
+		it("should fail to add a user without a password confirm", function() {
+			return users.register({
+				username: "test",
+				email: "test",
+				password: "pass",
+				agree: "yes"
+			}).should.eventually.be.rejected.then(function(error) {
+				error.should.have.property("errorSet");
+				error.errorSet.should.have.lengthOf(1);
+				error.errorSet[0].error.should.equal('Password confirm must not be empty.');
+			});
+		});
+
+		it("should fail to add a user without a username", function() {
+			return users.register({
+				email: "test",
+				password: "pass",
+				passwordConfirm: "pass",
+				agree: "yes"
+			}).should.eventually.be.rejected.then(function(error) {
+				error.should.have.property("errorSet");
+				error.errorSet.should.have.lengthOf(1);
+				error.errorSet[0].error.should.equal('Username must not be empty.');
+			});
+		});
+
+		it("should fail to add a user with a username with invalid characters", function() {
+			return users.register({
+				username: "_test@",
+				email: "test",
+				password: "pass",
+				passwordConfirm: "pass",
+				agree: "yes"
+			}).should.eventually.be.rejected.then(function(error) {
+				error.should.have.property("errorSet");
+				error.errorSet.should.have.lengthOf(1);
+				error.errorSet[0].error.should.equal('Username contains invalid characters.');
+			});
+		});
+
+		it("should fail to add a user with an in-use username", function() {
+			return users.register({
+				username: "sally",
+				email: "test",
+				password: "pass",
+				passwordConfirm: "pass",
+				agree: "yes"
+			}).should.eventually.be.rejected.then(function(error) {
+				error.should.have.property("errorSet");
+				error.errorSet.should.have.lengthOf(1);
+				error.errorSet[0].error.should.equal('Username has already been taken. Please enter another.');
+			});
+		});
+
+		it("should fail to add with passwords not matching", function() {
+			return users.register({
+				username: "MochaChaiTestUser",
+				email: "test",
+				password: "pass",
+				passwordConfirm: "passt",
+				agree: "yes"
+			}).should.eventually.be.rejected.then(function(error) {
+				error.should.have.property("errorSet");
+				error.errorSet.should.have.lengthOf(1);
+				error.errorSet[0].error.should.equal('Passwords do not match.');
+			});
+		});
+
+		it("should fail to add if TOS agreement missing", function() {
+			return users.register({
+				username: "MochaChaiTestUser",
+				email: "test",
+				password: "pass",
+				passwordConfirm: "pass",
+			}).should.eventually.be.rejected.then(function(error) {
+				error.should.have.property("errorSet");
+				error.errorSet.should.have.lengthOf(1);
+				error.errorSet[0].error.should.equal('You must agree to the terms and conditions.');
+			});
+		});
+
+		it("should add a user successfully when required params provided", function() {
+			let params = {
+				username: "MochaChaiTestUser",
+				email: "joshua.punshon@outlook.com",
+				password: "pass",
+				passwordConfirm: "pass",
+				agree: "yes",
+				type: "musician",
+			};
+
+			params.display_name = "Mocha & Chai Please";
+			params.past_gigs = 1;
+			params.music_experience = 1;
+			params.commitment_level = 1;
+			params.gig_frequency = 1;
+			params.status = 1;
+			params.postcode = 1;
+			params.gender = 1;
+			params.aboutMe = "Test";
+			params.age_bracket = 1;
+			params.genre = "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20";
+			params.instruments = "31,32,33,34,35,36,37,38,39,40";
+
+			return users.register(params).should.eventually.be.fulfilled;
 		});
 	});
 });

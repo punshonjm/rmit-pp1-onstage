@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "mocha ./.unitTests --opts ./mocha.opts --exit"
+    "test": "mocha ./.unitTests --timeout 15000 --opts ./mocha.opts --exit"
   },
   "repository": {
     "type": "git",
