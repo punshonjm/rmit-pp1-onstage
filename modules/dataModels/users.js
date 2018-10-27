@@ -68,11 +68,17 @@ users.details = function (user_id) {
 	});
 };
 
-users.register = function (params) {
+users.register = function (params = {}) {
 	let row = {}, profile = {}, pwd = {}, verify = {}, errors = [], files = [];
 	let allowedTypes = ["image/png", "image/jpeg"];
 
 	return Promise.resolve().then(() => {
+		if ( Object.keys(params).length == 0) {
+			return Promise.reject({ message: "No registration values provided." });
+		} else {
+			return Promise.resolve();
+		}
+	}).then(() => {
 		if (("files" in params) && ("profile" in params.files)) {
 			files.push(params.files.profile[0].path);
 		}
@@ -220,7 +226,6 @@ users.register = function (params) {
 		profile.commitment_level_id = params.commitment_level;
 		profile.gig_frequency_id = params.gig_frequency;
 		profile.status_id = params.status;
-		profile.sql_updated_by = res.insertId;
 
 		if (params.type == "band") {
 			profile.band_size = params.band_size;
@@ -296,7 +301,7 @@ users.register = function (params) {
 	});
 };
 
-users.update = function (params) {
+users.update = function (params = {}) {
 	let user = {}, profile = {}, errors = [], files = [];
 	let allowedTypes = ["image/png", "image/jpeg"];
 
@@ -405,7 +410,7 @@ users.update = function (params) {
 
 		if (errors.length > 0) {
 			return Promise.reject({errorSet: errors});
-		} else if (Object.keys(user).length == 0 && Object.keys(profile).length == 0 && Object.keys(params.instruments).length == 0 && Object.keys(params.genres).length == 0) {
+		} else if (Object.keys(user).length == 0 && Object.keys(profile).length == 0 && (!("instruments" in params) || Object.keys(params.instruments).length == 0) && (!("genres" in params) || Object.keys(params.genres).length == 0)  ) {
 			return Promise.reject({message: "Nothing to update!"});
 		} else {
 			return Promise.resolve();
@@ -1346,7 +1351,11 @@ internal.query.user = function () {
 	).left_join(
 		"ebdb.user_type", "t",
 		"u.type_id = t.id"
-	).where("u.type_id <> 1");
+	).where(dbc.sql.expr()
+		.and("u.id <> 0")
+		.and("u.id <> 1")
+		.and("u.type_id <> 1")
+	);
 
 	return query;
 };
