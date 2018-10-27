@@ -1114,6 +1114,20 @@ users.admin_user_list = function (pagination_start, pagination_length, search, o
 	});
 };
 
+users.lock = function (user_id) {
+	return Promise.resolve().then(() => {
+		let query = dbc.sql.update().table("ebdb.user").set("account_locked = 1").where("id = ?", user_id);
+		return dbc.execute(query);
+	});
+}
+
+users.unlock = function (user_id) {
+	return Promise.resolve().then(() => {
+		let query = dbc.sql.update().table("ebdb.user").set("account_locked = 0").where("id = ?", user_id);
+		return dbc.execute(query);
+	});
+}
+
 users.count = function (search, search_column) {
 
 	return Promise.resolve().then(() => {

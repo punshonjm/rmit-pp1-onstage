@@ -70,7 +70,7 @@ appPage.send = function($this) {
 	data.message = ($("#messageUser").find("#messageContent").val().trim());
 
 
-	if ( data.message.length < 2 ) {
+	if ( data.message.length < 1 ) {
 		// No content
 	} else {
 

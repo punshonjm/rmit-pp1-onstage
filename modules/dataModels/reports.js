@@ -25,16 +25,18 @@ reports.admin_report_list = function (pagination_start, pagination_length, searc
 		query.offset(pagination_start);
 		query.limit(pagination_length);
 
-		query.where("r.user_id = ?", search);
+		if (search > 0) {
+			query.where("user_id = ?", search);
+		}
 
 		let mapping = ["r.report_by", "r.reason", "r.report_date"];
 
-		// search_column.forEach(function (item) {
-		// 	if (item.search.value !== '') {
-		// 		query.where(item.data + " = ?", item.search.value);
-		// 	}
-		//
-		// });
+		search_column.forEach(function (item) {
+			if (item.search.value !== '') {
+				query.where(item.data + " = ?", item.search.value);
+			}
+
+		});
 
 		order.forEach(function (item) {
 			query.order(mapping[item.column], (item.dir === "asc") ? true : false);
@@ -46,12 +48,14 @@ reports.admin_report_list = function (pagination_start, pagination_length, searc
 	});
 };
 
-reports.count = function (user_id) {
+reports.count = function (search) {
 
 	return Promise.resolve().then(() => {
 
 		let query = internal.query.count();
-		query.where("user_id = ?", user_id);
+		if (search > 0) {
+			query.where("r.user_id = ?", search);
+		}
 	console.log(query.toString());
 		return dbc.execute(query);
 
@@ -87,16 +91,22 @@ internal.query.admin_report_list = function() {
 		"r.report_by",
 		"r.is_active"
 	]).fields({
-		"r.sql_date_added": "report_date",
-		"u1.username": "report_by_username",
-		"u1.email": "report_by_email",
-		"u1.display_name": "report_by_display_name",
+		"by.sql_date_added": "report_date",
+		"by.username": "report_by_username",
+		"by.email": "report_by_email",
+		"by.display_name": "report_by_display_name",
+		"user.username": "username",
+		"user.email": "email",
+		"user.display_name": "display_name"
 	}).from(
 		"ebdb.user_report", "r"
 	).left_join(
-		"ebdb.user", "u1",
-		"r.user_id = u1.id"
-	)
+		"ebdb.user", "by",
+		"r.report_by = by.id"
+	).left_join(
+		"ebdb.user", "user",
+		"r.user_id = user.id"
+	);
 };
 
 internal.query.user_report = function() {

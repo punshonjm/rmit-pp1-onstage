@@ -16,6 +16,41 @@ router.use((req, res, next) => {
 	}
 });
 
+router.post("/user/unlock", (req, res) => {
+
+	let user_id = req.body.user_id;
+	let note = req.body.actionReason;
+	let admin_user_id = req.user.user_id;
+	let admin_action_id = 2;
+
+	Promise.resolve().then(() => {
+		return models.users.unlock(user_id);
+	}).then(() => {
+		return models.log.admin(admin_user_id,user_id,admin_action_id,note);
+	}).then(() => {
+
+		res.status(200).json({ message: "OK" }).end();
+	}).catch((err) => app.handleError(err, req, res));
+});
+
+router.post("/user/lock", (req, res) => {
+
+	let user_id = req.body.user_id;
+	let note = req.body.actionReason;
+	let admin_user_id = req.user.user_id;
+	let admin_action_id = 1;
+
+	Promise.resolve().then(() => {
+		return models.users.lock(user_id);
+	}).then(() => {
+		return models.log.admin(admin_user_id,user_id,admin_action_id,note);
+	}).then(() => {
+
+		res.status(200).json({ message: "OK" }).end();
+	}).catch((err) => app.handleError(err, req, res));
+});
+
+
 router.get("/user/report", (req, res) => {
 
 	let data = {};
