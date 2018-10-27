@@ -3,9 +3,11 @@ var chai = require("chai")
 // .use(chaiAsPromised);;
 const should = chai.should();
 
-describe('lTesting Object.values function', function(){
-	context('Test added core function for Objects', function() {
-		it('when passing an empty object should have length of 0', function() {
+// Object.values is a non-standard function that is added in app.js
+// Used in applicaiton and is important to test
+describe('Miscelaneous Function Tests', function(){
+	context('Test Object.values function', function() {
+		it('when passing an empty object, should have length of 0', function() {
 			Object.values({}).should.have.lengthOf(0);
 		});
 

@@ -296,7 +296,7 @@ users.register = function (params) {
 	});
 };
 
-users.update = function (params) {
+users.update = function (params = {}) {
 	let user = {}, profile = {}, errors = [], files = [];
 	let allowedTypes = ["image/png", "image/jpeg"];
 
@@ -405,7 +405,7 @@ users.update = function (params) {
 
 		if (errors.length > 0) {
 			return Promise.reject({errorSet: errors});
-		} else if (Object.keys(user).length == 0 && Object.keys(profile).length == 0 && Object.keys(params.instruments).length == 0 && Object.keys(params.genres).length == 0) {
+		} else if (Object.keys(user).length == 0 && Object.keys(profile).length == 0 && (!("instruments" in params) || Object.keys(params.instruments).length == 0) && (!("genres" in params) || Object.keys(params.genres).length == 0)  ) {
 			return Promise.reject({message: "Nothing to update!"});
 		} else {
 			return Promise.resolve();
@@ -1285,7 +1285,11 @@ internal.query.user = function () {
 	).left_join(
 		"ebdb.user_type", "t",
 		"u.type_id = t.id"
-	).where("u.type_id <> 1");
+	).where(dbc.sql.expr()
+		.and("u.id <> 0")
+		.and("u.id <> 1")
+		.and("u.type_id <> 1")
+	);
 
 	return query;
 };

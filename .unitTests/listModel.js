@@ -5,7 +5,7 @@ const should = chai.should();
 
 const listModel = require("./../modules/models.js").list;
 
-describe('list.gig_frequency.query', function(){
+describe('Lists Model Tests', function(){
 	context('Test gig_frequency querying', function() {
 		it('when using no filter, should have a length of 4', function() {
 			return listModel.gig_frequency.query().should.eventually.have.lengthOf(4);
@@ -22,9 +22,7 @@ describe('list.gig_frequency.query', function(){
 			return listModel.gig_frequency.query("ewxfasdf").should.eventually.have.lengthOf(0);
 		});
 	});
-});
 
-describe('list.age_bracket.query', function(){
 	context('Test age_bracket querying', function() {
 		it('when using no filter, should have a length of 7', function() {
 			return listModel.age_bracket.query().should.eventually.have.lengthOf(7);
@@ -41,9 +39,7 @@ describe('list.age_bracket.query', function(){
 			return listModel.age_bracket.query("80").should.eventually.have.lengthOf(0);
 		});
 	});
-});
 
-describe('list.commitment_level.query', function(){
 	context('Test commitment_level querying', function() {
 		it('when using no filter, should have a length of 5', function() {
 			return listModel.commitment_level.query().should.eventually.have.lengthOf(5);
@@ -60,9 +56,7 @@ describe('list.commitment_level.query', function(){
 			return listModel.commitment_level.query("Doing nothing").should.eventually.have.lengthOf(0);
 		});
 	});
-});
 
-describe('list.music_experience.query', function(){
 	context('Test music_experience querying', function() {
 		it('when using no filter, should have a length of 6', function() {
 			return listModel.music_experience.query().should.eventually.have.lengthOf(6);
@@ -79,9 +73,7 @@ describe('list.music_experience.query', function(){
 			return listModel.music_experience.query("nothing").should.eventually.have.lengthOf(0);
 		});
 	});
-});
 
-describe('list.past_gig.query', function(){
 	context('Test past_gig querying', function() {
 		it('when using no filter, should have a length of 5', function() {
 			return listModel.past_gig.query().should.eventually.have.lengthOf(5);
@@ -98,9 +90,7 @@ describe('list.past_gig.query', function(){
 			return listModel.past_gig.query("none").should.eventually.have.lengthOf(0);
 		});
 	});
-});
 
-describe('list.status.query', function(){
 	context('Test status querying', function() {
 		it('when using no filter, should have a length of 2', function() {
 			return listModel.status.query().should.eventually.have.lengthOf(2);
@@ -117,9 +107,7 @@ describe('list.status.query', function(){
 			return listModel.status.query("none").should.eventually.have.lengthOf(0);
 		});
 	});
-});
 
-describe('list.gender.query', function(){
 	context('Test gender querying', function() {
 		it('when using no filter, should have a length of 4', function() {
 			return listModel.gender.query().should.eventually.have.lengthOf(4);
@@ -136,9 +124,7 @@ describe('list.gender.query', function(){
 			return listModel.gender.query("fighting").should.eventually.have.lengthOf(0);
 		});
 	});
-});
 
-describe('list.instrument.query', function(){
 	context('Test instrument querying', function() {
 		it('when using no filter, should have a length of 30', function() {
 			return listModel.instrument.query().should.eventually.have.lengthOf(30);
@@ -155,9 +141,7 @@ describe('list.instrument.query', function(){
 			return listModel.instrument.query("chainsaw").should.eventually.have.lengthOf(0);
 		});
 	});
-});
 
-describe('list.genre.query', function(){
 	context('Test genre querying', function() {
 		it('when using no filter, should have a length of 30', function() {
 			return listModel.genre.query().should.eventually.have.lengthOf(30);
@@ -174,9 +158,7 @@ describe('list.genre.query', function(){
 			return listModel.genre.query("screamo").should.eventually.have.lengthOf(0);
 		});
 	});
-});
 
-describe('list.postcode.query', function(){
 	context('Test postcode querying', function() {
 		it('when using no filter, should have a length of 25 (limited)', function() {
 			return listModel.postcode.query().should.eventually.have.lengthOf(25);
