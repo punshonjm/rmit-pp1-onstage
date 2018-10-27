@@ -16,12 +16,13 @@ router.use((req, res, next) => {
 	}
 });
 
-router.get("/user/list", (req, res) => {
+router.get("/user/report", (req, res) => {
 
 	let data = {};
 
 	Promise.resolve().then(() => {
-		return models.users.count();
+
+		return models.reports.count(req.query.search.value);
 	}).then((total) => {
 
 		let pagination_start = req.query.start;
@@ -29,6 +30,32 @@ router.get("/user/list", (req, res) => {
 		let search = req.query.search.value;
 		let search_column = req.query.columns;
 		let order = req.query.order;
+
+		data.recordsTotal = total;
+		data.recordsFiltered = total;
+
+
+		return models.reports.admin_report_list(pagination_start, pagination_length, search, order, search_column);
+	}).then((records) => {
+
+		data.data = records;
+		res.status(200).json(data).end();
+	}).catch((err) => app.handleError(err, req, res));
+});
+
+router.get("/user/list", (req, res) => {
+
+	let data = {};
+
+	let pagination_start = req.query.start;
+	let pagination_length = req.query.length;
+	let search = req.query.search.value;
+	let search_column = req.query.columns;
+	let order = req.query.order;
+
+	Promise.resolve().then(() => {
+		return models.users.count(search, search_column);
+	}).then((total) => {
 
 		data.recordsTotal = total;
 		data.recordsFiltered = total;

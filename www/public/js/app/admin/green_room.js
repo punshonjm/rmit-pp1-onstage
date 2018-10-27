@@ -23,6 +23,20 @@ appPage.initialise = function () {
 		"columnDefs": [
 			{
 				"render": function (data, type, row) {
+					if (row.type_id === 1) {
+					return '<a class="btn btn-disabled btn-sm btn-fab btn-round view-profile" role="button">' +
+						'	<i class="material-icons">perm_identity</i>' +
+						'</a> ' + data;
+					} else {
+					return '<a class="btn btn-primary btn-sm btn-fab btn-round view-profile" target="_blank" href="/user/' + data + '" role="button">' +
+						'	<i class="material-icons">perm_identity</i>' +
+						'</a> ' + data;
+					}
+				},
+				"targets": 0
+			},
+			{
+				"render": function (data, type, row) {
 					if (data === 1) {
 						return '<i class="material-icons text-danger">lock</i>';
 					} else {
@@ -34,7 +48,9 @@ appPage.initialise = function () {
 			{
 				"render": function (data, type, row) {
 					if (data > 0) {
-						return '<i class="material-icons text-danger">flag</i>';
+						return '<button class="btn btn-rose btn-sm btn-fab btn-round view-report" data-target="#messageUser" rel="tooltip" title="" data-original-title="View Reports">\n' +
+							'	<i class="material-icons">flag</i>' +
+							'</button>';
 					} else {
 						return '<i class="material-icons">outlined_flag</i>';
 					}
@@ -54,7 +70,7 @@ appPage.initialise = function () {
 			{
 				"targets": -1,
 				"data": null,
-				"defaultContent": "<button type=\"button\" class=\"btn btn-primary btn-sm\"><i class=\"material-icons\">settings</i></button>",
+				"defaultContent": "<button type=\"button\" class=\"btn btn-primary btn-sm settings\"><i class=\"material-icons\">settings</i></button>",
 				"orderable": false
 			}//,
 			//{ "visible": false,  "targets": [ 7 ] }
@@ -72,10 +88,57 @@ appPage.initialise = function () {
 		filterColumn($(this).attr('data-column'), (($(this).is(':checked')) ? $(this).attr('data-search') : ""));
 	});
 
+
 	$('#user_table tbody').on('click', 'button', function () {
 		var data = table.row($(this).parents('tr')).data();
-		alert('All users except for ID ' + data.id + ' have been removed from the system. Database update complete.');
+
+		if ($(this).hasClass('view-report')) {
+			appPage.report(data);
+		} else if ($(this).hasClass('settings')) {
+			appPage.confirm('Menu','ID ' + data.id + ' has alllll the menu.');
+		}
+
+
 	});
+
+	$('#report_table').DataTable({
+		ajax: '/api/admin/user/report',
+		serverSide: true,
+		"deferLoading": 0,
+		"columns": [
+			{"data": "report_by"},
+			{"data": "reason"},
+			{"data": "report_date"},
+			{"data": "actions"}
+		],
+		"columnDefs": [
+			{
+				"render": function (data, type, row) {
+					return '<span href="#" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="ID: ' + data + '\nEmail: ' + row.report_by_email + '">' + row.report_by_username + '</span>';
+				},
+				"targets": 0
+			},
+			{
+				"targets": -1,
+				"data": null,
+				"defaultContent": "<button type=\"button\" class=\"btn btn-primary btn-sm settings\"><i class=\"material-icons\">settings</i></button>",
+				"orderable": false
+			}
+		]
+	});
+	$('#report_table_filter').addClass("d-none");
 
 };
 
+
+appPage.report = function (data) {
+
+	$('#report_table').DataTable().search(data.id).draw();
+	$('#reportModal').modal('show');
+}
+
+appPage.confirm = function (title,message) {
+	$('#confirmModalTitle').text(title);
+	$('#confirmModalText').text(message);
+	$('#confirmModal').modal('show');
+}

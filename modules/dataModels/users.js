@@ -1114,12 +1114,24 @@ users.admin_user_list = function (pagination_start, pagination_length, search, o
 	});
 };
 
-users.count = function () {
+users.count = function (search, search_column) {
 
 	return Promise.resolve().then(() => {
 
 		let query = internal.query.count();
 
+		// Add in search query if required
+		if (search !== '') {
+			search = '%' + search + '%';
+			query.where("u.username like ? OR u.display_name like ? or u.email like ?", search, search, search);
+		}
+
+		search_column.forEach(function (item) {
+			if (item.search.value !== '') {
+				query.where(item.data + " = ?", item.search.value);
+			}
+
+		});
 		return dbc.execute(query);
 
 	}).then((data) => {
@@ -1149,8 +1161,14 @@ internal.query.count = function () {
 		"count(*)": "total"
 	}).from(
 		"ebdb.user", "u"
-	);
+	).left_join(dbc.sql.select(
 
+		).field("r.user_id"
+		).field("IF(count(r.user_id)>0,1,0)", "active_reports"
+		).from("ebdb.user_report", "r"
+		).where("r.is_active = ?", 1
+		).group("r.user_id"), "ar", "u.id = ar.user_id"
+	);
 	return query;
 };
 
