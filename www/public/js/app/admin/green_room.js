@@ -143,6 +143,16 @@ appPage.initialise = function () {
 			},
 			{
 				"render": function (data, type, row) {
+					if (data.length > 155) {
+						return (data.substring(0, 155) + '...');
+					} else {
+						return data;
+					}
+				},
+				"targets": 2
+			},
+			{
+				"render": function (data, type, row) {
 					return moment(data).utc().format('YYYY-MM-DD HH:MM:SS');
 				},
 				"targets": 3

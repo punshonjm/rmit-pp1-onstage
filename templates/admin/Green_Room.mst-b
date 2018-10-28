@@ -106,19 +106,19 @@
                 </div>
                 <div class="container" id="reportActionPanel" style="display: none">
                     <div class="row">
-                        <div class="col-4">Reported By</div>
+                        <div class="col-3">Reported By</div>
                         <div class="col" id="report_by_view"
                              data-id="">
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-4">Reason</div>
+                        <div class="col-3">Reason</div>
                         <div class="col" id="report_reason_view"
                              data-id="">
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-4">Date</div>
+                        <div class="col-3">Date</div>
                         <div class="col" id="report_date_view"
                              data-id="">
                         </div>
