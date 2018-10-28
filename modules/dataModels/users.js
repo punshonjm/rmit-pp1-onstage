@@ -1298,7 +1298,6 @@ internal.query.user = function () {
 		"p.required_past_gig_id",
 		"p.music_experience_id",
 		"p.required_music_experience_id",
-
 		"u.account_locked",
 		"u.email_verified",
 	]).from(

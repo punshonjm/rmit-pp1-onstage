@@ -123,6 +123,7 @@ appPage.initialise = function () {
 		ajax: '/api/admin/user/report',
 		serverSide: true,
 		"deferLoading": 0,
+		"ordering": false,
 		"pageLength": 5,
 		"columns": [
 			{"data": "id"},
@@ -139,6 +140,12 @@ appPage.initialise = function () {
 					return '<span href="#" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="ID: ' + data + '\nEmail: ' + row.report_by_email + '">' + row.report_by_username + '</span>';
 				},
 				"targets": 1
+			},
+			{
+				"render": function (data, type, row) {
+					return moment(data).utc().format('YYYY-MM-DD HH:MM:SS');
+				},
+				"targets": 3
 			},
 			{
 				"targets": -1,
@@ -158,7 +165,7 @@ appPage.initialise = function () {
 
 		$("#report_by_view").html(data.report_by_username + ' (ID: ' + data.report_by + ')<br/>' + data.report_by_email + '<br/>');
 		$("#report_reason_view").text(data.reason);
-		$("#report_date_view").text(data.report_date);
+		$("#report_date_view").text(moment(data.report_date).utc().format('YYYY-MM-DD HH:MM:SS'));
 
 		$("#submit-closeReport").data("report_id", data.id);
 		$("#submit-closeReport").data("user_id", data.user_id);

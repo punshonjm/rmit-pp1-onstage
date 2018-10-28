@@ -2,7 +2,7 @@ var appPage = {};
 
 $(document).ready(function() {
 	appPage.initialise();
-}).on("click", "#reportUser", function() {
+}).on("click", "#submitReport", function() {
 	appPage.report($(this));
 }).on("click", "#sendMessage", function() {
 	appPage.send($(this));
@@ -32,6 +32,7 @@ appPage.report = function($this) {
 
 	$("#reportReason").closest(".row").hide();
 	$(".reportStatus").closest(".row").show();
+
 	$this.prop("disabled", true);
 
 	if ( String.isNullOrEmpty(data.reportReason) ) {
@@ -40,6 +41,8 @@ appPage.report = function($this) {
 		$(".reportStatus").append("<p class='text-danger'>Please make sure you have entered a reason why you are reporting this user.</p>");
 	} else {
 		$.post("/api/user/" + data.user_id + "/report", data, function(res) {
+			$(".reportNotice").show();
+			$(".reportContent").hide();
 			$(".reportStatus").append("<p class='text-success'>Your report has been received, an admin will review this user within 48 hours. Thank you.</p>");
 		}).fail(function() {
 			$("#reportReason").closest(".row").show();
@@ -74,9 +77,6 @@ appPage.send = function($this) {
 		// No content
 	} else {
 
-		$(".messageNotice").show();
-		$(".messageContent").hide();
-
 		$this.prop("disabled", true);
 
 		$(".loading-indicator").find(".loading-status").text("Sending your message...");
@@ -89,6 +89,9 @@ appPage.send = function($this) {
 
 		}, "json").fail(function(error) {
 			$this.prop("disabled", false);
+			$(".messageNotice").show();
+			$(".messageContent").hide();
+
 			$(".loading-indicator").find(".loading-status").text("Something went wrong!");
 
 			if ( ("responseJSON" in error) && ("errorSet" in error.responseJSON) ) {

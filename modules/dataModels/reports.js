@@ -46,9 +46,11 @@ reports.admin_report_list = function (pagination_start, pagination_length, searc
 
 		let mapping = ["r.report_by", "r.reason", "r.report_date", "r.is_active"];
 
-		order.forEach(function (item) {
-			query.order(mapping[item.column], (item.dir === "asc") ? true : false);
-		});
+		if (order != null) {
+			order.forEach(function (item) {
+				query.order(mapping[item.column], (item.dir === "asc") ? true : false);
+			});
+		}
 
 		return dbc.execute(query);
 	}).then((data) => {

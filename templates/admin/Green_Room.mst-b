@@ -99,7 +99,7 @@
                             <th>Reason</th>
                             <th>Date</th>
                             <th>Is Active</th>
-                            <th>Action</th>
+                            <th>View</th>
                         </tr>
                         </thead>
                     </table>
@@ -108,19 +108,19 @@
                     <div class="row">
                         <div class="col-4">Reported By</div>
                         <div class="col" id="report_by_view"
-                             data-id="">test
+                             data-id="">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-4">Reason</div>
                         <div class="col" id="report_reason_view"
-                             data-id="">test
+                             data-id="">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-4">Date</div>
                         <div class="col" id="report_date_view"
-                             data-id="">test
+                             data-id="">
                         </div>
                     </div>
                     <div class='row'>

@@ -146,8 +146,8 @@ router.post("/:id/report", (req, res) => {
 		let row = {};
 		row.user_id = req.profile.user_id;
 		row.req_ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-		row.tag_report = req.body.tag_report;
-		row.reason = req.body.reportReason;
+		//row.tag_report = req.body.tag_report;
+		row.reason = req.body.tag_report + ': ' + req.body.reportReason;
 
 		if ( req.user ) {
 			row.report_by = req.user.user_id;
@@ -158,9 +158,9 @@ router.post("/:id/report", (req, res) => {
 		).setFields(row);
 
 		return dbc.execute(query);
-	}).then((qRes) => {
-		res.status(200).end();
-	});
+	}).then((qres) => {
+		res.status(200).json({ results: qres }).end();
+	}).catch((err) => app.handleError(err, req, res));
 });
 
 module.exports = router;
