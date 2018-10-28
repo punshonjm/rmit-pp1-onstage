@@ -194,17 +194,32 @@ messaging.listThreads = function(user) {
 
 		let threadIds = threads.map((t) => t.thread_id);
 
-		let idQuery = dbc.sql.select().field("MAX(id)").from(
-			"ebdb.message"
-		).where(dbc.sql.expr()
-			.and("thread_id IN ?", threadIds)
-		).group("thread_id");
+		// let idQuery = dbc.sql.select().field("MAX(id)").from(
+		// 	"ebdb.message"
+		// ).where(dbc.sql.expr()
+		// 	.and("thread_id IN ?", threadIds)
+		// ).where (
+		// ).group("thread_id");
+		//
+		// let query = dbc.sql.select().fields([
+		// 	"id", "thread_id", "user_id", "content", "sql_date_added"
+		// ]).from(
+		// 	"ebdb.message"
+		// ).where("id IN ?", idQuery);
 
 		let query = dbc.sql.select().fields([
-			"id", "thread_id", "user_id", "content", "sql_date_added"
-		]).from(
-			"ebdb.message"
-		).where("id IN ?", idQuery);
+			"m1.id", "m1.thread_id", "m1.user_id", "m1.content", "m1.sql_date_added"
+		]).fields({
+			"m2.id": "max_message_id"
+		}).from(
+			"ebdb.message", "m1"
+		).left_join(
+			"ebdb.message", "m2","m1.thread_id = m2.thread_id"
+		).where("m1.thread_id IN ?", threadIds
+		).where("m2.user_id <> ?", user.user_id
+		).order("m1.id", false
+		).order("m2.id", false
+		).limit(1);
 
 		if ( threadIds.length > 0) {
 			return dbc.execute(query);
@@ -213,18 +228,21 @@ messaging.listThreads = function(user) {
 		}
 	}).then((messages) => {
 
-		let last_message = null;
+
 		messages.map((message) => {
 			data[message.thread_id].message = message;
-			if (message.user_id !== user.user_id) {
-				last_message = message.id;
-			}
 		});
 
 		data = Object.values(data).map((thread) => {
 			thread.user = {};
 			thread.date = moment(thread.message.sql_date_added).format("YYYY/MM/DD, h:mm a");
-			thread.unread = ( thread.read_message_id == last_message ) ? false : true;
+
+			if (thread.message.max_message_id !== null) {
+				thread.unread = (thread.read_message_id !== thread.message.max_message_id);
+			} else {
+				thread.unread = false;
+			}
+
 			thread.unassigned = ( thread.message_with == 1 ) ? true : false;
 
 			if ( thread.messager_name != null ) {
