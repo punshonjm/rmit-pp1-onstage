@@ -3,19 +3,27 @@ const dbc = require("@modules/dbc");
 let reports = {};
 
 reports.user_report = {};
-reports.user_report.query = function(search_query = null) {
+reports.user_report.query = function (search_query = null) {
 	return Promise.resolve().then(() => {
 		let query = internal.query.user_report();
 		return dbc.execute(query);
 
-    }).then((rows) => {
-        if ( rows ) {
-            return Promise.resolve(rows);
-        } else {
-            return Promise.resolve(false);
+	}).then((rows) => {
+		if (rows) {
+			return Promise.resolve(rows);
+		} else {
+			return Promise.resolve(false);
 		}
-    });
+	});
 };
+
+reports.close = function (id) {
+	return Promise.resolve().then(() => {
+		let query = dbc.sql.update().table("ebdb.user_report").set("is_active = 0").where("id = ?", id);
+		return dbc.execute(query);
+	});
+}
+
 
 reports.admin_report_list = function (pagination_start, pagination_length, search, order, search_column) {
 
@@ -29,8 +37,6 @@ reports.admin_report_list = function (pagination_start, pagination_length, searc
 			query.where("user_id = ?", search);
 		}
 
-		let mapping = ["r.report_by", "r.reason", "r.report_date"];
-
 		search_column.forEach(function (item) {
 			if (item.search.value !== '') {
 				query.where(item.data + " = ?", item.search.value);
@@ -38,17 +44,19 @@ reports.admin_report_list = function (pagination_start, pagination_length, searc
 
 		});
 
+		let mapping = ["r.report_by", "r.reason", "r.report_date", "r.is_active"];
+
 		order.forEach(function (item) {
 			query.order(mapping[item.column], (item.dir === "asc") ? true : false);
 		});
-		console.log(query.toString());
+
 		return dbc.execute(query);
 	}).then((data) => {
 		return Promise.resolve(data);
 	});
 };
 
-reports.count = function (search) {
+reports.count = function (search, search_column = null, active = null) {
 
 	return Promise.resolve().then(() => {
 
@@ -56,7 +64,15 @@ reports.count = function (search) {
 		if (search > 0) {
 			query.where("r.user_id = ?", search);
 		}
-	console.log(query.toString());
+
+		if (search_column !== null) {
+			search_column.forEach(function (item) {
+				if (item.search.value !== '') {
+					query.where(item.data + " = ?", item.search.value);
+				}
+			});
+		}
+
 		return dbc.execute(query);
 
 	}).then((data) => {
@@ -64,7 +80,6 @@ reports.count = function (search) {
 		return Promise.resolve(data[0].total);
 	});
 };
-
 
 
 module.exports = reports;
@@ -82,7 +97,7 @@ internal.query.count = function () {
 	return query;
 };
 
-internal.query.admin_report_list = function() {
+internal.query.admin_report_list = function () {
 	return dbc.sql.select().fields([
 		"r.id",
 		"r.user_id",
@@ -109,15 +124,15 @@ internal.query.admin_report_list = function() {
 	);
 };
 
-internal.query.user_report = function() {
-    return dbc.sql.select().fields([
-        "i.id",
+internal.query.user_report = function () {
+	return dbc.sql.select().fields([
+		"i.id",
 		"i.user_id",
 		"i.req_ip",
 		"i.tag_report",
 		"i.reason",
 		"i.report_by"
-    ]).from(
-        "ebdb.user_report", "i"
-    );
+	]).from(
+		"ebdb.user_report", "i"
+	);
 };

@@ -33,6 +33,24 @@ router.post("/user/unlock", (req, res) => {
 	}).catch((err) => app.handleError(err, req, res));
 });
 
+
+router.post("/report/close", (req, res) => {
+
+	let id = req.body.id;
+	let user_id = req.body.user_id;
+	let note = req.body.actionReason;
+	let admin_user_id = req.user.user_id;
+	let admin_action_id = 3;
+
+	Promise.resolve().then(() => {
+		return models.reports.close(id);
+	}).then(() => {
+		return models.log.admin(admin_user_id,user_id,admin_action_id,note,id);
+	}).then(() => {
+		res.status(200).json({ message: "OK" }).end();
+	}).catch((err) => app.handleError(err, req, res));
+});
+
 router.post("/user/lock", (req, res) => {
 
 	let user_id = req.body.user_id;
@@ -55,20 +73,19 @@ router.get("/user/report", (req, res) => {
 
 	let data = {};
 
+	let pagination_start = req.query.start;
+	let pagination_length = req.query.length;
+	let search = req.query.search.value;
+	let search_column = req.query.columns;
+	let order = req.query.order;
+
 	Promise.resolve().then(() => {
 
-		return models.reports.count(req.query.search.value);
+		return models.reports.count(search, search_column);
 	}).then((total) => {
-
-		let pagination_start = req.query.start;
-		let pagination_length = req.query.length;
-		let search = req.query.search.value;
-		let search_column = req.query.columns;
-		let order = req.query.order;
 
 		data.recordsTotal = total;
 		data.recordsFiltered = total;
-
 
 		return models.reports.admin_report_list(pagination_start, pagination_length, search, order, search_column);
 	}).then((records) => {

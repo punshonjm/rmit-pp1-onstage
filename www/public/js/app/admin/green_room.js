@@ -4,6 +4,11 @@ appPage.action = {};
 
 $(document).ready(function () {
 	appPage.initialise();
+}).on("click", "#report-up", function() {
+	$("#reportTablePanel").slideToggle("slow");
+	$("#reportActionPanel").slideToggle("slow");
+}).on("click", "#submit-closeReport", function() {
+	appPage.closeReport();
 });
 
 appPage.initialise = function () {
@@ -57,7 +62,7 @@ appPage.initialise = function () {
 				// View Report Column
 				"render": function (data, type, row) {
 					if (data > 0) {
-						return '<button class="btn btn-danger btn-sm btn-fab btn-round view-report" data-target="#messageUser" rel="tooltip" title="" data-original-title="View Reports">\n' +
+						return '<button class="btn btn-danger btn-sm btn-fab btn-round view-report">\n' +
 							'	<i class="material-icons">flag</i>' +
 							'</button>';
 					} else {
@@ -106,17 +111,15 @@ appPage.initialise = function () {
 		var data = table.row($(this).parents('tr')).data();
 		var action = $(this).data().action;
 		if ($(this).hasClass('view-report')) {
-			appPage.report(data);
+			appPage.reportModal(data);
 		} else if ($(this).hasClass('action')) {
 			appPage.actionModal(data,action);
-		} else if ($(this).hasClass('settings')) {
-			appPage.confirm('Menu','ID ' + data.id + ' has alllll the menu.');
 		}
 
 
 	});
 
-	$('#report_table').DataTable({
+	var report_table = $('#report_table').DataTable({
 		ajax: '/api/admin/user/report',
 		serverSide: true,
 		"deferLoading": 0,
@@ -126,7 +129,9 @@ appPage.initialise = function () {
 			{"data": "report_by"},
 			{"data": "reason"},
 			{"data": "report_date"},
+			{"data": "is_active"},
 			{"data": "actions"}
+
 		],
 		"columnDefs": [
 			{
@@ -138,21 +143,76 @@ appPage.initialise = function () {
 			{
 				"targets": -1,
 				"data": null,
-				"defaultContent": "<button type=\"button\" class=\"btn btn-primary btn-sm settings\"><i class=\"material-icons\">settings</i></button>",
+				"defaultContent": "<button class=\"btn btn-info btn-sm btn-fab btn-round report-down\"><i class=\"material-icons\">expand_more</i></button>",
 				"orderable": false
-			}
+			},
+			{ "visible": false,  "targets": [ 4 ] }
 		]
 	});
 	$('#report_table_filter').addClass("d-none");
 	$('#report_table_length').addClass("d-none");
-	$( "#actionSubmit").click(function() {appPage.submit()} );
+	$( "#submit-action").click(function() {appPage.submit()} );
+
+	$('#report_table tbody').on('click', 'button', function () {
+		var data = report_table.row($(this).parents('tr')).data();
+
+		$("#report_by_view").html(data.report_by_username + ' (ID: ' + data.report_by + ')<br/>' + data.report_by_email + '<br/>');
+		$("#report_reason_view").text(data.reason);
+		$("#report_date_view").text(data.report_date);
+
+		$("#submit-closeReport").data("report_id", data.id);
+		$("#submit-closeReport").data("user_id", data.user_id);
+
+		$("#reportCloseReason").val('');
+
+		$("#reportTablePanel").slideToggle("slow");
+		$("#reportActionPanel").slideToggle("slow");
+
+
+
+
+	});
 
 };
 
+appPage.closeReport = function () {
 
-appPage.report = function (data) {
+	var data = {};
+	data.id = $("#submit-closeReport").data("report_id");
+	data.user_id = $("#submit-closeReport").data("user_id");
+	data.actionReason = ($("#reportModal").find("#reportCloseReason").val().trim());
+	data.action = $("#submit-closeReport").data("action");
 
-	$('#report_table').DataTable().search(data.id).draw();
+	$(".reportStatus").closest(".row").show();
+	$("#submit-closeReport").prop("disabled", true);
+
+	if ( String.isNullOrEmpty(data.actionReason) ) {
+		$("#reportCloseReason").closest(".row").show();
+		$( "#submit-closeReport").prop("disabled", false);
+		$(".reportStatus").html("<p class='text-danger'>Please provide a description or a reason.</p>");
+	} else {
+		$(".reportStatus").text('');
+		$.post("/api/admin/report/" + data.action, data, function(res) {
+			$('#report_table').DataTable().draw();
+			$("#reportTablePanel").slideToggle("slow");
+			$("#reportActionPanel").slideToggle("slow");
+			$("#submit-closeReport").prop("disabled", false);
+			$('#user_table').DataTable().draw();
+		}).fail(function(error) {
+			$("#submit-closeReport").prop("disabled", false);
+			if ( error.status == 401 && ("responseJSON" in error) ) {
+				$(".reportStatus").append("<p class='text-danger'>" + error.responseJSON.message + "</p>");
+			} else {
+				$(".reportStatus").append("<p class='text-danger'>Something went wrong! Please try again.</p>");
+			}
+		});
+	}
+};
+
+appPage.reportModal = function (data) {
+
+	$('#report_table').DataTable().search(data.id);
+	$('#report_table').DataTable().column(4).search(1).draw();
 	$('#reportUserInfo').text(data.username + ' (ID: ' + data.id + ')');
 	$('#reportModal').modal('show');
 }
@@ -183,21 +243,21 @@ appPage.submit = function($this) {
 	data.action = appPage.action;
 
 	$(".actionStatus").closest(".row").show();
-	$("#actionSubmit").prop("disabled", true);
+	$("#submit-action").prop("disabled", true);
 
 	if ( String.isNullOrEmpty(data.actionReason) ) {
 		$("#actionReason").closest(".row").show();
-		$( "#actionSubmit").prop("disabled", false);
+		$( "#submit-action").prop("disabled", false);
 		$(".actionStatus").append("<p class='text-danger'>Please provide a description or a reason.</p>");
 	} else {
 		$(".actionStatus").text('');
 		$.post("/api/admin/user/" + data.action, data, function(res) {
 			$('#user_table').DataTable().draw();
 			$('#actionModal').modal('hide');
-			$("#actionSubmit").prop("disabled", false);
+			$("#submit-action").prop("disabled", false);
 		}).fail(function(error) {
 			$("#actionReason").closest(".row").show();
-			$("#actionSubmit").prop("disabled", false);
+			$("#submit-action").prop("disabled", false);
 			if ( error.status == 401 && ("responseJSON" in error) ) {
 				$(".actionStatus").append("<p class='text-danger'>" + error.responseJSON.message + "</p>");
 			} else {
