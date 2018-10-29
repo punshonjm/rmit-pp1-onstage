@@ -194,19 +194,6 @@ messaging.listThreads = function(user) {
 
 		let threadIds = threads.map((t) => t.thread_id);
 
-		// let idQuery = dbc.sql.select().field("MAX(id)").from(
-		// 	"ebdb.message"
-		// ).where(dbc.sql.expr()
-		// 	.and("thread_id IN ?", threadIds)
-		// ).where (
-		// ).group("thread_id");
-		//
-		// let query = dbc.sql.select().fields([
-		// 	"id", "thread_id", "user_id", "content", "sql_date_added"
-		// ]).from(
-		// 	"ebdb.message"
-		// ).where("id IN ?", idQuery);
-
 		let query = dbc.sql.select().fields([
 			"m1.id", "m1.thread_id", "m1.user_id", "m1.content", "m1.sql_date_added"
 		]).fields({
@@ -215,32 +202,31 @@ messaging.listThreads = function(user) {
 			"ebdb.message", "m1"
 		).left_join(
 			"ebdb.message", "m2","m1.thread_id = m2.thread_id"
-		).where("m1.thread_id IN ?", threadIds
-		).where("m2.user_id <> ?", user.user_id
-		).order("m1.id", false
-		).order("m2.id", false
-		).limit(1);
+		).where(dbc.sql.expr()
+			.and("m1.thread_id IN ?", threadIds)
+			.and("m2.user_id <> ?", user.user_id)
+		).order("m1.id", false).order("m2.id", false).limit(1);
 
 		if ( threadIds.length > 0) {
-			return dbc.execute(query);
+			return dbc.getRow(query);
 		} else {
 			return Promise.reject({ noMessages: true });
 		}
-	}).then((messages) => {
-
-
-		messages.map((message) => {
+	}).then((message) => {
+		if ( message ) {
 			data[message.thread_id].message = message;
-		});
+		}
 
 		data = Object.values(data).map((thread) => {
 			thread.user = {};
-			thread.date = moment(thread.message.sql_date_added).format("YYYY/MM/DD, h:mm a");
+			thread.unread = false;
 
-			if (thread.message.max_message_id !== null) {
-				thread.unread = (thread.read_message_id !== thread.message.max_message_id);
-			} else {
-				thread.unread = false;
+			if ( ("thread" in message) ) {
+				thread.date = moment(thread.message.sql_date_added).format("YYYY/MM/DD, h:mm a");
+
+				if (thread.message.max_message_id !== null) {
+					thread.unread = (thread.read_message_id !== thread.message.max_message_id);
+				}
 			}
 
 			thread.unassigned = ( thread.message_with == 1 ) ? true : false;
