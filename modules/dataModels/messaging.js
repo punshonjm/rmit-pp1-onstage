@@ -214,7 +214,6 @@ messaging.listThreads = function(user) {
 			"ebdb.message", "m1"
 		).where("m1.id IN ?", idQuery);
 
-	console.log(query.toString());
 		if ( threadIds.length > 0) {
 			return dbc.getRow(query);
 		} else {
@@ -229,12 +228,13 @@ messaging.listThreads = function(user) {
 			thread.user = {};
 			thread.unread = false;
 
-			thread.date = moment(thread.message.sql_date_added).format("YYYY/MM/DD, h:mm a");
+			if ( ("message" in thread) ) {
+				thread.date = moment(thread.message.sql_date_added).format("YYYY/MM/DD, h:mm a");
 
-			if (thread.message.max_message_id !== null) {
-				thread.unread = (thread.read_message_id !== thread.message.max_message_id);
+				if (thread.message.max_message_id !== null) {
+					thread.unread = (thread.read_message_id !== thread.message.max_message_id);
+				}
 			}
-
 
 			thread.unassigned = ( thread.message_with == 1 ) ? true : false;
 
