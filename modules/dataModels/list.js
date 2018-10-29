@@ -78,7 +78,7 @@ list.gender.query = function(search_query = null) {
 		}
 
     });
-}
+};
 
 list.past_gig = {};
 list.past_gig.query = function(search_query = null) {

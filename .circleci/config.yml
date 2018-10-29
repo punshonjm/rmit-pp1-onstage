@@ -2,14 +2,10 @@ version: 2
 jobs:
   deploy:
     docker:
-      - image: circleci/python:2.7
+      - image: gradientco/node-elastic-beanstalk:8.11.1
     working_directory: ~/repo
     steps:
       - checkout
-      - run:
-          name: Install awscli
-          command: |
-            sudo pip install awsebcli --upgrade
       - run:
           name: Create AWS credentials manually
           command: |
@@ -24,7 +20,7 @@ jobs:
           command: |
             eb use CodeyMccodeface-env2 --profile eb-cli
             eb deploy -v --staged --profile eb-cli
- 
+
 workflows:
   version: 2
   build-deploy:
