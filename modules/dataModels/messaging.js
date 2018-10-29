@@ -215,14 +215,15 @@ messaging.listThreads = function(user) {
 		).where("m1.id IN ?", idQuery);
 
 		if ( threadIds.length > 0) {
-			return dbc.getRow(query);
+			return dbc.execute(query);
 		} else {
 			return Promise.reject({ noMessages: true });
 		}
-	}).then((message) => {
-		if ( message ) {
+	}).then((messages) => {
+
+		messages.map((message) => {
 			data[message.thread_id].message = message;
-		}
+		});
 
 		data = Object.values(data).map((thread) => {
 			thread.user = {};
