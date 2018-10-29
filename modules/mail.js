@@ -18,7 +18,9 @@ mail.send = function(to, name, subject, content) {
 		};
 
 		return internal.sendMail(details);
-	});
+	}).then((res) => {
+		return Promise.resolve(res);
+	})
 };
 
 //function to send admin notification email
@@ -147,15 +149,7 @@ internal.sendMail = function(emailDetails) {
 
 		return Promise.resolve(mailOptions)
 	}).then((options) => {
-		return new Promise(function(resolve, reject) {
-			internal.ses.sendEmail(options, (error, info) => {
-				if ( error ) {
-					reject(error);
-				} else {
-					resolve(info)
-				}
-			});
-		});
+		return internal.ses.sendEmail(options).promise();
 	}).catch((error) => {
 		error.mailError = true;
 		return Promise.reject(error);
