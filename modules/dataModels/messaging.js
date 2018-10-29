@@ -187,7 +187,7 @@ messaging.listThreads = function(user) {
 		// If user is admin, get unassigned messages to admins
 		if ( user.type_id == 1) expr.or("t1.user_id = 1");
 		query.where(expr).where("t1.is_active = ?", 1);
-
+		
 		return dbc.execute(query);
 	}).then((threads) => {
 		data = _.keyBy(threads, "thread_id");
