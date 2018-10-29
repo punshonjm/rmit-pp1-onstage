@@ -56,7 +56,9 @@ mailReader.getEmails = function(filesArray) {
 		foundEmails = foundEmails.map(f => f.etag);
 		let importList = filesArray.filter(f => !foundEmails.includes(f.ETag.replace(/"/g, "")));
 		return Promise.all( importList.map(file => mailReader.importEmail(file)) );
-	});
+	}).catch((error) => {
+		console.log("Mail.Importer.GetEmail.Error", error);
+	})
 };
 
 mailReader.importEmail = function(file) {
@@ -82,9 +84,9 @@ mailReader.importEmail = function(file) {
 		row.message_id = data.messageId;
 
 		if ( ("text" in data) && (typeof data.text != typeof undefined) ) {
-			row.content = data.text;
+			row.content = data.text.split("________________________________")[0];
 		} else {
-			row.content = htmlToText.fromString(data.html);
+			row.content = htmlToText.fromString(data.html).split("________________________________")[0];
 		}
 
 		let query = dbc.sql.insert().into("ebdb.email_import").setFields(row);
@@ -99,10 +101,10 @@ mailReader.importEmail = function(file) {
 			"t", "f.id = t.contact_id"
 		).where("email = ?", row.from_email).order("f.sql_date_added", false).limit(1);
 		return dbc.getRow(query);
-	}).then((row) => {
-		if ( row && row.thread_id != null ) {
+	}).then((threadRow) => {
+		if ( threadRow && threadRow.thread_id != null ) {
 			let message = {};
-			message.thread_id = row.thread_id;
+			message.thread_id = threadRow.thread_id;
 			message.user_id = 0;
 			message.content = row.content;
 
