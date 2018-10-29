@@ -4,6 +4,8 @@ const mail = require("@modules/mail");
 const _ = require("lodash");
 const users = require("@modules/dataModels/users");
 
+var moment = require("moment-timezone");
+
 var notifications = {};
 
 notifications.process = function() {
@@ -20,7 +22,7 @@ notifications.process = function() {
 			"u.id IS NOT NULL"
 		).where(
 			"p.user_id NOT IN ?",
-			dbc.sql.select().field("user_id").from("ebdb.profile_match_cache_lookup").where("date = CURDATE()")
+			dbc.sql.select().field("user_id").from("ebdb.profile_match_cache_lookup").where("date = ?", moment().tz("Australia/Melbourne").format("YYYY-MM-DD"))
 		).limit(1000);
 
 		return dbc.execute(query);
@@ -55,7 +57,7 @@ notifications.process.matches = function(user) {
 			let row = {
 				user_id: user.user_id,
 				match_id: match.user_id,
-				date: dbc.sql.rstr("CURDATE()")
+				date: moment().tz("Australia/Melbourne").format("YYYY-MM-DD")
 			};
 
 			let query = dbc.sql.insert().into("ebdb.profile_match_cache").setFields(row);
@@ -75,7 +77,7 @@ notifications.process.matches = function(user) {
 			"pmc"
 		).where(dbc.sql.expr()
 			.and("user_id = ?", user.user_id)
-			.and("date = CURDATE() - INTERVAL 1 DAY")
+			.and("date = ?", moment().subtract(1, 'day').tz("Australia/Melbourne").format("YYYY-MM-DD"))
 		);
 
 		return dbc.execute(query);
@@ -96,7 +98,7 @@ notifications.process.matches = function(user) {
 		if ( data.newMatches.length > 0 ) {
 			let lookup = {};
 			lookup.user_id = user.user_id;
-			lookup.date = dbc.sql.rstr("CURDATE()")
+			lookup.date = moment().tz("Australia/Melbourne").format("YYYY-MM-DD");
 			lookup.matches = JSON.stringify(data.newMatches);
 
 			let query = dbc.sql.insert().into("ebdb.profile_match_cache_lookup").setFields(lookup);
@@ -129,7 +131,7 @@ notifications.send = function() {
 			"ebdb.user",
 			"u", "l.user_id = u.id"
 		).where(dbc.sql.expr()
-			.and("l.date = CURDATE()")
+			.and("l.date = ?", moment().tz("Australia/Melbourne").format("YYYY-MM-DD"))
 			.and("l.user_notified = ?", 0)
 			.and("u.email_verified = ?", 1)
 		).limit(500);
@@ -171,7 +173,7 @@ notifications.job.process = new CronJob('0 1 0,6,12,18 * * *', () => {
 	}).catch((error) => {
 		console.error("Notifications.Job.Error", error);
 	});
-});
+}, null, true, "Australia/Melbourne");
 notifications.job.notification = new CronJob('0 30 9-18 * * * ', () => {
 	// Job runs at hourly on the half hour mark between 9am and 6pm
 	Promise.resolve().then(() => {
@@ -179,7 +181,7 @@ notifications.job.notification = new CronJob('0 30 9-18 * * * ', () => {
 	}).catch((error) => {
 		console.error("Notifications.Job.Error", error);
 	});
-});
+}, null, true, "Australia/Melbourne");
 
 notifications.initialise = function() {
 	notifications.job.process.start();
