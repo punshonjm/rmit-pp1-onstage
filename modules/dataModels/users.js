@@ -1225,33 +1225,6 @@ internal.query.admin_user_list = function () {
 	return query;
 };
 
-// internal.query.admin_user_list = function () {
-// 	let query = dbc.sql.select().fields([
-// 		"u.id",
-// 		"u.username",
-// 		"u.display_name",
-// 		"u.email",
-// 		"u.type_id",
-// 		"u.account_locked",
-// 	]).fields({
-// 		"count(r.user_id)": "reports",
-// 		"t.type_name": "user_type"
-// 	}).field(dbc.sql.select().field("IF(count(r2.user_id)>0,1,0)").from("ebdb.user_report", "r2").where("u.id = r2.user_id").where("r2.is_active = ?", 1), "active_reports"
-// 	).from(
-// 		"ebdb.user", "u"
-// 	).left_join(
-// 		"ebdb.user_report", "r",
-// 		"u.id = r.user_id"
-// 	).left_join(
-// 		"ebdb.user_type", "t",
-// 		"u.type_id = t.id"
-// 	).group(
-// 		"u.id"
-// 	);
-//
-// 	return query;
-// };
-
 internal.query.user = function () {
 	let query = dbc.sql.select().fields([
 		"u.username",
@@ -1358,6 +1331,44 @@ internal.query.user = function () {
 
 	return query;
 };
+
+users.getTimezone = function (user_id) {
+
+	return Promise.resolve().then(() => {
+
+		let query = internal.query.getStateTimezone();
+
+		query.where("p.user_id = ?", user_id);
+		console.log(query.toString());
+		return dbc.execute(query);
+
+	}).then((data) => {
+
+		let timezone = data[0].state_timezone;
+
+		if (timezone != null)
+		{
+			return Promise.resolve(timezone);
+		} else {
+			return Promise.resolve("Australia/Melbourne");
+		}
+
+
+	});
+};
+
+internal.query.getStateTimezone = function() {
+	let query = dbc.sql.select().fields([
+		"s.state_timezone"
+	]).from(
+		"ebdb.profile", "p"
+	).left_join("ebdb.postcode","pc","p.postcode_id = pc.id"
+	).left_join("ebdb.aus_state","s","s.id = pc.aus_state_id"
+	);
+
+	return query;
+};
+
 
 internal.query.getUserUsername = function () {
 	let query = dbc.sql.select().fields([

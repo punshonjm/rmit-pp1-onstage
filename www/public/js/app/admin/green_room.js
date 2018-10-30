@@ -153,7 +153,7 @@ appPage.initialise = function () {
 			},
 			{
 				"render": function (data, type, row) {
-					return moment(data).utc().format('YYYY-MM-DD HH:MM:SS');
+					return moment(data).utc().format('YYYY-MM-DD HH:MM:SS') + ' UTC';
 				},
 				"targets": 3
 			},
@@ -175,7 +175,7 @@ appPage.initialise = function () {
 
 		$("#report_by_view").html(data.report_by_username + ' (ID: ' + data.report_by + ')<br/>' + data.report_by_email + '<br/>');
 		$("#report_reason_view").text(data.reason);
-		$("#report_date_view").text(moment(data.report_date).utc().format('YYYY-MM-DD HH:MM:SS'));
+		$("#report_date_view").text(moment(data.report_date).utc().format('YYYY-MM-DD HH:MM:SS') + ' UTC');
 
 		$("#submit-closeReport").data("report_id", data.id);
 		$("#submit-closeReport").data("user_id", data.user_id);

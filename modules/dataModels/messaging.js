@@ -5,6 +5,8 @@ const mail = require("@modules/mail");
 const _ = require("lodash");
 const moment = require("moment");
 
+const model_users = require("@modules/dataModels/users");
+
 var messaging = {};
 
 messaging.new = function(params) {
@@ -156,8 +158,14 @@ messaging.getLatestThreadId = function(user_a,user_b) {
 
 messaging.listThreads = function(user) {
 	var data = [];
+	var timezone = "";
 
 	return Promise.resolve().then(() => {
+		return model_users.getTimezone(user.user_id)
+	}).then((data) => {
+
+		timezone = data;
+
 		let query = dbc.sql.select().fields([
 			"t1.thread_id",
 			"t1.read_message_id",
@@ -230,7 +238,7 @@ messaging.listThreads = function(user) {
 			thread.unread = false;
 
 			if ( ("message" in thread) ) {
-				thread.date = moment(thread.message.sql_date_added).format("YYYY/MM/DD, h:mm a");
+				thread.date = moment(thread.message.sql_date_added).tz(timezone).format("YYYY/MM/DD, h:mm a");
 
 				if (thread.message.max_message_id !== null) {
 					thread.unread = (thread.read_message_id !== thread.message.max_message_id);
@@ -283,7 +291,14 @@ messaging.deleteThread = function(params) {
 
 messaging.getThread = function(params) {
 	let thread = {};
+	let timezone = "";
+
 	return Promise.resolve().then(() => {
+		return model_users.getTimezone(params.user.user_id)
+	}).then((data) => {
+
+		timezone = data;
+
 		let query = dbc.sql.select().from("ebdb.thread_user");
 		let expr = dbc.sql.expr().and("thread_id = ?", params.thread_id);
 
@@ -346,7 +361,7 @@ messaging.getThread = function(params) {
 				last_read = message.id;
 			}
 
-			message.date = moment(message.sql_date_added).format("YYYY/MM/DD h:mm a");
+			message.date = moment(message.sql_date_added).tz(timezone).format("YYYY/MM/DD h:mm a");
 			return message;
 		});
 
