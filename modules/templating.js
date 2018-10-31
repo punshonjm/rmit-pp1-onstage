@@ -33,10 +33,10 @@ templating.compile = function( template, data ) {
 			source += "{{> nav_standard}}";
 		} else if ( fileExtension == "mst-h" ) {
 			source += "{{> nav_header}}";
+		}
 
-			if ( !("headerImage" in data) ) {
-				data.headerImage = "/public/img/bg-new.jpg";
-			}
+		if ( !("headerImage" in data) ) {
+			data.headerImage = "/public/img/bg-new.jpg";
 		}
 
 		source += templateLoaded + "{{> footer}}";

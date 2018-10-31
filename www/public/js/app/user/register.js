@@ -63,12 +63,15 @@ appPage.register = function($this) {
 		"past_gigs", "commitment_level", "gig_frequency", "agree"
 	];
 
-	data.type = window.app.data.formType;
+	data.type = $("[name='type']:checked").val() || false;
 	if ( data.type == "band" ) {
 		required.push( "bandSize", "preferred_age_bracket", "required_music_experience", "members_needed" );
 	} else {
 		required.push( "age_bracket");
 	}
+
+	if ( !data.type ) errors.push("type");
+	$(".form-status").html("<h4 class='text-danger'>Please choose a profile type.</h4>");
 
 	data.display_name = $('#display_name').val();
 	data.age_bracket = $('#age_bracket').val();
@@ -80,7 +83,11 @@ appPage.register = function($this) {
 
 	data.aboutMe = $('#aboutMe').val();
 	data.music_experience = $('#music_experience').val();
-	data.instruments = $('#instruments').val();
+	if ( data.type == "band" ) {
+		data.instruments = $('#required_instruments').val();
+	} else {
+		data.instruments = $('#instruments').val();
+	}
 	data.genre = $('#genre').val();
 	data.past_gigs = $('#past_gigs').val();
 	data.commitment_level = $('#commitment_level').val();
