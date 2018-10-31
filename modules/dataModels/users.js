@@ -1339,7 +1339,7 @@ users.getTimezone = function (user_id) {
 		let query = internal.query.getStateTimezone();
 
 		query.where("p.user_id = ?", user_id);
-		console.log(query.toString());
+
 		return dbc.execute(query);
 
 	}).then((data) => {

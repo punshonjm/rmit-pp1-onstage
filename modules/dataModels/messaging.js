@@ -221,7 +221,7 @@ messaging.listThreads = function(user) {
 		).from(
 			"ebdb.message", "m1"
 		).where("m1.id IN ?", idQuery);
-		console.log(query.toString());
+
 		if ( threadIds.length > 0) {
 			return dbc.execute(query);
 		} else {
