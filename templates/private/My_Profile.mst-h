@@ -142,9 +142,10 @@
         <div class="col-lg-8 py-4">
             <div class="container">
 				<div class='row'>
-					<div class="col-md-12">
-						<h4>Top Matches</h4>
-					</div>
+                    <div class="col-md-12 my-profile-header">
+                        <h4 class="title">Top Matches</h4>
+                    </div>
+                    {{#if this.matches}}
 					{{#each this.matches}}
 						<a class='d-block col-md-3' href="/user/{{this.user_id}}" target="_blank">
 							<div class='w-100 d-flex justify-content-center'>
@@ -164,6 +165,9 @@
 							<a class="btn btn-link" href="/my_matches" target="_blank">Show More...</a>
 						</div>
 					{{/compare}}
+                    {{else}}
+                        <div class="col-12">No matches just yet. Please check again soon!</div>
+                    {{/if}}
 				</div>
 
                 <!-- ##### Begin Account section ###### -->

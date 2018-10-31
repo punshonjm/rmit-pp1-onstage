@@ -8,7 +8,7 @@ module.exports = function(req) {
 	}).then((userDetails) => {
 		data.profile = userDetails;
 		data.pageName = userDetails.display_name;
-
+		data.user_id = req.user.user_id;
 		return Promise.resolve(data);
 	});
 };

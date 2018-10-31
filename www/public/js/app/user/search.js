@@ -111,17 +111,18 @@ appPage.search = function($this) {
 		$.post("/api/user/search", data, function(resp) {
 			$(".loading-indicator").find(".loading-status").text("Lets see who we've found!");
 
+			$("#results").html(resp.results.total).removeClass('d-none');
+
 			// If results are returned then setup
 			if (resp.results.users.length > 0) {
 
+				$('#no-results').addClass('d-none');
 				$('#advanced-options').collapse('hide');
 
 				resp.results.users.map(function(user) {
 					let html = window.app.templates.row(user);
 					$("#search-results").append(html);
 				});
-
-				$("#results").html(resp.results.total).removeClass('d-none');
 
 				$('.pagination-search').twbsPagination({
 					totalPages: Math.ceil(resp.results.total / resp.results.per_page),
@@ -131,6 +132,8 @@ appPage.search = function($this) {
 						appPage.search_page(page);
 					}
 				});
+			} else {
+				$('#no-results').removeClass('d-none');
 			}
 			appPage.toggleStyle($(".toggle-style"), false);
 		}).fail(function(error) {

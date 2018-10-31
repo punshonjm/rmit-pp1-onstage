@@ -1,4 +1,5 @@
 <div class="row flex-fill">
+{{#if this.threads}}
 	<div class="col-md-12 col-lg-3 col-xl-3 border-right d-lg-block" id="thread-list">
 		<div class="row">
 			<div class="col-md-12">
@@ -41,6 +42,9 @@
 		</div>
 	</div>
 	<div class="col-lg-9 col-md-12 d-none d-lg-block" id="messages-panel"></div>
+{{else}}
+    <div class="col-12 text-center"><h3 class="pt-5"><i class="material-icons">message</i> No Messages.<br/>Reach out and start a conversation!</h3></div>
+{{/if}}
 </div>
 
 {{#*inline "load_files"}}
