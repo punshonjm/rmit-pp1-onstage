@@ -1,3 +1,6 @@
+<script>
+	$(".loading-indicator").find(".loading-status").text("Setting up...");
+</script>
 <div class="image-container d-flex flex-column" style="background-image: url('{{this.headerImage}}')">
     <div class="container-fluid flex-fill">
         <div class="row">
@@ -246,8 +249,8 @@
 												{{#each this.criteria.gender}}
 				                                    {{#if @last}}
 				                                        <div class="form-check form-check-radio form-check-inline">
-				                                            <label class="form-check-label" for="gender_{{this.id}}">
-				                                                <input class="form-check-input" type="radio" name="gender" id="gender_{{this.id}}_band" value="{{this.id}}" checked> Not set
+				                                            <label class="form-check-label" for="gender_{{this.id}}_band">
+				                                                <input class="form-check-input" type="radio" name="gender" id="gender_{{this.id}}_band" value="{{this.id}}" checked> No preference
 				                                                <span class="circle">
 															<span class="check"></span>
 														</span>
@@ -255,7 +258,7 @@
 				                                        </div>
 				                                    {{else}}
 				                                    <div class="form-check form-check-radio form-check-inline">
-				                                        <label class="form-check-label" for="gender_{{this.id}}">
+				                                        <label class="form-check-label" for="gender_{{this.id}}_band">
 				                                            <input class="form-check-input" type="radio" name="gender" id="gender_{{this.id}}_band" value="{{this.id}}"> {{this.name}}
 				                                            <span class="circle">
 															<span class="check"></span>
@@ -404,7 +407,7 @@
 									</div>
 									<div class="d-flex justify-content-end">
 										<input type='button' class='btn btn-next btn-primary btn-round btn-raised btn-lg' name='next' value='Next' />
-	                                    <button class='btn btn-finish btn-primary btn-round btn-raised btn-lg'>Join Now</button>
+	                                    <button class='btn btn-finish btn-primary btn-round btn-raised btn-lg' id="submit">Join Now</button>
 									</div>
 								</div>
 	                        </div>

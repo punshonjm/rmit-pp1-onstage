@@ -126,7 +126,7 @@
     </div>
 </div>
 
-<div class="loading-indicator flex-fill">
+<div class="loading-indicator flex-fill {{^if this.showIndicator}}d-none{{/if}}">
     <div class="d-flex align-items-center h-100">
         <div class="container">
             <div class="spinner">
@@ -136,7 +136,7 @@
                 <div class="rect4"></div>
                 <div class="rect5"></div>
             </div>
-            <h3 class="loading-status"></h3>
+            <h3 class="loading-status">{{#if this.showIndicator}}{{this.showIndicator}}{{/if}}</h3>
         </div>
     </div>
 </div>

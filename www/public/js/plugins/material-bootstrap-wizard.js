@@ -3,21 +3,22 @@
  =========================================================
  * Material Bootstrap Wizard - v1.0.2
  =========================================================
-
  * Product Page: https://www.creative-tim.com/product/material-bootstrap-wizard
  * Copyright 2017 Creative Tim (http://www.creative-tim.com)
  * Licensed under MIT (https://github.com/creativetimofficial/material-bootstrap-wizard/blob/master/LICENSE.md)
-
  =========================================================
 
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
  */
 
 // Material Bootstrap Wizard Functions
-
 var mobile_device = false;
 
 $(document).ready(function(){
+	setTimeout(function() {
+		$(".loading-indicator").hide();
+		$(".loading-indicator").find(".loading-status").text("");
+	}, 1000);
 
     $.material.init();
 
@@ -60,7 +61,7 @@ $(document).ready(function(){
             $('.moving-tab').css('transition','transform 0s');
 
 			$("[data-for]").hide();
-       },
+		},
         onTabClick: function(tab, navigation, index) {
 			if ( index != 0 ) {
 				var type = $("[name='type']:checked").val() || false;
@@ -108,10 +109,7 @@ $(document).ready(function(){
                     'position': 'absolute'
                 });
             } else {
-                $(checkbox).css({
-                    'opacity': '1',
-                    'visibility': 'visible'
-                });
+                $(checkbox).css({ 'opacity': '1', 'visibility': 'visible' });
             }
 
             refreshAnimation($wizard, index);

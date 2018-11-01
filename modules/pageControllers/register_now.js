@@ -33,6 +33,7 @@ module.exports = function(req) {
 	}).then((items) => {
 		data.criteria.music_experience = items;
 
+		data.showIndicator = "Setting up...";
 		return Promise.resolve(data);
 	});
 };

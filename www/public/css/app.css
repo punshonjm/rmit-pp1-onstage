@@ -218,7 +218,6 @@ table.dataTable tbody td {
 	top: 0; left: 0;
 	background: #2196f3;
 	z-index: 5000;
-	display: none;
 }
 .loading-indicator .container {
 	z-index:5001;

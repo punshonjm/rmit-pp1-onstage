@@ -1,7 +1,6 @@
 var appPage = {};
 
 appPage.initialise = function() {
-
 	$('.select2-postcode').select2({
 		minimumInputLength: 2,
 		placeholder: "Enter postcode or suburb...",
@@ -16,7 +15,6 @@ appPage.initialise = function() {
 		},
 		theme: "material"
 	});
-
 
 	$('.select2-instrument').select2({
 		placeholder: "Choose instruments...",
@@ -70,8 +68,10 @@ appPage.register = function($this) {
 		required.push( "age_bracket");
 	}
 
-	if ( !data.type ) errors.push("type");
-	$(".form-status").html("<h4 class='text-danger'>Please choose a profile type.</h4>");
+	if ( !(data.type) ) {
+		errors.push("type");
+		$(".form-status").html("<h4 class='text-danger'>Please choose a profile type.</h4>");
+	}
 
 	data.display_name = $('#display_name').val();
 	data.age_bracket = $('#age_bracket').val();
@@ -178,32 +178,6 @@ appPage.register = function($this) {
 		errors.push("genre");
 		$("#genre").closest(".form-group").find("label").addClass("text-danger");
 		$("#genre").closest(".form-group").find("input").addClass("text-danger");
-	}
-
-	if ( data.age_bracket == "" ) {
-		errors.push("age_bracket");
-		$("#age_bracket").closest(".form-group").find("label").addClass("text-danger");
-		$("#age_bracket").closest(".form-group").find("select").addClass("text-danger");
-	}
-	if ( data.music_experience == "" ) {
-		errors.push("music_experience");
-		$("#music_experience").closest(".form-group").find("label").addClass("text-danger");
-		$("#music_experience").closest(".form-group").find("select").addClass("text-danger");
-	}
-	if ( data.past_gigs == "" ) {
-		errors.push("past_gigs");
-		$("#past_gigs").closest(".form-group").find("label").addClass("text-danger");
-		$("#past_gigs").closest(".form-group").find("select").addClass("text-danger");
-	}
-	if ( data.commitment_level == "" ) {
-		errors.push("commitment_level");
-		$("#commitment_level").closest(".form-group").find("label").addClass("text-danger");
-		$("#commitment_level").closest(".form-group").find("select").addClass("text-danger");
-	}
-	if ( data.gig_frequency == "" ) {
-		errors.push("gig_frequency");
-		$("#gig_frequency").closest(".form-group").find("label").addClass("text-danger");
-		$("#gig_frequency").closest(".form-group").find("select").addClass("text-danger");
 	}
 
 	// Check password is strong & confirmed before allowing submission
