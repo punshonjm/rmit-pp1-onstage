@@ -141,18 +141,18 @@
                 <button class="btn btn-link" data-toggle="collapse" data-target="#advanced-options">Advanced
                     Search <span class="badge badge-pill badge-default d-none" id="option-count">0</span></button>
 
-                <form class="form-inline" role="form">
+                <div class="form-inline">
                     <div class="form-group">
                         <select id="per_page" class='form-control selectpicker mr-lg-3 mr-md-2'
                                 data-style="btn btn-link">
                             <option value="3">3 results/page</option>
                             <option value="5" selected>5 results/page</option>
                             <option value="10">10 results/page</option>
-                            <option value="15">15 results per page</option>
+                            <option value="15">15 results/page</option>
                         </select>
                     </div>
                     <button class="btn btn-primary btn-round btn-raised search-button">Search</button>
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -173,6 +173,9 @@
 			</button>
 		</span>
     </div>
+</div>
+<div class="row d-none" id="no-results">
+    <div class="col-12 text-center"><h3 class="pt-3"><i class="material-icons">search</i> No Results.<br/>Try changing your search criteria!</h3></div>
 </div>
 <div class="row" id="search-results"></div>
 <div class="row pb-3 pt-1">

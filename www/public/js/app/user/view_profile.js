@@ -35,22 +35,22 @@ appPage.report = function($this) {
 
 	$this.prop("disabled", true);
 
-	if ( String.isNullOrEmpty(data.reportReason) ) {
+	if ( String.isNullOrEmpty(data.reportReason) || String.isNullOrEmpty(data.tag_report) ) {
 		$("#reportReason").closest(".row").show();
 		$this.prop("disabled", false);
-		$(".reportStatus").append("<p class='text-danger'>Please make sure you have entered a reason why you are reporting this user.</p>");
+		$(".reportStatus").html("<p class='text-danger'>Please make sure you have entered a reason and explanation on why you are reporting this user.</p>");
 	} else {
 		$.post("/api/user/" + data.user_id + "/report", data, function(res) {
-			$(".reportStatus").append("<p class='text-success'>Your report has been received, an admin will review this user within 48 hours. Thank you.</p>");
+			$(".reportStatus").html("<p class='text-success'>Your report has been received, an admin will review this user within 48 hours. Thank you.</p>");
 			$(".reportNotice").show();
 			$(".reportContent").hide();
 		}).fail(function() {
 			$("#reportReason").closest(".row").show();
 			$this.prop("disabled", false);
 			if ( error.status == 401 && ("responseJSON" in error) ) {
-				$(".reportStatus").append("<p class='text-danger'>" + error.responseJSON.message + "</p>");
+				$(".reportStatus").html("<p class='text-danger'>" + error.responseJSON.message + "</p>");
 			} else {
-				$(".reportStatus").append("<p class='text-danger'>Something went wrong! Please try again.</p>");
+				$(".reportStatus").html("<p class='text-danger'>Something went wrong! Please try again.</p>");
 			}
 		});
 	}

@@ -12,6 +12,7 @@
 {{/inline}}
 <div class="section text-left pt-0 profile-page">
     <div class='follow mr-5 d-none d-md-block'>
+        {{#compare this.user_id this.profile.user_id operator="!="}}
         <button class='btn btn-rose btn-fab btn-round' data-toggle="modal" data-target="#messageUser" rel="tooltip"
                 title="" data-original-title="Reach Out (Message)">
             <i class="material-icons">message</i>
@@ -20,6 +21,7 @@
                 title="" data-original-title="Report User">
             <i class="material-icons">report</i>
         </button>
+        {{/compare}}
     </div>
     <div class="row">
         <div class="col-lg-4 col-md-12">
@@ -287,6 +289,7 @@
 
     <div class="row d-block d-md-none">
         <div class="col-12 text-center align-items-center">
+        {{#compare this.user_id this.profile.user_id operator="!="}}
             <button data-toggle="modal" data-target="#messageUser" class="btn btn-rose btn-round" rel="tooltip">
                 <i class="material-icons">message</i> Reach Out
             </button>
@@ -294,7 +297,7 @@
             <button class='btn btn-warning btn-round' data-toggle="modal" data-target="#reportUser"><i
                     class="material-icons">report</i> Report User
             </button>
-
+        {{/compare}}
         </div>
     </div>
 

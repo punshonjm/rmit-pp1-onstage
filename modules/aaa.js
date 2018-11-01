@@ -65,7 +65,7 @@ aaa.sessionManagement = function( req, res, next ) {
 		} else {
 			let query = dbc.sql.select().fields([
 				"u.username", "s.user_id", "u.display_name",
-				"s.session_started", "u.email_verified",
+				"s.session_started", "u.email_verified", "u.account_locked",
 				"u.type_id", "t.type_name", "u.golden_ticket",
 				"p.picture", "u.email"
 			]).fields({

@@ -1,44 +1,59 @@
 <nav class="navbar navbar-color-on-scroll navbar-transparent fixed-top navbar-expand-lg" color-on-scroll="100">
-	{{> navbar}}
+    {{> navbar}}
 </nav>
 {{#> header_block}}
-<div class="page-header header-filter" data-parallax="true" style="background-image: url('{{this.headerImage}}')">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-8 ml-auto mr-auto">
-				<div class="brand">
-					{{#if this.headerTitle}}
-					<h1 class='title'>{{this.headerTitle}}</h1>
-					{{/if}}
-					{{#if this.headerSubtitle}}
-					<h4>{{{this.headerSubtitle}}}</h4>
-					{{/if}}
-					{{#if this.headerCTA}}
-					<br>
-					<a href="{{this.headerCTA.link}}" class="btn btn-danger btn-round btn-raised btn-lg">
-						{{#if this.headerCTA.icon}}<i class="{{this.headerCTA.icon}}"></i>{{/if}}  {{this.headerCTA.text}}
-					</a>
-					{{/if}}
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+    <div class="page-header header-filter" data-parallax="true" style="background-image: url('{{this.headerImage}}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 ml-auto mr-auto">
+                    <div class="brand">
+                        {{#if this.headerTitle}}
+                            <h1 class='title'>{{this.headerTitle}}</h1>
+                        {{/if}}
+                        {{#if this.headerSubtitle}}
+                            <h4>{{{this.headerSubtitle}}}</h4>
+                        {{/if}}
+                        {{#if this.headerCTA}}
+                            <br>
+                            <a href="{{this.headerCTA.link}}" class="btn btn-danger btn-round btn-raised btn-lg">
+                                {{#if this.headerCTA.icon}}
+                                    <i class="{{this.headerCTA.icon}}"></i>{{/if}}  {{this.headerCTA.text}}
+                            </a>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {{/header_block}}
 <div class="main main-raised flex-fill">
-	{{#if this.user}}{{#compare this.user.email_verified 0}}
-	<div class='unverified-email alert alert-warning alert-dismissible fade show' role="alert">
-		<div class="container d-flex justify-content-between">
+    {{#if this.user}}
+        {{#compare this.user.email_verified 0}}
+            <div class='unverified-email alert alert-warning alert-dismissible fade show' role="alert">
+                <div class="container d-flex justify-content-between">
 			<span class="w-75">
 				<strong>Your email isn't verified yet!</strong> Please check your inbox and junk, then click the link to verify your email address.
 			</span>
-			<span class="mr-5 verify_link">
+                    <span class="mr-5 verify_link">
 				<span id="resendVerification" class="alert-link" style="cursor: pointer;">Resend</span>
 			</span>
-		</div>
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
-	</div>
-	{{/compare}}{{/if}}
-	<div class="container">
+                </div>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {{/compare}}
+        {{#compare this.user.account_locked 1}}
+            <div class='unverified-email alert alert-danger alert-dismissible fade show' role="alert">
+                <div class="container d-flex justify-content-between">
+			<span class="w-75">
+				<strong>Your account is currently suspended!</strong> Please check your email for further information.
+			</span>
+                </div>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {{/compare}}
+    {{/if}}
+    <div class="container">
