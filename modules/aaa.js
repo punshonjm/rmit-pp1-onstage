@@ -96,7 +96,7 @@ aaa.sessionManagement = function( req, res, next ) {
 			req.user = dbSession;
 			let redirect = ( req.user.type_id == 1) ? "/green_room" : "/my_profile";
 
-			if ( adminRequired && req.user.type_id != 1) {
+			if ( adminRequired && (req.user.type_id != 1 || req.user.account_locked != 0) ) {
 				return Promise.reject({ noAccess: true });
 			} else if ( [ "/user/register", "/register_now", "/register/musician", "/register/band" ].includes( req.url ) ) {
 				res.redirect(redirect);

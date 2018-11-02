@@ -9,7 +9,7 @@ const app = require("@modules/app");
 const models = require("@modules/models");
 
 router.use((req, res, next) => {
-	if ( !req.user || req.user.type_id != 1 ) {
+	if ( !req.user || req.user.type_id != 1 || req.user.account_locked == 1) {
 		res.status(402).json({ message: "You don't have access to that!" }).end();
 	} else {
 		next();
@@ -104,16 +104,17 @@ router.get("/user/list", (req, res) => {
 	let search = req.query.search.value;
 	let search_column = req.query.columns;
 	let order = req.query.order;
+	let requestor = req.user.user_id;
 
 	Promise.resolve().then(() => {
-		return models.users.count(search, search_column);
+		return models.users.admin_user_count(search, search_column, requestor);
 	}).then((total) => {
 
 		data.recordsTotal = total;
 		data.recordsFiltered = total;
 
 
-		return models.users.admin_user_list(pagination_start,pagination_length, search, order, search_column);
+		return models.users.admin_user_list(pagination_start,pagination_length, search, order, search_column, requestor);
 	}).then((records) => {
 
 		data.data = records;

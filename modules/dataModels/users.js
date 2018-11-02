@@ -1086,7 +1086,7 @@ users.match = function (params) {
 	});
 };
 
-users.admin_user_list = function (pagination_start, pagination_length, search, order, search_column) {
+users.admin_user_list = function (pagination_start, pagination_length, search, order, search_column, requestor = null) {
 
 	return Promise.resolve().then(() => {
 
@@ -1100,6 +1100,11 @@ users.admin_user_list = function (pagination_start, pagination_length, search, o
 			query.where("u.username like ? OR u.display_name like ? or u.email like ?", search, search, search);
 		}
 
+		if (requestor !== null) {
+			query.where("u.id <> ?", requestor);
+		}
+
+
 		let mapping = ["u.id", "u.username", "u.email", "u.display_name", "user_type", "u.account_locked", "reports", "active_reports"];
 
 		search_column.forEach(function (item) {
@@ -1112,7 +1117,7 @@ users.admin_user_list = function (pagination_start, pagination_length, search, o
 		order.forEach(function (item) {
 			query.order(mapping[item.column], (item.dir === "asc") ? true : false);
 		});
-
+		console.log(query.toString());
 		return dbc.execute(query);
 	}).then((data) => {
 		return Promise.resolve(data);
@@ -1133,7 +1138,7 @@ users.unlock = function (user_id) {
 	});
 }
 
-users.count = function (search, search_column) {
+users.admin_user_count = function (search, search_column, requestor = null) {
 
 	return Promise.resolve().then(() => {
 
@@ -1143,6 +1148,10 @@ users.count = function (search, search_column) {
 		if (search !== '') {
 			search = '%' + search + '%';
 			query.where("u.username like ? OR u.display_name like ? or u.email like ?", search, search, search);
+		}
+
+		if (requestor !== null) {
+			query.where("u.id <> ?", requestor);
 		}
 
 		search_column.forEach(function (item) {
