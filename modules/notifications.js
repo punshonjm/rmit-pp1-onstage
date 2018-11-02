@@ -160,7 +160,7 @@ notifications.send.matches = function(user) {
 	return Promise.resolve().then(() => {
 		return mail.send.newMatches(user.email, user.display_name, user.matches);
 	}).then((res) => {
-		let query = dbc.sql.update().table("ebdb.profile_match_cache_lookup").set("user_notified = ?", 1);
+		let query = dbc.sql.update().table("ebdb.profile_match_cache_lookup").set("user_notified = ?", 1).where("id = ?", user.id);
 		return dbc.execute(query);
 	});
 };
