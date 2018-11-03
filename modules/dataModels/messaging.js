@@ -125,6 +125,26 @@ messaging.send = function(params) {
 	});
 };
 
+messaging.getOtherThreadUser = function(user_id, thread_id) {
+
+	return Promise.resolve().then(() => {
+		let query = dbc.sql.select().fields([
+			"u.id","u.type_id", "u.account_locked", "u.email_verified"
+		]).from(
+			"ebdb.user",
+			"u"
+		).where("u.id = ?", dbc.sql.select().fields([ "user_Id" ]).from("ebdb.thread_user").where("thread_id = ?", thread_id).where("user_id <> ?", user_id)
+		);
+		return dbc.getRow(query);
+	}).then((row) => {
+		if ( row ) {
+			return Promise.resolve(row);
+		} else {
+			return Promise.resolve(null);
+		}
+	});
+}
+
 messaging.getLatestThreadId = function(user_a,user_b) {
 	// Find the latest thread id between 2 parties that are still active. Return id or null.
 	let thread = {};

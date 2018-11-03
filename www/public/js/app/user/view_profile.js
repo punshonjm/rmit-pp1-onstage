@@ -62,6 +62,7 @@ appPage.resetMessage = function($this) {
 		$(".messageNotice").hide();
 		$('#messageContent').val('');
 		$('#sendMessage').prop("disabled", false);
+		$(".messageStatus").closest(".row").hide();
 	}, 500);
 
 }
@@ -97,7 +98,8 @@ appPage.send = function($this) {
 					$("#" + err.key).addError("has-danger", err.message);
 				});
 			} else {
-				$("#messageStatus").append("<p class='text-danger'>" + error.responseJSON.message || "An error occured!" + "</p>")
+				$(".messageStatus").closest(".row").show();
+				$(".messageStatus").html("<p class='text-danger'>" + error.responseJSON.message || "An error occured!" + "</p>")
 			}
 		}).always(function() {
 			setTimeout(function() {

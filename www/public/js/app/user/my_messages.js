@@ -51,6 +51,7 @@ appPage.sendMessage = function($this) {
 	var data = {};
 	data.thread_id = $this.closest(".thread-message").data().thread;
 	data.content = $("#new-message").val();
+	$(".messageStatus").closest(".row").hide();
 
 	if ( data.content == "" || data.content == null ) {
 		$("#new-message").addError("has-danger", "Type a message before pressing send.");
@@ -61,7 +62,9 @@ appPage.sendMessage = function($this) {
 			console.log(resp);
 			appPage.openThread(appPage.currentCaller);
 		}).fail(function(error) {
-			$("#new-message").addError("has-danger", error.responseJSON.message);
+			$(".messageStatus").closest(".row").show();
+			$(".messageStatus").html("<p class='text-danger'>" + error.responseJSON.message + "</p>");
+			//$("#new-message").addError("has-danger", error.responseJSON.message);
 		}).always(function() {
 			$this.prop("disabled", false);
 		});
