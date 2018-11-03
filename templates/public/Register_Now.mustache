@@ -68,6 +68,7 @@
 				                            <div class="form-group bmd-form-group">
 				                                <label for="postcode">Location *:</label>
 				                                <select class="select2-postcode js-states form-control" id="postcode" required></select>
+                                                <small class="form-text text-danger"></small>
 				                            </div>
 				                        </div>
 										<div class="col-md-12">
@@ -230,7 +231,7 @@
 									<div class='row' data-for="band">
 										<div class="col-md-12">
 											<div class="form-group bmd-form-group">
-												<label class="bmd-label-floating">Band Size:</label>
+												<label class="bmd-label-floating">Band Size *:</label>
 												<input id="bandSize" type="number" class="form-control" required>
 											</div>
 										</div>
@@ -251,7 +252,7 @@
 										</div>
 										<div class="col-md-12">
 											<div class="form-group bmd-form-group">
-												<label class="d-block">Preferred Gender:</label>
+												<label class="d-block">Preferred Gender *:</label>
 												{{#each this.criteria.gender}}
 				                                    {{#if @last}}
 				                                        <div class="form-check form-check-radio form-check-inline">
@@ -277,24 +278,16 @@
 										</div>
 										<div class="col-md-12">
 											<div class="form-group bmd-form-group">
-												<label>Number of Members Needed:</label>
-												<select id="members_needed" class='form-control'>
-													<option value="">Choose...</option>
-													<option value="1">1</option>
-													<option value="2">2</option>
-													<option value="3">3</option>
-													<option value="4">4</option>
-													<option value="5">5</option>
-													<option value="6">6+</option>
-												</select>
-											</div>
-										</div>
-										<div class="col-md-12">
-											<div class="form-group bmd-form-group">
 												<label for="id_instrument_multiple">Instrument/s Required*: (You may choose more than one)</label>
 												<select class="select2-instrument js-states form-control" id="required_instruments" multiple="multiple"></select>
 											</div>
 										</div>
+                                        <div class="col-md-12">
+                                            <div class="form-group bmd-form-group">
+                                                <label>Number of Members Needed *:</label>
+                                                <input id="members_needed" type="number" class="form-control" required>
+                                            </div>
+                                        </div>
 										<div class="col-md-12">
 											<div class="form-group bmd-form-group">
 												<label>Preferred Age Bracket:</label>

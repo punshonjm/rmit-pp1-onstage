@@ -63,7 +63,7 @@ appPage.register = function($this) {
 
 	data.type = $("[name='type']:checked").val() || false;
 	if ( data.type == "band" ) {
-		required.push( "bandSize", "preferred_age_bracket", "required_music_experience", "members_needed" );
+		required.push( "bandSize", "members_needed" );
 	} else {
 		required.push( "age_bracket");
 	}
@@ -143,7 +143,7 @@ appPage.register = function($this) {
 
 	// add post code check
 	if ( ("postcode" in data) && !/^[0-9]+$/.test(data.postcode) ) {
-		$('#postcode').addError("has-danger", "A postcode consists of 4 numbers.");
+		$('#postcode').addError("has-danger", "Please search for a valid location.");
 		errors.push("postcode");
 	}
 
