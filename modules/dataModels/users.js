@@ -1353,9 +1353,9 @@ users.getTimezone = function (user_id) {
 
 	}).then((data) => {
 
-		let timezone = data[0].state_timezone;
+		let timezone = (data.length > 0) ? data[0].state_timezone : null;
 
-		if (timezone != null)
+		if (timezone !== null)
 		{
 			return Promise.resolve(timezone);
 		} else {
