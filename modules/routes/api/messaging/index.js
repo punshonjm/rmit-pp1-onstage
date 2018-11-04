@@ -10,11 +10,11 @@ router.get("/thread", (req, res) => {
 		res.status(200).json(thread).end();
 	}).catch((error) => {
 		// additional register specific error handling if you want to here
-		if ( ("errorSet" in error) ) {
+		if (("errorSet" in error)) {
 			res.status(400).json(error).end();
 		} else {
 			return Promise.reject(error)
-		};
+		}
 	}).catch((error) => app.handleError(error, req, res));
 });
 
@@ -24,10 +24,10 @@ router.post("/send", (req, res) => {
 
 		if (req.user.account_locked === 1 || req.user.email_verified === 0) {
 			// Account is in a restricted state
-			if ( ("thread_id" in req.body) ) {
+			if (("thread_id" in req.body)) {
 				// Get other thread users details
 				return models.messaging.getOtherThreadUser(req.user.user_id, req.body.thread_id);
-			} else if ( ("message_to" in req.body) ) {
+			} else if (("message_to" in req.body)) {
 				// Get user being messaged
 				return models.users.details(req.body.message_to);
 			}
@@ -38,12 +38,26 @@ router.post("/send", (req, res) => {
 		if (result !== null) {
 			if (result.type_id !== 1 && result.id !== 0 && result.id !== 1) {
 				// Messaging a non-admin/service user
-				return Promise.reject({ message: "You are not permitted to message other users at this time." });
+				return Promise.reject({message: "You are not permitted to message other users at this time."});
 			}
 		}
 
+		if (("thread_id" in req.body)) {
+			// Verify user is in thread
+			return models.messaging.isInThread(req.user.user_id, req.body.thread_id);
+		} else {
+			return true;
+		}
+
+	}).then((isInThread) => {
+
+		if (!(isInThread)) {
+			// Ensure that the user is able to post to this thread
+			return Promise.reject({message: "You are not part of this thread."});
+		}
+
 		req.body.user = req.user;
-		if ( ("message_to" in req.body) && ("message" in req.body) ) {
+		if (("message_to" in req.body) && ("message" in req.body)) {
 			req.body.user_id = req.user.user_id;
 			return models.messaging.new(req.body);
 		} else {
@@ -53,13 +67,14 @@ router.post("/send", (req, res) => {
 		res.status(200).json(result).end();
 	}).catch((error) => {
 		// additional register specific error handling if you want to here
-		if ( ("errorSet" in error) ) {
+		if (("errorSet" in error)) {
 			res.status(400).json(error).end();
 		} else {
 			return Promise.reject(error)
-		};
+		}
 	}).catch((error) => app.handleError(error, req, res));
-});
+})
+;
 
 router.post("/delete", (req, res) => {
 	Promise.resolve().then(() => {
@@ -69,11 +84,11 @@ router.post("/delete", (req, res) => {
 		res.status(200).json(result).end();
 	}).catch((error) => {
 		// additional register specific error handling if you want to here
-		if ( ("errorSet" in error) ) {
+		if (("errorSet" in error)) {
 			res.status(400).json(error).end();
 		} else {
 			return Promise.reject(error)
-		};
+		}
 	}).catch((error) => app.handleError(error, req, res));
 });
 

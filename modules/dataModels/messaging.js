@@ -9,12 +9,12 @@ const model_users = require("@modules/dataModels/users");
 
 var messaging = {};
 
-messaging.new = function(params) {
+messaging.new = function (params) {
 	let userRow_a = {}, userRow_b = {}, message = {}, is_existing_thread = false;
 
 	return Promise.resolve().then(() => {
 		// Check for existing user to user thread
-		if ( !("contact_id" in params) && ("user_id" in params) && ("message_to" in params)  ) {
+		if (!("contact_id" in params) && ("user_id" in params) && ("message_to" in params)) {
 			// Is user to user message, lookup thread
 			return messaging.getLatestThreadId(params.user_id, params.message_to);
 		} else {
@@ -23,13 +23,13 @@ messaging.new = function(params) {
 		}
 	}).then((thread_id) => {
 		// Use existing thread if exists otherwise create new thread
-		if ( thread_id != null ) {
+		if (thread_id != null) {
 			// User had existing thread, return id
 			is_existing_thread = true;
-			return { "insertId": thread_id };
+			return {"insertId": thread_id};
 		} else {
 			// Thread does not exist, create
-			let query = dbc.sql.insert().into("ebdb.thread").setFields({ sql_last_update: dbc.sql.rstr("NOW()") });
+			let query = dbc.sql.insert().into("ebdb.thread").setFields({sql_last_update: dbc.sql.rstr("NOW()")});
 			return dbc.execute(query);
 		}
 	}).then((res) => {
@@ -37,7 +37,7 @@ messaging.new = function(params) {
 		userRow_a.thread_id = res.insertId;
 		userRow_a.user_id = params.user_id;
 
-		if ( ("contact_id" in params) ) {
+		if (("contact_id" in params)) {
 			userRow_a.contact_id = params.contact_id;
 			userRow_b.contact_id = null;
 		}
@@ -49,10 +49,10 @@ messaging.new = function(params) {
 		message.user_id = params.user_id;
 		message.content = params.message;
 
-		if ( ("subject" in params) ) message.content = params.subject + "\n" + message.content;
+		if (("subject" in params)) message.content = params.subject + "\n" + message.content;
 
-		if ( !is_existing_thread ) {
-			let query = dbc.sql.insert().into("ebdb.thread_user").setFieldsRows([ userRow_a, userRow_b ]);
+		if (!is_existing_thread) {
+			let query = dbc.sql.insert().into("ebdb.thread_user").setFieldsRows([userRow_a, userRow_b]);
 			return dbc.execute(query);
 		} else {
 			return null;
@@ -61,11 +61,11 @@ messaging.new = function(params) {
 		let query = dbc.sql.insert().into("ebdb.message").setFields(message);
 		return dbc.execute(query);
 	}).then((res) => {
-		return Promise.resolve({ message: "Successfully sent message!" });
+		return Promise.resolve({message: "Successfully sent message!"});
 	});
 };
 
-messaging.send = function(params) {
+messaging.send = function (params) {
 	let message = {};
 
 	return Promise.resolve().then(() => {
@@ -75,7 +75,7 @@ messaging.send = function(params) {
 		let query = dbc.sql.select().field("id").from("ebdb.thread_user").where(dbc.sql.expr().and("thread_id = ?", params.thread_id).and("user_id = 1"));
 		return dbc.getRow(query);
 	}).then((row) => {
-		if ( row ) {
+		if (row) {
 			let query = dbc.sql.update().table("ebdb.thread_user").set("user_id", params.user.user_id).where("id = ?", row.id);
 			return dbc.execute(query);
 		} else {
@@ -115,37 +115,57 @@ messaging.send = function(params) {
 
 		return dbc.getRow(query);
 	}).then((row) => {
-		if ( row ) {
+		if (row) {
 			return mail.send.adminNotification(row.email, row.name, row.subject, message.content);
 		} else {
 			return Promise.resolve();
 		}
 	}).then(() => {
-		return Promise.resolve({ message: "Successfully sent message" });
+		return Promise.resolve({message: "Successfully sent message"});
 	});
 };
 
-messaging.getOtherThreadUser = function(user_id, thread_id) {
+messaging.isInThread = function (user_id, thread_id) {
 
 	return Promise.resolve().then(() => {
 		let query = dbc.sql.select().fields([
-			"u.id","u.type_id", "u.account_locked", "u.email_verified"
+			"u.id"
 		]).from(
 			"ebdb.user",
 			"u"
-		).where("u.id = ?", dbc.sql.select().fields([ "user_Id" ]).from("ebdb.thread_user").where("thread_id = ?", thread_id).where("user_id <> ?", user_id)
+		).where("u.id = ?", dbc.sql.select().fields(["user_id"]).from("ebdb.thread_user").where("thread_id = ?", thread_id).where("user_id = ?", user_id)
 		);
 		return dbc.getRow(query);
 	}).then((row) => {
-		if ( row ) {
+		if (row) {
+			return Promise.resolve(true);
+		} else {
+			return Promise.resolve(false);
+		}
+	});
+};
+
+messaging.getOtherThreadUser = function (user_id, thread_id) {
+
+	return Promise.resolve().then(() => {
+		let query = dbc.sql.select().fields([
+			"u.id", "u.type_id", "u.account_locked", "u.email_verified"
+		]).from(
+			"ebdb.user",
+			"u"
+		).where("u.id = ?", dbc.sql.select().fields(["user_id"]).from("ebdb.thread_user").where("thread_id = ?", thread_id).where("user_id <> ?", user_id)
+		);
+		return dbc.getRow(query);
+	}).then((row) => {
+		if (row) {
 			return Promise.resolve(row);
 		} else {
 			return Promise.resolve(null);
 		}
 	});
-}
+};
 
-messaging.getLatestThreadId = function(user_a,user_b) {
+messaging.getLatestThreadId = function (user_a, user_b) {
 	// Find the latest thread id between 2 parties that are still active. Return id or null.
 	let thread = {};
 
@@ -168,7 +188,7 @@ messaging.getLatestThreadId = function(user_a,user_b) {
 
 		return dbc.getRow(query);
 	}).then((row) => {
-		if ( row ) {
+		if (row) {
 			return Promise.resolve(row.id);
 		} else {
 			return Promise.resolve(null);
@@ -176,7 +196,7 @@ messaging.getLatestThreadId = function(user_a,user_b) {
 	});
 };
 
-messaging.listThreads = function(user) {
+messaging.listThreads = function (user) {
 	var data = [];
 	var timezone = "";
 
@@ -213,9 +233,9 @@ messaging.listThreads = function(user) {
 		let expr = dbc.sql.expr().or("t1.user_id = ?", user.user_id);
 
 		// If user is admin, get unassigned messages to admins
-		if ( user.type_id == 1) expr.or("t1.user_id = 1");
+		if (user.type_id == 1) expr.or("t1.user_id = 1");
 		query.where(expr).where("t1.is_active = ?", 1);
-		
+
 		return dbc.execute(query);
 	}).then((threads) => {
 		data = _.keyBy(threads, "thread_id");
@@ -232,7 +252,7 @@ messaging.listThreads = function(user) {
 		).field("MAX(m2.id)"
 		).from("ebdb.message", "m2"
 		).where("m1.thread_id = m2.thread_id"
-		).where("m2.user_id <> ?",user.user_id
+		).where("m2.user_id <> ?", user.user_id
 		).group("m2.thread_id");
 
 		let query = dbc.sql.select().fields([
@@ -242,10 +262,10 @@ messaging.listThreads = function(user) {
 			"ebdb.message", "m1"
 		).where("m1.id IN ?", idQuery);
 
-		if ( threadIds.length > 0) {
+		if (threadIds.length > 0) {
 			return dbc.execute(query);
 		} else {
-			return Promise.reject({ noMessages: true });
+			return Promise.reject({noMessages: true});
 		}
 	}).then((messages) => {
 
@@ -257,7 +277,7 @@ messaging.listThreads = function(user) {
 			thread.user = {};
 			thread.unread = false;
 
-			if ( ("message" in thread) ) {
+			if (("message" in thread)) {
 				thread.date = moment(thread.message.sql_date_added).tz(timezone).format("YYYY/MM/DD, h:mm a");
 
 				if (thread.message.max_message_id !== null) {
@@ -265,12 +285,12 @@ messaging.listThreads = function(user) {
 				}
 			}
 
-			thread.unassigned = ( thread.message_with == 1 ) ? true : false;
+			thread.unassigned = (thread.message_with == 1) ? true : false;
 
-			if ( thread.messager_name != null ) {
+			if (thread.messager_name != null) {
 				thread.user.display_name = thread.messager_name;
 				thread.user.picture = null;
-			} else if ( thread.message_with == 1 ) {
+			} else if (thread.message_with == 1) {
 				thread.user.display_name = "Unassigned";
 				thread.user.picture = null;
 			} else {
@@ -286,7 +306,7 @@ messaging.listThreads = function(user) {
 
 		return Promise.resolve(data);
 	}).catch((error) => {
-		if ( ("noMessages" in error) ) {
+		if (("noMessages" in error)) {
 			return Promise.resolve([]);
 		} else {
 			return Promise.reject(error);
@@ -294,7 +314,7 @@ messaging.listThreads = function(user) {
 	});
 };
 
-messaging.deleteThread = function(params) {
+messaging.deleteThread = function (params) {
 	return Promise.resolve().then(() => {
 		let query = dbc.sql.update().table("ebdb.thread_user").setFields({
 			'is_active': 0
@@ -305,11 +325,11 @@ messaging.deleteThread = function(params) {
 
 		return dbc.getRow(query);
 	}).then(() => {
-		return Promise.resolve({ message: "Successfully deleted thread." });
+		return Promise.resolve({message: "Successfully deleted thread."});
 	});
 };
 
-messaging.getThread = function(params) {
+messaging.getThread = function (params) {
 	let thread = {};
 	let timezone = "";
 
@@ -322,7 +342,7 @@ messaging.getThread = function(params) {
 		let query = dbc.sql.select().from("ebdb.thread_user");
 		let expr = dbc.sql.expr().and("thread_id = ?", params.thread_id);
 
-		if ( params.user.type_id == 1 ) {
+		if (params.user.type_id == 1) {
 			expr.and(dbc.sql.expr().or("user_id = ?", params.user.user_id).or("user_id = ?", 1))
 		} else {
 			expr.and("user_id = ?", params.user.user_id);
@@ -331,7 +351,7 @@ messaging.getThread = function(params) {
 		query.where(expr);
 		return dbc.getRow(query);
 	}).then((row) => {
-		if ( row ) {
+		if (row) {
 			let query = dbc.sql.select().fields([
 				"t.user_id AS message_with",
 				"cf.name AS messager_name",
@@ -353,12 +373,12 @@ messaging.getThread = function(params) {
 
 			return dbc.execute(query);
 		} else {
-			return Promise.reject({ message: "You don't have access to this message thread." });
+			return Promise.reject({message: "You don't have access to this message thread."});
 		}
 	}).then((users) => {
 		thread.users = _.keyBy(users.map((user) => {
-			if ( user.message_with == 1 ) user.display_name = "Unassigned";
-			if ( user.messager_name != null ) user.display_name = user.messager_name;
+			if (user.message_with == 1) user.display_name = "Unassigned";
+			if (user.messager_name != null) user.display_name = user.messager_name;
 			user.user_id = user.message_with;
 
 			// Set other user as thread_with
@@ -375,8 +395,8 @@ messaging.getThread = function(params) {
 
 		thread.messages = messages.map((message) => {
 			message.user = thread.users[message.user_id];
-			message.own = ( message.user.user_id == params.user.user_id ) ? true : false;
-			if ( !message.own ) {
+			message.own = (message.user.user_id == params.user.user_id) ? true : false;
+			if (!message.own) {
 				// Set last message id from other user as read message id
 				last_read = message.id;
 			}
@@ -386,15 +406,15 @@ messaging.getThread = function(params) {
 		});
 
 		// If last_read exists then update the read_message_id from database
-		if ( last_read != null ) {
-			let query = dbc.sql.update().table("ebdb.thread_user").set("read_message_id",last_read).where(dbc.sql.expr().and("thread_id = ?", params.thread_id).and("user_id = ?", params.user.user_id));
+		if (last_read != null) {
+			let query = dbc.sql.update().table("ebdb.thread_user").set("read_message_id", last_read).where(dbc.sql.expr().and("thread_id = ?", params.thread_id).and("user_id = ?", params.user.user_id));
 			return dbc.execute(query);
 		} else {
 			return null;
 		}
 	}).then((result) => {
 		thread.thread_id = params.thread_id;
-		return Promise.resolve({ thread: thread });
+		return Promise.resolve({thread: thread});
 	});
 };
 
