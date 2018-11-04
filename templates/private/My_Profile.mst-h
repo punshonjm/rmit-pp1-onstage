@@ -568,7 +568,7 @@
                         <div class="col">
                             <div class="form-group bmd-form-group m-1 p-1">
                                 <div class="input-group d-flex align-items-center">
-                                    <span class="input-group-addon pr-2">youtube.com/channel/</span>
+                                    <span class="input-group-addon pr-2">youtube.com/user/</span>
                                     <input id="youtube_user" type="text" class="form-control allowEmpty" required="">
                                 </div>
                                 <small class="form-text text-danger"></small>
