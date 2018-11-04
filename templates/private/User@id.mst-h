@@ -168,7 +168,7 @@
                     <div class="row">
                         <div class="col-4">Past Gigs</div>
                         <div class="col" id="past_gigs-data"
-                             data-id="{{this.profile.past_gigs}}">{{this.profile.past_gigs}}</div>
+                             data-id="{{this.profile.past_gig}}">{{this.profile.past_gig}}</div>
                     </div>
                     <div class="row">
                         <div class="col-4">Music Experience (Years)</div>
