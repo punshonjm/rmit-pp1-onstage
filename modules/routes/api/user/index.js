@@ -38,11 +38,6 @@ router.post("/register", uploader.fields([ { name: "background", maxCount: 1 }, 
 			delete req.body.files;
 		}
 
-		if ( Array.isArray(req.body.type) ) {
-			// If type is array, fix to string
-			req.body.type = req.body.type[0];
-		}
-
 		return models.users.register(req.body);
 	}).then((stagePass) => {
 		// if we want to check something before responding here

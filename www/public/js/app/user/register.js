@@ -54,21 +54,22 @@ appPage.register = function($this) {
 	$(".form-status").removeClass("text-danger text-success").empty();
 	$(".form-text").text("");
 
-	var data = {}, errors = [];
+	var data = {};
+	var errors = [];
 	var required = [
 		"display_name", "postcode", "music_experience",
 		"username", "email", "password", "passwordConfirm",
 		"past_gigs", "commitment_level", "gig_frequency", "agree"
 	];
 
-	data.type = $("[name='type']:checked").val() || false;
-	if ( data.type == "band" ) {
+	var type = $("[name='type']:checked").val() || false;
+	if ( type == "band" ) {
 		required.push( "bandSize", "members_needed" );
 	} else {
 		required.push( "age_bracket");
 	}
 
-	if ( !(data.type) ) {
+	if ( !(type) ) {
 		errors.push("type");
 		$(".form-status").html("<h4 class='text-danger'>Please choose a profile type.</h4>");
 	}
@@ -83,7 +84,7 @@ appPage.register = function($this) {
 
 	data.aboutMe = $('#aboutMe').val();
 	data.music_experience = $('#music_experience').val();
-	if ( data.type == "band" ) {
+	if ( type == "band" ) {
 		data.instruments = $('#required_instruments').val();
 	} else {
 		data.instruments = $('#instruments').val();
@@ -112,7 +113,7 @@ appPage.register = function($this) {
 			formData.append(key, data[key]);
 		} else {
 			if ( required.includes(key) ) {
-				errors.push(key);
+				errors.push({ key: key, error: "This field requires input!" });
 			}
 		}
 	});
@@ -186,10 +187,14 @@ appPage.register = function($this) {
 	}
 
 	if (errors.length > 0) {
-		console.log(errors);
 		errors.map(function(key) {
-			$("#" + key).addError();
-			$("[href='#" + $("#" + key).closest(".tab-pane").prop("id") + "']").click();
+			if ( typeof key == typeof {} ) {
+				$("#" + key.key).addError("has-danger", key.error);
+				$("[href='#" + $("#" + key.key).closest(".tab-pane").prop("id") + "']").click();
+			} else {
+				$("#" + key).addError();
+				$("[href='#" + $("#" + key).closest(".tab-pane").prop("id") + "']").click();
+			}
 		});
 
 		$this.prop("disabled", false);
@@ -226,7 +231,7 @@ appPage.register = function($this) {
 				error.responseJSON.errorSet.map(function(err) {
 					if ( $("#" + err.key).length > 0 ) {
 						$("#" + err.key).addError("has-warning", err.error);
-						$("#" + err.key).get(0).scrollIntoView();;
+						$("[href='#" + $("#" + key).closest(".tab-pane").prop("id") + "']").click();
 					} else {
 						$(".form-status").append("<span class='d-block'>" + err.error + "</span>");
 					}
@@ -266,7 +271,7 @@ appPage.password.strength = function() {
 	$(".password-meter").append("<span></span>");
 	$(".password-meter span").addClass("strength-" + strength.score);
 
-	if ( strength.score < 3 ) {
+	if ( strength.score < 2 ) {
 		$("#password").addError();
 		$(".password-strength").append("<span class='d-block text-danger'>Please choose a stronger password.</span>");
 
@@ -439,8 +444,8 @@ $(document).ready(function(){
         wizard = $(this).closest('.wizard-card');
         wizard.find('[data-toggle="wizard-radio"]').removeClass('active');
         $(this).addClass('active');
-        $(wizard).find('[type="radio"]').removeAttr('checked');
-        $(this).find('[type="radio"]').attr('checked','true');
+        $(wizard).find('[type="radio"]').not("[name='gender']").removeAttr('checked');
+        $(this).find('[type="radio"]').not("[name='gender']").attr('checked','true');
     });
 
     $('[data-toggle="wizard-checkbox"]').click(function(){

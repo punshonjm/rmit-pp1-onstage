@@ -168,7 +168,7 @@ users.register = function (params = {}) {
 
 	}).then((profileLoc) => {
 		if (profileLoc != null) {
-			profile.picture = profileLoc;
+			profile.picture = profileLoc + "?d=" + moment().format("x");
 		}
 
 		if (("files" in params) && ("background" in params.files)) {
@@ -201,7 +201,7 @@ users.register = function (params = {}) {
 		return Promise.resolve();
 	}).then((bgLoc) => {
 		if (bgLoc != null) {
-			profile.background = bgLoc;
+			profile.background = bgLoc + "?d=" + moment().format("x");
 		}
 
 		return aaa.hashPassword(params.password);

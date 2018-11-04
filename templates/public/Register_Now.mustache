@@ -4,7 +4,7 @@
 <div class="image-container d-flex flex-column" style="background-image: url('{{this.headerImage}}')">
     <div class="container-fluid flex-fill">
         <div class="row">
-	        <div class="col-sm-8 mr-auto ml-auto">
+	        <div class="col-sm-8 col-lg-6 mr-auto ml-auto">
 	            <div class="wizard-container">
 	                <div class="card wizard-card" data-color="blue" id="wizard">
 		               <form class="register-form" enctype="multipart/form-data">
@@ -26,64 +26,88 @@
 	                            <div class="tab-pane" id="basic">
 	                            	<div class="row px-3">
 	                                	<div class="col-md-12">
-	                                    	<h4 class="info-text"> Let's start with the basic details</h4>
+	                                    	<h4 class="info-text"> Let's start with the basic details  <small class='d-block'>You can change these later.</small></h4>
 	                                	</div>
+
 										<div class="col-md-6">
-											<div class="form-group bmd-form-group">
-												<label class="bmd-label-floating">Display Name *:</label>
-												<input id="display_name" type="text" class="form-control" required>
-												<small class="form-text text-danger"></small>
-											</div>
-										</div>
-										<div class="col-md-6">
-											<div class="form-group bmd-form-group">
-												<label class="bmd-label-floating">Username *:</label>
-												<input id="username" type="text" class="form-control" required>
-												<small class="form-text text-danger"></small>
-											</div>
-										</div>
-										<div class="col-md-12">
-											<div class="form-group bmd-form-group">
-												<label class="bmd-label-floating">Email *:</label>
-												<input id="email" type="text" class="form-control" required>
-												<small class="form-text text-danger"></small>
-											</div>
-										</div>
-										<div class="col-md-6">
-											<div class="form-group bmd-form-group">
-												<label class="bmd-label-floating">Password *:</label>
-												<input id="password" type="password" class="form-control password" required>
-												<div class="password-meter"></div>
-											</div>
-											<p class="password-strength"></p>
-										</div>
-										<div class="col-md-6">
-											<div class="form-group bmd-form-group">
-												<label class="bmd-label-floating">Confirm Password *:</label>
-												<input id="passwordConfirm" type="password" class="form-control password" required>
-											</div>
-											<p class="password-status"></p>
-										</div>
-				                        <div class="col-md-12">
-				                            <div class="form-group bmd-form-group">
-				                                <label for="postcode">Location *:</label>
-				                                <select class="select2-postcode js-states form-control" id="postcode" required></select>
-                                                <small class="form-text text-danger"></small>
-				                            </div>
-				                        </div>
-										<div class="col-md-12">
-											<div class="form-group bmd-form-group">
-												<label class="d-block font-weight-bold">Current Status *:</label>
-												{{#each this.criteria.status}}
-												<div class="form-check form-check-radio form-check-inline">
-													<label class="form-check-label" for="status_{{this.id}}">
-														<input class="form-check-input" type="radio" name="status" id="status_{{this.id}}" value="{{this.id}}"> {{this.name}}
-														<span class="circle">
-															<span class="check"></span>
-														</span>
-													</label>
+											<div class="row">
+												<div class="col-md-12">
+													<div class="form-group bmd-form-group">
+														<label class="bmd-label-floating">Display Name *:</label>
+														<input id="display_name" type="text" class="form-control" required>
+														<small class="form-text text-danger"></small>
+													</div>
 												</div>
-												{{/each}}
+												<div class="col-md-12">
+													<div class="form-group bmd-form-group">
+														<label class="bmd-label-floating">Username *:</label>
+														<input id="username" type="text" class="form-control" required>
+														<small class="form-text text-danger"></small>
+													</div>
+												</div>
+												<div class="col-md-12">
+													<div class="form-group bmd-form-group">
+														<label class="bmd-label-floating">Email *:</label>
+														<input id="email" type="text" class="form-control" required>
+														<small class="form-text text-danger"></small>
+													</div>
+												</div>
+												<div class="col-md-12">
+													<div class="form-group bmd-form-group">
+														<label class="bmd-label-floating">Password *:</label>
+														<input id="password" type="password" class="form-control password" required>
+														<div class="password-meter"></div>
+													</div>
+													<p class="password-strength"></p>
+												</div>
+												<div class="col-md-12">
+													<div class="form-group bmd-form-group">
+														<label class="bmd-label-floating">Confirm Password *:</label>
+														<input id="passwordConfirm" type="password" class="form-control password" required>
+													</div>
+													<p class="password-status"></p>
+												</div>
+												<div class="col-md-12">
+													<div class="form-group bmd-form-group">
+						                                <label for="postcode">Location *:</label>
+						                                <select class="select2-postcode js-states form-control" id="postcode" required></select>
+		                                                <small class="form-text text-danger"></small>
+						                            </div>
+												</div>
+												<div class="col-md-12">
+													<div class="form-group bmd-form-group">
+														<label class="d-block font-weight-bold">Current Status *:</label>
+														{{#each this.criteria.status}}
+														<div class="form-check form-check-radio form-check-inline">
+															<label class="form-check-label" for="status_{{this.id}}">
+																<input class="form-check-input" type="radio" name="status" id="status_{{this.id}}" value="{{this.id}}"> {{this.name}}
+																<span class="circle">
+																	<span class="check"></span>
+																</span>
+															</label>
+														</div>
+														{{/each}}
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-6 d-flex justify-content-center">
+											<div class="form-group bmd-form-group">
+												<label class="d-block w-100">Profile Picture:</label>
+												<div class="fileinput fileinput-new text-center" data-provides="fileinput">
+													<div class="fileinput-new thumbnail img-raised">
+														<img src="https://s3-ap-southeast-2.amazonaws.com/onstage-storage/placeholder.png" alt="Default profile image">
+													</div>
+													<div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
+													<div>
+														<span class="btn btn-raised btn-round btn-default btn-file">
+															<span class="fileinput-new" data-trigger="fileinput">Select image</span>
+															<span class="fileinput-exists" data-trigger="fileinput">Change</span>
+															<input type="file" name="profile" id="profile" accept="image/*" />
+														</span>
+														<a href="#" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+													</div>
+												</div>
 											</div>
 										</div>
 	                            	</div>
@@ -91,7 +115,7 @@
 	                            <div class="tab-pane" id="type">
 	                                <div class="row">
 										<div class='col-md-12'>
-											<h4 class="info-text">What type of profile would you like?</h4>
+											<h4 class="info-text">What type of profile would you like? <small class='d-block'>You can't change this later!</small></h4>
 										</div>
 	                                    <div class="col-sm-10 ml-auto mr-auto d-flex justify-content-around">
 	                                        <div>
@@ -118,35 +142,10 @@
 	                            <div class="tab-pane" id="personalise">
 	                                <div class="row">
 										<div class='col-md-12'>
-											<h4 class="info-text">Make It Personal</h4>
+											<h4 class="info-text">Make It Personal <small class='d-block'>You can change these later too!</small></h4>
 										</div>
-										<div class="col-md-12">
-											<div class="form-group bmd-form-group">
-												<label class="bmd-label-floating">About:</label>
-												<textarea id="aboutMe" class="form-control" rows="4"></textarea>
-											</div>
-										</div>
-										<div class="col-md-6 d-flex justify-content-center">
-											<div class="form-group bmd-form-group">
-												<label class="d-block w-100">Profile Picture:</label>
-												<div class="fileinput fileinput-new text-center" data-provides="fileinput">
-													<div class="fileinput-new thumbnail img-raised">
-														<img src="https://s3-ap-southeast-2.amazonaws.com/onstage-storage/placeholder.png" alt="Default profile image">
-													</div>
-													<div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
-													<div>
-														<span class="btn btn-raised btn-round btn-default btn-file">
-															<span class="fileinput-new" data-trigger="fileinput">Select image</span>
-															<span class="fileinput-exists" data-trigger="fileinput">Change</span>
-															<input type="file" name="profile" id="profile" accept="image/*" />
-														</span>
-														<a href="#" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-6 d-flex justify-content-center">
-											<div class="form-group bmd-form-group">
+										<div class="col-md-5 ml-auto d-flex justify-content-center">
+											<div class="form-group">
 												<label class="d-block">Profile Background:</label>
 												<div class="fileinput fileinput-new text-center" data-provides="fileinput">
 													<div class="fileinput-new thumbnail img-raised">
@@ -164,23 +163,43 @@
 												</div>
 											</div>
 										</div>
+										<div class="col-md-5 mr-auto">
+											<div class="form-group bmd-form-group">
+												<label class="bmd-label-floating">About:</label>
+												<textarea id="aboutMe" class="form-control" rows="5"></textarea>
+											</div>
+										</div>
 									</div>
 	                            </div>
 	                            <div class="tab-pane" id="music">
 	                                <div class="row">
 										<div class="col-md-12">
-											<h4 class="info-text mb-2">Lets Talk Music</h4>
-											 <span data-for="band">
-												 <h5 class='text-center'>Give us some more details about your band's musical experience</h5>
-											 </span>
-											 <span data-for="musician">
-												 <h5 class='text-center'>Give us some more details about your musical experience</h5>
-											 </span>
+											<h4 class="info-text mb-2">
+												Lets Talk Music
+												<span data-for="band"><small class='d-block'>Give us some more details about your band's musical experience</small></span>
+   											 	<span data-for="musician"><small class='d-block'>Give us some more details about your musical experience</small></span>
+											</h4>
 										</div>
-										<div class="col-md-12">
-											<div class="form-group bmd-form-group">
-												<label>Music Experience *:</label>
-												<select id="music_experience" class='form-control'>
+										<div class="col-md-10 ml-auto mr-auto">
+											<div class="form-group">
+												<label for="genre">Genre/s Played *: (You may choose more than one)</label>
+												<select class="select2-genre js-states form-control" id="genre" multiple="multiple"></select>
+											</div>
+										</div>
+									</div>
+									<div class='row' data-for="musician">
+										<div class="col-md-10 ml-auto mr-auto">
+											<div class="form-group pt-2">
+												<label for="instruments">Instrument/s Played *: (You may choose more than one)</label>
+												<select class="select2-instrument js-states form-control" id="instruments" multiple="multiple"></select>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-5 offset-md-1">
+											<div class="form-group pt-2">
+												<label class='control-label' for='music_experience'>Music Experience *:</label>
+												<select id="music_experience" class="form-control selectpicker" data-style="btn btn-link">
 				                                    <option value="">Choose...</option>
 				                                    {{#each this.criteria.music_experience}}
 				                                        <option value="{{this.id}}">{{this.name}}</option>
@@ -188,10 +207,11 @@
 												</select>
 											</div>
 										</div>
-										<div class="col-md-12">
-											<div class="form-group bmd-form-group">
-												<label>Past Gigs *:</label>
-												<select id="past_gigs" class='form-control'>
+										<div class='w-100'></div>
+										<div class="col-md-5 offset-md-1">
+											<div class="form-group pt-2">
+												<label class='control-label'>Past Gigs *:</label>
+												<select id="past_gigs" class="form-control selectpicker" data-style="btn btn-link">
 				                                    <option value="">Choose...</option>
 				                                    {{#each this.criteria.past_gig}}
 				                                        <option value="{{this.id}}">{{this.name}}</option>
@@ -199,14 +219,9 @@
 												</select>
 											</div>
 										</div>
-										<div class="col-md-12">
-											<div class="form-group bmd-form-group">
-												<label for="genre">Genre/s Played *: (You may choose more than one)</label>
-												<select class="select2-genre js-states form-control" id="genre" multiple="multiple"></select>
-											</div>
-										</div>
-										<div class="col-md-12">
-											<div class="form-group bmd-form-group">
+										<div class='w-100'></div>
+										<div class="col-md-5 offset-md-1">
+											<div class="form-group pt-2">
 												<label>Gig Frequency*:</label>
 												<select id="gig_frequency" class='form-control selectpicker' data-style="btn btn-link">
 													<option value="">Choose...</option>
@@ -216,8 +231,9 @@
 												</select>
 											</div>
 										</div>
-										<div class="col-md-12">
-											<div class="form-group bmd-form-group">
+										<div class='w-100'></div>
+										<div class="col-md-5 offset-md-1">
+											<div class="form-group pt-2">
 												<label>Commitment Level*:</label>
 												<select id="commitment_level" class='form-control selectpicker' data-style="btn btn-link">
 													<option value="">Choose...</option>
@@ -229,29 +245,22 @@
 										</div>
 									</div>
 									<div class='row' data-for="band">
-										<div class="col-md-12">
-											<div class="form-group bmd-form-group">
+										<div class="col-md-5 offset-md-1">
+											<div class="form-group">
 												<label class="bmd-label-floating">Band Size *:</label>
 												<input id="bandSize" type="number" class="form-control" required>
 											</div>
 										</div>
 									</div>
-									<div class='row' data-for="musician">
-										<div class="col-md-12">
-											<div class="form-group bmd-form-group">
-												<label for="instruments">Instrument/s Played *: (You may choose more than one)</label>
-												<select class="select2-instrument js-states form-control" id="instruments" multiple="multiple"></select>
-											</div>
-										</div>
-									</div>
+
 	                            </div>
 	                            <div class="tab-pane" id="finishing">
 	                                <div class="row" data-for="band">
 										<div class='col-md-12'>
-											<h4 class="info-text">New Band Member/s Requirements</h4>
+											<h4 class="info-text">New Band Member/s Requirements <small class="d-block">Help us work out what kind of musicians to match you with!</small></h4>
 										</div>
-										<div class="col-md-12">
-											<div class="form-group bmd-form-group">
+										<div class="col-md-10 ml-auto mr-auto">
+											<div class="form-group">
 												<label class="d-block">Preferred Gender *:</label>
 												{{#each this.criteria.gender}}
 				                                    {{#if @last}}
@@ -276,22 +285,23 @@
 												{{/each}}
 											</div>
 										</div>
-										<div class="col-md-12">
+										<div class="col-md-10 ml-auto mr-auto">
 											<div class="form-group bmd-form-group">
 												<label for="id_instrument_multiple">Instrument/s Required*: (You may choose more than one)</label>
 												<select class="select2-instrument js-states form-control" id="required_instruments" multiple="multiple"></select>
 											</div>
 										</div>
-                                        <div class="col-md-12">
+                                        <div class="col-md-5 offset-md-1">
                                             <div class="form-group bmd-form-group">
                                                 <label>Number of Members Needed *:</label>
                                                 <input id="members_needed" type="number" class="form-control" required>
                                             </div>
                                         </div>
-										<div class="col-md-12">
+										<div class='w-100'></div>
+										<div class="col-md-5 offset-md-1">
 											<div class="form-group bmd-form-group">
 												<label>Preferred Age Bracket:</label>
-												<select id="preferred_age_bracket" class='form-control'>
+												<select id="preferred_age_bracket" class="form-control selectpicker" data-style="btn btn-link">
 													<option value="">Choose...</option>
 													{{#each this.criteria.age_bracket}}
 				                                        {{#if @last}}
@@ -302,10 +312,11 @@
 												</select>
 											</div>
 										</div>
-										<div class="col-md-12">
+										<div class='w-100'></div>
+										<div class="col-md-5 offset-md-1">
 											<div class="form-group bmd-form-group">
 												<label>Required Music Experience:</label>
-												<select id="required_music_experience" class='form-control'>
+												<select id="required_music_experience" class="form-control selectpicker" data-style="btn btn-link">
 													<option value="">Choose...</option>
 				                                    {{#each this.criteria.music_experience}}
 				                                        <option value="{{this.id}}">{{this.name}}</option>
@@ -313,10 +324,11 @@
 												</select>
 											</div>
 										</div>
-										<div class="col-md-6">
+										<div class='w-100'></div>
+										<div class="col-md-5 offset-md-1">
 											<div class="form-group bmd-form-group">
 												<label>Past Gigs:</label>
-												<select id="required_past_gigs" class='form-control'>
+												<select id="required_past_gigs" class="form-control selectpicker" data-style="btn btn-link">
 													<option value="">Choose...</option>
 				                                    {{#each this.criteria.past_gig}}
 				                                        <option value="{{this.id}}">{{this.name}}</option>
@@ -324,7 +336,8 @@
 												</select>
 											</div>
 										</div>
-										<div class="col-md-6">
+										<div class='w-100'></div>
+										<div class="col-md-5 offset-md-1">
 											<div class="form-group bmd-form-group">
 												<label>Gig Availability:</label>
 												<select id="required_gig_frequency" class='form-control selectpicker' data-style="btn btn-link">
@@ -335,7 +348,8 @@
 												</select>
 											</div>
 										</div>
-										<div class="col-md-12">
+										<div class='w-100'></div>
+										<div class="col-md-5 offset-md-1">
 											<div class="form-group bmd-form-group">
 												<label>Commitment Level:</label>
 												<select id="required_commitment_level" class='form-control selectpicker' data-style="btn btn-link">
@@ -349,9 +363,21 @@
 	                                </div>
 	                                <div class="row" data-for="musician">
 										<div class='col-md-12'>
-											<h4 class="info-text">Finishing Up</h4>
+											<h4 class="info-text">Finishing Up <small class='d-block'>Just a few small details and you're set to go!</small></h4>
 										</div>
-										<div class="col-md-12">
+										<div class="col-md-5 offset-md-1">
+											<div class="form-group">
+												<label>Age Bracket *:</label>
+												<select id="age_bracket" class='form-control' required>
+													<option value="">Choose...</option>
+													{{#each this.criteria.age_bracket}}
+													<option value="{{this.id}}">{{this.name}}</option>
+													{{/each}}
+												</select>
+											</div>
+										</div>
+										<div class='w-100'></div>
+										<div class="col-md-10 ml-auto mr-auto">
 											<div class="form-group bmd-form-group">
 												<label class="d-block">Gender *:</label>
 												{{#each this.criteria.gender}}
@@ -366,20 +392,10 @@
 												{{/each}}
 											</div>
 										</div>
-										<div class="col-md-12">
-											<div class="form-group bmd-form-group">
-												<label>Age Bracket *:</label>
-												<select id="age_bracket" class='form-control' required>
-													<option value="">Choose...</option>
-													{{#each this.criteria.age_bracket}}
-													<option value="{{this.id}}">{{this.name}}</option>
-													{{/each}}
-												</select>
-											</div>
-										</div>
 	                                </div>
+									<hr />
 									<div class="row">
-										<div class="col-md-12 mt-3">
+										<div class="col-md-10 mt-3 ml-auto mr-auto">
 											<p>To join On Stage you must comply with our <a href="/terms_and_conditions" target="_blank">Terms &amp; Conditions</a> and agree with our <a href="privacy_policy" target="_blank">Privacy Policy</a>.</p>
 											<div class="form-group">
 												<div class="form-check">
@@ -426,6 +442,7 @@
 <link href="/public/css/material-bootstrap-wizard.css" rel="stylesheet" />
 
 <script src="/public/js/plugins/jquery.bootstrap.js"></script>
+<script src="/public/js/plugins/bootstrap-selectpicker.js"></script>
 <script src="/public/js/plugins/zxcvbn.js" type="text/javascript"></script>
 <script src="/public/js/plugins/mailcheck.min.js" type="text/javascript"></script>
 <script src="/public/js/app/user/register.js" type="text/javascript"></script>

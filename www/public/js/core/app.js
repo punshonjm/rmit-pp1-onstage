@@ -112,7 +112,7 @@ pageApp.changePassword.strength = function() {
 	$(".password-meter").append("<span></span>");
 	$(".password-meter span").addClass("strength-" + strength.score);
 
-	if ( strength.score < 3 ) {
+	if ( strength.score < 2 ) {
 		$("#password_new").addError();
 		$pwdNew.append("<span class='d-block text-danger'>Please choose a stronger password.</span>");
 
