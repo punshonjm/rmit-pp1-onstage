@@ -88,7 +88,7 @@
                         {{#if this.profile.twitter_user}}
                             <div class="col-md-3">
                                 <a class="w-100 d-flex flex-column text-center justify-content-middle align-items-center"
-                                   href="https://twitter.com/{{this.profile.instagram_user}}" target="_blank">
+                                   href="https://twitter.com/{{this.profile.twitter_user}}" target="_blank">
 							<span class='d-block w-100 text-info'>
 								<i class="fa fa-twitter fa-3x"></i>
 							</span>
