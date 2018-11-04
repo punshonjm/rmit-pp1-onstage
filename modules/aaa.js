@@ -104,7 +104,7 @@ aaa.sessionManagement = function( req, res, next ) {
 				next();
 			} else {
 				let unverifiedPaths = [
-					"/my_messages", "/messages"
+					//"/my_messages", "/messages"
 				];
 
 				let allowedView = true;

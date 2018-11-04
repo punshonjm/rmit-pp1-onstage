@@ -1,20 +1,36 @@
 <nav class="navbar fixed-top navbar-expand-lg bg-primary">
-	{{> navbar}}
+    {{> navbar}}
 </nav>
 {{#if this.user}}{{#compare this.user.email_verified 0}}
-<div class='unverified-email alert alert-warning alert-dismissible fade show email_verification_warning' role="alert">
-	<div class="container d-flex justify-content-between">
+    <div class='unverified-email alert alert-warning alert-dismissible fade show email_verification_warning'
+         role="alert">
+        <div class="container d-flex justify-content-between">
 		<span class="w-75">
 			<strong>Your email isn't verified yet!</strong> Please check your inbox and junk, then click the link to verify your email address.
 		</span>
-		<span class="mr-5 verify_link">
+            <span class="mr-5 verify_link">
 			<span id="resendVerification" class="alert-link" style="cursor: pointer;">Resend</span>
 		</span>
-	</div>
-	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-		<span aria-hidden="true">&times;</span>
-	</button>
-</div>
+        </div>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{{/compare}}
+{{#compare this.user.account_locked 1}}
+    <div class='account-locked alert alert-danger alert-dismissible fade show account_locked_warning' role="alert">
+        <div class="container d-flex justify-content-between">
+		<span class="w-75">
+			<strong>Your account is currently suspended!</strong> Please check your messages or use the Contact Us feature to get in touch.
+		</span>
+            <span class="mr-5 verify_link">
+			<span id="resendVerification" class="alert-link" style="cursor: pointer;">Resend</span>
+		</span>
+        </div>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 {{/compare}}{{/if}}
 <div class="main flex-fill" style="padding-top: 90px;">
-	<div class="container-fluid">
+    <div class="container-fluid">
