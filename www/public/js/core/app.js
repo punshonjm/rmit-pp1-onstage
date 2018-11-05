@@ -4,7 +4,7 @@ window.app.data = {};
 
 window.app.templates = {};
 window.app.templates.load = function(template) {
-	$.get("/public/templates/" + template.path + ".mustache", function(templateSrc) {
+	$.get("/public/templates/" + template.path + ".mustache?_="+moment().format("x"), function(templateSrc) {
 		var compile = Handlebars.compile(templateSrc);
 		window.app.templates[template.name] = function(data = {}) {
 			var html = compile(data);

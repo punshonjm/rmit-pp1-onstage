@@ -17,9 +17,9 @@
 		<div class="row m-0 pt-1 pb-2">
 			{{^if this.own}}
 			<div class="col-4 col-md-2 px-1">
-				<span class="d-block ml-auto mr-auto" style="max-width: 150px !important;">
+				<span class="d-block ml-auto mr-auto" style="max-width: 150px !important; max-height: 150px !important;">
 					<img class="img-raised rounded-circle img-fluid"
-						style="height: auto; min-width: 100%; max-width: 100% !important;"
+						style="height: auto; min-width: 100%; max-width: 100% !important; max-height: 100% !important;"
 						src="{{#if this.user.picture}}{{this.user.picture}}{{else}}https://s3-ap-southeast-2.amazonaws.com/onstage-storage/placeholder.png{{/if}}"
 						alt="{{this.thread.display_name}}"
 					>
@@ -36,9 +36,9 @@
 			</div>
 			{{#if this.own}}
 			<div class="col-4 col-md-2 px-1">
-				<span class="d-block ml-auto mr-auto" style="max-width: 150px !important;">
-					<img class="img-raised rounded-circle img-fluid"
-						style="height: auto; min-width: 100%; max-width: 100% !important;"
+				<span class="d-block ml-auto mr-auto" style="max-width: 150px !important; max-height: 150px !important; height: 100%;">
+					<img class="img-raised rounded-circle"
+						style="min-width: 100%; max-width: 100% !important; max-height: 100% !important; height:100%;"
 						src="{{#if this.user.picture}}{{this.user.picture}}{{else}}https://s3-ap-southeast-2.amazonaws.com/onstage-storage/placeholder.png{{/if}}"
 						alt="{{this.user.display_name}}"
 					>

@@ -16,48 +16,43 @@
                 <a class="nav-link" href="/contact_us">Contact Us</a>
             </li>
             {{#if this.user}}
-                <li class="nav-item">
-                    <a class="nav-link" href="/my_matches">My Matches</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/my_messages">My Messages</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/search">Search</a>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/my_matches">My Matches</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/my_messages">My Messages</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/search">Search</a>
+            </li>
             {{/if}}
         </ul>
         <ul class="navbar-nav ml-auto">
             {{#if this.user}}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<span class="pr-2">
-						<img style="max-width: 2em;" class="img-raised rounded-circle" src="{{#if
-                                this.user.picture}}{{this.user.picture}}{{else}}https://s3-ap-southeast-2.amazonaws.com/onstage-storage/placeholder.png{{/if}}"/>
-					</span> Hi {{this.user.display_name}}!
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        {{#compare this.user.type_id 1}}
-                            <a class="dropdown-item" href="/green_room"><i class='material-icons mr-2'>dashboard</i>
-                                Green Room</a>
-                        {{else}}
-                            <a class="dropdown-item" href="/my_profile"><i class='material-icons mr-2'>face</i> My
-                                Profile</a>
-                        {{/compare}}
-                        <span class="dropdown-item" data-target="#change_password_modal" data-toggle="modal"><i
-                                class='material-icons mr-2'>lock</i> Change Password</span>
-                        <span class="dropdown-item" id="logout"><i
-                                class='material-icons mr-2'>exit_to_app</i> Logout</span>
-                    </div>
-                </li>
+						<img style="width:100%; height: 100%; max-width: 2em; max-height: 2em;" class="img-raised rounded-circle" src="{{#if this.user.picture}}{{this.user.picture}}{{else}}https://s3-ap-southeast-2.amazonaws.com/onstage-storage/placeholder.png{{/if}}"/>
+					</span>
+					&nbsp;Hi {{this.user.display_name}}!
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    {{#compare this.user.type_id 1}}
+                    <a class="dropdown-item" href="/green_room"><i class='material-icons mr-2'>dashboard</i> Green Room</a>
+                    {{else}}
+                    <a class="dropdown-item" href="/my_profile"><i class='material-icons mr-2'>face</i> My Profile</a>
+                    {{/compare}}
+                    <span class="dropdown-item" data-target="#change_password_modal" data-toggle="modal"><i class='material-icons mr-2'>lock</i> Change Password</span>
+                    <span class="dropdown-item" id="logout"><i class='material-icons mr-2'>exit_to_app</i> Logout</span>
+                </div>
+            </li>
             {{else}}
-                <li class="nav-item">
-                    <a class="nav-link" href="/login">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/register_now">Register</a>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/register_now">Register</a>
+            </li>
             {{/if}}
             <li class="nav-item">
                 <a class="nav-link" rel="tooltip" title="" data-placement="bottom"

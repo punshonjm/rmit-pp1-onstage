@@ -20,9 +20,7 @@
         <div class="col-lg-4 col-md-12">
             <div class="profile">
                 <div class="avatar">
-                    <img class="img-raised rounded-circle img-fluid image-picture" src="{{#if
-                            this.profile.picture}}{{this.profile.picture}}{{else}}https://s3-ap-southeast-2.amazonaws.com/onstage-storage/placeholder.png{{/if}}"
-                         alt="Circle Image">
+                    <img class="img-raised rounded-circle img-fluid image-picture" src="{{#if this.profile.picture}}{{this.profile.picture}}{{else}}https://s3-ap-southeast-2.amazonaws.com/onstage-storage/placeholder.png{{/if}}" alt="Circle Image">
                     <div class="mask d-flex align-items-center">
 						<span class="layer img-raised rounded-circle img-fluid text-center d-flex align-items-center">
 							<a class="h3 w-100 text-white" data-toggle="modal" href="#pictureEdit"><i
