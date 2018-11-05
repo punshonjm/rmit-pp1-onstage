@@ -176,17 +176,18 @@
                              data-id="{{this.profile.music_experience}}">{{this.profile.music_experience}}</div>
                     </div>
                     {{#compare this.profile.user_type "Band"}}
-                        <div class="row">
-                            <div class="col-4">Band Size</div>
-                            <div class="col" id="band_size-data"
-                                 data-id="{{this.profile.band_size}}">{{this.profile.band_size}}</div>
-                        </div>
-                    {{/compare}}
+                    <div class="row">
+                        <div class="col-4">Band Size</div>
+                        <div class="col" id="band_size-data"
+                             data-id="{{this.profile.band_size}}">{{this.profile.band_size}}</div>
+                    </div>
+                    {{else}}
                     <div class="row">
                         <div class="col-4">Age Bracket</div>
                         <div class="col" id="age_bracket_id-data"
                              data-id="{{this.profile.age_bracket_id}}">{{this.profile.age_bracket}}</div>
                     </div>
+					{{/compare}}
                     <div class="row">
                         <div class="col-4">Commitment Level</div>
                         <div class="col" id="commitment_level_id-data"

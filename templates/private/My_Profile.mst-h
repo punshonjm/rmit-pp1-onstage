@@ -279,12 +279,13 @@
                             <div class="col" id="band_size-data"
                                  data-id="{{this.profile.band_size}}">{{this.profile.band_size}}</div>
                         </div>
-                    {{/compare}}
-                    <div class="row">
+					{{else}}
+					<div class="row">
                         <div class="col-4">Age Bracket</div>
                         <div class="col" id="age_bracket_id-data"
                              data-id="{{this.profile.age_bracket_id}}">{{this.profile.age_bracket}}</div>
                     </div>
+                    {{/compare}}
                     <div class="row">
                         <div class="col-4">Commitment Level</div>
                         <div class="col" id="commitment_level_id-data"
@@ -403,9 +404,8 @@
                                 </div>
                             </div>
                         </div>
-                    {{/compare}}
-
-                    <div class="row">
+					{{else}}
+					<div class="row">
                         <div class="col-4 my-auto">Age Bracket</div>
                         <div class="col">
                             <div class="form-group bmd-form-group">
@@ -417,6 +417,7 @@
                             </div>
                         </div>
                     </div>
+                    {{/compare}}
 
                     <div class="row">
                         <div class="col-4 my-auto">Commitment Level</div>
