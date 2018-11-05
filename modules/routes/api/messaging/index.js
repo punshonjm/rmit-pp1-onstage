@@ -22,30 +22,35 @@ router.post("/send", (req, res) => {
 
 	Promise.resolve().then(() => {
 
-		if (req.user.account_locked === 1 || req.user.email_verified === 0) {
-			// Account is in a restricted state
-			if (("thread_id" in req.body)) {
-				// Get other thread users details
-				return models.messaging.getOtherThreadUser(req.user.user_id, req.body.thread_id);
-			} else if (("message_to" in req.body)) {
-				// Get user being messaged
-				return models.users.details(req.body.message_to);
-			}
+		// Account is in a restricted state
+		if (("thread_id" in req.body)) {
+			// Get other thread users details
+			return models.messaging.getOtherThreadUser(req.user.user_id, req.body.thread_id);
+		} else if (("message_to" in req.body)) {
+			// Get user being messaged
+			return models.users.details(req.body.message_to);
 		}
-		return null;
 
 	}).then((result) => {
 		if (result !== null) {
-			if (result.type_id !== 1 && result.id !== 0 && result.id !== 1) {
-				// Messaging a non-admin/service user
-				return Promise.reject({message: "You are not permitted to message other users at this time."});
+			if (req.user.account_locked === 1 || req.user.email_verified === 0) {
+				if (result.type_id !== 1 && result.id !== 0 && result.id !== 1) {
+					// Messaging a non-admin/service user
+					return Promise.reject({message: "You are not permitted to message other users at this time."});
+				}
 			}
+		} else {
+			return Promise.reject({message: "Unable to lookup other user."});
 		}
 
-		if (("thread_id" in req.body)) {
+		if (req.user.type_id === 1 && (result.id === 0 || result.id === 1)) {
+			// Special case, allow admin contact us messaging
+			return true;
+		} else if (("thread_id" in req.body)) {
 			// Verify user is in thread
 			return models.messaging.isInThread(req.user.user_id, req.body.thread_id);
 		} else {
+			// New message
 			return true;
 		}
 
