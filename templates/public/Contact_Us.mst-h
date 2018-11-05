@@ -23,7 +23,7 @@
 					<h2 class="title" >Contact Us</h2>
 				</div>
 				<div class="col-md-12">
-					<form class="contact-form">
+					<div class="contact-form">
 						<div class='row'>
 							{{^if this.user}}
 							<div class="col-md-12">
@@ -56,7 +56,7 @@
 								<button class="btn btn-primary btn-round btn-raised btn-lg" id="send">Send</button>
 							</div>
 						</div>
-		            </form>
+		            </div>
 				</div>
 			</div>
 		</div>
