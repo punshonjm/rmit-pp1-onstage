@@ -153,7 +153,7 @@ messaging.getOtherThreadUser = function (user_id, thread_id) {
 		]).from(
 			"ebdb.user",
 			"u"
-		).where("u.id = ?", dbc.sql.select().fields(["user_id"]).from("ebdb.thread_user").where("thread_id = ?", thread_id).where("user_id <> ?", user_id).order("u.id").limit(1)
+		).where("u.id = ?", dbc.sql.select().fields(["user_id"]).from("ebdb.thread_user").where("thread_id = ?", thread_id).where("user_id <> ?", user_id).order("user_id").limit(1)
 		);
 		return dbc.getRow(query);
 	}).then((row) => {
