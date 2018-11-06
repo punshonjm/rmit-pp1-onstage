@@ -3,7 +3,7 @@ const dbc = require("@modules/dbc");
 const mail = require("@modules/mail");
 
 const _ = require("lodash");
-const moment = require("moment");
+const moment = require("moment-timezone");
 
 const model_users = require("@modules/dataModels/users");
 
@@ -13,20 +13,34 @@ messaging.new = function (params) {
 	let userRow_a = {}, userRow_b = {}, message = {}, is_existing_thread = false;
 
 	return Promise.resolve().then(() => {
-		// Check for existing user to user thread
-		if (!("contact_id" in params) && ("user_id" in params) && ("message_to" in params)) {
-			// Is user to user message, lookup thread
-			return messaging.getLatestThreadId(params.user_id, params.message_to);
+		if ( !("message" in params) || params.message == null || params.message == "" ) {
+			return Promise.reject({ message: "No content to send." });
 		} else {
-			// Contact form, no existing thread exists
-			return null;
+			let query = dbc.sql.select().fields(["id"]).from("ebdb.user").where(dbc.sql.expr()
+				.and("id = ?", params.message_to)
+			);
+
+			return dbc.getRow(query);
+		}
+	}).then((user) => {
+		if ( user === false ) {
+			return Promise.reject({ message: "Invalid user to message." });
+		} else {
+			// Check for existing user to user thread
+			if (!("contact_id" in params) && ("user_id" in params) && ("message_to" in params)) {
+				// Is user to user message, lookup thread
+				return messaging.getLatestThreadId(params.user_id, params.message_to);
+			} else {
+				// Contact form, no existing thread exists
+				return null;
+			}
 		}
 	}).then((thread_id) => {
 		// Use existing thread if exists otherwise create new thread
 		if (thread_id != null) {
 			// User had existing thread, return id
 			is_existing_thread = true;
-			return {"insertId": thread_id};
+			return { "insertId": thread_id };
 		} else {
 			// Thread does not exist, create
 			let query = dbc.sql.insert().into("ebdb.thread").setFields({sql_last_update: dbc.sql.rstr("NOW()")});
@@ -61,8 +75,8 @@ messaging.new = function (params) {
 		let query = dbc.sql.insert().into("ebdb.message").setFields(message);
 		return dbc.execute(query);
 	}).then((res) => {
-		return Promise.resolve({message: "Successfully sent message!"});
-	});
+		return Promise.resolve({ message: "Successfully sent message!" });
+	})
 };
 
 messaging.send = function (params) {
@@ -121,19 +135,25 @@ messaging.send = function (params) {
 			return Promise.resolve();
 		}
 	}).then(() => {
-		return Promise.resolve({message: "Successfully sent message"});
+		return Promise.resolve({ message: "Successfully sent message" });
 	});
 };
 
-messaging.isInThread = function (user_id, thread_id) {
-
+messaging.isInThread = function (user_id = "", thread_id = "") {
 	return Promise.resolve().then(() => {
 		let query = dbc.sql.select().fields([
 			"u.id"
 		]).from(
 			"ebdb.user",
 			"u"
-		).where("u.id = ?", dbc.sql.select().fields(["user_id"]).from("ebdb.thread_user").where("thread_id = ?", thread_id).where("user_id = ?", user_id)
+		).where("u.id = ?", dbc.sql.select().fields([
+				"user_id"
+			]).from(
+				"ebdb.thread_user"
+			).where(dbc.sql.expr()
+				.and("thread_id = ?", thread_id)
+				.and("user_id = ?", user_id)
+			)
 		);
 		return dbc.getRow(query);
 	}).then((row) => {
@@ -170,8 +190,9 @@ messaging.getLatestThreadId = function (user_a, user_b) {
 	let thread = {};
 
 	return Promise.resolve().then(() => {
-		let query = dbc.sql.select().fields([
+		let query = dbc.sql.select().distinct("t.id").fields([
 			"t.id",
+			"t.sql_date_added"
 		]).from(
 			"ebdb.thread",
 			"t"
@@ -184,7 +205,7 @@ messaging.getLatestThreadId = function (user_a, user_b) {
 		).where(dbc.sql.expr()
 			.and("(u1.user_id = ? AND u2.user_id = ?) OR (u1.user_id = ? AND u2.user_id = ?)", user_a, user_b, user_b, user_a)
 			.and("u1.is_active = 1 and u2.is_active = 1")
-		).order("t.sql_date_added", false).distinct("t.id").limit(1);
+		).order("t.sql_date_added", false).limit(1);
 
 		return dbc.getRow(query);
 	}).then((row) => {
@@ -196,12 +217,16 @@ messaging.getLatestThreadId = function (user_a, user_b) {
 	});
 };
 
-messaging.listThreads = function (user) {
+messaging.listThreads = function (user = false) {
 	var data = [];
 	var timezone = "";
 
 	return Promise.resolve().then(() => {
-		return model_users.getTimezone(user.user_id)
+		if ( !user || !("user_id" in user) ) {
+			return Promise.reject({ message: "Invalid user provided." });
+		} else {
+			return model_users.getTimezone(user.user_id);
+		}
 	}).then((data) => {
 
 		timezone = data;
@@ -342,7 +367,7 @@ messaging.getThread = function (params) {
 		let query = dbc.sql.select().from("ebdb.thread_user");
 		let expr = dbc.sql.expr().and("thread_id = ?", params.thread_id);
 
-		if (params.user.type_id == 1) {
+		if ( params.user.type_id == 1 ) {
 			expr.and(dbc.sql.expr().or("user_id = ?", params.user.user_id).or("user_id = ?", 1))
 		} else {
 			expr.and("user_id = ?", params.user.user_id);

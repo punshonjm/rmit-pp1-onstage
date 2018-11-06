@@ -15,13 +15,14 @@ const model_list = require("@modules/dataModels/list");
 
 var users = {};
 
-users.details = function (user_id) {
+users.details = function(user_id) {
 	// Get Details for specific user
 	var user = {};
 
 	return Promise.resolve().then(() => {
 		if (user_id != null) {
 			let query = internal.query.user();
+
 			query.where(dbc.sql.expr()
 				.or("u.id = ?", user_id)
 				.or("u.username = ?", user_id)
@@ -44,6 +45,7 @@ users.details = function (user_id) {
 				return Promise.resolve(false);
 			}
 		} else {
+			console.log('no row');
 			return Promise.reject({message: "Failed to find user."});
 		}
 	}).then((rows) => {
@@ -1333,8 +1335,7 @@ internal.query.user = function () {
 		"ebdb.user_type", "t",
 		"u.type_id = t.id"
 	).where(dbc.sql.expr()
-		.and("u.id <> 0")
-		.and("u.id <> 1")
+		.and("u.id NOT IN ?", [0, 1])
 		.and("u.type_id <> 1")
 	);
 
