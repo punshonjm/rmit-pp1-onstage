@@ -132,22 +132,47 @@ describe('Messaging Model Tests', function() {
 
 	// getOtherThreadUser
 	context('Test messaging.getOtherThreadUser Function', function() {
+		it("Should get user 5 from the thread", function() {
+			return messaging.getOtherThreadUser(user.user_id, threadId).should.eventually.have.property("id").equal(5);
+		});
 
+		it("Should get null from the random thread", function() {
+			return messaging.getOtherThreadUser(user.user_id, (threadId + 5)).should.eventually.be.null;
+		});
+
+		it("Should get null if no values provided", function() {
+			return messaging.getOtherThreadUser().should.eventually.be.null;
+		});
 	});
 
 	// getLatestThreadId
 	context('Test messaging.getLatestThreadId Function', function() {
+		it("Should get user threadId from user 5", function() {
+			return messaging.getLatestThreadId(user.user_id, 5).should.eventually.equal(threadId);
+		});
 
-	});
+		it("Should get null from thread with no user", function() {
+			return messaging.getLatestThreadId(user.user_id, 3).should.eventually.be.null;
+		});
 
-	// delete thread
-	context('Test messaging.deleteThread Function', function() {
-
+		it("Should get null if no values provided", function() {
+			return messaging.getLatestThreadId().should.eventually.be.null;
+		});
 	});
 
 	// get thread
 	context('Test messaging.getThread Function', function() {
+		it("Should get the thread", function() {
+			return messaging.getThread({ user: user, thread_id: threadId }).then(function(res) {
+				let thread = res.thread;
+				thread.should.have.property("thread_id").equal(threadId);
+				thread.thread_with.should.have.property("message_with").equal(5);
+			});
+		});
 
+		it("Should not be able to access other users' threads", function() {
+			return messaging.getThread({ user: user, thread_id: (threadId + 3) }).should.eventually.be.rejectedWith("You don't have access to this message thread.");
+		});
 	});
 
 

@@ -203,8 +203,12 @@ messaging.getLatestThreadId = function (user_a, user_b) {
 			"ebdb.thread_user",
 			"u2", "t.id = u2.thread_id"
 		).where(dbc.sql.expr()
-			.and("(u1.user_id = ? AND u2.user_id = ?) OR (u1.user_id = ? AND u2.user_id = ?)", user_a, user_b, user_b, user_a)
-			.and("u1.is_active = 1 and u2.is_active = 1")
+			.and("u1.is_active = 1")
+			.and("u2.is_active = 1")
+			.and(dbc.sql.expr()
+				.or("u1.user_id = ? AND u2.user_id = ?", user_b, user_a)
+				.or("u1.user_id = ? AND u2.user_id = ?", user_a, user_b)
+			)
 		).order("t.sql_date_added", false).limit(1);
 
 		return dbc.getRow(query);
