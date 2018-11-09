@@ -457,5 +457,5 @@
 
 {{/if}}
 {{#*inline "load_files"}}
-    <script src="/public/js/app/user/view_profile.js" type="text/javascript"></script>
+    <script src="/public/js/app/user/view_profile.js" type="text/javascript" defer></script>
 {{/inline}}

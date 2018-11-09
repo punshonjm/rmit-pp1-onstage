@@ -21,11 +21,7 @@
             </ul>
         </nav>
         <div class="copyright float-right">
-            &copy;
-            <script>
-                document.write(new Date().getFullYear())
-            </script>
-            , On Stage. Developed by The Musketeers
+            &copy; <span class='current-year'></span>, On Stage. Developed by The Musketeers
         </div>
     </div>
 </footer>
@@ -143,32 +139,67 @@
     </div>
 </div>
 
-<!--   Core JS Files   -->
-<script src="/public/js/core/popper.min.js" type="text/javascript"></script>
-<script src="/public/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
-<script src="/public/js/core/handlebars.js" type="text/javascript"></script>
-<script src="/public/js/plugins/moment.min.js"></script>
-<!--	Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker -->
-<script src="/public/js/plugins/bootstrap-datetimepicker.js" type="text/javascript"></script>
-<!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
-<script src="/public/js/plugins/nouislider.min.js" type="text/javascript"></script>
-<script src="/public/js/plugins/zxcvbn.js" type="text/javascript"></script>
-<script src="/public/js/plugins/jasny-bootstrap.js" type="text/javascript"></script>
-<!--	Plugin for Sharrre btn -->
-<script src="/public/js/plugins/jquery.sharrre.js" type="text/javascript"></script>
-<script src="/public/js/plugins/select2.full.min.js"></script>
-<!-- Control Center for Material Kit -->
-<script src="/public/js/core/material-kit.js?v=2.0.4" type="text/javascript"></script>
-<script src="/public/js/core/app.js" type="text/javascript"></script>
-<!-- Query Twbs Pagination -->
-<script src="/public/js/plugins/jquery.twbsPagination.min.js" type="text/javascript"></script>
+<script src="/public/js/core/jquery-3.3.1.js" type="text/javascript" defer></script>
+<script src="/public/js/core/popper.min.js" type="text/javascript" defer></script>
+<script src="/public/js/core/bootstrap-material-design.min.js" type="text/javascript" defer></script>
+<script src="/public/js/core/handlebars.js" type="text/javascript" defer></script>
+<script src="/public/js/plugins/moment.min.js" type="text/javascript" defer></script>
+<script src="/public/js/plugins/bootstrap-datetimepicker.js" type="text/javascript" defer></script>
+<script src="/public/js/plugins/nouislider.min.js" type="text/javascript" defer></script>
+<script src="/public/js/plugins/zxcvbn.js" type="text/javascript" defer></script>
+<script src="/public/js/plugins/jasny-bootstrap.js" type="text/javascript" defer></script>
+<script src="/public/js/plugins/jquery.sharrre.js" type="text/javascript" defer></script>
+<script src="/public/js/plugins/select2.full.min.js" type="text/javascript" defer></script>
+<script src="/public/js/core/material-kit.js?v=2.0.4" type="text/javascript" defer></script>
+<script src="/public/js/core/app.js" type="text/javascript" defer></script>
+<script src="/public/js/plugins/jquery.twbsPagination.min.js" type="text/javascript" defer></script>
+
+<link rel="stylesheet" href="/public/css/material-kit.css?v=2.0.4" />
+
+<noscript id="deferred-styles">
+	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+
+	<link rel="stylesheet" href="/public/css/select2.min.css" />
+	<link rel="stylesheet" href="/public/css/material-select2.css?v=2.0.4" />
+	<link rel="stylesheet" href="/public/css/app.css" />
+	<link rel="stylesheet" href="/public/css/bootstrap-select.css" />
+</noscript>
+
+<script>
+	var loadDeferredStyles = function() {
+		var addStylesNode = document.getElementById("deferred-styles");
+		var replacement = document.createElement("div");
+		replacement.innerHTML = addStylesNode.textContent;
+		document.body.appendChild(replacement)
+		addStylesNode.parentElement.removeChild(addStylesNode);
+	};
+	var raf = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+	if (raf) raf(function() { window.setTimeout(loadDeferredStyles, 0); });
+	else window.addEventListener('load', loadDeferredStyles);
+</script>
 
 {{#> load_files}}
 {{/load_files}}
 
 {{#if this.user.golden_ticket}}
-    <script>
+<script src="data:text/javascript;base64,JChkb2N1bWVudCkucmVhZHkoZnVuY3Rpb24gKCkgew0KCQkJDQogICAgICAgIH0pLm9uKCJjbGlj
+ayIsICIuY2hhbmdlVXNlclR5cGUiLCBmdW5jdGlvbiAoKSB7DQogICAgICAgICAgICB3aW5kb3cu
+YXBwLnN3YXBUeXBlKCQodGhpcykpOw0KICAgICAgICB9KTsNCg0KICAgICAgICB3aW5kb3cuYXBw
+LnN3YXBUeXBlID0gZnVuY3Rpb24gKCR0aGlzKSB7DQogICAgICAgICAgICAkKCIuY2hhbmdlVXNl
+clR5cGUiKS5wcm9wKCJkaXNhYmxlZCIsIHRydWUpOw0KCQkJdmFyIGRhdGEgPSB7fTsNCgkJCWRh
+dGEuX2NzcmYgPSAkKCdbbmFtZT0iX19jc3JmIl0nKS52YWwoKTsNCg0KICAgICAgICAgICAgJC5w
+b3N0KCIvYXBpL3VzZXIvZ29sZGVuX3RpY2tldC8iICsgJHRoaXMuZGF0YSgpLnR5cGUsIGRhdGEs
+IGZ1bmN0aW9uICgpIHsNCiAgICAgICAgICAgICAgICB3aW5kb3cubG9jYXRpb24ucmVsb2FkKCk7
+DQogICAgICAgICAgICB9KS5mYWlsKGZ1bmN0aW9uICgpIHsNCiAgICAgICAgICAgICAgICAkKCIu
+Y2hhbmdlVXNlciIpLnByb3AoImRpc2FibGVkIiwgZmFsc2UpOw0KICAgICAgICAgICAgfSk7DQog
+ICAgICAgIH07" defer></script>
+{{/if}}
+{{#if this.showBase64GoldenTicketData}}
+	<script>
+		// This section has been converted to Base64 to allow it to be deferred
         $(document).ready(function () {
+
         }).on("click", ".changeUserType", function () {
             window.app.swapType($(this));
         });

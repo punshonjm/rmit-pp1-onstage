@@ -48,5 +48,5 @@
 </div>
 
 {{#*inline "load_files"}}
-<script type="text/javascript" src="/public/js/app/user/my_messages.js"></script>
+<script type="text/javascript" src="/public/js/app/user/my_messages.js" defer></script>
 {{/inline}}

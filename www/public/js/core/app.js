@@ -154,6 +154,7 @@ pageApp.logout = function() {
 
 pageApp.setup = function() {
 	$(".modal").appendTo("body");
+	$(".current-year").text(moment().format("YYYY"));
 };
 
 $(document).ready(function() {

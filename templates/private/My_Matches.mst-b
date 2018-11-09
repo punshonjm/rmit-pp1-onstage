@@ -98,5 +98,5 @@
 </div>
 
 {{#*inline "load_files"}}
-    <script src="/public/js/app/user/my_matches.js" type="text/javascript"></script>
+    <script src="/public/js/app/user/my_matches.js" type="text/javascript" defer></script>
 {{/inline}}

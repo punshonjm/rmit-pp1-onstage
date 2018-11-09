@@ -64,5 +64,5 @@
 </div>
 
 {{#*inline "load_files"}}
-<script type="text/javascript" src="/public/js/app/contact.js"></script>
+<script type="text/javascript" src="/public/js/app/contact.js" defer></script>
 {{/inline}}

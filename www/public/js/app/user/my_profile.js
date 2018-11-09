@@ -253,7 +253,7 @@ appPage.updateImage = function($this) {
 
 	$.ajax({
 		type: "POST",
-		url: "/api/user/update",
+		url: "/api/user/update?_csrf="+$('[name="__csrf"]').val(),
 		enctype: 'multipart/form-data',
 		cache: false,
 		contentType: false,

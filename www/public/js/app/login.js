@@ -1,5 +1,5 @@
 $(document).ready(function() {
-
+	$(".current-year").text(moment().format("YYYY"));
 }).on("click", "#login", function() {
 	app.login();
 }).on("keyup", "#username", function(event) {
@@ -68,7 +68,7 @@ app.forgotPassword = function() {
 	} else {
 		$(".send-reset").html("Sending <i class='fa fa-spinner fa-spin'></i>");
 		data._csrf = $('[name="__csrf"]').val();
-		
+
 		$.post("/api/user/password_reset", data, function(resp) {
 			$(".send-reset").closest(".col-md-12").html("<p>Check your inbox/junk! If we found a user with the details you provided, we've sent the password reset link to their reigstered email address! This link will remain valid for 30 minutes only.");
 		}).fail(function(error) {

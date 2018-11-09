@@ -12,6 +12,7 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const session = require('express-session');
 const csurf = require("csurf");
+const compression = require('compression')
 const expressSanitised = require("@modules/lib/express-sanitize-escape");
 
 // Assign globally-used modules to variables
@@ -40,6 +41,7 @@ server.use(helmet.referrerPolicy({ policy: 'same-origin' }));
 // }))
 
 server.disable('x-powered-by');
+server.use(compression());
 
 // Serve static, public content
 server.use("/public", express.static(path.join(__dirname, "www/public")));
