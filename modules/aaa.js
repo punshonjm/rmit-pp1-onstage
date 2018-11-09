@@ -10,6 +10,11 @@ const templating = require("@modules/templating");
 const dbc = require("@modules/dbc");
 const app = require("@modules/app");
 const mail = require("@modules/mail");
+const csurf = require("csurf");
+
+var csrf = csurf({
+	cookie: true,
+});
 
 var aaa = {};
 
@@ -126,7 +131,7 @@ aaa.sessionManagement = function( req, res, next ) {
 				next();
 			} else {
 				return Promise.resolve().then(() => {
-					return templating.build(path.join(__dirname, "../templates", "login.html"));
+					return templating.build(path.join(__dirname, "../templates", "login.html"), { csrfToken: req.csrfToken() });
 				}).then((html) => {
 					if (logRequest) aaa.createLog(req, "notAuthenticated");
 					res.send(html).end();

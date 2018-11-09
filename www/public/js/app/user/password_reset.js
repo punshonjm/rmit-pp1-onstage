@@ -12,6 +12,7 @@ resetPassword.changePassword = function() {
 	data.current = $("#current_password").val();
 	data.password = $("#password_new").val();
 	data.passwordConfirm = $("#password_confirm_new").val();
+	data._csrf = $('[name="_csrf"]').val();
 
 	if ( !pageApp.changePassword.confirm() ) {
 		$(".change_password").prop("disabled", false);

@@ -75,7 +75,7 @@
                         {{#if this.profile.instagram_user}}
                             <div class="col-md-3">
                                 <a class="w-100 d-flex flex-column text-center justify-content-middle align-items-center"
-                                   href="http://instragram.com/{{this.profile.instagram_user}}" target="_blank">
+                                   href="http://instragram.com/{{this.profile.instagram_user}}" target="_blank" rel="noreferrer">
 							<span class='d-block w-100' style="color: #d6249f;">
 								<i class="fa fa-instagram fa-3x"></i>
 							</span>
@@ -88,7 +88,7 @@
                         {{#if this.profile.twitter_user}}
                             <div class="col-md-3">
                                 <a class="w-100 d-flex flex-column text-center justify-content-middle align-items-center"
-                                   href="https://twitter.com/{{this.profile.twitter_user}}" target="_blank">
+                                   href="https://twitter.com/{{this.profile.twitter_user}}" target="_blank" rel="noreferrer">
 							<span class='d-block w-100 text-info'>
 								<i class="fa fa-twitter fa-3x"></i>
 							</span>
@@ -101,7 +101,7 @@
                         {{#if this.profile.facebook_user}}
                             <div class="col-md-3">
                                 <a class="w-100 d-flex flex-column text-center align-items-center"
-                                   href="https://facebook.com/{{this.profile.facebook_user}}" target="_blank">
+                                   href="https://facebook.com/{{this.profile.facebook_user}}" target="_blank" rel="noreferrer">
 							<span class='d-block w-100'>
 								<i class="fa fa-facebook fa-3x"></i>
 							</span>
@@ -112,7 +112,7 @@
                         {{#if this.profile.youtube_user}}
                             <div class="col-md-3">
                                 <a class="w-100 d-flex flex-column text-center align-items-center"
-                                   href="https://youtube.com/user/{{this.profile.youtube_user}}" target="_blank">
+                                   href="https://youtube.com/user/{{this.profile.youtube_user}}" target="_blank" rel="noreferrer">
 							<span class='d-block w-100 text-danger'>
 								<i class="fa fa-youtube fa-3x"></i>
 							</span>

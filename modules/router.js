@@ -31,7 +31,7 @@ router.get("/login", (req, res) => {
 			// If user is already logged in, redirect to homepage
 			res.redirect("/");
 		} else {
-			return templating.build(path.join(__dirname, "../templates", "login.html"));
+			return templating.build(path.join(__dirname, "../templates", "login.html"), { csrfToken: req.csrfToken() });
 		}
 	}).then((html) => {
 		res.send(html).end();

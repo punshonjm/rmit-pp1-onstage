@@ -11,6 +11,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const session = require('express-session');
+const csurf = require("csurf");
 
 // Assign globally-used modules to variables
 const configExists = fs.existsSync(`${__dirname}/config.json`);
@@ -27,6 +28,17 @@ if ( global.config == "aws") server.enable("trust proxy", 1);
 // Setup security middle-ware
 server.use(helmet());
 server.use(helmet.noCache());
+server.use(helmet.referrerPolicy({ policy: 'same-origin' }));
+// server.use(helmet.contentSecurityPolicy({
+// 	directives: {
+// 		defaultSrc: ["'self'"],
+// 		fontSrc: [ "'self'", 'fonts.googleapis.com' ],
+// 		styleSrc: ["'self'", 'maxcdn.bootstrapcdn.com', 'fonts.googleapis.com' ],
+// 		imgSrc: ["'self'", 'onstage-storage.s3.ap-southeast-2.amazonaws.com']
+// 	}
+// }))
+
+server.disable('x-powered-by');
 
 // Serve static, public content
 server.use("/public", express.static(path.join(__dirname, "www/public")));
@@ -36,6 +48,7 @@ server.use(cookieParser());
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ "extended": true }));
 server.use(session({ secret: "thisStagePassSecret", cookie: {}, resave: false, saveUninitialized: false }));
+server.use(csurf({ cookie: true }));
 
 // Setup session management middle-ware
 server.use(aaa.sessionManagement);

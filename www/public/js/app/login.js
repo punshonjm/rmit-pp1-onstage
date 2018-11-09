@@ -20,6 +20,7 @@ app.login = function() {
 	var data = {
 		username: $("#username").val(),
 		password: $("#password").val(),
+		_csrf: $('[name="_csrf"]').val(),
 	};
 
 	if ( String.isNullOrEmpty(data.username) || String.isNullOrEmpty(data.password) ) {

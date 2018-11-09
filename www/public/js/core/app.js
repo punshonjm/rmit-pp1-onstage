@@ -41,6 +41,7 @@ pageApp.changePassword = function() {
 	data.current = $("#current_password").val();
 	data.password = $("#password_new").val();
 	data.passwordConfirm = $("#password_confirm_new").val();
+	data._csrf = $('[name="_csrf"]').val();
 
 	if ( data.current == "" || data.current == null ) {
 		$(".change_password").prop("disabled", false);
