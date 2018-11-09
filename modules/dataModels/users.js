@@ -31,7 +31,7 @@ users.details = function(user_id) {
 
 			return dbc.getRow(query);
 		} else {
-			return Promise.reject({message: "Provided an invalid ID or username."});
+			return Promise.reject({message: "Provided an invalid ID or username.", userMessage: true});
 		}
 	}).then((row) => {
 		if (row) {
@@ -46,7 +46,7 @@ users.details = function(user_id) {
 			}
 		} else {
 			console.log('no row');
-			return Promise.reject({message: "Failed to find user."});
+			return Promise.reject({message: "Failed to find user.", userMessage: true});
 		}
 	}).then((rows) => {
 		if (rows) {
@@ -76,7 +76,7 @@ users.register = function (params = {}) {
 
 	return Promise.resolve().then(() => {
 		if ( Object.keys(params).length == 0) {
-			return Promise.reject({ message: "No registration values provided." });
+			return Promise.reject({ message: "No registration values provided.", userMessage: true });
 		} else {
 			return Promise.resolve();
 		}
@@ -413,7 +413,7 @@ users.update = function (params = {}) {
 		if (errors.length > 0) {
 			return Promise.reject({errorSet: errors});
 		} else if (Object.keys(user).length == 0 && Object.keys(profile).length == 0 && (!("instruments" in params) || Object.keys(params.instruments).length == 0) && (!("genres" in params) || Object.keys(params.genres).length == 0)  ) {
-			return Promise.reject({message: "Nothing to update!"});
+			return Promise.reject({message: "Nothing to update!", userMessage: true});
 		} else {
 			return Promise.resolve();
 		}
@@ -541,7 +541,7 @@ users.update = function (params = {}) {
 					});
 				});
 			} else {
-				return Promise.reject({message: "Profile image must be a JPEG or PNG."});
+				return Promise.reject({message: "Profile image must be a JPEG or PNG.", userMessage: true});
 			}
 		} else {
 			return Promise.resolve(null);
@@ -568,7 +568,7 @@ users.update = function (params = {}) {
 					});
 				});
 			} else {
-				return Promise.reject({message: "Background image must be a JPEG or PNG."});
+				return Promise.reject({message: "Background image must be a JPEG or PNG.", userMessage: true});
 			}
 		} else {
 			return Promise.resolve(null);
@@ -740,7 +740,7 @@ users.set_password = function (params) {
 		return dbc.getRow(query);
 	}).then((user) => {
 		if (!user) {
-			return Promise.reject({failed: true, message: "Invalid request"});
+			return Promise.reject({failed: true, message: "Invalid request", userMessage: true});
 		} else {
 			row.reset_id = user.id;
 			return aaa.checkPassword(params.current, user.reset_token);
@@ -749,7 +749,7 @@ users.set_password = function (params) {
 		if (pwdVerified) {
 			return aaa.hashPassword(params.password);
 		} else {
-			return Promise.reject({failed: true, message: "Invalid token"});
+			return Promise.reject({failed: true, message: "Invalid token", userMessage: true});
 		}
 	}).then((pwdHash) => {
 		let pwd = {};
@@ -793,7 +793,7 @@ users.verifyEmail = function (key) {
 
 			return dbc.getRow(query);
 		} else {
-			return Promise.reject({message: "That doesn't seem to be for anything. Are you sure you copied the link correctly?"});
+			return Promise.reject({message: "That doesn't seem to be for anything. Are you sure you copied the link correctly?", userMessage: true});
 		}
 	}).then((row) => {
 		if (row) {
@@ -801,10 +801,10 @@ users.verifyEmail = function (key) {
 				verifyRow = _.cloneDeep(row);
 				return Promise.resolve();
 			} else {
-				return Promise.reject({message: "Sorry that link has expired! You can send a new one from your profile page."});
+				return Promise.reject({message: "Sorry that link has expired! You can send a new one from your profile page.", userMessage: true});
 			}
 		} else {
-			return Promise.reject({message: "That doesn't seem to be for anything. Are you sure you copied the link correctly?"});
+			return Promise.reject({message: "That doesn't seem to be for anything. Are you sure you copied the link correctly?", userMessage: true});
 		}
 	}).then(() => {
 		let query = dbc.sql.update().table(

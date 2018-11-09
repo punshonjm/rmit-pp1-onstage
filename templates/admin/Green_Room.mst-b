@@ -158,5 +158,8 @@
 </div>
 
 {{#*inline "load_files"}}
+	<!-- JQuery Data Tables - https://datatables.net -->
+	<link rel="stylesheet" type="text/css" href="/public/css/datatables.min.css"/>
+	<script type="text/javascript" src="/public/js/plugins/datatables.min.js"></script>
     <script type="text/javascript" src="/public/js/app/admin/green_room.js"></script>
 {{/inline}}

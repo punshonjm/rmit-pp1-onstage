@@ -14,7 +14,7 @@ messaging.new = function (params) {
 
 	return Promise.resolve().then(() => {
 		if ( !("message" in params) || params.message == null || params.message == "" ) {
-			return Promise.reject({ message: "No content to send." });
+			return Promise.reject({ message: "No content to send.", userMessage: true });
 		} else {
 			let query = dbc.sql.select().fields(["id"]).from("ebdb.user").where(dbc.sql.expr()
 				.and("id = ?", params.message_to)
@@ -24,7 +24,7 @@ messaging.new = function (params) {
 		}
 	}).then((user) => {
 		if ( user === false ) {
-			return Promise.reject({ message: "Invalid user to message." });
+			return Promise.reject({ message: "Invalid user to message.", userMessage: true });
 		} else {
 			// Check for existing user to user thread
 			if (!("contact_id" in params) && ("user_id" in params) && ("message_to" in params)) {
@@ -227,7 +227,7 @@ messaging.listThreads = function (user = false) {
 
 	return Promise.resolve().then(() => {
 		if ( !user || !("user_id" in user) ) {
-			return Promise.reject({ message: "Invalid user provided." });
+			return Promise.reject({ message: "Invalid user provided.", userMessage: true });
 		} else {
 			return model_users.getTimezone(user.user_id);
 		}
@@ -402,7 +402,7 @@ messaging.getThread = function (params) {
 
 			return dbc.execute(query);
 		} else {
-			return Promise.reject({message: "You don't have access to this message thread."});
+			return Promise.reject({message: "You don't have access to this message thread.", userMessage: true});
 		}
 	}).then((users) => {
 		thread.users = _.keyBy(users.map((user) => {

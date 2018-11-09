@@ -210,7 +210,7 @@ aaa.login = function(details) {
 	}).then((dbRow) => {
 		if ( !dbRow ) {
 			aaa.createLog(details, "authenticaionFailure:Username");
-			return Promise.reject({ authenticationError: true, message: "Username/Password combination doesn't match." });
+			return Promise.reject({ authenticationError: true, message: "Username/Password combination doesn't match.", userMessage: true });
 		} else {
 			details.user_id = dbRow.user_id;
 			return internal.password.check(details.password, dbRow.password);
@@ -221,7 +221,7 @@ aaa.login = function(details) {
 			return Promise.resolve(details);
 		} else {
 			aaa.createLog(details, "authenticaionFailure:Password");
-			return Promise.reject({ authenticationError: true, message: "Username/Password combination doesn't match." });
+			return Promise.reject({ authenticationError: true, message: "Username/Password combination doesn't match.", userMessage: true });
 		}
 	}).then((details) => {
 		let query = dbc.sql.select().fields([
@@ -340,7 +340,7 @@ aaa.checkReset = function(req, res) {
 	}).then((user) => {
 		if ( !user ) {
 			aaa.createLog(req, "passwordReset:InvalidRequest");
-			return Promise.reject({ failed: true, message: "Invalid request" });
+			return Promise.reject({ failed: true, message: "Invalid request", userMessage: true });
 		} else {
 			row.user_id = user.user_id;
 			row.reset_id = user.id;
@@ -366,7 +366,7 @@ aaa.checkReset = function(req, res) {
 			return dbc.execute(query);
 		} else {
 			aaa.createLog(req, "passwordReset:InvalidToken");
-			return Promise.reject({ failed: true, message: "Invalid token" });
+			return Promise.reject({ failed: true, message: "Invalid token", userMessage: true });
 		}
 	}).then(() => {
 		let query = dbc.sql.update().table("ebdb.password_reset").set("reset_used = 1").where("id = ?", row.reset_id);
@@ -399,7 +399,7 @@ aaa.checkReset = function(req, res) {
 			dbSession.reset_key = req.params.key;
 			return Promise.resolve(dbSession);
 		} else {
-			return Promise.reject({ message: "Something went wrong! "});
+			return Promise.reject({ message: "Something went wrong!", userMessage: true });
 		}
 	})
 };

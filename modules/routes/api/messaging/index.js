@@ -36,11 +36,11 @@ router.post("/send", (req, res) => {
 			if (req.user.account_locked === 1 || req.user.email_verified === 0) {
 				if (result.type_id !== 1 && result.id !== 0 && result.id !== 1) {
 					// Messaging a non-admin/service user
-					return Promise.reject({message: "You are not permitted to message other users at this time."});
+					return Promise.reject({message: "You are not permitted to message other users at this time.", userMessage: true});
 				}
 			}
 		} else {
-			return Promise.reject({message: "Unable to lookup other user."});
+			return Promise.reject({message: "Unable to lookup other user.", userMessage: true});
 		}
 
 		if (req.user.type_id === 1 && (result.id === 0 || result.id === 1)) {
@@ -58,7 +58,7 @@ router.post("/send", (req, res) => {
 
 		if (!(isInThread)) {
 			// Ensure that the user is able to post to this thread
-			return Promise.reject({message: "You are not part of this thread."});
+			return Promise.reject({message: "You are not part of this thread.", userMessage: true});
 		}
 
 		req.body.user = req.user;

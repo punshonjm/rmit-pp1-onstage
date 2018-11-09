@@ -26,6 +26,7 @@ if ( global.config == "aws") server.enable("trust proxy", 1);
 
 // Setup security middle-ware
 server.use(helmet());
+server.use(helmet.noCache());
 
 // Serve static, public content
 server.use("/public", express.static(path.join(__dirname, "www/public")));

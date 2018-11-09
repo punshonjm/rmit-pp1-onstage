@@ -40,7 +40,7 @@ app.handleError = function( error, req, res ) {
 		}
 
 		if ( req.originalUrl.includes("api") || ( ("isApi" in req) && req.isApi == true) ) {
-			if ( ("message" in error) && !("fileName" in error) && !("lineNumber" in error) ) {
+			if ( ("message" in error) && ("userMessage" in error) && !("fileName" in error) && !("lineNumber" in error) ) {
 	            res.status(statusCode).json({ message: error.message }).end();
 	        } else if ( ("reason" in error) ) {
 				res.status(statusCode).json({ reason: error.reason }).end();
@@ -48,7 +48,7 @@ app.handleError = function( error, req, res ) {
 	            res.status(statusCode).json({ message: "Whoops! An error occured." }).end();
 	        }
 		} else {
-			req.session.error = error;
+			if ( ("userMessage" in error) ) req.session.error = error;
 			res.redirect('/whoops');
 		}
 	}
