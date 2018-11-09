@@ -11,6 +11,7 @@ appPage.initialise = function() {
 				var query = {
 					search: params.term
 				};
+				query._csrf = $('[name="__csrf"]').val();
 				return query;
 			}
 		},
@@ -25,6 +26,7 @@ appPage.initialise = function() {
 				var query = {
 					search: params.term
 				};
+				query._csrf = $('[name="__csrf"]').val();
 				return query;
 			}
 		},
@@ -39,6 +41,7 @@ appPage.initialise = function() {
 				var query = {
 					search: params.term
 				};
+				query._csrf = $('[name="__csrf"]').val();
 				return query;
 			}
 		},
@@ -54,7 +57,7 @@ let data = {};
 
 appPage.search_page = function($page) {
 	data.page = $page;
-
+	data._csrf = $('[name="__csrf"]').val();
 
 	$.post("/api/user/search", data, function(resp) {
 		$("#search-results").empty();
@@ -108,6 +111,7 @@ appPage.search = function($this) {
 		$(".loading-indicator").show();
 		$('.pagination-search').twbsPagination('destroy');
 
+		data._csrf = $('[name="__csrf"]').val();
 		$.post("/api/user/search", data, function(resp) {
 			$(".loading-indicator").find(".loading-status").text("Lets see who we've found!");
 

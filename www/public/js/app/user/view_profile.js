@@ -40,6 +40,8 @@ appPage.report = function($this) {
 		$this.prop("disabled", false);
 		$(".reportStatus").html("<p class='text-danger'>Please make sure you have entered a reason and explanation on why you are reporting this user.</p>");
 	} else {
+
+		data._csrf = $('[name="__csrf"]').val();
 		$.post("/api/user/" + data.user_id + "/report", data, function(res) {
 			$(".reportStatus").html("<p class='text-success'>Your report has been received, an admin will review this user within 48 hours. Thank you.</p>");
 			$(".reportNotice").show();
@@ -82,6 +84,8 @@ appPage.send = function($this) {
 
 		$(".loading-indicator").find(".loading-status").text("Sending your message...");
 		$(".loading-indicator").show();
+
+		data._csrf = $('[name="__csrf"]').val();
 
 		$.post("/api/messaging/send", data, function(resp) {
 			$(".loading-indicator").find(".loading-status").text("All done!");

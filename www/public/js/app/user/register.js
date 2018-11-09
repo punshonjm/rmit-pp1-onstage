@@ -10,6 +10,7 @@ appPage.initialise = function() {
 				var query = {
 					search: params.term
 				};
+				query._csrf = $('[name="__csrf"]').val();
 				return query;
 			}
 		},
@@ -24,6 +25,7 @@ appPage.initialise = function() {
 				var query = {
 					search: params.term
 				};
+				query._csrf = $('[name="__csrf"]').val();
 				return query;
 			}
 		},
@@ -38,6 +40,7 @@ appPage.initialise = function() {
 				var query = {
 					search: params.term
 				};
+				query._csrf = $('[name="__csrf"]').val();
 				return query;
 			}
 		},
@@ -203,6 +206,8 @@ appPage.register = function($this) {
 		// add response error handling & loading indicators
 		$(".loading-indicator").find(".loading-status").text("Warming up...");
 		$(".loading-indicator").show();
+
+		formData.append("_csrf", $('[name="__csrf"]').val());
 
 		$.ajax({
 			type: "POST",

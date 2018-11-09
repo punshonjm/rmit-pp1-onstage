@@ -51,6 +51,7 @@ appPage.sendMessage = function($this) {
 	var data = {};
 	data.thread_id = $this.closest(".thread-message").data().thread;
 	data.content = $("#new-message").val();
+	data._csrf = $('[name="__csrf"]').val();
 	$(".messageStatus").closest(".row").hide();
 
 	if ( data.content == "" || data.content == null ) {
@@ -74,6 +75,7 @@ appPage.sendMessage = function($this) {
 appPage.deleteThread = function($this) {
 	var data = {};
 	data.thread_id = $this.closest(".thread-message").data().thread;
+	data._csrf = $('[name="__csrf"]').val();
 
 	$.post("/api/messaging/delete", data, function(resp) {
 		appPage.goBack();

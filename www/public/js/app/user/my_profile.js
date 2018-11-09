@@ -37,6 +37,8 @@ appPage.initialise = function() {
 				var query = {
 					search: params.term
 				};
+
+				query._csrf = $('[name="__csrf"]').val();
 				return query;
 			}
 		},
@@ -51,6 +53,8 @@ appPage.initialise = function() {
 				var query = {
 					search: params.term
 				};
+
+				query._csrf = $('[name="__csrf"]').val();
 				return query;
 			}
 		},
@@ -65,6 +69,8 @@ appPage.initialise = function() {
 				var query = {
 					search: params.term
 				};
+
+				query._csrf = $('[name="__csrf"]').val();
 				return query;
 			}
 		},
@@ -171,6 +177,8 @@ appPage.editSave = function($this) {
 		$header.append("<span class='has-danger'>Please address the errors before saving again.</span>");
 		$this.prop("disabled", false);
 	} else {
+		data._csrf = $('[name="__csrf"]').val();
+
 		$.post("/api/user/update", data, function(res) {
 			$this.prop("disabled", false);
 			$header.append("<span class='d-block text-success'>" + res.message + "</span>");
@@ -241,6 +249,8 @@ appPage.updateImage = function($this) {
 	$(".loading-indicator").find(".loading-status").text("Uploading the shots...");
 	$(".loading-indicator").show();
 
+	formData.append("_csrf", $('[name="__csrf"]').val());
+
 	$.ajax({
 		type: "POST",
 		url: "/api/user/update",
@@ -276,6 +286,7 @@ appPage.removeImage = function($this) {
 
 	var data = {};
 	data["remove_" + type] = "remove";
+	data._csrf = $('[name="__csrf"]').val();
 
 	$.post("/api/user/update", data, function(res) {
 		$this.closest(".modal").find("button").prop("disabled", false);

@@ -14,7 +14,13 @@ $(document).ready(function () {
 appPage.initialise = function () {
 
 	var table = $('#user_table').DataTable({
-		ajax: '/api/admin/user/list',
+		ajax: {
+			url: '/api/admin/user/list',
+			data: function(d) {
+				d._csrf = $('[name="__csrf"]').val();
+				return d;
+			}
+		},
 		serverSide: true,
 		"columns": [
 			{"data": "id"},
@@ -199,6 +205,7 @@ appPage.closeReport = function () {
 	data.user_id = $("#submit-closeReport").data("user_id");
 	data.actionReason = ($("#reportModal").find("#reportCloseReason").val().trim());
 	data.action = $("#submit-closeReport").data("action");
+	data._csrf = $('[name="__csrf"]').val();
 
 	$(".reportStatus").closest(".row").show();
 	$("#submit-closeReport").prop("disabled", true);
@@ -258,6 +265,7 @@ appPage.submit = function($this) {
 	data.user_id = appPage.data.id;
 	data.actionReason = ($("#actionModal").find("#actionReason").val().trim());
 	data.action = appPage.action;
+	data._csrf = $('[name="__csrf"]').val();
 
 	$(".actionStatus").closest(".row").show();
 	$("#submit-action").prop("disabled", true);

@@ -17,6 +17,7 @@ router.get("/", (req, res) => {
     Promise.resolve().then(() => {
 		var data = { pageName: "Home" };
 		data.user = req.user;
+		data.csrfToken = req.csrfToken();
 
         return templating.compile("home", data);
     }).then((html) => {
@@ -83,6 +84,8 @@ router.get("/user/verify/:key", (req, res) => {
 		data.user.email_verified = 1;
 		data.message = result.message;
 
+		data.csrfToken = req.csrfToken();
+
 		return templating.compile("email_verified", data);
     }).then((html) => {
         res.send(html).end();
@@ -98,6 +101,7 @@ router.get("/user/password_reset/:id/:key", (req, res) => {
 		var data = {};
 		data.pageName = "Reset Password";
 		data.user = user;
+		data.csrfToken = req.csrfToken();
 
 		return templating.compile("set_new_password", data);
     }).then((html) => {
@@ -152,6 +156,7 @@ folders.map((folder) => {
 				} else {
 					data.pageName = file.replace(/_/g, " ");
 				}
+				data.csrfToken = req.csrfToken();
 
 				return templating.compile(template, data);
 			}).then((html) => {
@@ -171,6 +176,7 @@ router.get("/whoops", (req, res) => {
 			data.error = req.session.error;
 			delete req.session.error;
 		}
+		data.csrfToken = req.csrfToken();
 
         return templating.compile("whoops", data);
     }).then((html) => {

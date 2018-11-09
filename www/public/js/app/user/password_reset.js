@@ -24,6 +24,7 @@ resetPassword.changePassword = function() {
 		$(".change_password").prop("disabled", false);
 		$("#current_password").addError("has-danger", "You must provide your current password!");
 	} else {
+		data._csrf = $('[name="__csrf"]').val();
 		$.post("/api/user/set_password", data, function(res) {
 			$("#current_password").val("");
 			$("#password_new").val("");

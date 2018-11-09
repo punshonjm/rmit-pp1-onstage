@@ -21,6 +21,7 @@ appPage.send = function($this) {
 
 	data.subject = $("#subject").val();
 	data.message = $("#message").val();
+	data._csrf = $('[name="__csrf"]').val();
 
 	var errors = [];
 	Object.keys(data).map(function(key) {

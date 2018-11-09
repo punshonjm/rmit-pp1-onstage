@@ -12,6 +12,7 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const session = require('express-session');
 const csurf = require("csurf");
+const expressSanitised = require("@modules/lib/express-sanitize-escape");
 
 // Assign globally-used modules to variables
 const configExists = fs.existsSync(`${__dirname}/config.json`);
@@ -49,6 +50,7 @@ server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ "extended": true }));
 server.use(session({ secret: "thisStagePassSecret", cookie: {}, resave: false, saveUninitialized: false }));
 server.use(csurf({ cookie: true }));
+server.use(expressSanitised.middleware());
 
 // Setup session management middle-ware
 server.use(aaa.sessionManagement);
