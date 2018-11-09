@@ -248,7 +248,8 @@ aaa.login = function(details) {
 			cookie.token = session.session_token;
 			cookie.expires = moment(session.session_started, "YYYY-MM-DD HH:mm:ss").add(2, "weeks");
 		} else {
-			cookie.token = CryptoJS.HmacSHA512(details.user_id, moment().format('x')).toString();
+			var token = details.user_id + crypto.randomBytes(20).toString('hex');
+			cookie.token = CryptoJS.HmacSHA512(token, moment().format('x')).toString();
 			cookie.expires = moment().add(2, "weeks");
 
 			let query = dbc.sql.insert().into("ebdb.session").setFields({
