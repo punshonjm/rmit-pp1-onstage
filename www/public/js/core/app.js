@@ -20,7 +20,7 @@ window.app.templates.loadArray = function(templateArray) {
 
 pageApp.resendVerification = function() {
 	$("#resendVerification").prop("disabled", true);
-	$(".verify_link").html("<span>Sending <i class='fa fa-spinner fa-spin'></i></span>");
+	$(".verify_link").html("<span>Sending <i class='fas fa-spinner fa-spin'></i></span>");
 
 	$.get("/api/user/new_verification", function(res) {
 		$(".verify_link").html("<span class='alert-link'>New link sent!</span>");

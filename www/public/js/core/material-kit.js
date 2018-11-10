@@ -107,15 +107,15 @@ materialKit = {
   initFormExtendedDatetimepickers: function() {
     $('.datetimepicker').datetimepicker({
       icons: {
-        time: "fa fa-clock-o",
-        date: "fa fa-calendar",
-        up: "fa fa-chevron-up",
-        down: "fa fa-chevron-down",
-        previous: 'fa fa-chevron-left',
-        next: 'fa fa-chevron-right',
-        today: 'fa fa-screenshot',
-        clear: 'fa fa-trash',
-        close: 'fa fa-remove'
+        time: "fas fa-clock-o",
+        date: "fas fa-calendar",
+        up: "fas fa-chevron-up",
+        down: "fas fa-chevron-down",
+        previous: 'fas fa-chevron-left',
+        next: 'fas fa-chevron-right',
+        today: 'fas fa-screenshot',
+        clear: 'fas fa-trash',
+        close: 'fas fa-remove'
       }
     });
   },

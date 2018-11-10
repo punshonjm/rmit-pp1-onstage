@@ -18,38 +18,142 @@
 	</div>
 </div>
 {{/inline}}
-<div class="section text-left">
-	<div class="row">
-		<div class="col-md-8 ml-auto mr-auto">
-			<div class="row">
-				<div class="col-md-4">
-					<div class="info text-center">
-						<div class="icon icon-primary">
-							<i class="material-icons">chat</i>
+</div>
+<div class='container-fluid'>
+	<div class="section text-left">
+		<div class="row">
+			<div class="col-md-8 ml-auto mr-auto">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="info text-center">
+							<div class="icon icon-primary">
+								<i class="material-icons">chat</i>
+							</div>
+							<h4 class="info-title">Reach Out for Free</h4>
+							<p>Matched with an artist or band you are keen to collaborate and jam with? Reach out to them through the website for no additional cost.</p>
 						</div>
-						<h4 class="info-title">Reach Out for Free</h4>
-						<p>Matched with an artist or band you are keen to collaborate and jam with? Reach out to them through the website for no additional cost.</p>
 					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="info text-center">
-						<div class="icon icon-primary">
-							<i class="fa fa-lock"></i>
+					<div class="col-md-4">
+						<div class="info text-center">
+							<div class="icon icon-primary">
+								<i class="fas fa-lock"></i>
+							</div>
+							<h4 class="info-title">Safe & Secure</h4>
+							<p>Keeping you safe is a big focus for On Stage. Wtih content monitoring and strong user reporting system, you're in good hands!</p>
 						</div>
-						<h4 class="info-title">Safe & Secure</h4>
-						<p>Keeping you safe is a big focus for On Stage. Wtih content monitoring and strong user reporting system, you're in good hands!</p>
 					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="info text-center">
-						<div class="icon icon-primary">
-							<i class="material-icons">mobile_friendly</i>
+					<div class="col-md-4">
+						<div class="info text-center">
+							<div class="icon icon-primary">
+								<i class="material-icons">mobile_friendly</i>
+							</div>
+							<h4 class="info-title">Mobile Friendly</h4>
+							<p>On Stage was developed with a mobile first attitude, meaning you can trust it will work while you're out on the road. </p>
 						</div>
-						<h4 class="info-title">Mobile Friendly</h4>
-						<p>On Stage was developed with a mobile first attitude, meaning you can trust it will work while you're out on the road. </p>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+<div class='container-fluid'>
+	<div class="section text-left pt-0">
+		<div class="row bg-primary pb-3">
+			<div class="col-md-8 ml-auto mr-auto">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="info text-center">
+							<div class="icon text-warning">
+								<i class="fas fa-users"></i>
+							</div>
+							<h4 class="info-title text-white">Expert Matching</h4>
+							<p class='text-white'>Matched with an artist or band you are keen to collaborate and jam with? Reach out to them through the website for no additional cost.</p>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="info text-center">
+							<div class="icon text-warning">
+								<i class="fas fa-user-circle"></i>
+							</div>
+							<h4 class="info-title text-white">Beautiful Profiles</h4>
+							<p class='text-white'>Keeping you safe is a big focus for On Stage. Wtih content monitoring and strong user reporting system, you're in good hands!</p>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="info text-center">
+							<div class="icon text-warning">
+								<i class="fas fa-search"></i>
+							</div>
+							<h4 class="info-title text-white">Intelligent Searching</h4>
+							<p class='text-white'>We built the searching feature as intelligent as posisble to take help the guess work out of finding what you're looking for.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class='container-fluid'>
+	<div class="section text-left pt-0">
+		<div class="row">
+			<div class="col-md-8 ml-auto mr-auto">
+				<div class="row">
+					<div class='col-md-12'>
+						<h3>Frequently Asked Questions</h3>
+					</div>
+					<div class="col-md-4">
+						<h4>Are there any kind of fees involved?</h4>
+						<p>Absolutely none! On Stage was designed to be an accesssible platform that could connect musicians and bands, removing the hurdles that would be there traditionally.</p>
+					</div>
+					<div class="col-md-4">
+						<h4>What kind of restrictions are there?</h4>
+						<p>We stop users who haven't verified their email address from reaching out to you. We also have the a suspension system in place to stop users who are mistreating others.</p>
+					</div>
+					<div class="col-md-4">
+						<h4>What's the catch?</h4>
+						<p>There is none! We wanted to help musicians and bands alike connect. You can view and reach out to as many profiles as you want! We're in it for the music <i class="fas fa-heart"></i>.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class='container-fluid'>
+	<div class="section text-left pt-0">
+		<div class="row bg-primary pb-3">
+			<div class="col-md-8 ml-auto mr-auto">
+				<div class="row">
+					<div class='col-md-12 text-white'>
+						<h3>Meet The Team</h3>
+					</div>
+					<div class="col-md-4">
+						<img src='/public/img/athos.jpg' class="img-raised rounded img-fluid" />
+						<h4 class='text-white text-center'>Athos</h4>
+					</div>
+					<div class="col-md-4">
+						<img src='/public/img/porthos.jpg' class="img-raised rounded img-fluid" />
+						<h4 class='text-white text-center'>Porthos</h4>
+					</div>
+					<div class="col-md-4">
+						<img src='/public/img/aramis.jpg' class="img-raised rounded img-fluid" />
+						<h4 class='text-white text-center'>Aramis</h4>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class='container-fluid'>
+	<div class="section text-left pt-0">
+		<div class="row">
+			<div class="col-md-8 ml-auto mr-auto">
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<h2>Still got questions?</h2>
+						<h3>We're happy to answer them!<br />Drop us a message on the Contact Us page.</h3>
+						<a href='/contact_us' class='btn btn-round btn-raised btn-lg btn-primary' id='contact_us_now'>Say Hi!</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

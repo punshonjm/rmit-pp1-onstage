@@ -23,7 +23,7 @@
 							<span>
 								{{#if this.unread}}
 								<span class="badge badge-pill badge-primary unread" data-thread="{{this.thread_id}}">
-									<i class="fa fa-envelope"></i>
+									<i class="fas fa-envelope"></i>
 								</span>
 								{{/if}}
 							</span>
