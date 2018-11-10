@@ -38,7 +38,7 @@ server.use(helmet.contentSecurityPolicy({
  		fontSrc: [ "'self'", 'https://fonts.googleapis.com', 'https://fonts.gstatic.com', 'https://maxcdn.bootstrapcdn.com', 'https://use.fontawesome.com' ],
  		styleSrc: ["'self'", "'unsafe-inline'", 'https://maxcdn.bootstrapcdn.com', 'https://fonts.googleapis.com', 'https://use.fontawesome.com' ],
  		imgSrc: ["'self'", 'https://onstage-storage.s3.ap-southeast-2.amazonaws.com', 'https://s3-ap-southeast-2.amazonaws.com'],
-		scriptSrc: ["'self'", "'unsafe-inline'", "data:"]
+		scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "data:"]
  	}
 }));
 
