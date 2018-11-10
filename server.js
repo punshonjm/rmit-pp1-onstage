@@ -43,7 +43,7 @@ server.use(helmet.referrerPolicy({ policy: 'same-origin' }));
 
 server.disable('x-powered-by');
 server.use(compression());
-server.use(minify());
+// server.use(minify());
 
 // Serve static, public content
 server.use("/public", express.static(path.join(__dirname, "www/public")));
