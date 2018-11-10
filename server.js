@@ -32,14 +32,15 @@ if ( global.config == "aws") server.enable("trust proxy", 1);
 server.use(helmet());
 server.use(helmet.noCache());
 server.use(helmet.referrerPolicy({ policy: 'same-origin' }));
-// server.use(helmet.contentSecurityPolicy({
-// 	directives: {
-// 		defaultSrc: ["'self'"],
-// 		fontSrc: [ "'self'", 'fonts.googleapis.com' ],
-// 		styleSrc: ["'self'", 'maxcdn.bootstrapcdn.com', 'fonts.googleapis.com' ],
-// 		imgSrc: ["'self'", 'onstage-storage.s3.ap-southeast-2.amazonaws.com']
-// 	}
-// }))
+server.use(helmet.contentSecurityPolicy({
+	directives: {
+ 		defaultSrc: ["'self'"],
+ 		fontSrc: [ "'self'", 'https://fonts.googleapis.com', 'https://fonts.gstatic.com', 'https://maxcdn.bootstrapcdn.com' ],
+ 		styleSrc: ["'self'", "'unsafe-inline'", 'https://maxcdn.bootstrapcdn.com', 'https://fonts.googleapis.com' ],
+ 		imgSrc: ["'self'", 'https://onstage-storage.s3.ap-southeast-2.amazonaws.com'],
+		scriptSrc: ["'self'", "'unsafe-inline'", "data:"]
+ 	}
+}));
 
 server.disable('x-powered-by');
 server.use(compression());
