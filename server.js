@@ -53,7 +53,16 @@ server.use("/public", express.static(path.join(__dirname, "www/public")));
 server.use(cookieParser());
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ "extended": true }));
-server.use(session({ secret: "thisStagePassSecret", cookie: {}, resave: false, saveUninitialized: false }));
+server.use(session({
+	secret: "thisStagePassSecret",
+	cookie: {
+		httpOnly: true,
+		sameSite: true,
+		secure: (global.config == "aws") ? true : false
+	}, 
+	resave: false,
+	saveUninitialized: false
+}));
 server.use(csurf({ cookie: true }));
 server.use(expressSanitised.middleware());
 
