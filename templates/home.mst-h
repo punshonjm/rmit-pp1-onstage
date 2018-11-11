@@ -63,7 +63,7 @@
 				<div class="row">
 					<div class="col-md-4">
 						<div class="info text-center">
-							<div class="icon text-warning">
+							<div class="icon text-white">
 								<i class="fas fa-users"></i>
 							</div>
 							<h4 class="info-title text-white">Expert Matching</h4>
@@ -72,7 +72,7 @@
 					</div>
 					<div class="col-md-4">
 						<div class="info text-center">
-							<div class="icon text-warning">
+							<div class="icon text-white">
 								<i class="fas fa-user-circle"></i>
 							</div>
 							<h4 class="info-title text-white">Beautiful Profiles</h4>
@@ -81,7 +81,7 @@
 					</div>
 					<div class="col-md-4">
 						<div class="info text-center">
-							<div class="icon text-warning">
+							<div class="icon text-white">
 								<i class="fas fa-search"></i>
 							</div>
 							<h4 class="info-title text-white">Intelligent Searching</h4>
