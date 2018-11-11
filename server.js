@@ -50,20 +50,22 @@ server.use(minify());
 server.use("/public", express.static(path.join(__dirname, "www/public")));
 
 // Setup standard middle-ware
+var cookieSettings = {
+	httpOnly: true,
+	sameSite: true,
+	secure: (global.config == "aws") ? true : false
+};
+
 server.use(cookieParser());
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ "extended": true }));
 server.use(session({
 	secret: "thisStagePassSecret",
-	cookie: {
-		httpOnly: true,
-		sameSite: true,
-		secure: (global.config == "aws") ? true : false
-	}, 
+	cookie: cookieSettings,
 	resave: false,
 	saveUninitialized: false
 }));
-server.use(csurf({ cookie: true }));
+server.use(csurf({ cookie: cookieSettings }));
 server.use(expressSanitised.middleware());
 
 // Setup session management middle-ware
