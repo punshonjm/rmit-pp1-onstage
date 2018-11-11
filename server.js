@@ -45,17 +45,28 @@ server.use(helmet.contentSecurityPolicy({
 
 server.disable('x-powered-by');
 server.use(compression());
-// server.use(minify());
+server.use(minify());
 
 // Serve static, public content
 server.use("/public", express.static(path.join(__dirname, "www/public")));
 
 // Setup standard middle-ware
+var cookieSettings = {
+	httpOnly: true,
+	sameSite: true,
+	secure: (global.config == "aws") ? true : false
+};
+
 server.use(cookieParser());
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ "extended": true }));
-server.use(session({ secret: "thisStagePassSecret", cookie: {}, resave: false, saveUninitialized: false }));
-server.use(csurf({ cookie: true }));
+server.use(session({
+	secret: "thisStagePassSecret",
+	cookie: cookieSettings,
+	resave: false,
+	saveUninitialized: false
+}));
+server.use(csurf({ cookie: cookieSettings }));
 server.use(expressSanitised.middleware());
 
 // Setup session management middle-ware

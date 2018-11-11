@@ -63,7 +63,7 @@
 				<div class="row">
 					<div class="col-md-4">
 						<div class="info text-center">
-							<div class="icon text-warning">
+							<div class="icon text-white">
 								<i class="fas fa-users"></i>
 							</div>
 							<h4 class="info-title text-white">Expert Matching</h4>
@@ -72,7 +72,7 @@
 					</div>
 					<div class="col-md-4">
 						<div class="info text-center">
-							<div class="icon text-warning">
+							<div class="icon text-white">
 								<i class="fas fa-user-circle"></i>
 							</div>
 							<h4 class="info-title text-white">Beautiful Profiles</h4>
@@ -81,7 +81,7 @@
 					</div>
 					<div class="col-md-4">
 						<div class="info text-center">
-							<div class="icon text-warning">
+							<div class="icon text-white">
 								<i class="fas fa-search"></i>
 							</div>
 							<h4 class="info-title text-white">Intelligent Searching</h4>
@@ -126,17 +126,17 @@
 					<div class='col-md-12 text-white'>
 						<h3>Meet The Team</h3>
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-4 text-center">
 						<img src='/public/img/athos.jpg' class="img-raised rounded img-fluid" />
-						<h4 class='text-white text-center'>Athos</h4>
+						<h4 class='text-white'>Athos</h4>
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-4 text-center">
 						<img src='/public/img/porthos.jpg' class="img-raised rounded img-fluid" />
-						<h4 class='text-white text-center'>Porthos</h4>
+						<h4 class='text-white'>Porthos</h4>
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-4 text-center">
 						<img src='/public/img/aramis.jpg' class="img-raised rounded img-fluid" />
-						<h4 class='text-white text-center'>Aramis</h4>
+						<h4 class='text-white'>Aramis</h4>
 					</div>
 				</div>
 			</div>
