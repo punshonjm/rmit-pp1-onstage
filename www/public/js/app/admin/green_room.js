@@ -185,7 +185,7 @@ appPage.initialise = function () {
 		var data = report_table.row($(this).parents('tr')).data();
 
 		$("#report_by_view").html(data.report_by_username + ' (ID: ' + data.report_by + ')<br/>' + data.report_by_email + '<br/>');
-		$("#report_reason_view").text(data.reason);
+		$("#report_reason_view").html(data.reason);
 		$("#report_date_view").text(moment(data.report_date).utc().format('YYYY-MM-DD HH:MM:SS') + ' UTC');
 
 		$("#submit-closeReport").data("report_id", data.id);
