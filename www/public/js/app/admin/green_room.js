@@ -24,9 +24,12 @@ appPage.initialise = function () {
 		serverSide: true,
 		"columns": [
 			{"data": "id"},
-			{"data": "username"},
-			{"data": "email"},
-			{"data": "display_name"},
+			{"data": "username",
+				render: $.fn.dataTable.render.text()},
+			{"data": "email",
+				render: $.fn.dataTable.render.text()},
+			{"data": "display_name",
+				render: $.fn.dataTable.render.text()},
 			{"data": "user_type"},
 			{"data": "account_locked"},
 			{"data": "active_reports"},
@@ -133,8 +136,10 @@ appPage.initialise = function () {
 		"pageLength": 5,
 		"columns": [
 			{"data": "id"},
-			{"data": "report_by"},
-			{"data": "reason"},
+			{"data": "report_by",
+				render: $.fn.dataTable.render.text()},
+			{"data": "reason",
+				render: $.fn.dataTable.render.text()},
 			{"data": "report_date"},
 			{"data": "is_active"},
 			{"data": "actions"}
@@ -180,7 +185,7 @@ appPage.initialise = function () {
 		var data = report_table.row($(this).parents('tr')).data();
 
 		$("#report_by_view").html(data.report_by_username + ' (ID: ' + data.report_by + ')<br/>' + data.report_by_email + '<br/>');
-		$("#report_reason_view").text(data.reason);
+		$("#report_reason_view").html(data.reason);
 		$("#report_date_view").text(moment(data.report_date).utc().format('YYYY-MM-DD HH:MM:SS') + ' UTC');
 
 		$("#submit-closeReport").data("report_id", data.id);

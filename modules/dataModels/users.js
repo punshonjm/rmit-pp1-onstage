@@ -1119,7 +1119,6 @@ users.admin_user_list = function (pagination_start, pagination_length, search, o
 		order.forEach(function (item) {
 			query.order(mapping[item.column], (item.dir === "asc") ? true : false);
 		});
-		console.log(query.toString());
 		return dbc.execute(query);
 	}).then((data) => {
 		return Promise.resolve(data);
