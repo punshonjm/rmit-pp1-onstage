@@ -32,7 +32,7 @@ module.exports = {
         if (typeof obj === 'string') {
             if (self.sanitize)
             {
-                obj = sanitizer.sanitize(obj);
+                obj = sanitizer.escape(obj);
             }
             if (self.encoder)
             {
