@@ -173,7 +173,7 @@ messaging.getOtherThreadUser = function (user_id, thread_id) {
 		]).from(
 			"ebdb.user",
 			"u"
-		).where("u.id = ?", dbc.sql.select().fields(["user_id"]).from("ebdb.thread_user").where("thread_id = ?", thread_id).where("user_id <> ?", user_id).order("user_id").limit(1)
+		).where("u.id = ?", dbc.sql.select().fields(["user_id"]).from("ebdb.thread_user").where("thread_id = ?", thread_id).where("user_id <> ?", user_id).where("is_active = 1").order("user_id").limit(1)
 		);
 		return dbc.getRow(query);
 	}).then((row) => {
@@ -292,7 +292,6 @@ messaging.listThreads = function (user = false) {
 		).where("m1.id IN ?", idQuery
 		).order("m1.sql_date_added", false);
 
-		console.log(query.toString());
 		if (threadIds.length > 0) {
 			return dbc.execute(query);
 		} else {

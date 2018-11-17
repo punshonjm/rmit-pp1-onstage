@@ -22,7 +22,6 @@ router.post("/send", (req, res) => {
 
 	Promise.resolve().then(() => {
 
-		// Account is in a restricted state
 		if (("thread_id" in req.body)) {
 			// Get other thread users details
 			return models.messaging.getOtherThreadUser(req.user.user_id, req.body.thread_id);
@@ -40,7 +39,7 @@ router.post("/send", (req, res) => {
 				}
 			}
 		} else {
-			return Promise.reject({message: "Unable to lookup other user.", userMessage: true});
+			return Promise.reject({message: "This thread is closed. You are unable to send to this thread.", userMessage: true});
 		}
 
 		if (req.user.type_id === 1 && (result.id === 0 || result.id === 1)) {
