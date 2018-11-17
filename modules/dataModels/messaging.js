@@ -289,8 +289,10 @@ messaging.listThreads = function (user = false) {
 		]).field(maxQuery, "max_message_id"
 		).from(
 			"ebdb.message", "m1"
-		).where("m1.id IN ?", idQuery);
+		).where("m1.id IN ?", idQuery
+		).order("m1.sql_date_added", false);
 
+		console.log(query.toString());
 		if (threadIds.length > 0) {
 			return dbc.execute(query);
 		} else {
@@ -332,6 +334,12 @@ messaging.listThreads = function (user = false) {
 
 			return thread;
 		});
+
+		// Sort messages by message last message
+		data.sort(function (a, b) {
+			return b.message.sql_date_added - a.message.sql_date_added;
+		});
+
 
 		return Promise.resolve(data);
 	}).catch((error) => {
