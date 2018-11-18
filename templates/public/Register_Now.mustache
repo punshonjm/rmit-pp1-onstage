@@ -1,6 +1,3 @@
-<script>
-	$(".loading-indicator").find(".loading-status").text("Setting up...");
-</script>
 <div class="image-container d-flex flex-column" style="background-image: url('{{this.headerImage}}')">
     <div class="container-fluid flex-fill">
         <div class="row">
@@ -440,6 +437,12 @@
 <div><div>
 
 {{#*inline "load_files"}}
+<!--
+data script below is Base64 Encoded of below string
+$(".loading-indicator").find(".loading-status").text("Setting up...");
+-->
+<script src="data:text/javascript;base64,JCgiLmxvYWRpbmctaW5kaWNhdG9yIikuZmluZCgiLmxvYWRpbmctc3RhdHVzIikudGV4dCgiU2V0dGluZyB1cC4uLiIpOw==" defer></script>
+
 <link href="/public/css/material-bootstrap-wizard.css" rel="stylesheet" />
 
 <script src="/public/js/plugins/jquery.bootstrap.js" type="text/javascript" defer></script>
