@@ -207,7 +207,7 @@ appPage.register = function($this) {
 		$(".loading-indicator").find(".loading-status").text("Warming up...");
 		$(".loading-indicator").show();
 
-		formData.append("_csrf", $('[name="__csrf"]').val());
+		formData.append("_csrf", $('[name="_csrf"]').val());
 
 		$.ajax({
 			type: "POST",
