@@ -211,7 +211,7 @@ appPage.register = function($this) {
 
 		$.ajax({
 			type: "POST",
-			url: "/api/user/register",
+			url: "/api/user/register?_csrf="+$('[name="_csrf"]').val(),
 	        enctype: 'multipart/form-data',
 			cache: false,
 	        contentType: false,
