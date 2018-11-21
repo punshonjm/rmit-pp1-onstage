@@ -852,6 +852,7 @@ users.search = function (params) {
 		if (("genres" in params) && (typeof params.genres[0] == typeof {})) params.genres = params.genres.map(g => g.genre_id);
 
 		ids.st = (("searchType" in params)) ? params.searchType : "and";
+		if ( !['and', 'or'].includes(ids.st.toLowerCase()) ) ids.st = 'and';
 
 		if (("genres" in params) && params.genres.length > 0) {
 			let query = internal.query.userGenres();
