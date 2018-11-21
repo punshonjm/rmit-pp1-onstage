@@ -207,7 +207,6 @@ appPage.closeReport = function () {
 
 	var data = {};
 	data.id = $("#submit-closeReport").data("report_id");
-	data.user_id = $("#submit-closeReport").data("user_id");
 	data.actionReason = ($("#reportModal").find("#reportCloseReason").val().trim());
 	data.action = $("#submit-closeReport").data("action");
 	data._csrf = $('[name="__csrf"]').val();

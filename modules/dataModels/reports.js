@@ -58,6 +58,27 @@ reports.admin_report_list = function (pagination_start, pagination_length, searc
 	});
 };
 
+reports.details = function(id) {
+	// Get Details for specific report
+	return Promise.resolve().then(() => {
+		if (id != null) {
+			let query = internal.query.report();
+			query.where("r.id = ?", id);
+
+			return dbc.getRow(query);
+		} else {
+			return Promise.reject({message: "Provided an invalid report ID!", userMessage: true});
+		}
+	}).then((row) => {
+		if (row) {
+			return Promise.resolve(row);
+		} else {
+			console.log('no row');
+			return Promise.reject({message: "Failed to find report!", userMessage: true});
+		}
+	});
+};
+
 reports.count = function (search, search_column = null, active = null) {
 
 	return Promise.resolve().then(() => {
@@ -88,6 +109,23 @@ module.exports = reports;
 
 let internal = {};
 internal.query = {};
+
+internal.query.report = function () {
+	let query = dbc.sql.select().fields([
+		"id",
+		"user_id",
+		"req_ip",
+		"reason",
+		"report_by",
+		"sql_date_added",
+		"sql_last_updated",
+		"is_active"
+	]).from(
+		"ebdb.user_report", "r"
+	);
+
+	return query;
+};
 
 internal.query.count = function () {
 	let query = dbc.sql.select().fields({

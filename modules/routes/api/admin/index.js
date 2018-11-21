@@ -9,8 +9,8 @@ const app = require("@modules/app");
 const models = require("@modules/models");
 
 router.use((req, res, next) => {
-	if ( !req.user || req.user.type_id != 1 || req.user.account_locked == 1) {
-		res.status(402).json({ message: "You don't have access to that!" }).end();
+	if (!req.user || req.user.type_id != 1 || req.user.account_locked == 1) {
+		res.status(402).json({message: "You don't have access to that!"}).end();
 	} else {
 		next();
 	}
@@ -24,12 +24,22 @@ router.post("/user/unlock", (req, res) => {
 	let admin_action_id = 2;
 
 	Promise.resolve().then(() => {
+		return models.users.details(user_id);
+	}).then((user) => {
+		if (user != null) {
+			if (user.account_locked !== 0) {
+				return Promise.reject({message: "User is already unlocked!", userMessage: true});
+			}
+		} else {
+			return Promise.reject({message: "Unable to retrieve user!", userMessage: true});
+		}
+
 		return models.users.unlock(user_id);
 	}).then(() => {
-		return models.log.admin(admin_user_id,user_id,admin_action_id,note);
+		return models.log.admin(admin_user_id, user_id, admin_action_id, note);
 	}).then(() => {
 
-		res.status(200).json({ message: "OK" }).end();
+		res.status(200).json({message: "OK"}).end();
 	}).catch((err) => app.handleError(err, req, res));
 });
 
@@ -37,17 +47,29 @@ router.post("/user/unlock", (req, res) => {
 router.post("/report/close", (req, res) => {
 
 	let id = req.body.id;
-	let user_id = req.body.user_id;
+	let user_id = 0;
 	let note = req.body.actionReason;
 	let admin_user_id = req.user.user_id;
 	let admin_action_id = 3;
 
 	Promise.resolve().then(() => {
+		return models.reports.details(id);
+	}).then((report) => {
+		if (report != null) {
+			if (report.is_active !== 1) {
+				return Promise.reject({message: "Report is already closed!", userMessage: true});
+			}
+		} else {
+			return Promise.reject({message: "Unable to retrieve report!", userMessage: true});
+		}
+
+		user_id = report.user_id;
+
 		return models.reports.close(id);
 	}).then(() => {
-		return models.log.admin(admin_user_id,user_id,admin_action_id,note,id);
+		return models.log.admin(admin_user_id, user_id, admin_action_id, note, id);
 	}).then(() => {
-		res.status(200).json({ message: "OK" }).end();
+		res.status(200).json({message: "OK"}).end();
 	}).catch((err) => app.handleError(err, req, res));
 });
 
@@ -59,12 +81,22 @@ router.post("/user/lock", (req, res) => {
 	let admin_action_id = 1;
 
 	Promise.resolve().then(() => {
+		return models.users.details(user_id);
+	}).then((user) => {
+		if (user != null) {
+			if (user.account_locked !== 0) {
+				return Promise.reject({message: "User is already locked!", userMessage: true});
+			}
+		} else {
+			return Promise.reject({message: "Unable to retrieve user!", userMessage: true});
+		}
+
 		return models.users.lock(user_id);
 	}).then(() => {
-		return models.log.admin(admin_user_id,user_id,admin_action_id,note);
+		return models.log.admin(admin_user_id, user_id, admin_action_id, note);
 	}).then(() => {
 
-		res.status(200).json({ message: "OK" }).end();
+		res.status(200).json({message: "OK"}).end();
 	}).catch((err) => app.handleError(err, req, res));
 });
 
@@ -114,7 +146,7 @@ router.get("/user/list", (req, res) => {
 		data.recordsFiltered = total;
 
 
-		return models.users.admin_user_list(pagination_start,pagination_length, search, order, search_column, requestor);
+		return models.users.admin_user_list(pagination_start, pagination_length, search, order, search_column, requestor);
 	}).then((records) => {
 
 		data.data = records;
