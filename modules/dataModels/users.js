@@ -1108,7 +1108,7 @@ users.admin_user_list = function (pagination_start, pagination_length, search, o
 		}
 
 
-		let mapping = ["u.id", "u.username", "u.email", "u.display_name", "user_type", "u.account_locked", "reports", "active_reports"];
+		let mapping = ["u.id", "u.username", "u.email", "u.display_name", "user_type", "u.account_locked", "active_reports", "reports"];
 
 		search_column.forEach(function (item) {
 			if (item.search.value !== '') {
@@ -1120,6 +1120,7 @@ users.admin_user_list = function (pagination_start, pagination_length, search, o
 		order.forEach(function (item) {
 			query.order(mapping[item.column], (item.dir === "asc") ? true : false);
 		});
+
 		return dbc.execute(query);
 	}).then((data) => {
 		return Promise.resolve(data);
