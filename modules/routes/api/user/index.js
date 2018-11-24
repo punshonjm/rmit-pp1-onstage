@@ -159,7 +159,7 @@ router.post("/:id/report", (req, res) => {
 
 		return dbc.execute(query);
 	}).then((qres) => {
-		res.status(200).json({ results: qres }).end();
+		res.status(200).json({ message: "Successfully reported" }).end();
 	}).catch((err) => app.handleError(err, req, res));
 });
 
