@@ -121,7 +121,6 @@ router.get("/user/report", (req, res) => {
 
 		return models.reports.admin_report_list(pagination_start, pagination_length, search, order, search_column);
 	}).then((records) => {
-
 		data.data = records;
 		res.status(200).json(data).end();
 	}).catch((err) => app.handleError(err, req, res));
